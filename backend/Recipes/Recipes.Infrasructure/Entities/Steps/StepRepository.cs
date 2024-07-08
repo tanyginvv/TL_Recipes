@@ -1,0 +1,60 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Domain.Entities;
+
+namespace Recipes.Infrastructure.Entities.Steps
+{
+    public class StepRepository : IStepRepository
+    {
+        private readonly DbContext _context;
+        private readonly DbSet<Step> _steps;
+
+        public StepRepository( DbContext context )
+        {
+            _context = context;
+            _steps = _context.Set<Step>();
+        }
+
+        public async Task<Step> GetByIdAsync( int id )
+        {
+            return await _steps
+                .Include( s => s.Recipe )
+                .FirstOrDefaultAsync( s => s.Id == id );
+        }
+
+        public async Task<IEnumerable<Step>> GetAllAsync()
+        {
+            return await _steps
+                .Include( s => s.Recipe )
+                .ToListAsync();
+        }
+
+        public async Task AddAsync( Step step )
+        {
+            await _steps.AddAsync( step );
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync( Step step )
+        {
+            _steps.Update( step );
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync( int id )
+        {
+            var step = await _steps.FindAsync( id );
+            if ( step != null )
+            {
+                _steps.Remove( step );
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<Step>> GetByRecipeIdAsync( int recipeId )
+        {
+            return await _steps
+                .Where( s => s.RecipeId == recipeId )
+                .ToListAsync();
+        }
+    }
+}

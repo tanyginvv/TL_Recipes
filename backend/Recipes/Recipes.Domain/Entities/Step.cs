@@ -6,6 +6,7 @@
         public int RecipeId { get; init; }
         public int StepNumber { get; private set; }
         public string StepDescription { get; private set; }
+        public Recipe Recipe { get; init; }
 
         public Step( int stepNumber, string stepDescription )
         {

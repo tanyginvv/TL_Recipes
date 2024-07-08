@@ -1,34 +1,39 @@
-﻿using Application.Repositories.BaseRepositories;
-using Microsoft.EntityFrameworkCore;
-using Recipes.Infrastructure.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
-namespace Recipes.Infrastructure.Entities
+public abstract class BaseRepository<TEntity> where TEntity : class
 {
-    public abstract class BaseRepository<TEntity> : IAddedRepository<TEntity>,
-        IRemovableRepository<TEntity> where TEntity : class
+    protected readonly DbContext _context;
+    protected readonly DbSet<TEntity> _dbSet;
+
+    protected BaseRepository( DbContext context )
     {
-        protected readonly RecipesDbContext DBContext;
-        private DbContext _context;
+        _context = context;
+        _dbSet = _context.Set<TEntity>();
+    }
 
-        protected DbSet<TEntity> Entities => DBContext.Set<TEntity>();
+    public virtual async Task<TEntity> GetByIdAsync( int id )
+    {
+        return await _dbSet.FindAsync( id );
+    }
 
-        public BaseRepository( RecipesDbContext dbContext )
-        {
-            DBContext = dbContext;
-        }
+    public virtual async Task AddAsync( TEntity entity )
+    {
+        await _dbSet.AddAsync( entity );
+    }
 
-        protected BaseRepository( DbContext context )
-        {
-            _context = context;
-        }
+    public virtual void Update( TEntity entity )
+    {
+        _dbSet.Update( entity );
+    }
 
-        public void Add( TEntity entity )
-        {
-            Entities.Add( entity );
-        }
-        public void Delete( TEntity entity )
-        {
-            Entities.Remove( entity );
-        }
+    public virtual void Remove( TEntity entity )
+    {
+        _dbSet.Remove( entity );
+    }
+
+    public virtual async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Domain", "Recipes.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Infrastructure", "Recipes.Infrasructure\Recipes.Infrastructure.csproj", "{BC41F659-A944-4215-A6E5-0DF08A2DED8E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{7E176A20-342D-4624-88B6-F1FBAAC8A88E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Application", "Recipes.Application\Recipes.Application.csproj", "{93A0E682-4D47-405E-998E-51B3B9F74838}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{BC41F659-A944-4215-A6E5-0DF08A2DED8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC41F659-A944-4215-A6E5-0DF08A2DED8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC41F659-A944-4215-A6E5-0DF08A2DED8E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E176A20-342D-4624-88B6-F1FBAAC8A88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E176A20-342D-4624-88B6-F1FBAAC8A88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E176A20-342D-4624-88B6-F1FBAAC8A88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E176A20-342D-4624-88B6-F1FBAAC8A88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A0E682-4D47-405E-998E-51B3B9F74838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A0E682-4D47-405E-998E-51B3B9F74838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A0E682-4D47-405E-998E-51B3B9F74838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A0E682-4D47-405E-998E-51B3B9F74838}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

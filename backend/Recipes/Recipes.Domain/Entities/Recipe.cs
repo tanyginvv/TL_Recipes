@@ -20,6 +20,9 @@
             CookTime = cookTime;
             CountPortion = countPortion;
             ImageUrl = imageUrl;
+            Tags = new List<Tag>();
+            Ingredients = new List<Ingredient>();
+            Steps = new List<Step>();
         }
 
         public void SetName( string name )
@@ -45,6 +48,51 @@
         public void SetImageUrl( string imageUrl )
         {
             ImageUrl = imageUrl;
+        }
+
+        public void AddTag( Tag tag )
+        {
+            Tags.Add( tag );
+        }
+
+        public void RemoveTag( Tag tag )
+        {
+            Tags.Remove( tag );
+        }
+
+        public void SetTags( IEnumerable<Tag> tags )
+        {
+            Tags = new List<Tag>( tags );
+        }
+
+        public void AddIngredient( Ingredient ingredient )
+        {
+            Ingredients.Add( ingredient );
+        }
+
+        public void RemoveIngredient( Ingredient ingredient )
+        {
+            Ingredients.Remove( ingredient );
+        }
+
+        public void SetIngredients( IEnumerable<Ingredient> ingredients )
+        {
+            Ingredients = new List<Ingredient>( ingredients );
+        }
+
+        public void AddStep( Step step )
+        {
+            Steps.Add( step );
+        }
+
+        public void RemoveStep( Step step )
+        {
+            Steps.Remove( step );
+        }
+
+        public void SetSteps( IEnumerable<Step> steps )
+        {
+            Steps = new List<Step>( steps );
         }
     }
 }

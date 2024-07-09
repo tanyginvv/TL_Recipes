@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
-using Recipes.Infrastructure.Entities;
 
 namespace Recipes.Infrastructure.Repositories
 {
@@ -12,19 +11,6 @@ namespace Recipes.Infrastructure.Repositories
         public IngredientRepository( RecipesDbContext context ) : base( context )
         {
             _context = context;
-        }
-
-        public async Task<IEnumerable<Ingredient>> GetAllIngredientsAsync()
-        {
-            return await _context.Ingredients.ToListAsync();
-        }
-
-        public async Task<IEnumerable<Ingredient>> GetIngredientByIdAsync( int id )
-        {
-            var ingredient = await _context.Ingredients
-                .Where( i => i.Id == id )
-                .ToListAsync();
-            return ingredient;
         }
 
         public async Task AddIngredientAsync( Ingredient ingredient )
@@ -39,7 +25,7 @@ namespace Recipes.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteIngredientAsync( int id )
+        public async Task DeleteByIdAsync( int id )
         {
             var ingredient = await _context.Ingredients.FindAsync( id );
             if ( ingredient != null )
@@ -54,6 +40,11 @@ namespace Recipes.Infrastructure.Repositories
             return await _context.Ingredients
                 .Where( i => i.RecipeId == recipeId )
                 .ToListAsync();
+        }
+
+        public async Task<Ingredient> GetByIdAsync( int id )
+        {
+            return await _context.Ingredients.FindAsync( id );
         }
     }
 }

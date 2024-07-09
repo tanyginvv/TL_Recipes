@@ -14,20 +14,6 @@ namespace Recipes.Infrastructure.Entities.Steps
             _steps = _context.Set<Step>();
         }
 
-        public async Task<Step> GetByIdAsync( int id )
-        {
-            return await _steps
-                .Include( s => s.Recipe )
-                .FirstOrDefaultAsync( s => s.Id == id );
-        }
-
-        public async Task<IEnumerable<Step>> GetAllAsync()
-        {
-            return await _steps
-                .Include( s => s.Recipe )
-                .ToListAsync();
-        }
-
         public async Task AddAsync( Step step )
         {
             await _steps.AddAsync( step );
@@ -55,6 +41,13 @@ namespace Recipes.Infrastructure.Entities.Steps
             return await _steps
                 .Where( s => s.RecipeId == recipeId )
                 .ToListAsync();
+        }
+
+        public async Task<Step> GetByStepNumberAsync( int recipeId, int stepNumber )
+        {
+            return await _steps
+                .Where( s => s.RecipeId == recipeId && s.StepNumber == stepNumber )
+                .FirstOrDefaultAsync();
         }
     }
 }

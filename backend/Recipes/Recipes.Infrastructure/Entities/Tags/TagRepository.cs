@@ -8,20 +8,12 @@ namespace Recipes.Infrastructure.Entities.Tags
     public class TagRepository : ITagRepository
     {
         private readonly RecipesDbContext _context;
+        private readonly DbSet<Tag> _tags;
 
-        public TagRepository( RecipesDbContext context )
+        public TagRepository( DbContext context )
         {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Tag>> GetAllAsync()
-        {
-            return await _context.Tags.ToListAsync();
-        }
-
-        public async Task<Tag> GetByIdAsync( int id )
-        {
-            return await _context.Tags.FindAsync( id );
+            _context = ( RecipesDbContext )context;
+            _tags = _context.Set<Tag>();
         }
 
         public async Task AddAsync( Tag tag )
@@ -48,8 +40,8 @@ namespace Recipes.Infrastructure.Entities.Tags
 
         public async Task<IEnumerable<Tag>> GetByRecipeIdAsync( int recipeId )
         {
-            return await _context.Tags
-                .Where( t => t.Id == recipeId )//неправильно пока
+            return await _tags
+                .Where( t => t.Recipes.Any( r => r.Id == recipeId ) )
                 .ToListAsync();
         }
     }

@@ -38,7 +38,10 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
                 Description = foundRecipe.Description,
                 CookTime = foundRecipe.CookTime,
                 CountPortion = foundRecipe.CountPortion,
-                ImageUrl = foundRecipe.ImageUrl
+                ImageUrl = foundRecipe.ImageUrl,
+                Steps = ( List<Step> )foundRecipe.Steps,
+                Ingredients = ( List<Ingredient> )foundRecipe.Ingredients,
+                Tags = ( List<Tag> )foundRecipe.Tags
             };
 
             return new QueryResult<GetRecipeByIdQueryDto>( getRecipeByIdQueryDto );

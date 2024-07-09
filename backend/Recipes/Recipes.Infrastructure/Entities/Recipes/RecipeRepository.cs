@@ -1,14 +1,15 @@
 ﻿using Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
+using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
     public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
     {
-        private readonly DbContext _context;
+        private readonly RecipesDbContext _context;
 
-        public RecipeRepository( DbContext context ) : base( context )
+        public RecipeRepository( RecipesDbContext context ) : base( context )
         {
             _context = context;
         }

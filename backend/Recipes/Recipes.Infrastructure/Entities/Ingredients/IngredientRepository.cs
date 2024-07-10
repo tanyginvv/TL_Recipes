@@ -35,7 +35,7 @@ namespace Recipes.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<Ingredient>> GetByRecipeIdAsync( int recipeId )
+        public async Task<IReadOnlyList<Ingredient>> GetByRecipeIdAsync( int recipeId )
         {
             return await _context.Ingredients
                 .Where( i => i.RecipeId == recipeId )

@@ -30,7 +30,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
             }
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllAsync()
+        public async Task<IReadOnlyList<Recipe>> GetAllAsync()
         {
             return await _context.Set<Recipe>().ToListAsync();
         }

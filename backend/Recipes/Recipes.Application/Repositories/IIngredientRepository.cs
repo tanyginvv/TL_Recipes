@@ -4,7 +4,7 @@ namespace Recipes.Infrastructure.Repositories
 {
     public interface IIngredientRepository
     {
-        Task<IEnumerable<Ingredient>> GetByRecipeIdAsync( int recipeId );
+        Task<IReadOnlyList<Ingredient>> GetByRecipeIdAsync( int recipeId );
         Task<Ingredient> GetByIdAsync( int id );
         Task AddIngredientAsync( Ingredient ingredient );
         Task UpdateIngredientAsync( Ingredient ingredient );

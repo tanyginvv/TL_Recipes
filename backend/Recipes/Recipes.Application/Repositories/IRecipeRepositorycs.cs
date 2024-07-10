@@ -6,7 +6,7 @@ namespace Application.Repositories
     {
         Task AddAsync( Recipe recipe );
         Task DeleteAsync( int id );
-        Task<IEnumerable<Recipe>> GetAllAsync();
+        Task<IReadOnlyList<Recipe>> GetAllAsync();
         Task<Recipe> GetByIdAsync( int id );
         Task UpdateAsync( Recipe recipe );
     }

@@ -36,7 +36,7 @@ namespace Recipes.Infrastructure.Entities.Steps
             }
         }
 
-        public async Task<IEnumerable<Step>> GetByRecipeIdAsync( int recipeId )
+        public async Task<IReadOnlyList<Step>> GetByRecipeIdAsync( int recipeId )
         {
             return await _steps
                 .Where( s => s.RecipeId == recipeId )

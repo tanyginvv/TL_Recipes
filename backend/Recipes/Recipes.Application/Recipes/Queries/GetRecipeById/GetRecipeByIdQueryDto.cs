@@ -10,9 +10,9 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
         public int CookTime { get; init; }
         public int CountPortion { get; init; }
         public string ImageUrl { get; init; }
-        public List<Tag> Tags { get; init; }
-        public List<Step> Steps { get; init; }
-        public List<Ingredient> Ingredients { get; init; }
+        public IReadOnlyList<Tag> Tags { get; init; }
+        public IReadOnlyList<Step> Steps { get; init; }
+        public IReadOnlyList<Ingredient> Ingredients { get; init; }
 
     }
 }

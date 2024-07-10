@@ -60,7 +60,7 @@
             Tags.Remove( tag );
         }
 
-        public void SetTags( IEnumerable<Tag> tags )
+        public void SetTags( ICollection<Tag> tags )
         {
             Tags = new List<Tag>( tags );
         }
@@ -75,7 +75,7 @@
             Ingredients.Remove( ingredient );
         }
 
-        public void SetIngredients( IEnumerable<Ingredient> ingredients )
+        public void SetIngredients( ICollection<Ingredient> ingredients )
         {
             Ingredients = new List<Ingredient>( ingredients );
         }
@@ -90,7 +90,7 @@
             Steps.Remove( step );
         }
 
-        public void SetSteps( IEnumerable<Step> steps )
+        public void SetSteps( ICollection<Step> steps )
         {
             Steps = new List<Step>( steps );
         }

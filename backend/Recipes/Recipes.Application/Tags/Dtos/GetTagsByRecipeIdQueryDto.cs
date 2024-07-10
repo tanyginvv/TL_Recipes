@@ -5,6 +5,6 @@ namespace Recipes.Application.Tags.Dtos
     public class GetTagsByRecipeIdQueryDto
     {
         public int RecipeId { get; init; }
-        public List<Tag> Tags { get; init; }
+        public IReadOnlyList<Tag> Tags { get; init; }
     }
 }

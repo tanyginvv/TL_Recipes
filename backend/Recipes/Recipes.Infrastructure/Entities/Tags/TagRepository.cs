@@ -38,7 +38,7 @@ namespace Recipes.Infrastructure.Entities.Tags
             }
         }
 
-        public async Task<IEnumerable<Tag>> GetByRecipeIdAsync( int recipeId )
+        public async Task<IReadOnlyList<Tag>> GetByRecipeIdAsync( int recipeId )
         {
             return await _tags
                 .Where( t => t.Recipes.Any( r => r.Id == recipeId ) )

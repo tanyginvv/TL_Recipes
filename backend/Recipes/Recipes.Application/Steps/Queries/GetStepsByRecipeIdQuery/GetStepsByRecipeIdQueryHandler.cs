@@ -28,7 +28,7 @@ namespace Recipes.Application.Steps.Queries
                 return new QueryResult<GetStepsByRecipeIdQueryDto>( validationResult );
             }
 
-            IEnumerable<Step> steps = await _stepRepository.GetByRecipeIdAsync( query.RecipeId );
+            IReadOnlyList<Step> steps = await _stepRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( steps == null )
             {
                 return new QueryResult<GetStepsByRecipeIdQueryDto>( ValidationResult.Fail( "Steps not found" ) );

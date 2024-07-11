@@ -1,0 +1,45 @@
+.headerBody {
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute;
+    text-align: center;
+    width: 1250px;
+    margin-top: 20px;
+}
+
+.headerMenu {
+    display: flex;
+    flex-direction: row;
+    width: 700px;
+    justify-content: space-between;
+}
+
+.menuIcon {
+    color: #FDB100;
+    font-size: 29px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.menuButton {
+    background-color: transparent;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 21.94px;
+}
+
+.headerLoginInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+.loginText {
+    background-color: transparent;
+    font-weight: 600;
+    color: #FDB100;
+    font-size: 22px;
+    padding: 0 0 0 14px;
+    line-height: 21.94px;
+}

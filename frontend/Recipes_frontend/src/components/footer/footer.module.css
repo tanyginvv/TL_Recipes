@@ -1,0 +1,19 @@
+.footer {
+    width: 1250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 113px;
+    align-items: center;
+    color: #D6D6D6;
+}
+.footerIcon {
+    color: #FDB100;
+    font-size: 29px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.footerText {
+    color: #4A525A;
+}

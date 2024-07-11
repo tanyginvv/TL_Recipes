@@ -1,0 +1,73 @@
+.introBody {
+    display: flex;
+    flex-direction: row;
+    width: 1344px;
+    height: 800px;
+    justify-content: space-between;
+}
+
+.introInfo {
+    display: flex;
+    flex-direction: column;
+    color: #000000 ;
+    width: 688px;
+    height: 350px;
+    text-align: left;
+    justify-content: space-between;
+}
+
+.infoTitle {
+    margin: 211px 0 0 0px;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 87.77px;
+}
+
+.infoDescription {
+    width: 566px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.introButtons {
+    width: 520px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.addRecipeButton {
+    width: 278px;
+    height: 60px;
+    color: #FFFFFF;
+    background-color: #FDB100;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 16px;
+    border: transparent solid 1px;
+}
+
+.addRecipeButton:hover {
+    border: 1px solid #fdb100;
+    box-sizing: border-box;
+    background-color: rgba(253, 137, 0, 0.1);
+    color: #fdb100;
+    transition: 700ms;
+}
+
+.loginButton {
+    width: 216px;
+    height: 60px;
+    color: #FDB100;
+    background-color: transparent;
+    border: #FDB100 solid 1px;
+    border-radius: 16px;
+}
+
+.loginButton:hover{
+    background: rgba(253, 137, 0, 0.9);
+    color: #fff;
+    border: none;
+    transition: 700ms;
+}

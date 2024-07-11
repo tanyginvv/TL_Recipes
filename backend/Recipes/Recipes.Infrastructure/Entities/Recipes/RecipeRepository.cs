@@ -32,7 +32,11 @@ namespace Recipes.Infrastructure.Entities.Recipes
 
         public async Task<IReadOnlyList<Recipe>> GetAllAsync()
         {
-            return await _context.Set<Recipe>().ToListAsync();
+            return await _context.Set<Recipe>()
+                         .Include( r => r.Steps )
+                         .Include( r => r.Ingredients )
+                         .Include( r => r.Tags )
+                         .ToListAsync();
         }
 
         public async Task<Recipe> GetByIdAsync( int id )

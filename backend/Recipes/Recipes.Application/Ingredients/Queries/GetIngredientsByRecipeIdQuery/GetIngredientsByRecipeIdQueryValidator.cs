@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeId
 {
-    public class GetIngredientsByRecipeIdQueryValidator : IAsyncValidator<GetIngredientsByRecipeIdQueryDto>
+    public class GetIngredientsByRecipeIdQueryValidator : IAsyncValidator<GetIngredientsByRecipeIdQuery>
     {
         private readonly IRecipeRepository _recipeRepository;
 
@@ -14,7 +14,7 @@ namespace Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeId
             _recipeRepository = recipeRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync( GetIngredientsByRecipeIdQueryDto query )
+        public async Task<ValidationResult> ValidationAsync( GetIngredientsByRecipeIdQuery query )
         {
             if ( query.RecipeId <= 0 )
             {

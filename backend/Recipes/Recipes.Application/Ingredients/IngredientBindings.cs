@@ -20,13 +20,13 @@ namespace Recipes.Application.Ingredients
             services.AddScoped<ICommandHandler<UpdateIngredientCommand>, UpdateIngredientCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteIngredientCommand>, DeleteIngredientCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQueryDto>, GetIngredientsByRecipeIdQueryHandler>();
+            services.AddScoped<IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateIngredientCommand>, CreateIngredientCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteIngredientCommand>, DeleteIngredientCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateIngredientCommand>, UpdateIngredientCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetIngredientsByRecipeIdQueryDto>, GetIngredientsByRecipeIdQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryValidator>();
 
             return services;
         }

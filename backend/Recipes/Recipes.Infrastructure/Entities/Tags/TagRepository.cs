@@ -1,19 +1,16 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Tags
 {
-    public class TagRepository : ITagRepository
+    public class TagRepository : BaseRepository<Tag>, ITagRepository
     {
         private readonly RecipesDbContext _context;
-        private readonly DbSet<Tag> _tags;
 
-        public TagRepository( DbContext context )
+        public TagRepository( RecipesDbContext context ) : base( context )
         {
-            _context = ( RecipesDbContext )context;
-            _tags = _context.Set<Tag>();
+            _context = context;
         }
 
         public async Task AddAsync( Tag tag )
@@ -40,7 +37,7 @@ namespace Recipes.Infrastructure.Entities.Tags
 
         public async Task<IReadOnlyList<Tag>> GetByRecipeIdAsync( int recipeId )
         {
-            return await _tags
+            return await _context.Tags
                 .Where( t => t.Recipes.Any( r => r.Id == recipeId ) )
                 .ToListAsync();
         }

@@ -8,18 +8,18 @@ using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Ingredients.Queries
 {
-    public class GetIngredientsByRecipeIdQueryHandler : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQueryDto>
+    public class GetIngredientsByRecipeIdQueryHandler : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
     {
         private readonly IIngredientRepository _ingredientRepository;
-        private readonly IAsyncValidator<GetIngredientsByRecipeIdQueryDto> _ingredientQueryValidator;
+        private readonly IAsyncValidator<GetIngredientsByRecipeIdQuery> _ingredientQueryValidator;
 
-        public GetIngredientsByRecipeIdQueryHandler( IIngredientRepository ingredientRepository, IAsyncValidator<GetIngredientsByRecipeIdQueryDto> validator )
+        public GetIngredientsByRecipeIdQueryHandler( IIngredientRepository ingredientRepository, IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
         {
             _ingredientRepository = ingredientRepository;
             _ingredientQueryValidator = validator;
         }
 
-        public async Task<QueryResult<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQueryDto query )
+        public async Task<QueryResult<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQuery query )
         {
             ValidationResult validationResult = await _ingredientQueryValidator.ValidationAsync( query );
             if ( validationResult.IsFail )

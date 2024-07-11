@@ -1,6 +1,6 @@
 ﻿using Recipes.Application.Steps.Dtos;
 
-namespace Recipes.Application.Steps.Queries.GetStepsByRecipeIdQuery
+namespace Recipes.Application.Steps.Queries
 {
     public class GetStepsByRecipeIdQuery
     {

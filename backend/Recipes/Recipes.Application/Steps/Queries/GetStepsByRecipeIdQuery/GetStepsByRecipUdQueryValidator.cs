@@ -4,7 +4,7 @@ using Recipes.Application.Steps.Dtos;
 
 namespace Recipes.Application.Steps.Queries
 {
-    public class GetStepsByRecipeIdQueryValidator : IAsyncValidator<GetStepsByRecipeIdQueryDto>
+    public class GetStepsByRecipeIdQueryValidator : IAsyncValidator<GetStepsByRecipeIdQuery>
     {
         private readonly IRecipeRepository _recipeRepository;
 
@@ -13,7 +13,7 @@ namespace Recipes.Application.Steps.Queries
             _recipeRepository = recipeRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync( GetStepsByRecipeIdQueryDto query )
+        public async Task<ValidationResult> ValidationAsync( GetStepsByRecipeIdQuery query )
         {
             if ( query.RecipeId <= 0 )
             {

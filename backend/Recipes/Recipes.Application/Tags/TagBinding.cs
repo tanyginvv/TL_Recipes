@@ -12,11 +12,11 @@ namespace Recipes.Application.Tags
     {
         public static IServiceCollection AddTagsBindings( this IServiceCollection services )
         {
-            services.AddScoped<ICommandHandler<CreateTagDto>, CreateTagCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateTagCommand>, CreateTagCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQueryDto>, GetTagsByRecipeIdQueryHandler>();
+            services.AddScoped<IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateTagDto>, CreateTagCommandValidator>();
+            services.AddScoped<IAsyncValidator<CreateTagCommand>, CreateTagCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryValidator>();
 

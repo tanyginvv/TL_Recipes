@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.Recipes.Commands.CreateRecipe;
 using Recipes.Application.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.Recipes.Dtos;
-using Recipes.Application.Recipes.Queries.GetRecipeById;
 using Recipes.Application.Recipes.Queries.GetAllRecipes;
 using Application.CQRSInterfaces;
+using Recipes.Application.Recipes.Commands;
+using Recipes.Application.Recipes.Queries;
 
 namespace Recipes.API.Controllers
 {

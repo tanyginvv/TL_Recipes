@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Recipes.Queries.GetRecipeById
+﻿namespace Recipes.Application.Recipes.Queries
 {
     public class GetRecipeByIdQuery
     {

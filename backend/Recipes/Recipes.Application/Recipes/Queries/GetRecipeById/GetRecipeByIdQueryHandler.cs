@@ -2,6 +2,7 @@
 using Application.Repositories;
 using Application.Result;
 using Application.Validation;
+using Recipes.Application.Recipes.Dtos;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipeById

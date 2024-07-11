@@ -9,6 +9,8 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Recipes.Queries.GetRecipe;
 using Recipes.Application.Recipes.Queries.GetRecipeById;
 using Microsoft.Extensions.DependencyInjection;
+using Recipes.Application.Recipes.Commands;
+using Recipes.Application.Recipes.Queries;
 
 namespace Recipes.Application.Recipes
 {
@@ -27,7 +29,7 @@ namespace Recipes.Application.Recipes
             services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateRecipeCommand>, UpdateRecipeCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetRecipeQueryDto>, GetRecipeByIdQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
             services.AddScoped<IAsyncValidator<GetAllRecipesQuery>, GetAllRecipesQueryValidator>();
 
             return services;

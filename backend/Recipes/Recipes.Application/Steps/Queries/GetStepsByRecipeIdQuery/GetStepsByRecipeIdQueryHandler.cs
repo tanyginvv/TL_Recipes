@@ -7,20 +7,20 @@ using Recipes.Infrastructure.Entities.Steps;
 
 namespace Recipes.Application.Steps.Queries
 {
-    public class GetStepsByRecipeIdQueryHandler : IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQueryDto>
+    public class GetStepsByRecipeIdQueryHandler : IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>
     {
         private readonly IStepRepository _stepRepository;
-        private readonly IAsyncValidator<GetStepsByRecipeIdQueryDto> _stepQueryValidator;
+        private readonly IAsyncValidator<GetStepsByRecipeIdQuery> _stepQueryValidator;
 
         public GetStepsByRecipeIdQueryHandler(
             IStepRepository stepRepository,
-            IAsyncValidator<GetStepsByRecipeIdQueryDto> validator )
+            IAsyncValidator<GetStepsByRecipeIdQuery> validator )
         {
             _stepRepository = stepRepository;
             _stepQueryValidator = validator;
         }
 
-        public async Task<QueryResult<GetStepsByRecipeIdQueryDto>> HandleAsync( GetStepsByRecipeIdQueryDto query )
+        public async Task<QueryResult<GetStepsByRecipeIdQueryDto>> HandleAsync( GetStepsByRecipeIdQuery query )
         {
             ValidationResult validationResult = await _stepQueryValidator.ValidationAsync( query );
             if ( validationResult.IsFail )

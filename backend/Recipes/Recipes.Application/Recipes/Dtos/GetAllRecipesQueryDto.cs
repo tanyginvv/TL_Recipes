@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Recipes.Dtos
+﻿namespace Recipes.Application.Recipes
 {
     public class GetAllRecipesQueryDto
     {

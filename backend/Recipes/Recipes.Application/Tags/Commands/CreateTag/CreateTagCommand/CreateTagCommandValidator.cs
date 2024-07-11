@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Recipes.Application.Tags.Commands.CreateTag
 {
-    public class CreateTagCommandValidator : IAsyncValidator<CreateTagDto>
+    public class CreateTagCommandValidator : IAsyncValidator<CreateTagCommand>
     {
         private readonly ITagRepository _tagRepository;
 
@@ -15,7 +15,7 @@ namespace Recipes.Application.Tags.Commands.CreateTag
             _tagRepository = tagRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync( CreateTagDto command )
+        public async Task<ValidationResult> ValidationAsync( CreateTagCommand command )
         {
             if ( string.IsNullOrWhiteSpace( command.Name ) )
             {

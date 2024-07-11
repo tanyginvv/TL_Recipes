@@ -7,6 +7,9 @@ using Recipes.Application.Tags;
 using Recipes.Application.Ingredients;
 using Recipes.Application.Steps;
 using Application;
+using Recipes.Infrastructure.Repositories;
+using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Entities.Steps;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -16,6 +19,10 @@ builder.Services.AddDbContext<RecipesDbContext>( options =>
 // Регистрация репозитория
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IStepRepository, StepRepository>();
+
 
 // Регистрация других зависимостей
 builder.Services.AddControllers();

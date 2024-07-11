@@ -7,20 +7,20 @@ using Recipes.Infrastructure.Entities.Tags;
 
 namespace Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery
 {
-    public class GetTagsByRecipeIdQueryHandler : IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQueryDto>
+    public class GetTagsByRecipeIdQueryHandler : IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>
     {
         private readonly ITagRepository _tagRepository;
-        private readonly IAsyncValidator<GetTagsByRecipeIdQueryDto> _tagQueryValidator;
+        private readonly IAsyncValidator<GetTagsByRecipeIdQuery> _tagQueryValidator;
 
         public GetTagsByRecipeIdQueryHandler(
             ITagRepository tagRepository,
-            IAsyncValidator<GetTagsByRecipeIdQueryDto> validator )
+            IAsyncValidator<GetTagsByRecipeIdQuery> validator )
         {
             _tagRepository = tagRepository;
             _tagQueryValidator = validator;
         }
 
-        public async Task<QueryResult<GetTagsByRecipeIdQueryDto>> HandleAsync( GetTagsByRecipeIdQueryDto query )
+        public async Task<QueryResult<GetTagsByRecipeIdQueryDto>> HandleAsync( GetTagsByRecipeIdQuery query )
         {
             ValidationResult validationResult = await _tagQueryValidator.ValidationAsync( query );
             if ( validationResult.IsFail )

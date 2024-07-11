@@ -1,10 +1,9 @@
 ﻿using Application.Repositories;
 using Application.Validation;
-using Recipes.Application.Recipes.Dtos;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipe
 {
-    public class GetRecipeByIdQueryValidator : IAsyncValidator<GetRecipeQueryDto>
+    public class GetRecipeByIdQueryValidator : IAsyncValidator<GetRecipeByIdQuery>
     {
         private readonly IRecipeRepository _repository;
 
@@ -13,7 +12,7 @@ namespace Recipes.Application.Recipes.Queries.GetRecipe
             _repository = repository;
         }
 
-        public async Task<ValidationResult> ValidationAsync( GetRecipeQueryDto query )
+        public async Task<ValidationResult> ValidationAsync( GetRecipeByIdQuery query )
         {
             if ( query.Id <= 0 )
             {

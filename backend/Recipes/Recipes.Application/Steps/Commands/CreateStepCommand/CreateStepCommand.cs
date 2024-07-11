@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Steps.Commands.CreateStepCommand
+﻿namespace Recipes.Application.Steps
 {
     public class CreateStepCommand
     {

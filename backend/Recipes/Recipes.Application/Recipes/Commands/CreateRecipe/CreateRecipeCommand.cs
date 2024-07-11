@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Recipes.Commands.CreateRecipe
+namespace Recipes.Application.Recipes.Commands
 {
     public class CreateRecipeCommand
     {

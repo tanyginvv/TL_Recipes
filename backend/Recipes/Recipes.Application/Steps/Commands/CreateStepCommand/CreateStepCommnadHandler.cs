@@ -6,7 +6,7 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Entities.Steps;
 
-namespace Recipes.Application.Steps.Commands.CreateStepCommand
+namespace Recipes.Application.Steps
 {
     public class CreateStepCommandHandler : ICommandHandler<CreateStepCommand>
     {

@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeIdQuery
+namespace Recipes.Application.Ingredients.Queries
 {
     public class GetIngredientsByRecipeIdQuery
     {

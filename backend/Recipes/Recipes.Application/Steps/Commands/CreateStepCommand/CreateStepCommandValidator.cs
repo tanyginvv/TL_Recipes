@@ -1,10 +1,9 @@
 ﻿using Application.Repositories;
 using Application.Validation;
-using Recipes.Application.Steps.Dtos;
 
-namespace Recipes.Application.Steps.Commands
+namespace Recipes.Application.Steps
 {
-    public class CreateStepCommandValidator : IAsyncValidator<CreateStepCommandDto>
+    public class CreateStepCommandValidator : IAsyncValidator<CreateStepCommand>
     {
         private readonly IRecipeRepository _recipeRepository;
 
@@ -13,7 +12,7 @@ namespace Recipes.Application.Steps.Commands
             _recipeRepository = recipeRepository;
         }
 
-        public async Task<ValidationResult> ValidationAsync( CreateStepCommandDto command )
+        public async Task<ValidationResult> ValidationAsync( CreateStepCommand command )
         {
             if ( string.IsNullOrWhiteSpace( command.StepDescription ) )
             {

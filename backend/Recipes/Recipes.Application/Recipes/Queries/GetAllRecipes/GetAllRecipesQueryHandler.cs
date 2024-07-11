@@ -2,7 +2,10 @@
 using Application.Repositories;
 using Application.Result;
 using Application.Validation;
+using Recipes.Application.Ingredients.Dtos;
 using Recipes.Application.Recipes.Dtos;
+using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Recipes.Queries.GetAllRecipes
@@ -35,7 +38,23 @@ namespace Recipes.Application.Recipes.Queries.GetAllRecipes
                 Description = recipe.Description,
                 CookTime = recipe.CookTime,
                 CountPortion = recipe.CountPortion,
-                ImageUrl = recipe.ImageUrl
+                ImageUrl = recipe.ImageUrl,
+                Steps = recipe.Steps.Select( step => new StepDto
+                {
+                    Id = step.Id,
+                    StepNumber = step.StepNumber,
+                    StepDescription = step.StepDescription
+                } ).ToList(),
+                Ingredients = recipe.Ingredients.Select( ingredient => new IngredientDto
+                {
+                    Id = ingredient.Id,
+                    Title = ingredient.Title,
+                    Description = ingredient.Description
+                } ).ToList(),
+                Tags = recipe.Tags.Select( tag => new TagDto
+                {
+                    Name = tag.Name
+                } ).ToList()
             } );
 
             return new QueryResult<IEnumerable<RecipeDto>>( recipeDtos );

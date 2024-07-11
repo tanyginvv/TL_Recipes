@@ -8,15 +8,15 @@ using Recipes.Infrastructure.Entities.Tags;
 
 namespace Recipes.Application.Tags.Commands.CreateTag
 {
-    public class CreateTagCommandHandler : ICommandHandler<CreateTagDto>
+    public class CreateTagCommandHandler : ICommandHandler<CreateTagCommand>
     {
         private readonly ITagRepository _tagRepository;
-        private readonly IAsyncValidator<CreateTagDto> _createTagCommandValidator;
+        private readonly IAsyncValidator<CreateTagCommand> _createTagCommandValidator;
         private readonly IUnitOfWork _unitOfWork;
 
         public CreateTagCommandHandler(
             ITagRepository tagRepository,
-            IAsyncValidator<CreateTagDto> validator,
+            IAsyncValidator<CreateTagCommand> validator,
             IUnitOfWork unitOfWork )
         {
             _tagRepository = tagRepository;
@@ -24,7 +24,7 @@ namespace Recipes.Application.Tags.Commands.CreateTag
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CommandResult> HandleAsync( CreateTagDto createTagCommand )
+        public async Task<CommandResult> HandleAsync( CreateTagCommand createTagCommand )
         {
             ValidationResult validationResult = await _createTagCommandValidator.ValidationAsync( createTagCommand );
             if ( validationResult.IsFail )

@@ -2,7 +2,10 @@
 using Application.Repositories;
 using Application.Result;
 using Application.Validation;
+using Recipes.Application.Ingredients.Dtos;
 using Recipes.Application.Recipes.Dtos;
+using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipeById
@@ -40,9 +43,20 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
                 CookTime = foundRecipe.CookTime,
                 CountPortion = foundRecipe.CountPortion,
                 ImageUrl = foundRecipe.ImageUrl,
-                Steps = ( List<Step> )foundRecipe.Steps,
-                Ingredients = ( List<Ingredient> )foundRecipe.Ingredients,
-                Tags = ( List<Tag> )foundRecipe.Tags
+                Steps = foundRecipe.Steps.Select( step => new StepDto
+                {
+                    StepNumber = step.StepNumber,
+                    StepDescription = step.StepDescription
+                } ).ToList(),
+                Ingredients = foundRecipe.Ingredients.Select( ingredient => new IngredientDto
+                {
+                    Title = ingredient.Title,
+                    Description = ingredient.Description
+                } ).ToList(),
+                Tags = foundRecipe.Tags.Select( tag => new TagDto
+                {
+                    Name = tag.Name
+                } ).ToList()
             };
 
             return new QueryResult<GetRecipeByIdQueryDto>( getRecipeByIdQueryDto );

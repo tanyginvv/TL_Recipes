@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Bindings\" />
-  </ItemGroup>
-
 </Project>

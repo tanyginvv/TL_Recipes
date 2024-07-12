@@ -30,7 +30,8 @@ namespace Recipes.Application.Ingredients.Commands.CreateIngredient
             {
                 Ingredient ingredient = new Ingredient(
                     createIngredientCommand.Title,
-                    createIngredientCommand.Description );
+                    createIngredientCommand.Description,
+                    createIngredientCommand.RecipeId );
                 await _ingredientRepository.AddIngredientAsync( ingredient );
                 await _unitOfWork.CommitAsync();
             }

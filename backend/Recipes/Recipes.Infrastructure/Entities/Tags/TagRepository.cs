@@ -41,5 +41,11 @@ namespace Recipes.Infrastructure.Entities.Tags
                 .Where( t => t.Recipes.Any( r => r.Id == recipeId ) )
                 .ToListAsync();
         }
+
+        public async Task<Tag> GetByNameAsync( string name )
+        {
+            return await _context.Tags
+                .FirstOrDefaultAsync( t => t.Name == name );
+        }
     }
 }

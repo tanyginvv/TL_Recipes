@@ -41,10 +41,7 @@ namespace Recipes.Application.Steps
                 return new CommandResult( ValidationResult.Fail( "Recipe not found" ) );
             }
 
-            var step = new Step( command.StepNumber, command.StepDescription )
-            {
-                RecipeId = command.RecipeId
-            };
+            var step = new Step( command.StepNumber, command.StepDescription, command.RecipeId );
 
             await _stepRepository.AddAsync( step );
             await _unitOfWork.CommitAsync();

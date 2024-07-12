@@ -1,4 +1,7 @@
-﻿using Recipes.Domain.Entities;
+﻿using Recipes.Application.Ingredients.Dtos;
+using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Tags.Dtos;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Recipes.Commands
 {
@@ -9,8 +12,8 @@ namespace Recipes.Application.Recipes.Commands
         public int CookTime { get; init; }
         public int CountPortion { get; init; }
         public string ImageUrl { get; init; }
-        public IReadOnlyList<string> Tags { get; init; }
-        public IReadOnlyList<Step> Steps { get; init; }
-        public IReadOnlyList<Ingredient> Ingredients { get; init; }
+        public IReadOnlyList<TagDto> Tags { get; init; }
+        public IReadOnlyList<StepDto> Steps { get; init; }
+        public IReadOnlyList<IngredientDto> Ingredients { get; init; }
     }
 }

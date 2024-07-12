@@ -8,10 +8,11 @@
         public string StepDescription { get; private set; }
         public Recipe Recipe { get; init; }
 
-        public Step( int stepNumber, string stepDescription )
+        public Step( int stepNumber, string stepDescription, int recipeId )
         {
             StepNumber = stepNumber;
             StepDescription = stepDescription;
+            RecipeId = recipeId;
         }
 
         public void SetStepNumber( int stepNumber )

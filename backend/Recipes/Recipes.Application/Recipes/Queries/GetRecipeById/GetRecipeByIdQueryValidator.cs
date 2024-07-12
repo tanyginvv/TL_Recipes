@@ -19,7 +19,7 @@ namespace Recipes.Application.Recipes.Queries.GetRecipe
                 return ValidationResult.Fail( "Id рецепта меньше нуля" );
             }
 
-            if ( await _repository.GetByIdAsync( query.Id ) != null )
+            if ( await _repository.GetByIdAsync( query.Id ) == null )
             {
                 return ValidationResult.Fail( "Рецепта с этим Id не существует" );
             }

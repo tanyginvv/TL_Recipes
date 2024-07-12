@@ -3,10 +3,13 @@ using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.Ingredients.Dtos;
+using Recipes.Application.Ingredients.Queries;
 using Recipes.Application.Recipes.Dtos;
 using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Steps.Queries;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
+using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
 
 namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 {
@@ -14,11 +17,22 @@ namespace Recipes.Application.Recipes.Queries.GetAllRecipes
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IAsyncValidator<GetAllRecipesQuery> _recipeQueryValidator;
+        private readonly IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery> _stepsQueryHandler;
+        private readonly IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery> _ingredientsQueryHandler;
+        private readonly IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery> _tagsQueryHandler;
 
-        public GetAllRecipesQueryHandler( IRecipeRepository recipeRepository, IAsyncValidator<GetAllRecipesQuery> validator )
+        public GetAllRecipesQueryHandler(
+            IRecipeRepository recipeRepository,
+            IAsyncValidator<GetAllRecipesQuery> validator,
+            IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery> stepsQueryHandler,
+            IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery> ingredientsQueryHandler,
+            IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery> tagsQueryHandler )
         {
             _recipeRepository = recipeRepository;
             _recipeQueryValidator = validator;
+            _stepsQueryHandler = stepsQueryHandler;
+            _ingredientsQueryHandler = ingredientsQueryHandler;
+            _tagsQueryHandler = tagsQueryHandler;
         }
 
         public async Task<QueryResult<IEnumerable<RecipeDto>>> HandleAsync( GetAllRecipesQuery query )
@@ -31,32 +45,48 @@ namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 
             IEnumerable<Recipe> recipes = await _recipeRepository.GetAllAsync();
 
-            var recipeDtos = recipes.Select( recipe => new RecipeDto
+            var recipeDtos = new List<RecipeDto>();
+
+            foreach ( var recipe in recipes )
             {
-                Id = recipe.Id,
-                Name = recipe.Name,
-                Description = recipe.Description,
-                CookTime = recipe.CookTime,
-                CountPortion = recipe.CountPortion,
-                ImageUrl = recipe.ImageUrl,
+                var stepsQuery = new GetStepsByRecipeIdQuery { RecipeId = recipe.Id };
+                var stepsResult = await _stepsQueryHandler.HandleAsync( stepsQuery );
 
-                Steps = recipe.Steps.Select( step => new StepDto
-                {
-                    StepNumber = step.StepNumber,
-                    StepDescription = step.StepDescription
-                } ).ToList(),
+                var ingredientsQuery = new GetIngredientsByRecipeIdQuery { RecipeId = recipe.Id };
+                var ingredientsResult = await _ingredientsQueryHandler.HandleAsync( ingredientsQuery );
 
-                Ingredients = recipe.Ingredients.Select( ingredient => new IngredientDto
-                {
-                    Title = ingredient.Title,
-                    Description = ingredient.Description
-                } ).ToList(),
+                var tagsQuery = new GetTagsByRecipeIdQuery { RecipeId = recipe.Id };
+                var tagsResult = await _tagsQueryHandler.HandleAsync( tagsQuery );
 
-                Tags = recipe.Tags.Select( tag => new TagDto
+                var recipeDto = new RecipeDto
                 {
-                    Name = tag.Name
-                } ).ToList()
-            } );
+                    Id = recipe.Id,
+                    Name = recipe.Name,
+                    Description = recipe.Description,
+                    CookTime = recipe.CookTime,
+                    CountPortion = recipe.CountPortion,
+                    ImageUrl = recipe.ImageUrl,
+
+                    Steps = stepsResult.ObjResult.Steps.Select( step => new StepDto
+                    {
+                        StepNumber = step.StepNumber,
+                        StepDescription = step.StepDescription
+                    } ).ToList(),
+
+                    Ingredients = ingredientsResult.ObjResult.Ingredients.Select( ingredient => new IngredientDto
+                    {
+                        Title = ingredient.Title,
+                        Description = ingredient.Description
+                    } ).ToList(),
+
+                    Tags = tagsResult.ObjResult.Tags.Select( tag => new TagDto
+                    {
+                        Name = tag.Name
+                    } ).ToList()
+                };
+
+                recipeDtos.Add( recipeDto );
+            }
 
             return new QueryResult<IEnumerable<RecipeDto>>( recipeDtos );
         }

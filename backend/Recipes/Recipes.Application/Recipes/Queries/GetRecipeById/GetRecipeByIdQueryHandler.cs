@@ -3,9 +3,12 @@ using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.Ingredients.Dtos;
+using Recipes.Application.Ingredients.Queries;
 using Recipes.Application.Recipes.Dtos;
 using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Steps.Queries;
 using Recipes.Application.Tags.Dtos;
+using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipeById
@@ -14,26 +17,46 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IAsyncValidator<GetRecipeByIdQuery> _recipeQueryValidator;
+        private readonly IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery> _stepsQueryHandler;
+        private readonly IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery> _ingredientsQueryHandler;
+        private readonly IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery> _tagsQueryHandler;
 
-        public GetRecipeByIdQueryHandler( IRecipeRepository recipeRepository, IAsyncValidator<GetRecipeByIdQuery> validator )
+        public GetRecipeByIdQueryHandler(
+            IRecipeRepository recipeRepository,
+            IAsyncValidator<GetRecipeByIdQuery> validator,
+            IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery> stepsQueryHandler,
+            IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery> ingredientsQueryHandler,
+            IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery> tagsQueryHandler )
         {
             _recipeRepository = recipeRepository;
             _recipeQueryValidator = validator;
+            _stepsQueryHandler = stepsQueryHandler;
+            _ingredientsQueryHandler = ingredientsQueryHandler;
+            _tagsQueryHandler = tagsQueryHandler;
         }
 
-        public async Task<QueryResult<GetRecipeByIdQueryDto>> HandleAsync( GetRecipeByIdQuery getRecipeByIdQuery )
+        public async Task<QueryResult<GetRecipeByIdQueryDto>> HandleAsync( GetRecipeByIdQuery query )
         {
-            ValidationResult validationResult = await _recipeQueryValidator.ValidationAsync( getRecipeByIdQuery );
+            ValidationResult validationResult = await _recipeQueryValidator.ValidationAsync( query );
             if ( validationResult.IsFail )
             {
                 return new QueryResult<GetRecipeByIdQueryDto>( validationResult );
             }
 
-            Recipe foundRecipe = await _recipeRepository.GetByIdAsync( getRecipeByIdQuery.Id );
+            Recipe foundRecipe = await _recipeRepository.GetByIdAsync( query.Id );
             if ( foundRecipe == null )
             {
-                return new QueryResult<GetRecipeByIdQueryDto>( validationResult );
+                return new QueryResult<GetRecipeByIdQueryDto>( ValidationResult.Fail( "Recipe not found" ) );
             }
+
+            var stepsQuery = new GetStepsByRecipeIdQuery { RecipeId = foundRecipe.Id };
+            var stepsResult = await _stepsQueryHandler.HandleAsync( stepsQuery );
+
+            var ingredientsQuery = new GetIngredientsByRecipeIdQuery { RecipeId = foundRecipe.Id };
+            var ingredientsResult = await _ingredientsQueryHandler.HandleAsync( ingredientsQuery );
+
+            var tagsQuery = new GetTagsByRecipeIdQuery { RecipeId = foundRecipe.Id };
+            var tagsResult = await _tagsQueryHandler.HandleAsync( tagsQuery );
 
             GetRecipeByIdQueryDto getRecipeByIdQueryDto = new GetRecipeByIdQueryDto
             {
@@ -44,19 +67,19 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
                 CountPortion = foundRecipe.CountPortion,
                 ImageUrl = foundRecipe.ImageUrl,
 
-                Steps = foundRecipe.Steps.Select( step => new StepDto
+                Steps = stepsResult.ObjResult.Steps.Select( step => new StepDto
                 {
                     StepNumber = step.StepNumber,
                     StepDescription = step.StepDescription
                 } ).ToList(),
 
-                Ingredients = foundRecipe.Ingredients.Select( ingredient => new IngredientDto
+                Ingredients = ingredientsResult.ObjResult.Ingredients.Select( ingredient => new IngredientDto
                 {
                     Title = ingredient.Title,
                     Description = ingredient.Description
                 } ).ToList(),
 
-                Tags = foundRecipe.Tags.Select( tag => new TagDto
+                Tags = tagsResult.ObjResult.Tags.Select( tag => new TagDto
                 {
                     Name = tag.Name
                 } ).ToList()

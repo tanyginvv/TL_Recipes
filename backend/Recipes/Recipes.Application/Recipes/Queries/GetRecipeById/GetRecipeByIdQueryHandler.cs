@@ -43,16 +43,19 @@ namespace Recipes.Application.Recipes.Queries.GetRecipeById
                 CookTime = foundRecipe.CookTime,
                 CountPortion = foundRecipe.CountPortion,
                 ImageUrl = foundRecipe.ImageUrl,
+
                 Steps = foundRecipe.Steps.Select( step => new StepDto
                 {
                     StepNumber = step.StepNumber,
                     StepDescription = step.StepDescription
                 } ).ToList(),
+
                 Ingredients = foundRecipe.Ingredients.Select( ingredient => new IngredientDto
                 {
                     Title = ingredient.Title,
                     Description = ingredient.Description
                 } ).ToList(),
+
                 Tags = foundRecipe.Tags.Select( tag => new TagDto
                 {
                     Name = tag.Name

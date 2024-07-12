@@ -5,7 +5,7 @@ namespace Recipes.Infrastructure.Entities.Steps
     public interface IStepRepository
     {
         Task<IReadOnlyList<Step>> GetByRecipeIdAsync( int recipeId );
-        Task<Step> GetByStepNumberAsync( int recipeId, int stepNumber );
+        Task<Step> GetByStepIdAsync( int stepId );
         Task AddAsync( Step step );
         Task UpdateAsync( Step step );
         Task DeleteAsync( int id );

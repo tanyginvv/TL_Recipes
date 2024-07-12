@@ -17,23 +17,7 @@ namespace Recipes.Application.Steps.Commands.DeleteStepCommand
 
         public async Task<ValidationResult> ValidationAsync( DeleteStepCommand command )
         {
-            if ( command.RecipeId <= 0 )
-            {
-                return ValidationResult.Fail( "Recipe ID must be greater than zero" );
-            }
-
-            if ( command.StepNumber <= 0 )
-            {
-                return ValidationResult.Fail( "Step number must be greater than zero" );
-            }
-
-            var recipe = await _recipeRepository.GetByIdAsync( command.RecipeId );
-            if ( recipe == null )
-            {
-                return ValidationResult.Fail( "Recipe not found" );
-            }
-
-            var step = await _stepRepository.GetByStepNumberAsync( command.RecipeId, command.StepNumber );
+            var step = await _stepRepository.GetByStepIdAsync( command.StepId );
             if ( step == null )
             {
                 return ValidationResult.Fail( "Step not found" );

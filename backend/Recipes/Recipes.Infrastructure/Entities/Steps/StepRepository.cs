@@ -42,10 +42,10 @@ namespace Recipes.Infrastructure.Entities.Steps
                 .ToListAsync();
         }
 
-        public async Task<Step> GetByStepNumberAsync( int recipeId, int stepNumber )
+        public async Task<Step> GetByStepIdAsync( int stepId )
         {
             return await _context.Steps
-                .Where( s => s.RecipeId == recipeId && s.StepNumber == stepNumber )
+                .Where( s => s.Id == stepId )
                 .FirstOrDefaultAsync();
         }
     }

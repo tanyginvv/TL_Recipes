@@ -36,13 +36,7 @@ namespace Recipes.Application.Steps.Commands.DeleteStepCommand
                 return new CommandResult( validationResult );
             }
 
-            var recipe = await _recipeRepository.GetByIdAsync( command.RecipeId );
-            if ( recipe == null )
-            {
-                return new CommandResult( ValidationResult.Fail( "Recipe not found" ) );
-            }
-
-            var step = await _stepRepository.GetByStepNumberAsync( command.RecipeId, command.StepNumber );
+            var step = await _stepRepository.GetByStepIdAsync( command.StepId );
             if ( step == null )
             {
                 return new CommandResult( ValidationResult.Fail( "Step not found" ) );

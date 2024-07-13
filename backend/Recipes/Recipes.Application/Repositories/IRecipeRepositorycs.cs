@@ -1,4 +1,5 @@
-﻿using Recipes.Domain.Entities;
+﻿using Recipes.Application.Tags.Dtos;
+using Recipes.Domain.Entities;
 
 namespace Application.Repositories
 {

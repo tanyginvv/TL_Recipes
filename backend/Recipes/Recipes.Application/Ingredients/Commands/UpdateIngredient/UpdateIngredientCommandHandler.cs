@@ -1,5 +1,4 @@
 ﻿using Application;
-using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.CQRSInterfaces;
@@ -29,7 +28,7 @@ namespace Recipes.Application.Ingredients.Commands.UpdateIngredient
             ValidationResult validationResult = await _updateIngredientCommandValidator.ValidationAsync( updateIngredientCommand );
             if ( !validationResult.IsFail )
             {
-                Ingredient ingredient = ( Ingredient )await _ingredientRepository.GetByRecipeIdAsync( updateIngredientCommand.Id );
+                Ingredient ingredient = await _ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
                 if ( ingredient != null )
                 {
                     ingredient.SetTitle( updateIngredientCommand.Title );

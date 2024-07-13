@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Tags.Commands.CreateTag;
 using Recipes.Application.Tags.Dtos;
+using Recipes.Application.Tags.Queries.GetTagsByName;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
 
 namespace Recipes.Application.Tags
@@ -15,10 +16,12 @@ namespace Recipes.Application.Tags
             services.AddScoped<ICommandHandler<CreateTagCommand>, CreateTagCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryHandler>();
+            services.AddScoped<IQueryHandler<GetTagByNameQueryDto, GetTagByNameQuery>, GetTagByNameQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateTagCommand>, CreateTagCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetTagByNameQuery>, GetTagByNameQueryValidator>();
 
             return services;
         }

@@ -11,6 +11,7 @@ using Recipes.Application.Recipes.Queries.GetRecipeById;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.Recipes.Commands;
 using Recipes.Application.Recipes.Queries;
+using Recipes.Application.Recipes.Commands.UpdateRecipeTags;
 
 namespace Recipes.Application.Recipes
 {
@@ -21,6 +22,7 @@ namespace Recipes.Application.Recipes
             services.AddScoped<ICommandHandler<CreateRecipeCommand>, CreateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateRecipeCommand>, UpdateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
             services.AddScoped<IQueryHandler<IEnumerable<RecipeDto>, GetAllRecipesQuery>, GetAllRecipesQueryHandler>();
@@ -28,6 +30,7 @@ namespace Recipes.Application.Recipes
             services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateRecipeCommand>, UpdateRecipeCommandValidator>();
+            services.AddScoped<IAsyncValidator<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
             services.AddScoped<IAsyncValidator<GetAllRecipesQuery>, GetAllRecipesQueryValidator>();

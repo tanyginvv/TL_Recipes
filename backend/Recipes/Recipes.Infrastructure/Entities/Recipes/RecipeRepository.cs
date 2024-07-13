@@ -1,5 +1,6 @@
 ﻿using Application.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
 

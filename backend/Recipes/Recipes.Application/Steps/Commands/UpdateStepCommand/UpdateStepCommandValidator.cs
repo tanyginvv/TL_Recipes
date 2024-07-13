@@ -16,11 +16,6 @@ namespace Recipes.Application.Steps.Commands.UpdateStepCommand
 
         public async Task<ValidationResult> ValidationAsync( UpdateStepCommand command )
         {
-            if ( command.RecipeId <= 0 )
-            {
-                return ValidationResult.Fail( "RecipeId must be greater than zero." );
-            }
-
             if ( command.StepId <= 0 )
             {
                 return ValidationResult.Fail( "StepId must be greater than zero." );

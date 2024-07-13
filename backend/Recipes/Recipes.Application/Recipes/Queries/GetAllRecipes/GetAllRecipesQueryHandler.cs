@@ -69,18 +69,21 @@ namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 
                     Steps = stepsResult.ObjResult.Steps.Select( step => new StepDto
                     {
+                        Id = step.Id,
                         StepNumber = step.StepNumber,
                         StepDescription = step.StepDescription
                     } ).ToList(),
 
                     Ingredients = ingredientsResult.ObjResult.Ingredients.Select( ingredient => new IngredientDto
                     {
+                        Id = ingredient.Id,
                         Title = ingredient.Title,
                         Description = ingredient.Description
                     } ).ToList(),
 
                     Tags = tagsResult.ObjResult.Tags.Select( tag => new TagDto
                     {
+                        Id = tag.Id,
                         Name = tag.Name
                     } ).ToList()
                 };

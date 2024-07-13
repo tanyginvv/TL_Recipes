@@ -46,7 +46,7 @@ namespace Recipes.API.Controllers
         }
 
         [HttpDelete( "{id}" )]
-        public async Task<IActionResult> DeleteRecipe( int id )
+        public async Task<IActionResult> DeleteRecipe( [FromRoute] int id )
         {
             var command = new DeleteRecipeCommand { RecipeId = id };
             var result = await _deleteRecipeCommandHandler.HandleAsync( command );
@@ -58,14 +58,22 @@ namespace Recipes.API.Controllers
         }
 
         [HttpPut( "{id}" )]
-        public async Task<IActionResult> UpdateRecipe( int id, [FromBody] UpdateRecipeCommand command )
+        public async Task<IActionResult> UpdateRecipe( [FromRoute] int id, [FromBody] UpdateRecipeCommand command )
         {
-            if ( id != command.Id )
+            var updateCommand = new UpdateRecipeCommand
             {
-                return BadRequest( "ID в URL не совпадает с ID в теле запроса" );
-            }
+                Id = id,
+                Name = command.Name,
+                Description = command.Description,
+                CookTime = command.CookTime,
+                CountPortion = command.CountPortion,
+                ImageUrl = command.ImageUrl,
+                Ingredients = command.Ingredients,
+                Steps = command.Steps,
+                Tags = command.Tags
+            };
 
-            var result = await _updateRecipeCommandHandler.HandleAsync( command );
+            var result = await _updateRecipeCommandHandler.HandleAsync( updateCommand );
             if ( result.ValidationResult.IsFail )
             {
                 return BadRequest( result.ValidationResult.Error );
@@ -74,7 +82,7 @@ namespace Recipes.API.Controllers
         }
 
         [HttpGet( "{id}" )]
-        public async Task<IActionResult> GetRecipeById( int id )
+        public async Task<IActionResult> GetRecipeById( [FromRoute] int id )
         {
             var result = await _getRecipeByIdQueryHandler.HandleAsync( new GetRecipeByIdQuery { Id = id } );
             if ( result.ValidationResult.IsFail )

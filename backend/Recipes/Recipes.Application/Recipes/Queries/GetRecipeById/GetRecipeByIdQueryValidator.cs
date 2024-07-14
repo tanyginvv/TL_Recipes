@@ -1,5 +1,5 @@
-﻿using Application.Repositories;
-using Application.Validation;
+﻿using Application.Validation;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipe
 {

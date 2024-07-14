@@ -1,7 +1,6 @@
-﻿using Recipes.Application.Tags.Dtos;
-using Recipes.Domain.Entities;
+﻿using Recipes.Domain.Entities;
 
-namespace Application.Repositories
+namespace Recipes.Infrastructure.Repositories
 {
     public interface IRecipeRepository
     {

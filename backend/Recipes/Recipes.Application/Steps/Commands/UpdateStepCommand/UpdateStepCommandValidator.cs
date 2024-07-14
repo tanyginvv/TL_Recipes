@@ -1,7 +1,5 @@
 ﻿using Application.Validation;
-using Recipes.Application.Steps.Commands.UpdateStepCommand;
-using Recipes.Infrastructure.Entities.Steps;
-using System.Threading.Tasks;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps.Commands.UpdateStepCommand
 {

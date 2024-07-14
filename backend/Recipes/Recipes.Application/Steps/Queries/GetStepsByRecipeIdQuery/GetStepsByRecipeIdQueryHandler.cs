@@ -3,7 +3,7 @@ using Application.Result;
 using Application.Validation;
 using Recipes.Application.Steps.Dtos;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Steps;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps.Queries
 {

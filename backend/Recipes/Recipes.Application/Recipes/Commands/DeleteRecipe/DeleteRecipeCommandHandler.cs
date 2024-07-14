@@ -6,6 +6,7 @@ using Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Application.Ingredients.Commands.DeleteIngredient;
 using Recipes.Application.Steps.Commands.DeleteStepCommand;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Commands.DeleteRecipe
 {

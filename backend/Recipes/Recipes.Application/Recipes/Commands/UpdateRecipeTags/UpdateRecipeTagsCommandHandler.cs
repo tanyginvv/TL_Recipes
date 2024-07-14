@@ -8,7 +8,7 @@ using Recipes.Application.Tags.Commands.CreateTag;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Commands.UpdateRecipeTags
 {

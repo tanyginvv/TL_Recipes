@@ -1,11 +1,8 @@
 ﻿using Application;
-using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Steps;
-using System.Threading.Tasks;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps.Commands.DeleteStepCommand
 {

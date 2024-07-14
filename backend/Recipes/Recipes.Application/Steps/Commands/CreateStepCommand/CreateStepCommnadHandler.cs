@@ -1,10 +1,9 @@
 ﻿using Application;
-using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Steps;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps
 {

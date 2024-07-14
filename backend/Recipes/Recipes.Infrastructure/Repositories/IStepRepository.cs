@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Infrastructure.Entities.Steps
+namespace Recipes.Infrastructure.Repositories
 {
     public interface IStepRepository
     {

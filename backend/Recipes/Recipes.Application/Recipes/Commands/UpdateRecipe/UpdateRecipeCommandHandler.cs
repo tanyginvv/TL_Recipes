@@ -8,10 +8,9 @@ using Recipes.Application.Steps.Commands.UpdateStepCommand;
 using Recipes.Application.Steps.Commands.DeleteStepCommand;
 using Recipes.Application.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.Ingredients.Commands.DeleteIngredient;
-using System.Linq;
-using Application;
 using Recipes.Application.Steps;
 using Recipes.Application.Recipes.Commands.UpdateRecipeTags;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Commands.UpdateRecipe
 {

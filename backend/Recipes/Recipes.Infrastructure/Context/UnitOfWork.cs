@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Infrastructure.Context
 {

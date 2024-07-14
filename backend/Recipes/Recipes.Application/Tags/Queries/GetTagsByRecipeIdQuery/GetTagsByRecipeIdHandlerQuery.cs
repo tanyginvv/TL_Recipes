@@ -3,7 +3,7 @@ using Application.Result;
 using Application.Validation;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery
 {

@@ -1,7 +1,5 @@
-﻿using Application.Repositories;
-using Application.Validation;
-using Recipes.Application.Ingredients.Dtos;
-using System.Threading.Tasks;
+﻿using Application.Validation;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeId
 {

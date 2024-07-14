@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Infrastructure.Entities.Tags
 {

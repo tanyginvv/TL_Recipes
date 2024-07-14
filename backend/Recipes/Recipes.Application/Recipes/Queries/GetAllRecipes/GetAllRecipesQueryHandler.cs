@@ -1,5 +1,4 @@
 ﻿using Application.CQRSInterfaces;
-using Application.Repositories;
 using Application.Result;
 using Application.Validation;
 using Recipes.Application.Ingredients.Dtos;
@@ -10,6 +9,7 @@ using Recipes.Application.Steps.Queries;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Domain.Entities;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 {
@@ -69,21 +69,18 @@ namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 
                     Steps = stepsResult.ObjResult.Steps.Select( step => new StepDto
                     {
-                        Id = step.Id,
                         StepNumber = step.StepNumber,
                         StepDescription = step.StepDescription
                     } ).ToList(),
 
                     Ingredients = ingredientsResult.ObjResult.Ingredients.Select( ingredient => new IngredientDto
                     {
-                        Id = ingredient.Id,
                         Title = ingredient.Title,
                         Description = ingredient.Description
                     } ).ToList(),
 
                     Tags = tagsResult.ObjResult.Tags.Select( tag => new TagDto
                     {
-                        Id = tag.Id,
                         Name = tag.Name
                     } ).ToList()
                 };

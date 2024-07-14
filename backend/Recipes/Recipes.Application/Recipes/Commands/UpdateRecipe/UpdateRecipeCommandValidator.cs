@@ -1,6 +1,5 @@
-﻿using Application.Repositories;
-using Application.Validation;
-using Recipes.Application.Recipes.Commands.CreateRecipe;
+﻿using Application.Validation;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Commands.UpdateRecipe
 {

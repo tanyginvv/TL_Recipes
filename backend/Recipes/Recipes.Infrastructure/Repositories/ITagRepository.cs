@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Infrastructure.Entities.Tags
+namespace Recipes.Infrastructure.Repositories
 {
     public interface ITagRepository
     {

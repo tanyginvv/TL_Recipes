@@ -1,6 +1,5 @@
-﻿using Application.Repositories;
-using Application.Validation;
-using Recipes.Application.Steps.Dtos;
+﻿using Application.Validation;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps.Queries
 {

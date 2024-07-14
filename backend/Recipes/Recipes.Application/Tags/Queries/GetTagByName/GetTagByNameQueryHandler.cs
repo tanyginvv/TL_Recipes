@@ -1,7 +1,7 @@
 ﻿using Application.CQRSInterfaces;
 using Application.Result;
 using Application.Validation;
-using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Tags.Queries.GetTagsByName
 {

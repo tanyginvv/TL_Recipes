@@ -6,6 +6,7 @@ using Recipes.Application.Tags.Commands.CreateTag;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Application.Tags.Queries.GetTagsByName;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
+using Recipes.Recipes.Infrastructure.Repositories.Tags.Commands.CreateTag;
 
 namespace Recipes.Application.Tags
 {

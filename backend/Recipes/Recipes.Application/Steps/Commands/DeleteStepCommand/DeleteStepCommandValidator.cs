@@ -1,6 +1,5 @@
-﻿using Application.Repositories;
-using Application.Validation;
-using Recipes.Infrastructure.Entities.Steps;
+﻿using Application.Validation;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Steps.Commands.DeleteStepCommand
 {

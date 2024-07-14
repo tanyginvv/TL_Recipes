@@ -19,14 +19,6 @@ namespace Recipes.Application.Recipes.Commands.UpdateRecipeTags
                 return ValidationResult.Fail( "Список тегов не может быть пустым" );
             }
 
-            foreach ( var tag in command.RecipeTags )
-            {
-                if ( tag.Id <= 0 )
-                {
-                    return ValidationResult.Fail( "ID тега должен быть положительным числом" );
-                }
-            }
-
             var recipe = await _recipeRepository.GetByIdAsync( command.RecipeId );
             if ( recipe == null )
             {

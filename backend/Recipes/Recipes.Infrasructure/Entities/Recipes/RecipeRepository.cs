@@ -1,14 +1,16 @@
 ﻿using Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
+using Recipes.Infrastructure.Context;
+using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
     public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
     {
-        private readonly DbContext _context;
+        private readonly RecipesDbContext _context;
 
-        public RecipeRepository( DbContext context ) : base( context )
+        public RecipeRepository( RecipesDbContext context ) : base( context )
         {
             _context = context;
         }
@@ -29,14 +31,23 @@ namespace Recipes.Infrastructure.Entities.Recipes
             }
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllAsync()
+        public async Task<IReadOnlyList<Recipe>> GetAllAsync()
         {
-            return await _context.Set<Recipe>().ToListAsync();
+            return await _context.Set<Recipe>()
+                         .Include( r => r.Steps )
+                         .Include( r => r.Ingredients )
+                         .Include( r => r.Tags )
+                         .ToListAsync();
         }
 
         public async Task<Recipe> GetByIdAsync( int id )
         {
-            return await _context.Set<Recipe>().FindAsync( id );
+            return await _context.Set<Recipe>()
+                .Include( r => r.Steps )
+                .Include( r => r.Ingredients )
+                .Include( r => r.Tags )
+                .Where( r => r.Id == id )
+                .SingleOrDefaultAsync();
         }
 
         public async Task UpdateAsync( Recipe recipe )

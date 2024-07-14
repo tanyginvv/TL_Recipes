@@ -6,7 +6,7 @@ using Recipes.Infrastructure.Context;
 var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the DI-container.
-builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
+//builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 
 builder.Services.AddDbContext<RecipesDbContext>( options =>
     options.UseSqlServer( builder.Configuration.GetConnectionString( "Recipes" ) ) );

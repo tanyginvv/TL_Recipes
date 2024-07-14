@@ -11,8 +11,8 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240708142207_AddedSteps2")]
-    partial class AddedSteps2
+    [Migration("20240714190249_AddInitialTables")]
+    partial class AddInitialTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace Recipes.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("RecipeTag", b =>
+                {
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RecipeId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("RecipeTag");
+                });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
                 {
@@ -124,14 +139,24 @@ namespace Recipes.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
-
                     b.ToTable("Tag", (string)null);
+                });
+
+            modelBuilder.Entity("RecipeTag", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Domain.Entities.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
@@ -156,24 +181,11 @@ namespace Recipes.Infrastructure.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Tag", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("Tags")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Recipe");
-                });
-
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
                 {
                     b.Navigation("Ingredients");
 
                     b.Navigation("Steps");
-
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

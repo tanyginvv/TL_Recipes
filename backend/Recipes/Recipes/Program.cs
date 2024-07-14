@@ -9,7 +9,8 @@ builder.Services.AddDbContext<RecipesDbContext>( options =>
 
 // Регистрация других зависимостей
 builder.Services.AddControllers();
-builder.Services.AddBindings();
+builder.Services.AddApplicationBindings();
+builder.Services.AddInfrastructureBindings();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

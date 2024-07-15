@@ -12,6 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings();
 
+// Добавление CORS
+builder.Services.AddCors( options =>
+{
+    options.AddPolicy( "AllowSpecificOrigin",
+        builder => builder.WithOrigins( "http://localhost:5173" ) // Замените на URL вашего фронтенда
+                          .AllowAnyHeader()
+                          .AllowAnyMethod() );
+} );
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,6 +31,9 @@ if ( app.Environment.IsDevelopment() )
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Использование CORS
+app.UseCors( "AllowSpecificOrigin" );
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

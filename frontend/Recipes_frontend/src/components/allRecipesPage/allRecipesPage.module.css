@@ -1,0 +1,8 @@
+.recipesContainer {
+    margin-top: 100px;
+    height: auto;
+    width: 1250px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}

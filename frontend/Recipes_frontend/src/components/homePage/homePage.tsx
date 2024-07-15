@@ -9,7 +9,7 @@ export const HomePage = () => {
         <>
             <div className={styles.mainPage}>
                 <HomePageIntro/>
-                <Sorting/>
+                <Sorting showCardText={true}/>
                 <Example/>
                 {/* <Search/> */}
             </div>

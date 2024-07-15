@@ -29,9 +29,9 @@ namespace Recipes.Application.Recipes.Commands.CreateRecipe
                 return ValidationResult.Fail( "Описание блюда не может быть пустым" );
             }
 
-            if ( command.Description.Length > 150 )
+            if ( command.Description.Length > 500 )
             {
-                return ValidationResult.Fail( "Описание блюда не может быть больше чем 150 символов" );
+                return ValidationResult.Fail( "Описание блюда не может быть больше чем 500 символов" );
             }
 
             if ( command.CountPortion == 0 || command.CountPortion < 0 )

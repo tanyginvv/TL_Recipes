@@ -1,0 +1,39 @@
+.titleContainer {
+    width: 1250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerText {
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 62px;
+    color: #000000;
+}
+
+.addRecipeButton {
+    width: 278px;
+    height: 60px;
+    color: #FFFFFF;
+    background-color: #FDB100;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 16px;
+    border: transparent solid 1px;
+}
+
+.addRecipeButton:hover {
+    border: 1px solid #fdb100;
+    box-sizing: border-box;
+    background-color: rgba(253, 137, 0, 0.1);
+    color: #fdb100;
+    transition: 700ms;
+}

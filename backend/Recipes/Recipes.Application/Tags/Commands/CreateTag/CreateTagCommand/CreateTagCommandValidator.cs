@@ -1,10 +1,7 @@
-﻿using Application.Validation;
-using Recipes.Application.Tags.Dtos;
-using Recipes.Infrastructure.Entities.Tags;
-using Recipes.Infrastructure.Repositories;
-using System.Threading.Tasks;
+﻿using Recipes.Application.Repositories;
+using Recipes.Application.Validation;
 
-namespace Recipes.Application.Tags.Commands.CreateTag
+namespace Recipes.Application.Tags.Commands.CreateTag.CreateTagCommand
 {
     public class CreateTagCommandValidator : IAsyncValidator<CreateTagCommand>
     {

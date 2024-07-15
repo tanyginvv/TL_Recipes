@@ -4,7 +4,7 @@ namespace Recipes.Application.Tags.Dtos
 {
     public class GetTagsByRecipeIdQueryDto
     {
-        public int RecipeId { get; init; }
-        public IReadOnlyList<Tag> Tags { get; init; }
+        public required int RecipeId { get; init; }
+        public required IReadOnlyList<Tag> Tags { get; init; }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class DeleteIngredientCommand
     {
-        public int Id { get; init; }
+        public required int Id { get; init; }
     }
 }

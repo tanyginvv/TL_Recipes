@@ -1,7 +1,7 @@
-﻿using Application.Result;
-using Recipes.Application.Recipes.Dtos;
+﻿using Recipes.Application.Recipes.Dtos;
+using Recipes.Application.Results;
 
-namespace Application.CQRSInterfaces
+namespace Recipes.Application.CQRSInterfaces
 {
     public interface IQueryHandler<TResult, TQuery>
         where TResult : class

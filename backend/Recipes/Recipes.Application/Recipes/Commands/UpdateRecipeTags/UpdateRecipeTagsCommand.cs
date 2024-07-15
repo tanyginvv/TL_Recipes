@@ -4,7 +4,7 @@ namespace Recipes.Application.Recipes.Commands.UpdateRecipeTags
 {
     public class UpdateRecipeTagsCommand
     {
-        public int RecipeId { get; set; }
-        public List<TagDto> RecipeTags { get; set; }
+        public required int RecipeId { get; set; }
+        public required List<TagDto> RecipeTags { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using Application.Validation;
-using Recipes.Application.Tags.Queries.GetTagsByName;
+﻿using Recipes.Application.Tags.Queries.GetTagByName;
+using Recipes.Application.Validation;
 
 public class GetTagByNameQueryValidator : IAsyncValidator<GetTagByNameQuery>
 {

@@ -1,9 +1,9 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tags.Queries.GetTagsByName
+namespace Recipes.Application.Tags.Dtos
 {
     public class GetTagByNameQueryDto
     {
-        public Tag Tag { get; set; }
+        public required Tag Tag { get; set; }
     }
 }

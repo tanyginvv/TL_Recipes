@@ -4,9 +4,8 @@ using Recipes.Application.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.Recipes.Dtos;
 using Recipes.Application.Recipes.Queries.GetAllRecipes;
-using Application.CQRSInterfaces;
-using Recipes.Application.Recipes.Commands;
-using Recipes.Application.Recipes.Queries;
+using Recipes.Application.Recipes.Commands.CreateRecipe;
+using Recipes.Application.Recipes.Queries.GetRecipeById;
 
 namespace Recipes.API.Controllers
 {

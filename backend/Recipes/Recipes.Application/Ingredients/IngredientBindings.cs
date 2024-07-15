@@ -1,14 +1,11 @@
-﻿using Application.CQRSInterfaces;
-using Application.Validation;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.Ingredients.Commands;
 using Recipes.Application.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.Ingredients.Commands.DeleteIngredient;
 using Recipes.Application.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.Ingredients.Dtos;
-using Recipes.Application.Ingredients.Queries;
-using Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeId;
+using Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Ingredients
 {

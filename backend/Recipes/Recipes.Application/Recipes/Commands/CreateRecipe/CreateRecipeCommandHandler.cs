@@ -1,19 +1,13 @@
-﻿using Application;
-using Application.Repositories;
-using Application.Result;
-using Application.Validation;
-using Recipes.Application.CQRSInterfaces;
+﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Ingredients.Commands.CreateIngredient;
-using Recipes.Application.Steps;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
 using Recipes.Application.Steps.Commands;
+using Recipes.Application.Steps.Commands.CreateStepCommand;
 using Recipes.Application.Tags.Commands;
-using Recipes.Application.Tags.Commands.CreateTag;
+using Recipes.Application.Tags.Commands.CreateTag.CreateTagCommand;
+using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Entities.Steps;
-using Recipes.Infrastructure.Entities.Tags;
-using Recipes.Infrastructure.Repositories;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Recipes.Application.Recipes.Commands.CreateRecipe
 {

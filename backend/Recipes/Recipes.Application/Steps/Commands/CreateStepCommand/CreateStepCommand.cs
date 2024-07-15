@@ -1,9 +1,9 @@
-﻿namespace Recipes.Application.Steps
+﻿namespace Recipes.Application.Steps.Commands.CreateStepCommand
 {
     public class CreateStepCommand
     {
-        public int StepNumber { get; init; }
-        public string StepDescription { get; init; }
-        public int RecipeId { get; init; }
+        public required int StepNumber { get; init; }
+        public required string StepDescription { get; init; }
+        public required int RecipeId { get; init; }
     }
 }

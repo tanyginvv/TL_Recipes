@@ -1,11 +1,11 @@
-﻿using Application.CQRSInterfaces;
-using Application.Result;
-using Application.Validation;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
 using Recipes.Application.Steps.Dtos;
+using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Repositories;
 
-namespace Recipes.Application.Steps.Queries
+namespace Recipes.Application.Steps.Queries.GetStepsByRecipeIdQuery
 {
     public class GetStepsByRecipeIdQueryHandler : IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>
     {

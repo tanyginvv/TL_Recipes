@@ -2,7 +2,7 @@
 {
     public class StepDto
     {
-        public int StepNumber { get; set; }
-        public string StepDescription { get; set; }
+        public required int StepNumber { get; set; }
+        public required string StepDescription { get; set; }
     }
 }

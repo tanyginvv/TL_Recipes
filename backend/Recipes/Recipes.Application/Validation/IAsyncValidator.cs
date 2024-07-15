@@ -1,4 +1,4 @@
-﻿namespace Application.Validation
+﻿namespace Recipes.Application.Validation
 {
     public interface IAsyncValidator<TData> where TData : class
     {

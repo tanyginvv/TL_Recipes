@@ -2,6 +2,6 @@
 {
     public class DeleteStepCommand
     {
-        public int StepId { get; init; }
+        public required int StepId { get; init; }
     }
 }

@@ -1,9 +1,8 @@
-﻿using Application;
-using Application.Result;
-using Application.Validation;
-using Recipes.Application.CQRSInterfaces;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Ingredients.Commands.CreateIngredient
 {

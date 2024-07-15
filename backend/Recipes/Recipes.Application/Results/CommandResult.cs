@@ -1,6 +1,6 @@
-﻿using Application.Validation;
+﻿using Recipes.Application.Validation;
 
-namespace Application.Result
+namespace Recipes.Application.Results
 {
     public class CommandResult
     {

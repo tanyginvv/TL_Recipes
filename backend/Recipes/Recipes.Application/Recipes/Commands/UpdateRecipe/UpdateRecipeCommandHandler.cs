@@ -1,16 +1,15 @@
-﻿using Application.Result;
-using Application.Validation;
-using Recipes.Application.CQRSInterfaces;
-using Application.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
 using Recipes.Application.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.Steps.Commands.UpdateStepCommand;
 using Recipes.Application.Steps.Commands.DeleteStepCommand;
 using Recipes.Application.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.Ingredients.Commands.DeleteIngredient;
-using Recipes.Application.Steps;
 using Recipes.Application.Recipes.Commands.UpdateRecipeTags;
-using Recipes.Infrastructure.Repositories;
+using Recipes.Application.Validation;
+using Recipes.Application.Steps.Commands.CreateStepCommand;
+using Recipes.Application.Results;
+using Recipes.Application.Repositories;
 
 namespace Recipes.Application.Recipes.Commands.UpdateRecipe
 {

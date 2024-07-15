@@ -1,9 +1,7 @@
-﻿using Application.Repositories;
-using Application.Validation;
-using Recipes.Application.Ingredients.Commands.UpdateIngredient;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.Repositories;
+using Recipes.Application.Validation;
 
-namespace Recipes.Application.Ingredients.Commands
+namespace Recipes.Application.Ingredients.Commands.UpdateIngredient
 {
     public class UpdateIngredientCommandValidator : IAsyncValidator<UpdateIngredientCommand>
     {

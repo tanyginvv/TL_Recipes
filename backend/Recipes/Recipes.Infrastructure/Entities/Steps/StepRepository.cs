@@ -1,8 +1,7 @@
-﻿using Application.Repositories;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
-using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Infrastructure.Entities.Steps
 {

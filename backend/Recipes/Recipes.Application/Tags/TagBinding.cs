@@ -1,12 +1,10 @@
-﻿using Application.CQRSInterfaces;
-using Application.Validation;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.Tags.Commands.CreateTag;
+using Recipes.Application.Tags.Commands.CreateTag.CreateTagCommand;
 using Recipes.Application.Tags.Dtos;
-using Recipes.Application.Tags.Queries.GetTagsByName;
+using Recipes.Application.Tags.Queries.GetTagByName;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
-using Recipes.Recipes.Infrastructure.Repositories.Tags.Commands.CreateTag;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Tags
 {

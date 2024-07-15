@@ -2,6 +2,6 @@
 {
     public class CreateTagDto
     {
-        public string Name { get; init; }
+        public required string Name { get; init; }
     }
 }

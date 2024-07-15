@@ -4,7 +4,7 @@ namespace Recipes.Application.Steps.Dtos
 {
     public class GetStepsByRecipeIdQueryDto
     {
-        public int RecipeId { get; init; }
-        public IReadOnlyList<Step> Steps { get; set; }
+        public required int RecipeId { get; init; }
+        public required IReadOnlyList<Step> Steps { get; set; }
     }
 }

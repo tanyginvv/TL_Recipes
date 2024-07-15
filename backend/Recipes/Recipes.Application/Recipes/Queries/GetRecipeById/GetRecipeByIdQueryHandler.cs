@@ -1,15 +1,15 @@
-﻿using Application.CQRSInterfaces;
-using Application.Result;
-using Application.Validation;
+﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Ingredients.Dtos;
-using Recipes.Application.Ingredients.Queries;
+using Recipes.Application.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
 using Recipes.Application.Recipes.Dtos;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
 using Recipes.Application.Steps.Dtos;
-using Recipes.Application.Steps.Queries;
+using Recipes.Application.Steps.Queries.GetStepsByRecipeIdQuery;
 using Recipes.Application.Tags.Dtos;
 using Recipes.Application.Tags.Queries.GetTagsByRecipeIdQuery;
+using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.Repositories;
 
 namespace Recipes.Application.Recipes.Queries.GetRecipeById
 {

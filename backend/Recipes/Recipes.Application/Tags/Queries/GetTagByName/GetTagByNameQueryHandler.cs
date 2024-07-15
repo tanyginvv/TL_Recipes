@@ -1,9 +1,10 @@
-﻿using Application.CQRSInterfaces;
-using Application.Result;
-using Application.Validation;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Application.Tags.Dtos;
+using Recipes.Application.Validation;
 
-namespace Recipes.Application.Tags.Queries.GetTagsByName
+namespace Recipes.Application.Tags.Queries.GetTagByName
 {
     public class GetTagByNameQueryHandler : IQueryHandler<GetTagByNameQueryDto, GetTagByNameQuery>
     {

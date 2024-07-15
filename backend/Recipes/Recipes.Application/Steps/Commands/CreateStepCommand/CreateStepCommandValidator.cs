@@ -1,7 +1,7 @@
-﻿using Application.Validation;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.Repositories;
+using Recipes.Application.Validation;
 
-namespace Recipes.Application.Steps
+namespace Recipes.Application.Steps.Commands.CreateStepCommand
 {
     public class CreateStepCommandValidator : IAsyncValidator<CreateStepCommand>
     {

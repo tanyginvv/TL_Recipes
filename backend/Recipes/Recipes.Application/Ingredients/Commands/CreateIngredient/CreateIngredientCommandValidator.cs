@@ -1,5 +1,5 @@
-﻿using Application.Validation;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.Repositories;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Ingredients.Commands.CreateIngredient
 {

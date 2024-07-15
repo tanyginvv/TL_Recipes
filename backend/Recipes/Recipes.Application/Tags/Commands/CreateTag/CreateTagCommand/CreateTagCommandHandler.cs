@@ -1,11 +1,10 @@
-﻿using Recipes.Infrastructure.Repositories;
-using Application.Result;
-using Application.Validation;
-using Recipes.Application.CQRSInterfaces;
+﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
-using Recipes.Application.Tags.Commands.CreateTag;
+using Recipes.Application.Validation;
+using Recipes.Application.Results;
+using Recipes.Application.Repositories;
 
-namespace Recipes.Recipes.Infrastructure.Repositories.Tags.Commands.CreateTag
+namespace Recipes.Application.Tags.Commands.CreateTag.CreateTagCommand
 {
     public class CreateTagCommandHandler : ICommandHandler<CreateTagCommand>
     {

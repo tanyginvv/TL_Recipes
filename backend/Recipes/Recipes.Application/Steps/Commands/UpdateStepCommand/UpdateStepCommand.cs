@@ -2,8 +2,8 @@
 {
     public class UpdateStepCommand
     {
-        public int StepId { get; init; }
-        public int StepNumber { get; init; }
-        public string StepDescription { get; init; }
+        public required int StepId { get; init; }
+        public required int StepNumber { get; init; }
+        public required string StepDescription { get; init; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Application.Validation
+﻿namespace Recipes.Application.Validation
 {
     public class ValidationResult
     {

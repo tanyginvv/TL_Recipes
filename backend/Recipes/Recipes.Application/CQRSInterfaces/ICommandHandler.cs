@@ -1,4 +1,4 @@
-﻿using Application.Result;
+﻿using Recipes.Application.Results;
 
 namespace Recipes.Application.CQRSInterfaces
 {

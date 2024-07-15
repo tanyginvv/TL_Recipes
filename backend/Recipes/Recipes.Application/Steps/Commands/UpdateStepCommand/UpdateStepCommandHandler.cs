@@ -1,7 +1,7 @@
-﻿using Application.Result;
-using Application.Validation;
-using Recipes.Application.CQRSInterfaces;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Steps.Commands.UpdateStepCommand
 {

@@ -1,11 +1,11 @@
-﻿using Application.CQRSInterfaces;
-using Application.Validation;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Steps.Commands.CreateStepCommand;
 using Recipes.Application.Steps.Commands.DeleteStepCommand;
 using Recipes.Application.Steps.Commands.UpdateStepCommand;
 using Recipes.Application.Steps.Dtos;
-using Recipes.Application.Steps.Queries;
+using Recipes.Application.Steps.Queries.GetStepsByRecipeIdQuery;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Steps
 {

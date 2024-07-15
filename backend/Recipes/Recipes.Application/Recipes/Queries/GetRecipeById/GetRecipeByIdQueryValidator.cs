@@ -1,7 +1,7 @@
-﻿using Application.Validation;
-using Recipes.Infrastructure.Repositories;
+﻿using Recipes.Application.Repositories;
+using Recipes.Application.Validation;
 
-namespace Recipes.Application.Recipes.Queries.GetRecipe
+namespace Recipes.Application.Recipes.Queries.GetRecipeById
 {
     public class GetRecipeByIdQueryValidator : IAsyncValidator<GetRecipeByIdQuery>
     {

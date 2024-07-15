@@ -1,7 +1,7 @@
-﻿namespace Recipes.Application.Tags.Queries.GetTagsByName
+﻿namespace Recipes.Application.Tags.Queries.GetTagByName
 {
     public class GetTagByNameQuery
     {
-        public string Name { get; init; }
+        public required string Name { get; init; }
     }
 }

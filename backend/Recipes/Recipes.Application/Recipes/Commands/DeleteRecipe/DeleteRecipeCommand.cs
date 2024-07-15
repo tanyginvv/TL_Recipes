@@ -2,6 +2,6 @@
 {
     public class DeleteRecipeCommand
     {
-        public int RecipeId { get; init; }
+        public required int RecipeId { get; init; }
     }
 }

@@ -3,15 +3,11 @@ using Recipes.Application.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.Recipes.Dtos;
 using Recipes.Application.Recipes.Queries.GetAllRecipes;
-using Application.CQRSInterfaces;
-using Application.Validation;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.Recipes.Queries.GetRecipe;
 using Recipes.Application.Recipes.Queries.GetRecipeById;
 using Microsoft.Extensions.DependencyInjection;
-using Recipes.Application.Recipes.Commands;
-using Recipes.Application.Recipes.Queries;
 using Recipes.Application.Recipes.Commands.UpdateRecipeTags;
+using Recipes.Application.Validation;
 
 namespace Recipes.Application.Recipes
 {

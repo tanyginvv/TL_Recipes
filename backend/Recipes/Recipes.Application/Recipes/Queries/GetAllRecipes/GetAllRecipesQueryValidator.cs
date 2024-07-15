@@ -1,4 +1,4 @@
-﻿using Application.Validation;
+﻿using Recipes.Application.Validation;
 
 namespace Recipes.Application.Recipes.Queries.GetAllRecipes
 {

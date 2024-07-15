@@ -1,6 +1,4 @@
-using Application.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder( args );

@@ -1,6 +1,6 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Infrastructure.Repositories
+namespace Recipes.Application.Repositories
 {
     public interface IIngredientRepository
     {

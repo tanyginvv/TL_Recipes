@@ -1,0 +1,358 @@
+.addRecipeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.recipeMainInfo {
+    width: 1250px;
+    height: 430px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    border-radius: 72px 24px 24px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.recipeImgPlace {
+    width: 430px;
+    height: 430px;
+    background-color: #FFEFCC;
+    border-radius: 72px 0px 72px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.recipeImage {
+    display: none;
+}
+
+.imagePlaceholder {
+    width: 269px;
+    height: 269px;
+    border: 1px dashed #F29E1F;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.imgLabel {
+    width: 165px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.5px;
+    text-align: center;
+    color: #F29E1F;
+}
+
+.textInfo {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    margin: 25px 30px;
+    justify-content: space-between;
+}
+
+.inputText {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    width: 657px;
+    height: 40px;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+}
+
+.inputText:focus {
+    outline: none;
+    border: solid 1px #9196A166;
+}
+
+.inputTextarea{
+    height: 117px;
+    width: 657px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+    resize: none;
+}
+
+.inputTextarea:focus {
+    outline: none;
+    border: solid 1px #9196A166;
+}
+
+.tagsContainer {
+    max-width: 700px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 5px 0px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-radius: 16px;
+}
+
+.tagsContainer::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tagsContainer::-webkit-scrollbar-thumb {
+    background-color: gray; 
+    border-radius: 10px;
+}
+
+.tag {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    text-align: right;
+    border-radius: 16px;
+    padding: 5px 8px;
+    align-items: center;
+}
+
+.removeTagButton {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    border-radius: 16px;
+    width: 20px;
+    height: 30px;
+    padding: 0;
+}
+
+.selectWrapper {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+select {
+    width: 220px;
+    height: 50px;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    padding: 10px 20px;
+    color: #25292D80;
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;
+    background: url('../../../assets/images/selector.svg') no-repeat right 20px center;
+    background-size: 13px 13px; 
+}
+
+select:focus {
+    outline: none;
+    border: solid 1px #9196A166;
+}
+
+.selectItem {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+    color: #000000;
+    align-items: center;
+}
+
+.itemText {
+    margin: 0;
+}
+
+.recipeListsInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ingredientsInfo {
+    width: 430px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ingredientTitle {
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: left;
+    color: #4A525A;
+    margin: 0;
+}
+
+.ingredientItem {
+    background-color: #FFFFFF;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    padding: 20px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ingredientsTitle {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    width: 335px;
+    height: 40px;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+}
+
+.closeBtnIngredient{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding: 0px 10px;
+    cursor: pointer;
+}
+
+.ingredientsDescription {
+    height: 230px;
+    width: 335px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+    resize: none;
+}
+
+.ingredientsDescription, .ingredientsTitle:focus {
+    outline: none;
+}
+
+.addIngredientButton {
+    height: 60px;
+    color: #F29E1F;
+    background-color: transparent;
+    border: #F29E1F solid 1px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.addIngredientButton:hover {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+}
+
+p {
+    margin: 0;
+}
+
+.stepsInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 750px;
+    border-radius: 24px;
+    align-items: center;
+}
+
+.stepItem {
+    display: flex;
+    flex-direction: column;
+    width: 710px;
+    background-color: #FFFFFF;
+    padding: 20px;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    gap: 10px;
+    border-radius: 24px;
+}
+
+.stepNumber {
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: left;
+    color: #4A525A;
+}
+
+.closeBtnStep{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.stepDescription {
+    height: 166px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+    resize: none;
+}
+
+.stepDescription:focus {
+    outline: none;
+}
+
+.addStepButton {
+    width: 380px;
+    height: 60px;
+    color: #F29E1F;
+    background-color: transparent;
+    border: #F29E1F solid 1px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.addStepButton:hover{
+    background-color: #F29E1F;
+    color: #FFFFFF;
+}

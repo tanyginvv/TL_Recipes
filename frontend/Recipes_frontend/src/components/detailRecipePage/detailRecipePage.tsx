@@ -30,7 +30,7 @@ export const DetailRecipePage = () => {
 
     return (
         <div className={styles.recipeContainer}>
-            <RecipeHeader name={recipe.name} onBack={allRecipesPageHandler} />
+            <RecipeHeader name={recipe.name} id={recipe.id} onBack={allRecipesPageHandler} />
             <RecipeListItem recipe={recipe} />
             <div className={styles.recipeInfo}>
                 <IngredientsList ingredients={recipe.ingredients} />

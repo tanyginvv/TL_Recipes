@@ -6,19 +6,19 @@ export interface IRecipe {
     cookTime: number,
     tags: ITag[],
     ingredients: IIngredient[],
-    steps: Step[]
+    steps: IStep[]
 }
 
 interface ITag {
     name: string
 }
 
-interface IIngredient {
+export interface IIngredient {
     title: string,
     description: string
 }
 
-interface Step {
+export interface IStep {
     stepNumber: number,
-    description: string
+    stepDescription: string
 }

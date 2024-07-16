@@ -1,0 +1,37 @@
+.infoIngredients {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.ingredientsTitle {
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: left;
+    color: #FDB100;
+    margin: 0;
+}
+
+.ingredientsList {
+    padding: 0;
+}
+.ingredientTitle {
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: left;
+    color: #4A525A;
+    margin: 0;
+}
+
+.ingredientDescription {
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    text-align: left;
+    color: #4A525A;
+}

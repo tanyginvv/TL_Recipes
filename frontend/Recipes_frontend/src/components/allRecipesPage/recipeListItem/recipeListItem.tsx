@@ -4,14 +4,21 @@ import cookingTimeIcon from "../../../assets/images/cookingTime.svg";
 import countPortionIcon from "../../../assets/images/countPortion.svg";
 import recipeImg from "../../../assets/images/recipeImg.png"
 import { IRecipe } from '../../../models/types';
+import { useNavigate } from 'react-router-dom';
 
 interface RecipeListItemProps {
     recipe: IRecipe;
 }
 
 export const RecipeListItem: React.FC<RecipeListItemProps> = ({ recipe }) => {
+    const navigate = useNavigate();
+
+    const recipeHandler = () => {
+        navigate(`/detailRecipesPage/${recipe.id}`);
+    }
+
     return (
-        <div className={styles.recipeItem}>
+        <div className={styles.recipeItem} onClick={recipeHandler}>
             <img className={styles.recipeImg} src={recipeImg}/>
             <span className={styles.recipeInfo}>
                 <span className={styles.recipeTags}>

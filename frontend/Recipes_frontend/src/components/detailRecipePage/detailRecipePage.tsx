@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { IRecipe, IIngredient, IStep} from "../../models/types";
 import styles from "./detailRecipePage.module.css";
@@ -8,6 +8,11 @@ import edit from "../../assets/images/edit.svg";
 import { RecipeListItem } from "../allRecipesPage/recipeListItem/recipeListItem";
 
 export const DetailRecipePage = () => {
+    const navigate = useNavigate();
+
+    const allRecipesPageHandler = () => {
+        navigate("/allRecipesPage")
+    }
     const { id } = useParams<{ id: string }>();
 
     const [recipe, setRecipe] = useState<IRecipe | null>(null);
@@ -52,7 +57,7 @@ export const DetailRecipePage = () => {
     return (
         <div className={styles.recipeContainer}>
             <div className={styles.recipeHeader}>
-                <button className={styles.buttonBack}><img src={backspace} alt="back" /><p>Назад</p></button>
+                <button className={styles.buttonBack} onClick={allRecipesPageHandler}><img src={backspace} alt="back" /><p>Назад</p></button>
                 <div className={styles.recipeTitle}>
                     <h1 className={styles.title}>{recipe.name}</h1>
                     <div className={styles.titleButtons}>

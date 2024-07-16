@@ -10,18 +10,18 @@ function App() {
 
   return (
     <>
-    <Header/> 
     <div>
       <BrowserRouter>
-        <Routes>
-          <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
-          <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
-          <Route path='/homePage' element={<HomePage/>}/>
-          <Route path="*" element={<Navigate to="/homePage" replace/>}/>
-        </Routes>
+        <Header/> 
+          <Routes>
+            <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
+            <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
+            <Route path='/homePage' element={<HomePage/>}/>
+            <Route path="*" element={<Navigate to="/homePage" replace/>}/>
+          </Routes>
+        <Footer/>
       </BrowserRouter>
     </div>
-    <Footer/>
     </>
   )
 }

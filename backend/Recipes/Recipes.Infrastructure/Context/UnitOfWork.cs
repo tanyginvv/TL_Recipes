@@ -2,14 +2,9 @@
 
 namespace Recipes.Infrastructure.Context
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork( RecipesDbContext dbContext ) : IUnitOfWork
     {
-        private readonly RecipesDbContext _dbContext;
-
-        public UnitOfWork( RecipesDbContext dbContext )
-        {
-            _dbContext = dbContext;
-        }
+        private RecipesDbContext _dbContext => dbContext;
 
         public async Task CommitAsync()
         {

@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Recipes.Infrastructure.Repositories;
 using Recipes.Infrastructure.Context;
 using Recipes.Application.Repositories;
 using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Entities.Steps;
 using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Entities.Ingredients;
 
-namespace Recipes.Application
+namespace Recipes.Infrastructure
 {
     public static class InfrastructureBindings
     {

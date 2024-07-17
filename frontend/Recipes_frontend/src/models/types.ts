@@ -9,7 +9,7 @@ export interface IRecipe {
     steps: IStep[]
 }
 
-interface ITag {
+export interface ITag {
     name: string
 }
 

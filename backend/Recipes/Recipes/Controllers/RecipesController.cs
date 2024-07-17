@@ -7,6 +7,9 @@ using Recipes.Application.Recipes.Queries.GetAllRecipes;
 using Application.CQRSInterfaces;
 using Recipes.Application.Recipes.Commands;
 using Recipes.Application.Recipes.Queries;
+using Recipes.API.Dto.RecipeDtos;
+using Newtonsoft.Json;
+using Recipes.Domain.Entities;
 
 namespace Recipes.API.Controllers
 {
@@ -35,8 +38,45 @@ namespace Recipes.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe( [FromBody] CreateRecipeCommand command )
+        public async Task<IActionResult> CreateRecipe( [FromForm] IFormFile image, [FromForm] string recipeJson )
         {
+            var dto = JsonConvert.DeserializeObject<RecipeCreateDto>( recipeJson );
+
+            string fileName = null;
+
+            if ( image != null )
+            {
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var folderPath = Path.Combine( currentDirectory, "../Recipes.Infrastructure/store" );
+                fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
+                var filePath = Path.Combine( folderPath, fileName );
+
+                if ( !Directory.Exists( folderPath ) )
+                {
+                    Directory.CreateDirectory( folderPath );
+                }
+
+                if ( image.Length > 0 )
+                {
+                    using ( var stream = new FileStream( filePath, FileMode.Create ) )
+                    {
+                        await image.CopyToAsync( stream );
+                    }
+                }
+            }
+
+            var command = new CreateRecipeCommand
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                CookTime = dto.CookTime,
+                CountPortion = dto.CountPortion,
+                ImageUrl = fileName,
+                Tags = dto.Tags,
+                Ingredients = dto.Ingredients,
+                Steps = dto.Steps
+            };
+
             var result = await _createRecipeCommandHandler.HandleAsync( command );
             if ( result.ValidationResult.IsFail )
             {
@@ -44,6 +84,8 @@ namespace Recipes.API.Controllers
             }
             return NoContent();
         }
+
+
 
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteRecipe( [FromRoute] int id )

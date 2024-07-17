@@ -1,31 +1,24 @@
-import { useState } from "react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import styles from "./addRecipeForm.module.css";
 import download from "../../../assets/images/download.svg";
 import close from "../../../assets/images/close.svg";
+import { IIngredient, ITag, IStep } from "../../../models/types";
 
-interface Ingredient {
-    title: string;
-    description: string;
-}
-
-interface Step {
-    description: string;
-}
-
-export const AddRecipeForm = () => {
-    const [image, setImage] = useState<string | null>(null);
+export const AddRecipeForm = forwardRef((props, ref) => {
+    const [name, setName] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [image, setImage] = useState<File | null>(null);
     const [portions, setPortions] = useState<number>(1);
     const [cookTime, setCookTime] = useState<number>(10);
-    const [tags, setTags] = useState<string[]>([]);
+    const [tags, setTags] = useState<ITag[]>([]);
     const [tagInput, setTagInput] = useState<string>("");
-    const [ingredients, setIngredients] = useState<Ingredient[]>([{ title: '', description: '' }]);
-    const [steps, setSteps] = useState<Step[]>([{ description: '' }]);
+    const [ingredients, setIngredients] = useState<IIngredient[]>([{ title: '', description: '' }]);
+    const [steps, setSteps] = useState<IStep[]>([{ stepNumber: 1, stepDescription: '' }]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setImage(imageUrl);
+            setImage(file);
         }
     };
 
@@ -36,18 +29,18 @@ export const AddRecipeForm = () => {
     const handleTagInputKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' && tagInput.trim() !== '') {
             event.preventDefault();
-            if (!tags.includes(tagInput.trim())) {
-                setTags([...tags, tagInput.trim()]);
+            if (!tags.some(tag => tag.name === tagInput.trim())) {
+                setTags([...tags, { name: tagInput.trim() }]);
                 setTagInput("");
             }
         }
     };
 
     const handleRemoveTag = (tagToRemove: string) => {
-        setTags(tags.filter(tag => tag !== tagToRemove));
+        setTags(tags.filter(tag => tag.name !== tagToRemove));
     };
 
-    const handleIngredientChange = (index: number, key: keyof Ingredient, value: string) => {
+    const handleIngredientChange = (index: number, key: keyof IIngredient, value: string) => {
         const newIngredients = [...ingredients];
         newIngredients[index] = {
             ...newIngredients[index],
@@ -65,23 +58,14 @@ export const AddRecipeForm = () => {
         setIngredients(newIngredients);
     };
 
-    const handleDescriptionKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>, index: number) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const newIngredients = [...ingredients];
-            newIngredients[index].description += '\n';
-            setIngredients(newIngredients);
-        }
-    };
-
     const handleStepChange = (index: number, value: string) => {
         const newSteps = [...steps];
-        newSteps[index].description = value;
+        newSteps[index].stepDescription = value;
         setSteps(newSteps);
     };
 
     const handleAddStep = () => {
-        setSteps([...steps, { description: '' }]);
+        setSteps([...steps, { stepNumber: steps.length, stepDescription: '' }]);
     };
 
     const handleRemoveStep = (index: number) => {
@@ -89,23 +73,70 @@ export const AddRecipeForm = () => {
         setSteps(newSteps);
     };
 
-    const portionOptions = Array.from({ length: 20 }, (_, i) => i + 1);
-    const cookTimeOptions = Array.from({ length: 12 }, (_, i) => (i + 1) * 10);
+    const validateForm = () => {
+        if (!name || !description || !image || !tags.length || !ingredients.length || !steps.length) {
+            alert("Заполните все поля.");
+            return false;
+        }
+        return true;
+    };
+
+    const submitForm = async () => {
+        if (!validateForm()) {
+            return;
+        }
+
+        const formData = new FormData();
+        if (image) {
+            formData.append('image', image);
+        }
+
+        const recipeData = {
+            Name: name,
+            Description: description,
+            CookTime: cookTime,
+            CountPortion: portions,
+            Tags: tags,
+            Ingredients: ingredients,
+            Steps: steps
+        };
+
+        formData.append('recipeJson', JSON.stringify(recipeData));
+
+        try {
+            const response = await fetch('http://localhost:5218/api/recipes', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                alert('Рецепт успешно добавлен');
+            } else {
+                alert('Ошибка при добавлении рецепта');
+            }
+        } catch (error) {
+            alert('Ошибка: ' + error);
+        }
+    };
+
+    useImperativeHandle(ref, () => ({
+        submitForm
+    }));
 
     return (
-        <form className={styles.addRecipeForm}>
+        <form className={styles.addRecipeForm} onSubmit={(e) => { e.preventDefault(); useImperativeHandle; }}>
             <div className={styles.recipeMainInfo}>
                 <label htmlFor="recipeImage" className={styles.recipeImgPlace}>
                     <input 
                         type="file" 
-                        accept=".png" 
+                        accept=".png, .jpg, .jpeg" 
                         id="recipeImage" 
                         className={styles.hiddenInput} 
                         onChange={handleImageChange} 
                     />
                     <span className={styles.imagePlaceholder}>
                         {image ? (
-                            <img src={image} style={{width: "100%", height: "100%", objectFit: "contain"}} 
+                            <img src={URL.createObjectURL(image)} style={{width: "100%", height: "100%", objectFit: "contain"}} 
                             alt="Selected recipe" className={styles.selectedImage} />
                         ) : (
                             <>
@@ -116,8 +147,20 @@ export const AddRecipeForm = () => {
                     </span>
                 </label>
                 <div className={styles.textInfo}>
-                    <input type="text" placeholder="Название рецепта" className={styles.inputText} />
-                    <textarea className={styles.inputTextarea} maxLength={150} placeholder="Краткое описание рецепта (150 символов)" />
+                    <input 
+                        type="text" 
+                        placeholder="Название рецепта" 
+                        className={styles.inputText} 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <textarea 
+                        className={styles.inputTextarea} 
+                        maxLength={150} 
+                        placeholder="Краткое описание рецепта (150 символов)" 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                     <div className={styles.tagInputContainer}>
                         <input 
                             type="text" 
@@ -130,8 +173,8 @@ export const AddRecipeForm = () => {
                         <div className={styles.tagsContainer}>
                             {tags.map((tag, index) => (
                                 <div key={index} className={styles.tag}>
-                                    {tag}
-                                    <button type="button" className={styles.removeTagButton} onClick={() => handleRemoveTag(tag)}>x</button>
+                                    {tag.name}
+                                    <button type="button" className={styles.removeTagButton} onClick={() => handleRemoveTag(tag.name)}>x</button>
                                 </div>
                             ))}
                         </div>
@@ -144,7 +187,7 @@ export const AddRecipeForm = () => {
                                 className={styles.selectInput}
                             >
                                 <option value="" disabled>Время готовки</option>
-                                {cookTimeOptions.map((option) => (
+                                {Array.from({ length: 12 }, (_, i) => (i + 1) * 10).map((option) => (
                                     <option key={option} value={option}>{option}</option>
                                 ))}
                             </select>
@@ -157,7 +200,7 @@ export const AddRecipeForm = () => {
                                 className={styles.selectInput}
                             >
                                 <option value="" disabled>Порций в блюде</option>
-                                {portionOptions.map((option) => (
+                                {Array.from({ length: 20 }, (_, i) => i + 1).map((option) => (
                                     <option key={option} value={option}>{option}</option>
                                 ))}
                             </select>
@@ -187,7 +230,6 @@ export const AddRecipeForm = () => {
                                 placeholder="Список продуктов для категории" 
                                 value={ingredient.description}
                                 onChange={(e) => handleIngredientChange(index, 'description', e.target.value)}
-                                onKeyPress={(e) => handleDescriptionKeyPress(e, index)}
                             />
                         </span>
                     ))}
@@ -206,7 +248,7 @@ export const AddRecipeForm = () => {
                                 className={styles.stepDescription} 
                                 maxLength={150} 
                                 placeholder="Описание шага"
-                                value={step.description}
+                                value={step.stepDescription}
                                 onChange={(e) => handleStepChange(index, e.target.value)}
                             />
                         </span>
@@ -218,4 +260,4 @@ export const AddRecipeForm = () => {
             </div>
         </form>
     );
-}
+});

@@ -18,7 +18,6 @@ export const StepsList: React.FC<StepsListProps> = ({ steps }) => {
 
     return (
         <div className={styles.infoSteps}>
-            <h4 className={styles.stepsTitle}>Шаги</h4>
             <ul className={styles.stepsList}>
                 {renderSteps(steps)}
             </ul>

@@ -1,10 +1,14 @@
-import { useState, useImperativeHandle, forwardRef } from "react";
-import styles from "./addRecipeForm.module.css";
+import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import styles from "./recipeForm.module.css";
 import download from "../../../assets/images/download.svg";
 import close from "../../../assets/images/close.svg";
 import { IIngredient, ITag, IStep } from "../../../models/types";
 
-export const AddRecipeForm = forwardRef((props, ref) => {
+export const RecipeForm = forwardRef((props, ref) => {
+    const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const [, setIsUpdating] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [image, setImage] = useState<File | null>(null);
@@ -14,6 +18,33 @@ export const AddRecipeForm = forwardRef((props, ref) => {
     const [tagInput, setTagInput] = useState<string>("");
     const [ingredients, setIngredients] = useState<IIngredient[]>([{ title: '', description: '' }]);
     const [steps, setSteps] = useState<IStep[]>([{ stepNumber: 1, stepDescription: '' }]);
+
+    useEffect(() => {
+        if (id) {
+            setIsUpdating(true);
+            const fetchRecipe = async () => {
+                try {
+                    const response = await fetch(`http://localhost:5218/api/recipes/${id}`);
+                    if (response.ok) {
+                        const recipe = await response.json();
+                        setName(recipe.name);
+                        setDescription(recipe.description);
+                        setCookTime(recipe.cookTime);
+                        setPortions(recipe.countPortion);
+                        setTags(recipe.tags);
+                        setIngredients(recipe.ingredients);
+                        setSteps(recipe.steps);
+                    } else {
+                        console.error('Ошибка при загрузке рецепта');
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                }
+            };
+
+            fetchRecipe();
+        }
+    }, [id]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -65,7 +96,7 @@ export const AddRecipeForm = forwardRef((props, ref) => {
     };
 
     const handleAddStep = () => {
-        setSteps([...steps, { stepNumber: steps.length, stepDescription: '' }]);
+        setSteps([...steps, { stepNumber: steps.length + 1, stepDescription: '' }]);
     };
 
     const handleRemoveStep = (index: number) => {
@@ -74,7 +105,7 @@ export const AddRecipeForm = forwardRef((props, ref) => {
     };
 
     const validateForm = () => {
-        if (!name || !description || !image || !tags.length || !ingredients.length || !steps.length) {
+        if (!name || !description || !tags.length || !ingredients.length || !steps.length) {
             alert("Заполните все поля.");
             return false;
         }
@@ -92,27 +123,28 @@ export const AddRecipeForm = forwardRef((props, ref) => {
         }
 
         const recipeData = {
-            Name: name,
-            Description: description,
-            CookTime: cookTime,
-            CountPortion: portions,
-            Tags: tags,
-            Ingredients: ingredients,
-            Steps: steps
+            name,
+            description,
+            cookTime,
+            countPortion: portions,
+            tags,
+            ingredients,
+            steps
         };
 
         formData.append('recipeJson', JSON.stringify(recipeData));
 
         try {
-            const response = await fetch('http://localhost:5218/api/recipes', {
-                method: 'POST',
+            const response = await fetch(`http://localhost:5218/api/recipes/${id ? id : ''}`, {
+                method: id ? 'PUT' : 'POST',
                 body: formData,
             });
 
             if (response.ok) {
-                alert('Рецепт успешно добавлен');
+                alert(id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен');
+                navigate('/');
             } else {
-                alert('Ошибка при добавлении рецепта');
+                alert('Ошибка при обработке рецепта');
             }
         } catch (error) {
             alert('Ошибка: ' + error);
@@ -219,23 +251,20 @@ export const AddRecipeForm = forwardRef((props, ref) => {
                             </span>
                             <input 
                                 type="text" 
-                                className={styles.ingredientsTitle} 
-                                placeholder="Заголовок для ингредиентов" 
+                                placeholder="Заголовок" 
                                 value={ingredient.title}
                                 onChange={(e) => handleIngredientChange(index, 'title', e.target.value)}
+                                className={styles.ingredientsTitle}
                             />
                             <textarea 
-                                className={styles.ingredientsDescription} 
-                                maxLength={150} 
-                                placeholder="Список продуктов для категории" 
+                                placeholder="Описание" 
                                 value={ingredient.description}
                                 onChange={(e) => handleIngredientChange(index, 'description', e.target.value)}
+                                className={styles.ingredientsDescription}
                             />
                         </span>
                     ))}
-                    <button type="button" onClick={handleAddIngredient} className={styles.addIngredientButton}>
-                       <p>+  Добавить еще</p>
-                    </button>
+                    <button type="button" onClick={handleAddIngredient} className={styles.addIngredientButton}>Добавить ингредиент</button>
                 </div>
                 <div className={styles.stepsInfo}>
                     {steps.map((step, index) => (
@@ -245,17 +274,14 @@ export const AddRecipeForm = forwardRef((props, ref) => {
                                 <img className={styles.closeIcon} src={close} alt="Remove step" />
                             </span>
                             <textarea 
-                                className={styles.stepDescription} 
-                                maxLength={150} 
-                                placeholder="Описание шага"
+                                placeholder="Описание шага" 
                                 value={step.stepDescription}
                                 onChange={(e) => handleStepChange(index, e.target.value)}
+                                className={styles.stepDescription}
                             />
                         </span>
                     ))}
-                    <button type="button" onClick={handleAddStep} className={styles.addStepButton}>
-                        <p>+ Добавить шаг</p>
-                    </button>
+                    <button type="button" onClick={handleAddStep} className={styles.addStepButton}>Добавить шаг</button>
                 </div>
             </div>
         </form>

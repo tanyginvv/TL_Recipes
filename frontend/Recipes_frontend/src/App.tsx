@@ -5,8 +5,7 @@ import { Header } from './components/header/header'
 import Footer from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
 import { DetailRecipePage } from './components/detailRecipePage/detailRecipePage'
-import { AddRecipePage } from './components/addRecipePage/addRecipePage'
-
+import { AddAndEditRecipePage } from './components/addRecipePage/addAndEditRecipePage'
 function App() {
 
   return (
@@ -16,9 +15,9 @@ function App() {
         <Header/> 
           <Routes>
             <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
+            <Route path='/addAndEditRecipePage/:id?' element={<AddAndEditRecipePage/>}/>
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
             <Route path='/homePage' element={<HomePage/>}/>
-            <Route path='/addRecipePage' element={<AddRecipePage/>}/>
             <Route path="*" element={<Navigate to="/homePage" replace/>}/>
           </Routes>
         <Footer/>

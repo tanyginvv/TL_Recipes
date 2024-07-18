@@ -15,8 +15,12 @@
 }
 
 .ingredientsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     padding: 0;
 }
+
 .ingredientTitle {
     font-family: Montserrat;
     font-size: 18px;

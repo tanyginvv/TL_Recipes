@@ -1,5 +1,6 @@
 import styles from "./addAndEditRecipeHeader.module.css";
 import backspace from "../../../assets/images/backspace.svg";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     onPublish: () => void;
@@ -7,9 +8,14 @@ interface Props {
 }
 
 export const AddAndEditRecipeHeader = ({ onPublish, isEditing }: Props) => {
+    const navigate = useNavigate();
+
+    const backButtonHandler = () => {
+        navigate("/allRecipesPage")
+    }
     return (
         <div className={styles.recipeHeader}>
-            <button className={styles.buttonBack}>
+            <button className={styles.buttonBack} onClick={backButtonHandler}>
                 <img src={backspace} alt="back" />
                 <p>Назад</p>
             </button>

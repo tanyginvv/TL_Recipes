@@ -7,11 +7,12 @@ import { IIngredient, ITag, IStep } from "../../../models/types";
 
 export const RecipeForm = forwardRef((props, ref) => {
     const { id } = useParams<{ id: string }>();
+    // const imageUrl = "example url";
     const navigate = useNavigate();
     const [, setIsUpdating] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [image, setImage] = useState<File | null>(null);
+    const [image, setImage] = useState<File | null>();
     const [portions, setPortions] = useState<number>(1);
     const [cookTime, setCookTime] = useState<number>(10);
     const [tags, setTags] = useState<ITag[]>([]);
@@ -151,6 +152,42 @@ export const RecipeForm = forwardRef((props, ref) => {
         }
     };
 
+    // const submitForm = async () => {
+    //     if (!validateForm()) {
+    //         return;
+    //     }
+
+    //     const recipeData = {
+    //         name,
+    //         description,
+    //         cookTime,
+    //         countPortion: portions,
+    //         tags,
+    //         ingredients,
+    //         steps,
+    //         imageUrl
+    //     };
+
+    //     try {
+    //         const response = await fetch(`http://localhost:5218/api/recipes/${id ? id : ''}`, {
+    //             method: id ? 'PUT' : 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(recipeData),
+    //         });
+
+    //         if (response.ok) {
+    //             alert(id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен');
+    //             navigate('/allRecipesPage');
+    //         } else {
+    //             alert('Ошибка при обработке рецепта');
+    //         }
+    //     } catch (error) {
+    //         alert('Ошибка: ' + error);
+    //     }
+    // };
+
     useImperativeHandle(ref, () => ({
         submitForm
     }));
@@ -194,14 +231,6 @@ export const RecipeForm = forwardRef((props, ref) => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
                     <div className={styles.tagInputContainer}>
-                        <input 
-                            type="text" 
-                            placeholder="Добавить теги" 
-                            className={styles.inputText} 
-                            value={tagInput} 
-                            onChange={handleTagInputChange}
-                            onKeyPress={handleTagInputKeyPress}
-                        />
                         <div className={styles.tagsContainer}>
                             {tags.map((tag, index) => (
                                 <div key={index} className={styles.tag}>
@@ -210,6 +239,14 @@ export const RecipeForm = forwardRef((props, ref) => {
                                 </div>
                             ))}
                         </div>
+                        <input 
+                            type="text" 
+                            placeholder="Добавить теги" 
+                            className={styles.inputTag} 
+                            value={tagInput} 
+                            onChange={handleTagInputChange}
+                            onKeyPress={handleTagInputKeyPress}
+                        />
                     </div>
                     <div className={styles.selectWrapper}>
                         <span className={styles.selectItem}>

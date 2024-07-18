@@ -1,7 +1,14 @@
 import styles from "./homePageIntro.module.css"
 import introImg from "../../../assets/images/introImage.png"
+import { useNavigate } from "react-router-dom"
 
 export const HomePageIntro = () => {
+    const navigate = useNavigate();
+
+    const addRecipeHandler = () => {
+        navigate("/addAndEditRecipePage");
+    }
+
     return (
         <>
             <div className={styles.introBody}>
@@ -10,7 +17,7 @@ export const HomePageIntro = () => {
                     <p className={styles.infoDescription}>Никаких кулинарных книг и блокнотов! 
                         Храни все любимые рецепты в одном месте.</p>
                     <div className={styles.introButtons}>
-                        <button className={styles.addRecipeButton}>+  Добавить рецепт</button>
+                        <button className={styles.addRecipeButton} onClick={addRecipeHandler}>+  Добавить рецепт</button>
                         <button className={styles.loginButton}>Войти</button>
                     </div>
                 </div>

@@ -21,11 +21,21 @@
     font-size: 29px;
     font-weight: 700;
     margin: 0;
+    background-color: transparent;
+    height: 50px;
+    padding: 0;
 }
 
 .menuButton {
     background-color: transparent;
     font-weight: 400;
+    font-size: 22px;
+    line-height: 21.94px;
+}
+
+.menuButtonBold {
+    background-color: transparent;
+    font-weight: 600;
     font-size: 22px;
     line-height: 21.94px;
 }

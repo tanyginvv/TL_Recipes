@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 public abstract class BaseRepository<TEntity> where TEntity : class
 {

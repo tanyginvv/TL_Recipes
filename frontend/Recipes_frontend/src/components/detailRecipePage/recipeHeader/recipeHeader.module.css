@@ -45,6 +45,11 @@
     width: 60px;
     height: 60px;
     padding: 0;
+    border-radius: 16px;
+}
+
+.buttonDelete:hover{
+    background-color: #59595a;
 }
 
 .buttonEdit {

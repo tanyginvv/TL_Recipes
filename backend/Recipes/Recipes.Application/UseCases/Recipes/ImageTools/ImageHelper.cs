@@ -1,0 +1,61 @@
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Recipes.Application.UseCases.Recipes.ImageHelper
+{
+    public class ImageHelperTools
+    {
+        public async Task<string> SaveRecipeImageAsync( IFormFile image )
+        {
+            if ( image == null )
+            {
+                return null;
+            }
+
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine( currentDirectory, "../Recipes.Application/store" );
+            var fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
+            var filePath = Path.Combine( folderPath, fileName );
+
+            if ( !Directory.Exists( folderPath ) )
+            {
+                Directory.CreateDirectory( folderPath );
+            }
+
+            if ( image.Length > 0 )
+            {
+                using ( var stream = new FileStream( filePath, FileMode.Create ) )
+                {
+                    await image.CopyToAsync( stream );
+                }
+            }
+
+            return fileName;
+        }
+
+        public static byte[] GetImage( string? imageName, string? folderPathName )
+        {
+            if ( string.IsNullOrEmpty( imageName ) || string.IsNullOrEmpty( folderPathName ) )
+            {
+                return null;
+            }
+
+            try
+            {
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var folderPath = Path.Combine( currentDirectory, "../Recipes.Application/store" );
+                var filePath = Path.Combine( folderPath, imageName );
+
+                if ( File.Exists( filePath ) )
+                {
+                    return File.ReadAllBytes( filePath );
+                }
+
+                return null;
+            }
+            catch ( Exception ex )
+            {
+                return null;
+            }
+        }
+    }
+}

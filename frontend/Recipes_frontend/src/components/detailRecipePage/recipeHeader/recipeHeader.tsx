@@ -12,6 +12,10 @@ interface RecipeHeaderProps {
 
 export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ name, onBack, id }) => {
     const navigate = useNavigate();
+
+    const editButtonHandler = () => {
+        navigate(`/addAndEditRecipePage/${id}`)
+    }
     const deleteRecipeHandler = () => {
         fetch(`http://localhost:5218/api/recipes/${id}`, {
             method: "DELETE"
@@ -36,7 +40,7 @@ export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ name, onBack, id }) 
                 <h1 className={styles.title}>{name}</h1>
                 <div className={styles.titleButtons}>
                     <button className={styles.buttonDelete} onClick={deleteRecipeHandler}><img src={trash} alt="delete" /></button>
-                    <button className={styles.buttonEdit}><img src={edit} alt="edit" /><p>Редактировать</p></button>
+                    <button className={styles.buttonEdit} onClick={editButtonHandler}><img src={edit} alt="edit" /><p>Редактировать</p></button>
                 </div>
             </div>
         </div>

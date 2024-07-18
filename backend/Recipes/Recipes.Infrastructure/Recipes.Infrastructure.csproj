@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Recipes.Application\Recipes.Applicatio.csproj" />
+    <ProjectReference Include="..\Recipes.Application\Recipes.Application.csproj" />
     <ProjectReference Include="..\Recipes.Domain\Recipes.Domain.csproj" />
   </ItemGroup>
 
@@ -25,10 +25,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="store\" />
   </ItemGroup>
 
 </Project>

@@ -63,7 +63,7 @@ namespace Recipes.WebApi.Controllers
 
         [HttpPut( "{id}" )]
         public async Task<IActionResult> UpdateRecipe( [FromRoute, Range( 1, int.MaxValue )] int id,
-            [FromForm] RecipeUpdateDto dto, [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
+            [FromBody] RecipeUpdateDto dto, [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
         {
             var command = new UpdateRecipeCommand
             {

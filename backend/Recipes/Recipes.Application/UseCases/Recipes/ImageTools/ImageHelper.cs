@@ -32,9 +32,9 @@ namespace Recipes.Application.UseCases.Recipes.ImageHelper
             return fileName;
         }
 
-        public static byte[] GetImage( string? imageName, string? folderPathName )
+        public static byte[] GetImage( string imageName )
         {
-            if ( string.IsNullOrEmpty( imageName ) || string.IsNullOrEmpty( folderPathName ) )
+            if ( string.IsNullOrEmpty( imageName ) )
             {
                 return null;
             }
@@ -52,7 +52,7 @@ namespace Recipes.Application.UseCases.Recipes.ImageHelper
 
                 return null;
             }
-            catch ( Exception ex )
+            catch ( Exception )
             {
                 return null;
             }

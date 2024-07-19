@@ -17,8 +17,8 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
             ICommandHandler<CreateTagCommand> createTagCommandHandler,
             ICommandHandler<CreateIngredientCommand> createIngredientCommandHandler,
             ICommandHandler<CreateStepCommand> createStepCommandHandler,
-            IUnitOfWork unitOfWork,
-            ImageHelperTools imageHelper ) : ICommandHandler<CreateRecipeCommand>
+            IUnitOfWork unitOfWork )
+        : ICommandHandler<CreateRecipeCommand>
     {
         private IRecipeRepository _recipeRepository => recipeRepository;
         private ITagRepository _tagRepository => tagRepository;

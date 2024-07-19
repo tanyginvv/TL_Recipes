@@ -46,7 +46,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .Include( r => r.Ingredients )
                 .Include( r => r.Tags )
                 .Where( r => r.Id == id )
-                .SingleOrDefaultAsync();
+                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync( Recipe recipe )

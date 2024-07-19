@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
+import { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './recipeForm.module.css';
 import { RecipeMainInfo } from './recipeMainInfo/recipeMainInfo';
@@ -6,7 +6,7 @@ import { IngredientsSection } from './ingredientsSection/ingredientsSection';
 import { StepsSection } from './stepsSection/stepSection';
 import { IIngredient, ITag, IStep } from "../../../models/types";
 
-export const RecipeForm = forwardRef((props, ref) => {
+export const RecipeForm = forwardRef((_, ref) => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [, setIsUpdating] = useState<boolean>(false);

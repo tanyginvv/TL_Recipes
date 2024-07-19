@@ -1,0 +1,77 @@
+.recipeMainInfo {
+    width: 1250px;
+    height: 430px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    border-radius: 72px 24px 24px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.textInfo {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    margin: 25px 30px;
+    justify-content: space-between;
+}
+
+.inputText {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    width: 657px;
+    height: 40px;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+}
+
+.inputText:focus {
+    outline: none;
+    border: solid 1px #9196A166;
+}
+
+.inputTextarea {
+    height: 117px;
+    width: 657px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+    resize: none;
+}
+
+.inputTextarea:focus {
+    outline: none;
+    border: solid 1px #9196A166;
+}
+
+.selectWrapper {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.selectItem {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+    color: #000000;
+    align-items: center;
+}
+
+.itemText {
+    margin: 0;
+}

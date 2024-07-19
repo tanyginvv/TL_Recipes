@@ -1,0 +1,71 @@
+.tagInputContainer {
+    width: 700px;
+    display: flex;
+    flex-direction: row;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    width: 657px;
+    height: 40px;
+    border: solid 1px #9196A166;
+    border-radius: 16px;
+    padding: 10px 20px;
+}
+
+.tagsContainer {
+    max-width: 700px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 5px 0px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-radius: 16px;
+}
+
+.tagsContainer::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tagsContainer::-webkit-scrollbar-thumb {
+    background-color: gray; 
+    border-radius: 10px;
+}
+
+.tag {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    text-align: right;
+    border-radius: 16px;
+    align-items: center;
+    padding: 0px 4px 0px 8px;
+}
+
+.inputTag {
+    display: flex;
+    flex: 1;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: none;
+}
+
+.inputTag:focus {
+    outline: none;
+}
+
+.removeTagButton {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    border-radius: 16px;
+    width: 20px;
+    height: 30px;
+    padding: 0;
+}

@@ -7,12 +7,12 @@ import { IIngredient, ITag, IStep } from "../../../models/types";
 
 export const RecipeForm = forwardRef((props, ref) => {
     const { id } = useParams<{ id: string }>();
-    // const imageUrl = "example url";
     const navigate = useNavigate();
     const [, setIsUpdating] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
-    const [image, setImage] = useState<File | null>();
+    const [image, setImage] = useState<File | null>(null);
+    const [imageUrl, setImageUrl] = useState<string>("");
     const [portions, setPortions] = useState<number>(1);
     const [cookTime, setCookTime] = useState<number>(10);
     const [tags, setTags] = useState<ITag[]>([]);
@@ -35,6 +35,7 @@ export const RecipeForm = forwardRef((props, ref) => {
                         setTags(recipe.tags);
                         setIngredients(recipe.ingredients);
                         setSteps(recipe.steps);
+                        setImageUrl(recipe.imageUrl);
                     } else {
                         console.error('Ошибка при загрузке рецепта');
                     }
@@ -46,6 +47,27 @@ export const RecipeForm = forwardRef((props, ref) => {
             fetchRecipe();
         }
     }, [id]);
+
+    useEffect(() => {
+        if (imageUrl) {
+            const fetchImage = async () => {
+                try {
+                    const response = await fetch(`http://localhost:5218/api/images/${imageUrl}`);
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const file = new File([blob], imageUrl, { type: blob.type });
+                        setImage(file);
+                    } else {
+                        console.error('Ошибка при загрузке изображения');
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                }
+            };
+
+            fetchImage();
+        }
+    }, [imageUrl]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -106,21 +128,49 @@ export const RecipeForm = forwardRef((props, ref) => {
     };
 
     const validateForm = () => {
-        if (!name || !description || !tags.length || !ingredients.length || !steps.length) {
+        if (!name || !image || !description || !tags.length || !ingredients.length || !steps.length) {
             alert("Заполните все поля.");
             return false;
         }
         return true;
     };
 
-    const submitForm = async () => {
+    const submitImage = async () => {
+        if (!image) return null;
+
+        const formData = new FormData();
+        formData.append('image', image);
+
+        try {
+            const response = await fetch('http://localhost:5218/api/images/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data.fileName;
+            } else {
+                alert('Ошибка при загрузке изображения 2');
+                return null;
+            }
+        } catch (error) {
+            alert('Ошибка: ' + error);
+            return null;
+        }
+    };
+
+    const submitForm =  async () => {
         if (!validateForm()) {
             return;
         }
 
-        const formData = new FormData();
+        let newImageUrl = imageUrl;
         if (image) {
-            formData.append('image', image);
+            newImageUrl = await submitImage();
+            if (!newImageUrl) {
+                return;
+            }
         }
 
         const recipeData = {
@@ -130,20 +180,22 @@ export const RecipeForm = forwardRef((props, ref) => {
             countPortion: portions,
             tags,
             ingredients,
-            steps
+            steps,
+            imageUrl: newImageUrl
         };
-
-        formData.append('recipeJson', JSON.stringify(recipeData));
 
         try {
             const response = await fetch(`http://localhost:5218/api/recipes/${id ? id : ''}`, {
                 method: id ? 'PUT' : 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipeData),
             });
 
             if (response.ok) {
                 alert(id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен');
-                navigate('/');
+                navigate('/allRecipesPage');
             } else {
                 alert('Ошибка при обработке рецепта');
             }
@@ -152,48 +204,12 @@ export const RecipeForm = forwardRef((props, ref) => {
         }
     };
 
-    // const submitForm = async () => {
-    //     if (!validateForm()) {
-    //         return;
-    //     }
-
-    //     const recipeData = {
-    //         name,
-    //         description,
-    //         cookTime,
-    //         countPortion: portions,
-    //         tags,
-    //         ingredients,
-    //         steps,
-    //         imageUrl
-    //     };
-
-    //     try {
-    //         const response = await fetch(`http://localhost:5218/api/recipes/${id ? id : ''}`, {
-    //             method: id ? 'PUT' : 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(recipeData),
-    //         });
-
-    //         if (response.ok) {
-    //             alert(id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен');
-    //             navigate('/allRecipesPage');
-    //         } else {
-    //             alert('Ошибка при обработке рецепта');
-    //         }
-    //     } catch (error) {
-    //         alert('Ошибка: ' + error);
-    //     }
-    // };
-
     useImperativeHandle(ref, () => ({
         submitForm
     }));
 
     return (
-        <form className={styles.addRecipeForm} onSubmit={(e) => { e.preventDefault(); useImperativeHandle; }}>
+        <form className={styles.addRecipeForm} onSubmit={(e) => { e.preventDefault(); submitForm(); }}>
             <div className={styles.recipeMainInfo}>
                 <label htmlFor="recipeImage" className={styles.recipeImgPlace}>
                     <input 
@@ -206,7 +222,7 @@ export const RecipeForm = forwardRef((props, ref) => {
                     <span className={styles.imagePlaceholder}>
                         {image ? (
                             <img src={URL.createObjectURL(image)} style={{width: "100%", height: "100%", objectFit: "contain"}} 
-                            alt="Selected recipe" className={styles.selectedImage} />
+                            alt="Selected recipe" className={styles.selectedImage} onLoad={() => URL.createObjectURL(image)} />
                         ) : (
                             <>
                                 <img src={download} alt="download icon" />

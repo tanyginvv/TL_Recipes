@@ -14,29 +14,26 @@ using Recipes.WebApi.Dto.RecipeDtos;
 
 namespace Recipes.WebApi.Controllers
 {
-    //[ApiController]
+    [ApiController]
     [Route( "api/recipes" )]
-    public class RecipesController( IMapper mapper ) : ControllerBase
+    public class RecipesController : ControllerBase
     {
-        private IMapper _mapper => mapper;
-
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe( IFormFile image, [FromForm] string recipeJson,
+        public async Task<IActionResult> CreateRecipe( [FromBody] RecipeCreateDto recipeJson,
             [FromServices] ICommandHandler<CreateRecipeCommand> createRecipeCommandHandler )
         {
 
-            CreateRecipeCommand command = null;
-            //new CreateRecipeCommand
-            //{
-            //    Name = recipeJson.Name,
-            //    Description = recipeJson.Description,
-            //    CookTime = recipeJson.CookTime,
-            //    CountPortion = recipeJson.CountPortion,
-            //    Tags = recipeJson.Tags,
-            //    ImageUrl = recipeJson.ImageUrl,
-            //    Ingredients = recipeJson.Ingredients,
-            //    Steps = recipeJson.Steps
-            //};
+            CreateRecipeCommand command = new CreateRecipeCommand
+            {
+                Name = recipeJson.Name,
+                Description = recipeJson.Description,
+                CookTime = recipeJson.CookTime,
+                CountPortion = recipeJson.CountPortion,
+                Tags = recipeJson.Tags,
+                ImageUrl = recipeJson.ImageUrl,
+                Ingredients = recipeJson.Ingredients,
+                Steps = recipeJson.Steps
+            };
             var result = await createRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )

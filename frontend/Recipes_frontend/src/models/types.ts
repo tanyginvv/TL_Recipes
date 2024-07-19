@@ -4,6 +4,7 @@ export interface IRecipe {
     description: string,
     countPortion: number,
     cookTime: number,
+    imageUrl: string,
     tags: ITag[],
     ingredients: IIngredient[],
     steps: IStep[]

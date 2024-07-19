@@ -19,6 +19,7 @@
     height: 430px;
     border-radius: 72px 0px 72px 0px;
     border-color: transparent;
+    object-fit: cover;
 }
 
 .recipeInfo {

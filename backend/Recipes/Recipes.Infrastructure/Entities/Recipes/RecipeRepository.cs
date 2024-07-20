@@ -39,6 +39,24 @@ namespace Recipes.Infrastructure.Entities.Recipes
                          .ToListAsync();
         }
 
+        public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms )
+        {
+            var normalizedSearchTerms = searchTerms.Select( term => term.ToLower() ).ToList();
+
+            return await _context.Set<Recipe>()
+                .Include( r => r.Steps )
+                .Include( r => r.Ingredients )
+                .Include( r => r.Tags )
+                .Where( r =>
+                    normalizedSearchTerms.Any( term =>
+                        r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
+                        r.Name.ToLower().Contains( term )
+                    )
+                )
+                .ToListAsync();
+        }
+
+
         public async Task<Recipe> GetByIdAsync( int id )
         {
             return await _context.Set<Recipe>()

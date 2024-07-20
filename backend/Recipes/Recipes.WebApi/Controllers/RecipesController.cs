@@ -8,6 +8,7 @@ using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Queries.GetAllRecipes;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
+using Recipes.Application.UseCases.Recipes.Queries.SearchRecipes;
 using Recipes.Domain.Entities;
 using Recipes.WebApi.Dto.RecipeDtos;
 
@@ -105,6 +106,25 @@ namespace Recipes.WebApi.Controllers
         public async Task<IActionResult> GetAllRecipes( [FromServices] IQueryHandler<IEnumerable<RecipeDto>, GetAllRecipesQuery> getAllRecipesQueryHandler )
         {
             var result = await getAllRecipesQueryHandler.HandleAsync( new GetAllRecipesQuery() );
+
+            if ( !result.IsSuccess )
+            {
+                return BadRequest( result.Error );
+            }
+
+            return Ok( result.Value );
+        }
+
+        [HttpGet( "search" )]
+        public async Task<IActionResult> SearchRecipes( [FromQuery] List<string> searchTerms,
+            [FromServices] IQueryHandler<IEnumerable<RecipeDto>, SearchRecipesQuery> searchRecipesQueryHandler )
+        {
+            var query = new SearchRecipesQuery
+            {
+                SearchTerms = searchTerms
+            };
+
+            var result = await searchRecipesQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {

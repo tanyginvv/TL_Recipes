@@ -56,7 +56,6 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .ToListAsync();
         }
 
-
         public async Task<Recipe> GetByIdAsync( int id )
         {
             return await _context.Set<Recipe>()

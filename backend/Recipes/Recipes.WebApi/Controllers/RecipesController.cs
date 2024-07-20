@@ -20,20 +20,20 @@ namespace Recipes.WebApi.Controllers
     public class RecipesController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe( [FromBody] RecipeCreateDto recipeJson,
+        public async Task<IActionResult> CreateRecipe( [FromBody] RecipeCreateDto dto,
             [FromServices] ICommandHandler<CreateRecipeCommand> createRecipeCommandHandler )
         {
 
             CreateRecipeCommand command = new CreateRecipeCommand
             {
-                Name = recipeJson.Name,
-                Description = recipeJson.Description,
-                CookTime = recipeJson.CookTime,
-                CountPortion = recipeJson.CountPortion,
-                Tags = recipeJson.Tags,
-                ImageUrl = recipeJson.ImageUrl,
-                Ingredients = recipeJson.Ingredients,
-                Steps = recipeJson.Steps
+                Name = dto.Name,
+                Description = dto.Description,
+                CookTime = dto.CookTime,
+                CountPortion = dto.CountPortion,
+                Tags = dto.Tags,
+                ImageUrl = dto.ImageUrl,
+                Ingredients = dto.Ingredients,
+                Steps = dto.Steps
             };
             var result = await createRecipeCommandHandler.HandleAsync( command );
 

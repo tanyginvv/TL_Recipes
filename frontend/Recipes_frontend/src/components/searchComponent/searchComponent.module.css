@@ -1,0 +1,119 @@
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 925px;
+    height: 101px;
+}
+
+.searchForm {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.searchArea {
+    width: 730px;
+    height: 73px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    border-radius: 16px;
+    padding: 0px 15px;
+}
+
+.searchList {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    border-radius: 16px;
+}
+
+.searchList::-webkit-scrollbar {
+    height: 4px;
+}
+
+.searchList::-webkit-scrollbar-thumb {
+    background-color: gray; 
+    border-radius: 10px;
+}
+
+.userInputs {
+    height: 30px;
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    text-align: right;
+    border-radius: 16px;
+    align-items: center;
+    padding: 0px 4px 0px 8px;
+}
+
+.searchInput {
+    display: flex;
+    flex: 1;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D80;
+    border: none;
+    border-radius: 16px;
+}
+
+.searchInput:focus {
+    outline: none;
+}
+
+.removeUserInputButton {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    border-radius: 16px;
+    width: 20px;
+    height: 30px;
+    padding: 0;
+}
+
+.submitButton {
+    width: 152px;
+    height: 73px;
+    background-color: #F29E1F;
+    color: #FFFFFF;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.94px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.submitButton:hover {
+    background-color: transparent;
+    color: #F29E1F;
+    border: 1px #F29E1F solid;
+}
+
+.tags {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-left: 18px;
+}
+
+.tagExample {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: left;
+    color: #808080;
+    cursor: pointer;
+}
+
+.tagExample:hover {
+    color: #F29E1F;
+}

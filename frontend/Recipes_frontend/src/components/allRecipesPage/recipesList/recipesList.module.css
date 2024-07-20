@@ -3,3 +3,13 @@
     flex-direction: column;
     gap: 40px;
 }
+
+.noRecipesMessage {
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    opacity: 0.5;
+    color: #FDB100;
+}

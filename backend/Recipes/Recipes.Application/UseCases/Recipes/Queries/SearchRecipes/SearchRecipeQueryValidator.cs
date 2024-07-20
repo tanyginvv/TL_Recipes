@@ -7,19 +7,6 @@ namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipes
     {
         public async Task<Result> ValidationAsync( SearchRecipesQuery query )
         {
-            if ( query.SearchTerms == null || !query.SearchTerms.Any() )
-            {
-                return Result.FromError( "Список поисковых терминов не должен быть пустым." );
-            }
-
-            foreach ( var term in query.SearchTerms )
-            {
-                if ( string.IsNullOrWhiteSpace( term ) )
-                {
-                    return Result.FromError( "Поисковые термины не должны быть пустыми строками или состоять только из пробелов." );
-                }
-            }
-
             return Result.Success;
         }
     }

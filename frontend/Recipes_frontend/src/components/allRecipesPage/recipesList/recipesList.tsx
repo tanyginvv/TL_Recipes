@@ -1,23 +1,21 @@
-import { useEffect, useState } from 'react';
-import { RecipeListItem } from '../recipeListItem/recipeListItem';
 import { IRecipe } from '../../../models/types';
-import styles from './recipesList.module.css'
+import { RecipeListItem } from '../recipeListItem/recipeListItem';
+import styles from './recipesList.module.css';
 
-export const RecipesList = () => {
-    const [recipes, setRecipes] = useState<IRecipe[]>([]);
+interface RecipesListProps {
+    recipes: IRecipe[];
+}
 
-    useEffect(() => {
-        fetch('http://localhost:5218/api/recipes') 
-            .then(response => response.json())
-            .then(data => setRecipes(data))
-            .catch(error => console.error('Ошибка:', error));
-    }, []);
-
+export const RecipesList = ({ recipes }: RecipesListProps) => {
     return (
         <div className={styles.recipesListContainer}>
-            {recipes.map(recipe => (
-                <RecipeListItem key={recipe.id} recipe={recipe} />
-            ))}
+            {recipes.length > 0 ? (
+                recipes.map(recipe => (
+                    <RecipeListItem key={recipe.id} recipe={recipe} />
+                ))
+            ) : (
+                <p className={styles.noRecipesMessage}>По вашему запросу ничего не найдено</p>
+            )}
         </div>
     );
 };

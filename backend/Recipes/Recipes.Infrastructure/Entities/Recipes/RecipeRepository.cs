@@ -41,6 +41,11 @@ namespace Recipes.Infrastructure.Entities.Recipes
 
         public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms )
         {
+            if ( searchTerms == null || !searchTerms.Any() )
+            {
+                return await GetAllAsync();
+            }
+
             var normalizedSearchTerms = searchTerms.Select( term => term.ToLower() ).ToList();
 
             return await _context.Set<Recipe>()

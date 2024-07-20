@@ -9,7 +9,6 @@ using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Queries.GetAllRecipes;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.UseCases.Recipes.Queries.SearchRecipes;
-using Recipes.Domain.Entities;
 using Recipes.WebApi.Dto.RecipeDtos;
 
 

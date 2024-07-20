@@ -43,6 +43,15 @@ namespace Recipes.Infrastructure.Entities.Tags
                 .ToListAsync();
         }
 
+        public async Task<IReadOnlyList<Tag>> GetRandomTagsAsync( int count )
+        {
+            var allTags = await _context.Tags.ToListAsync();
+
+            var randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
+
+            return randomTags;
+        }
+
         public async Task<Tag> GetByNameAsync( string name )
         {
             return await _context.Tags

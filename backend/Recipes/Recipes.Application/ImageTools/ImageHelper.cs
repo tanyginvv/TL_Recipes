@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Recipes.Application.UseCases.Recipes.ImageHelper
+namespace Recipes.Application.ImageTools
 {
     public class ImageHelperTools
     {
@@ -12,7 +12,7 @@ namespace Recipes.Application.UseCases.Recipes.ImageHelper
             }
 
             var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine( currentDirectory, "../Recipes.Application/store" );
+            var folderPath = Path.Combine( currentDirectory, "../Recipes.Infrastructure/store" );
             var fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
             var filePath = Path.Combine( folderPath, fileName );
 
@@ -42,7 +42,7 @@ namespace Recipes.Application.UseCases.Recipes.ImageHelper
             try
             {
                 var currentDirectory = Directory.GetCurrentDirectory();
-                var folderPath = Path.Combine( currentDirectory, "../Recipes.Application/store" );
+                var folderPath = Path.Combine( currentDirectory, "../Recipes.Infrastructure/store" );
                 var filePath = Path.Combine( folderPath, imageName );
 
                 if ( File.Exists( filePath ) )

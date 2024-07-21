@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.Application.UseCases.Recipes.ImageHelper;
+using Recipes.Application.ImageTools;
 
 namespace Recipes.WebApi.Controllers
 {

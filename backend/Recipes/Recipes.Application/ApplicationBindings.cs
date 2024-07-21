@@ -3,7 +3,7 @@ using Recipes.Application.UseCases.Tags;
 using Recipes.Application.UseCases.Steps;
 using Recipes.Application.UseCases.Ingredients;
 using Recipes.Application.UseCases.Recipes;
-using Recipes.Application.UseCases.Recipes.ImageHelper;
+using Recipes.Application.ImageTools;
 
 namespace Recipes.Application
 {

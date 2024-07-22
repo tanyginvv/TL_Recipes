@@ -19,20 +19,17 @@ public abstract class BaseRepository<TEntity> where TEntity : class
     public virtual async Task AddAsync( TEntity entity )
     {
         await _dbSet.AddAsync( entity );
+        await _context.SaveChangesAsync();
     }
 
-    public virtual void Update( TEntity entity )
+    public virtual async Task Update( TEntity entity )
     {
         _dbSet.Update( entity );
+        await _context.SaveChangesAsync();
     }
 
     public virtual void Remove( TEntity entity )
     {
         _dbSet.Remove( entity );
-    }
-
-    public virtual async Task SaveChangesAsync()
-    {
-        await _context.SaveChangesAsync();
     }
 }

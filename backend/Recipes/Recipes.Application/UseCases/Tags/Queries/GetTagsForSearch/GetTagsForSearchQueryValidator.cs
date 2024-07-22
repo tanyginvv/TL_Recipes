@@ -3,9 +3,10 @@ using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Tags.Queries.GetRandomTags
 {
-    public class GetRandomTagsQueryValidator : IAsyncValidator<GetRandomTagsQuery>
+    public class GetRandomTagsQueryValidator
+        : IAsyncValidator<GetTagsForSearchQuery>
     {
-        public Task<Result> ValidationAsync( GetRandomTagsQuery query )
+        public Task<Result> ValidateAsync( GetTagsForSearchQuery query )
         {
             if ( query.Count <= 0 )
             {

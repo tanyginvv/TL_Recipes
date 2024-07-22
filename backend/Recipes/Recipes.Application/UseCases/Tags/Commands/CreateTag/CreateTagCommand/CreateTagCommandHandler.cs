@@ -8,17 +8,12 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
 {
     public class CreateTagCommandHandler(
             ITagRepository tagRepository,
-            IAsyncValidator<CreateTagCommand> validator,
-            IUnitOfWork unitOfWork )
+            IAsyncValidator<CreateTagCommand> validator )
         : ICommandHandler<CreateTagCommand>
     {
-        private ITagRepository _tagRepository => tagRepository;
-        private IAsyncValidator<CreateTagCommand> _createTagCommandValidator => validator;
-        private IUnitOfWork _unitOfWork => unitOfWork;
-
         public async Task<Result> HandleAsync( CreateTagCommand createTagCommand )
         {
-            Result validationResult = await _createTagCommandValidator.ValidationAsync( createTagCommand );
+            Result validationResult = await validator.ValidateAsync( createTagCommand );
             if ( !validationResult.IsSuccess )
             {
                 return Result.FromError( validationResult.Error );
@@ -26,9 +21,7 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
 
             Tag tag = new Tag( createTagCommand.Name );
 
-            await _tagRepository.AddAsync( tag );
-
-            await _unitOfWork.CommitAsync();
+            await tagRepository.AddAsync( tag );
 
             return Result.Success;
         }

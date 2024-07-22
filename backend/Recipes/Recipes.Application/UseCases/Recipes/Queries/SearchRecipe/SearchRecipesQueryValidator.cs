@@ -1,14 +1,13 @@
 ﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipes
+namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
 {
     public class SearchRecipesQueryValidator : IAsyncValidator<SearchRecipesQuery>
     {
-        public async Task<Result> ValidationAsync( SearchRecipesQuery query )
+        public async Task<Result> ValidateAsync( SearchRecipesQuery query )
         {
             return Result.Success;
         }
     }
-
 }

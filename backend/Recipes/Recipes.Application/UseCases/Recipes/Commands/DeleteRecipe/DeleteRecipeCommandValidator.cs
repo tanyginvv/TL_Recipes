@@ -7,16 +7,14 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
     public class DeleteRecipeCommandValidator( IRecipeRepository recipeRepository )
         : IAsyncValidator<DeleteRecipeCommand>
     {
-        private IRecipeRepository _recipeRepository => recipeRepository;
-
-        public async Task<Result> ValidationAsync( DeleteRecipeCommand command )
+        public async Task<Result> ValidateAsync( DeleteRecipeCommand command )
         {
             if ( command.RecipeId == 0 || command.RecipeId < 0 )
             {
                 return Result.FromError( "ID рецепта должно быть больше нуля" );
             }
 
-            if ( await _recipeRepository.GetByIdAsync( command.RecipeId ) == null )
+            if ( await recipeRepository.GetByIdAsync( command.RecipeId ) is null )
             {
                 return Result.FromError( "Такого рецепта не существует" );
             }

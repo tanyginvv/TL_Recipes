@@ -5,7 +5,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient
 {
     public class CreateIngredientCommandValidator : IAsyncValidator<CreateIngredientCommand>
     {
-        public async Task<Result> ValidationAsync( CreateIngredientCommand command )
+        public async Task<Result> ValidateAsync( CreateIngredientCommand command )
         {
             if ( string.IsNullOrWhiteSpace( command.Title ) )
             {

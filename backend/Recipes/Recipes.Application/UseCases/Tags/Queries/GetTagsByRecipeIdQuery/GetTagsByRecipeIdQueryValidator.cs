@@ -5,7 +5,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
 {
     public class GetTagsByRecipeIdQueryValidator : IAsyncValidator<GetTagsByRecipeIdQuery>
     {
-        public async Task<Result> ValidationAsync( GetTagsByRecipeIdQuery query )
+        public async Task<Result> ValidateAsync( GetTagsByRecipeIdQuery query )
         {
             if ( query.RecipeId <= 0 )
             {

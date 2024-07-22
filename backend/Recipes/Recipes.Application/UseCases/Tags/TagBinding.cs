@@ -18,13 +18,13 @@ namespace Recipes.Application.UseCases.Tags
 
             services.AddScoped<IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryHandler>();
             services.AddScoped<IQueryHandler<GetTagByNameQueryDto, GetTagByNameQuery>, GetTagByNameQueryHandler>();
-            services.AddScoped<IQueryHandler<IReadOnlyList<Tag>, GetRandomTagsQuery>, GetRandomTagsQueryHandler>();
+            services.AddScoped<IQueryHandler<IReadOnlyList<Tag>, GetTagsForSearchQuery>, GetTagsForSearchQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateTagCommand>, CreateTagCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryValidator>();
             services.AddScoped<IAsyncValidator<GetTagByNameQuery>, GetTagByNameQueryValidator>();
-            services.AddScoped<IAsyncValidator<GetRandomTagsQuery>, GetRandomTagsQueryValidator>();
+            services.AddScoped<IAsyncValidator<GetTagsForSearchQuery>, GetRandomTagsQueryValidator>();
 
             return services;
         }

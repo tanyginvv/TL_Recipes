@@ -27,7 +27,7 @@ namespace Recipes.Infrastructure.Entities.Ingredients
             builder.HasOne( i => i.Recipe )
                 .WithMany( r => r.Ingredients )
                 .HasForeignKey( i => i.RecipeId )
-                .OnDelete( DeleteBehavior.Restrict );
+                .OnDelete( DeleteBehavior.Cascade );
         }
     }
 }

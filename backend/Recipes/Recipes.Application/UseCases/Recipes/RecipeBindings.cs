@@ -6,9 +6,8 @@ using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags;
-using Recipes.Application.UseCases.Recipes.Queries.GetAllRecipes;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-using Recipes.Application.UseCases.Recipes.Queries.SearchRecipes;
+using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
 
 namespace Recipes.Application.UseCases.Recipes
 {
@@ -16,14 +15,13 @@ namespace Recipes.Application.UseCases.Recipes
     {
         public static IServiceCollection AddRecipesBindings( this IServiceCollection services )
         {
-            services.AddScoped<ICommandHandler<CreateRecipeCommand>, CreateRecipeCommandHandler>();
+            services.AddScoped<ICommandHandlerWithResult<CreateRecipeCommand, int>, CreateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateRecipeCommand>, UpdateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
-            services.AddScoped<IQueryHandler<IEnumerable<RecipeDto>, GetAllRecipesQuery>, GetAllRecipesQueryHandler>();
-            services.AddScoped<IQueryHandler<IEnumerable<RecipeDto>, SearchRecipesQuery>, SearchRecipesQueryHandler>();
+            services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, SearchRecipesQuery>, SearchRecipesQueryHandler>();
 
             services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
@@ -31,7 +29,6 @@ namespace Recipes.Application.UseCases.Recipes
             services.AddScoped<IAsyncValidator<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
-            services.AddScoped<IAsyncValidator<GetAllRecipesQuery>, GetAllRecipesQueryValidator>();
             services.AddScoped<IAsyncValidator<SearchRecipesQuery>, SearchRecipesQueryValidator>();
 
             return services;

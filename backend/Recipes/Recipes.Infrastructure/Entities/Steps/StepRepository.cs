@@ -7,45 +7,39 @@ namespace Recipes.Infrastructure.Entities.Steps
 {
     public class StepRepository : BaseRepository<Step>, IStepRepository
     {
-        private readonly RecipesDbContext _context;
-
         public StepRepository( RecipesDbContext context ) : base( context )
         {
-            _context = context;
         }
 
-        public async Task AddAsync( Step step )
+        public override async Task AddAsync( Step step )
         {
-            await _context.Steps.AddAsync( step );
-            await _context.SaveChangesAsync();
+            await base.AddAsync( step );
         }
 
         public async Task UpdateAsync( Step step )
         {
-            _context.Steps.Update( step );
-            await _context.SaveChangesAsync();
+            await base.Update( step );
         }
 
         public async Task DeleteAsync( int id )
         {
-            var step = await _context.Steps.FindAsync( id );
+            var step = await GetByIdAsync( id );
             if ( step != null )
             {
-                _context.Steps.Remove( step );
-                await _context.SaveChangesAsync();
+                base.Remove( step );
             }
         }
 
         public async Task<IReadOnlyList<Step>> GetByRecipeIdAsync( int recipeId )
         {
-            return await _context.Steps
+            return await _dbSet
                 .Where( s => s.RecipeId == recipeId )
                 .ToListAsync();
         }
 
         public async Task<Step> GetByStepIdAsync( int stepId )
         {
-            return await _context.Steps
+            return await _dbSet
                 .Where( s => s.Id == stepId )
                 .FirstOrDefaultAsync();
         }

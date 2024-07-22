@@ -12,19 +12,15 @@ namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
             IAsyncValidator<GetStepsByRecipeIdQuery> validator )
         : IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>
     {
-        private IStepRepository _stepRepository => stepRepository;
-        private IAsyncValidator<GetStepsByRecipeIdQuery> _stepQueryValidator => validator;
-
-
         public async Task<Result<GetStepsByRecipeIdQueryDto>> HandleAsync( GetStepsByRecipeIdQuery query )
         {
-            Result validationResult = await _stepQueryValidator.ValidationAsync( query );
+            Result validationResult = await validator.ValidateAsync( query );
             if ( !validationResult.IsSuccess )
             {
                 return Result<GetStepsByRecipeIdQueryDto>.FromError( validationResult );
             }
 
-            IReadOnlyList<Step> steps = await _stepRepository.GetByRecipeIdAsync( query.RecipeId );
+            IReadOnlyList<Step> steps = await stepRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( steps is null )
             {
                 return Result<GetStepsByRecipeIdQueryDto>.FromError( "Steps not found" );

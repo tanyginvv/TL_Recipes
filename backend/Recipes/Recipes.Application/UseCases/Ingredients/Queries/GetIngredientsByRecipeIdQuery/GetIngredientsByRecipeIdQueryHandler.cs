@@ -10,18 +10,15 @@ namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecip
     public class GetIngredientsByRecipeIdQueryHandler( IIngredientRepository ingredientRepository,
         IAsyncValidator<GetIngredientsByRecipeIdQuery> validator ) : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
     {
-        private IIngredientRepository _ingredientRepository => ingredientRepository;
-        private IAsyncValidator<GetIngredientsByRecipeIdQuery> _ingredientQueryValidator => validator;
-
         public async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQuery query )
         {
-            Result validationResult = await _ingredientQueryValidator.ValidationAsync( query );
+            Result validationResult = await validator.ValidateAsync( query );
             if ( !validationResult.IsSuccess )
             {
                 return Result<GetIngredientsByRecipeIdQueryDto>.FromError( validationResult );
             }
 
-            IEnumerable<Ingredient> ingredients = await _ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
+            IEnumerable<Ingredient> ingredients = await ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( ingredients is null )
             {
                 return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ingredients not found" );

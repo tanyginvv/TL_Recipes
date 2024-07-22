@@ -4,16 +4,10 @@ using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
 {
-    public class CreateTagCommandValidator : IAsyncValidator<CreateTagCommand>
+    public class CreateTagCommandValidator
+        : IAsyncValidator<CreateTagCommand>
     {
-        private readonly ITagRepository _tagRepository;
-
-        public CreateTagCommandValidator( ITagRepository tagRepository )
-        {
-            _tagRepository = tagRepository;
-        }
-
-        public async Task<Result> ValidationAsync( CreateTagCommand command )
+        public async Task<Result> ValidateAsync( CreateTagCommand command )
         {
             if ( string.IsNullOrWhiteSpace( command.Name ) )
             {

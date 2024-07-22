@@ -8,26 +8,20 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
 {
     public class UpdateIngredientCommandHandler(
            IIngredientRepository ingredientRepository,
-           IAsyncValidator<UpdateIngredientCommand> validator,
-           IUnitOfWork unitOfWork )
+           IAsyncValidator<UpdateIngredientCommand> validator )
         : ICommandHandler<UpdateIngredientCommand>
     {
-        private IIngredientRepository _ingredientRepository => ingredientRepository;
-        private IAsyncValidator<UpdateIngredientCommand> _updateIngredientCommandValidator => validator;
-        private IUnitOfWork _unitOfWork => unitOfWork;
-
         public async Task<Result> HandleAsync( UpdateIngredientCommand updateIngredientCommand )
         {
-            Result validationResult = await _updateIngredientCommandValidator.ValidationAsync( updateIngredientCommand );
+            Result validationResult = await validator.ValidateAsync( updateIngredientCommand );
             if ( !validationResult.IsSuccess )
             {
-                Ingredient ingredient = await _ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
-                if ( ingredient != null )
+                Ingredient ingredient = await ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
+                if ( ingredient is not null )
                 {
                     ingredient.Title = updateIngredientCommand.Title;
                     ingredient.Description = updateIngredientCommand.Description;
-                    await _ingredientRepository.UpdateIngredientAsync( ingredient );
-                    await _unitOfWork.CommitAsync();
+                    await ingredientRepository.UpdateAsync( ingredient );
                 }
                 else
                 {

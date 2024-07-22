@@ -1,8 +1,8 @@
 ﻿using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.ImageTools;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
+using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Steps.Commands.CreateStepCommand;
 using Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand;
 using Recipes.Application.Validation;
@@ -17,74 +17,63 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
             ICommandHandler<CreateTagCommand> createTagCommandHandler,
             ICommandHandler<CreateIngredientCommand> createIngredientCommandHandler,
             ICommandHandler<CreateStepCommand> createStepCommandHandler,
-            IUnitOfWork unitOfWork,
-            ImageHelperTools imageHelper ) : ICommandHandler<CreateRecipeCommand>
+            IUnitOfWork unitOfWork )
+        : ICommandHandlerWithResult<CreateRecipeCommand, int>
     {
-        private IRecipeRepository _recipeRepository => recipeRepository;
-        private ITagRepository _tagRepository => tagRepository;
-        private IAsyncValidator<CreateRecipeCommand> _createRecipeCommandValidator => validator;
-        private ICommandHandler<CreateTagCommand> _createTagCommandHandler => createTagCommandHandler;
-        private ICommandHandler<CreateIngredientCommand> _createIngredientCommandHandler => createIngredientCommandHandler;
-        private ICommandHandler<CreateStepCommand> _createStepCommandHandler => createStepCommandHandler;
-        private IUnitOfWork _unitOfWork => unitOfWork;
-
-        public async Task<Result> HandleAsync( CreateRecipeCommand createRecipeCommand )
+        public async Task<Result<int>> HandleAsync( CreateRecipeCommand createRecipeCommand )
         {
-            Result validationResult = await _createRecipeCommandValidator.ValidationAsync( createRecipeCommand );
+            Result validationResult = await validator.ValidateAsync( createRecipeCommand );
             if ( !validationResult.IsSuccess )
             {
-                return Result.FromError( validationResult.Error.Message );
+                return Result<int>.FromError( validationResult.Error );
             }
 
             Recipe recipe = new Recipe(
-            createRecipeCommand.Name,
-            createRecipeCommand.Description,
-            createRecipeCommand.CookTime,
-            createRecipeCommand.CountPortion,
-            createRecipeCommand.ImageUrl );
+                createRecipeCommand.Name,
+                createRecipeCommand.Description,
+                createRecipeCommand.CookTime,
+                createRecipeCommand.CountPortion,
+                createRecipeCommand.ImageUrl );
 
-            await _recipeRepository.AddAsync( recipe );
-            await _unitOfWork.CommitAsync();
+            await recipeRepository.AddAsync( recipe );
 
-            foreach ( var tagDto in createRecipeCommand.Tags )
+            foreach ( TagDto tagDto in createRecipeCommand.Tags )
             {
-                var existingTag = await _tagRepository.GetByNameAsync( tagDto.Name );
-                if ( existingTag == null )
+                Tag existingTag = await tagRepository.GetByNameAsync( tagDto.Name );
+                if ( existingTag is null )
                 {
-                    var createTagCommand = new CreateTagCommand { Name = tagDto.Name };
-                    await _createTagCommandHandler.HandleAsync( createTagCommand );
-                    existingTag = await _tagRepository.GetByNameAsync( tagDto.Name );
+                    CreateTagCommand createTagCommand = new() { Name = tagDto.Name };
+                    await createTagCommandHandler.HandleAsync( createTagCommand );
+                    existingTag = await tagRepository.GetByNameAsync( tagDto.Name );
                 }
                 recipe.Tags.Add( existingTag );
             }
 
-            await _unitOfWork.CommitAsync();
-
-            foreach ( var ingredientDto in createRecipeCommand.Ingredients )
+            foreach ( IngredientDto ingredientDto in createRecipeCommand.Ingredients )
             {
-                var createIngredientCommand = new CreateIngredientCommand
+                CreateIngredientCommand createIngredientCommand = new()
                 {
                     Title = ingredientDto.Title,
                     Description = ingredientDto.Description,
                     RecipeId = recipe.Id
                 };
-                await _createIngredientCommandHandler.HandleAsync( createIngredientCommand );
+                await createIngredientCommandHandler.HandleAsync( createIngredientCommand );
             }
 
-            foreach ( var stepDto in createRecipeCommand.Steps )
+            foreach ( StepDto stepDto in createRecipeCommand.Steps )
             {
-                var createStepCommand = new CreateStepCommand
+                CreateStepCommand createStepCommand = new()
                 {
                     StepNumber = stepDto.StepNumber,
                     StepDescription = stepDto.StepDescription,
                     RecipeId = recipe.Id
                 };
-                await _createStepCommandHandler.HandleAsync( createStepCommand );
+                await createStepCommandHandler.HandleAsync( createStepCommand );
             }
 
-            await _unitOfWork.CommitAsync();
+            await unitOfWork.CommitAsync();
 
-            return Result.FromSuccess();
+            return Result<int>.FromSuccess( recipe.Id );
         }
     }
 }

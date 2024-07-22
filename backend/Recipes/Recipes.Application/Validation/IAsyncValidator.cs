@@ -4,6 +4,6 @@ namespace Recipes.Application.Validation
 {
     public interface IAsyncValidator<in TData> where TData : class
     {
-        Task<Result> ValidationAsync( TData inputData );
+        Task<Result> ValidateAsync( TData inputData );
     }
 }

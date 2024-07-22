@@ -6,8 +6,8 @@ namespace Recipes.Application.Repositories
     {
         Task<IReadOnlyList<Ingredient>> GetByRecipeIdAsync( int recipeId );
         Task<Ingredient> GetByIdAsync( int id );
-        Task AddIngredientAsync( Ingredient ingredient );
-        Task UpdateIngredientAsync( Ingredient ingredient );
-        Task DeleteByIdAsync( int id );
+        Task AddAsync( Ingredient ingredient );
+        Task UpdateAsync( Ingredient ingredient );
+        Task DeleteAsync( int id );
     }
 }

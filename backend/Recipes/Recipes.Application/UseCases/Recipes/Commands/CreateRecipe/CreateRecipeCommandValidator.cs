@@ -29,7 +29,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 return Result.FromError( "Описание блюда не может быть больше чем 150 символов" );
             }
 
-            if ( command.CountPortion == 0 || command.CountPortion < 0 )
+            if ( command.PortionCount == 0 || command.PortionCount < 0 )
             {
                 return Result.FromError( "Количество порций должно быть больше 0" );
             }

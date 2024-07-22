@@ -32,7 +32,7 @@ export const RecipeForm = forwardRef((_, ref) => {
                         setName(recipe.name);
                         setDescription(recipe.description);
                         setCookTime(recipe.cookTime);
-                        setPortions(recipe.countPortion);
+                        setPortions(recipe.portionCount);
                         setTags(recipe.tags);
                         setIngredients(recipe.ingredients);
                         setSteps(recipe.steps);
@@ -94,7 +94,7 @@ export const RecipeForm = forwardRef((_, ref) => {
                 const data = await response.json();
                 return data.fileName;
             } else {
-                alert('Ошибка при загрузке изображения 2');
+                alert('Ошибка при загрузке изображения');
                 return null;
             }
         } catch (error) {
@@ -103,7 +103,7 @@ export const RecipeForm = forwardRef((_, ref) => {
         }
     };
 
-    const submitForm =  async () => {
+    const submitForm = async () => {
         if (!validateForm()) {
             return;
         }
@@ -120,11 +120,11 @@ export const RecipeForm = forwardRef((_, ref) => {
             name,
             description,
             cookTime,
-            countPortion: portions,
-            tags,
+            portionCount: portions,
+            imageUrl: newImageUrl,
             ingredients,
-            steps,
-            imageUrl: newImageUrl
+            steps: steps.map((step, index) => ({ stepNumber: index + 1, stepDescription: step.stepDescription })),
+            tags
         };
 
         try {
@@ -162,8 +162,8 @@ export const RecipeForm = forwardRef((_, ref) => {
                 setCookTime={setCookTime}
                 portions={portions}
                 setPortions={setPortions}
-                image = {image}
-                setImage = {setImage}
+                image={image}
+                setImage={setImage}
                 tags={tags}
                 setTags={setTags}
                 tagInput={tagInput}

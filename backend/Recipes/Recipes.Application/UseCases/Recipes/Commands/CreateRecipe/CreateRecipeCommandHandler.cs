@@ -32,7 +32,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 createRecipeCommand.Name,
                 createRecipeCommand.Description,
                 createRecipeCommand.CookTime,
-                createRecipeCommand.CountPortion,
+                createRecipeCommand.PortionCount,
                 createRecipeCommand.ImageUrl );
 
             await recipeRepository.AddAsync( recipe );

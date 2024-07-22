@@ -12,18 +12,15 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
             IAsyncValidator<GetTagsByRecipeIdQuery> validator )
         : IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>
     {
-        private ITagRepository _tagRepository => tagRepository;
-        private IAsyncValidator<GetTagsByRecipeIdQuery> _tagQueryValidator => validator;
-
         public async Task<Result<GetTagsByRecipeIdQueryDto>> HandleAsync( GetTagsByRecipeIdQuery query )
         {
-            Result validationResult = await _tagQueryValidator.ValidationAsync( query );
+            Result validationResult = await validator.ValidateAsync( query );
             if ( !validationResult.IsSuccess )
             {
                 return Result<GetTagsByRecipeIdQueryDto>.FromError( validationResult );
             }
 
-            IEnumerable<Tag> tags = await _tagRepository.GetByRecipeIdAsync( query.RecipeId );
+            IEnumerable<Tag> tags = await tagRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( tags is null )
             {
                 return Result<GetTagsByRecipeIdQueryDto>.FromError( "Tags not found" );

@@ -24,7 +24,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
             builder.Property( r => r.CookTime )
                 .IsRequired();
 
-            builder.Property( r => r.CountPortion )
+            builder.Property( r => r.PortionCount )
                 .IsRequired();
 
             builder.Property( r => r.ImageUrl )

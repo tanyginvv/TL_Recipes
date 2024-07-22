@@ -11,19 +11,16 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagByName
             IAsyncValidator<GetTagByNameQuery> validator )
         : IQueryHandler<GetTagByNameQueryDto, GetTagByNameQuery>
     {
-        private ITagRepository _tagRepository => tagRepository;
-        private IAsyncValidator<GetTagByNameQuery> _tagQueryValidator => validator;
-
         public async Task<Result<GetTagByNameQueryDto>> HandleAsync( GetTagByNameQuery query )
         {
-            Result validationResult = await _tagQueryValidator.ValidationAsync( query );
+            Result validationResult = await validator.ValidateAsync( query );
             if ( !validationResult.IsSuccess )
             {
                 return Result<GetTagByNameQueryDto>.FromError( validationResult );
             }
 
-            var tag = await _tagRepository.GetByNameAsync( query.Name );
-            if ( tag != null )
+            var tag = await tagRepository.GetByNameAsync( query.Name );
+            if ( tag is not null )
             {
                 return Result<GetTagByNameQueryDto>.FromError( "No tags found with the given name" );
             }

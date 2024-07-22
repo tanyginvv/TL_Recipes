@@ -6,19 +6,19 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public int CookTime { get; set; }
-        public int CountPortion { get; set; }
+        public int PortionCount { get; set; }
         public string ImageUrl { get; set; }
 
-        public ICollection<Tag> Tags { get; set; }
-        public ICollection<Ingredient> Ingredients { get; set; }
-        public ICollection<Step> Steps { get; set; }
+        public List<Tag> Tags { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
+        public List<Step> Steps { get; set; }
 
-        public Recipe( string name, string description, int cookTime, int countPortion, string imageUrl )
+        public Recipe( string name, string description, int cookTime, int portionCount, string imageUrl )
         {
             Name = name;
             Description = description;
             CookTime = cookTime;
-            CountPortion = countPortion;
+            PortionCount = portionCount;
             ImageUrl = imageUrl;
             Tags = new List<Tag>();
             Ingredients = new List<Ingredient>();

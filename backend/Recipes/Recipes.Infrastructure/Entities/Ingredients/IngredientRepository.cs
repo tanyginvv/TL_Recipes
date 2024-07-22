@@ -7,45 +7,39 @@ namespace Recipes.Infrastructure.Entities.Ingredients
 {
     public class IngredientRepository : BaseRepository<Ingredient>, IIngredientRepository
     {
-        private readonly RecipesDbContext _context;
-
         public IngredientRepository( RecipesDbContext context ) : base( context )
         {
-            _context = context;
         }
 
-        public async Task AddIngredientAsync( Ingredient ingredient )
+        public override async Task AddAsync( Ingredient ingredient )
         {
-            await _context.Ingredients.AddAsync( ingredient );
-            await _context.SaveChangesAsync();
+            await base.AddAsync( ingredient );
         }
 
-        public async Task UpdateIngredientAsync( Ingredient ingredient )
+        public async Task UpdateAsync( Ingredient ingredient )
         {
-            _context.Ingredients.Update( ingredient );
-            await _context.SaveChangesAsync();
+            await base.Update( ingredient );
         }
 
-        public async Task DeleteByIdAsync( int id )
+        public async Task DeleteAsync( int id )
         {
-            var ingredient = await _context.Ingredients.FindAsync( id );
-            if ( ingredient != null )
+            var ingredient = await GetByIdAsync( id );
+            if ( ingredient is not null )
             {
-                _context.Ingredients.Remove( ingredient );
-                await _context.SaveChangesAsync();
+                base.Remove( ingredient );
             }
         }
 
         public async Task<IReadOnlyList<Ingredient>> GetByRecipeIdAsync( int recipeId )
         {
-            return await _context.Ingredients
+            return await _dbSet
                 .Where( i => i.RecipeId == recipeId )
                 .ToListAsync();
         }
 
-        public async Task<Ingredient> GetByIdAsync( int id )
+        public override async Task<Ingredient> GetByIdAsync( int id )
         {
-            return await _context.Ingredients.FindAsync( id );
+            return await _dbSet.FindAsync( id );
         }
     }
 }

@@ -7,4 +7,8 @@ namespace Recipes.Application.CQRSInterfaces
     {
         Task<Result> HandleAsync( TCommand command );
     }
+    public interface ICommandHandlerWithResult<TCommand, TResult> where TCommand : class
+    {
+        Task<Result<TResult>> HandleAsync( TCommand command );
+    }
 }

@@ -8,9 +8,9 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
         : IAsyncValidator<UpdateRecipeCommand>
     {
 
-        public async Task<Result> ValidationAsync( UpdateRecipeCommand command )
+        public async Task<Result> ValidateAsync( UpdateRecipeCommand command )
         {
-            if ( command.Name == null || command.Name == string.Empty )
+            if ( command.Name is null || command.Name == string.Empty )
             {
                 return Result.FromError( "Название блюда не может быть пустым" );
             }
@@ -20,7 +20,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Название блюда не может быть больше чем 100 символов" );
             }
 
-            if ( command.Description == null || command.Description == string.Empty )
+            if ( command.Description is null || command.Description == string.Empty )
             {
                 return Result.FromError( "Описание блюда не может быть пустым" );
             }
@@ -30,7 +30,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Описание блюда не может быть больше чем 150 символов" );
             }
 
-            if ( command.CountPortion == 0 || command.CountPortion < 0 )
+            if ( command.PortionCount == 0 || command.PortionCount < 0 )
             {
                 return Result.FromError( "Количество порций должно быть больше 0" );
             }
@@ -40,7 +40,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Время приготовления должно быть больше 0" );
             }
 
-            if ( command.ImageUrl == null || command.ImageUrl == string.Empty )
+            if ( command.ImageUrl is null || command.ImageUrl == string.Empty )
             {
                 return Result.FromError( "Изображение блюда должно быть обязательно " );
             }

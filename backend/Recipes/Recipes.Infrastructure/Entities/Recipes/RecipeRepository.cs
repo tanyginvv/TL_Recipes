@@ -1,80 +1,56 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Application.Paginator;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
+using Recipes.Infrastructure.Entities.Specification;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
     public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
     {
-        private readonly RecipesDbContext _context;
-
         public RecipeRepository( RecipesDbContext context ) : base( context )
         {
-            _context = context;
         }
 
-        public async Task AddAsync( Recipe recipe )
+        public override async Task AddAsync( Recipe recipe )
         {
-            await _context.Set<Recipe>().AddAsync( recipe );
-            await _context.SaveChangesAsync();
+            await base.AddAsync( recipe );
         }
 
         public async Task DeleteAsync( int id )
         {
             var recipe = await GetByIdAsync( id );
-            if ( recipe != null )
+            if ( recipe is not null )
             {
-                _context.Set<Recipe>().Remove( recipe );
-                await _context.SaveChangesAsync();
+                base.Remove( recipe );
             }
         }
 
-        public async Task<IReadOnlyList<Recipe>> GetAllAsync()
+        public async Task<IReadOnlyList<Recipe>> GetAllAsync( PaginationFilter paginationFilter )
         {
-            return await _context.Set<Recipe>()
-                         .Include( r => r.Steps )
-                         .Include( r => r.Ingredients )
-                         .Include( r => r.Tags )
-                         .ToListAsync();
+            var spec = new RecipeSpecification( null, paginationFilter );
+            return await spec.Apply( _dbSet ).ToListAsync();
         }
 
-        public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms )
+        public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms, PaginationFilter paginationFilter )
         {
-            if ( searchTerms == null || !searchTerms.Any() )
-            {
-                return await GetAllAsync();
-            }
+            var spec = new RecipeSpecification( searchTerms, paginationFilter );
+            return await spec.Apply( _dbSet ).ToListAsync();
+        }
 
-            var normalizedSearchTerms = searchTerms.Select( term => term.ToLower() ).ToList();
-
-            return await _context.Set<Recipe>()
+        public override async Task<Recipe> GetByIdAsync( int id )
+        {
+            return await _dbSet
                 .Include( r => r.Steps )
                 .Include( r => r.Ingredients )
                 .Include( r => r.Tags )
-                .Where( r =>
-                    normalizedSearchTerms.Any( term =>
-                        r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
-                        r.Name.ToLower().Contains( term )
-                    )
-                )
-                .ToListAsync();
-        }
-
-        public async Task<Recipe> GetByIdAsync( int id )
-        {
-            return await _context.Set<Recipe>()
-                .Include( r => r.Steps )
-                .Include( r => r.Ingredients )
-                .Include( r => r.Tags )
-                .Where( r => r.Id == id )
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync( r => r.Id == id );
         }
 
         public async Task UpdateAsync( Recipe recipe )
         {
-            _context.Set<Recipe>().Update( recipe );
-            await _context.SaveChangesAsync();
+            await base.Update( recipe );
         }
     }
 }

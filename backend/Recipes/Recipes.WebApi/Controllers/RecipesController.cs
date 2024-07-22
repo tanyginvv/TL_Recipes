@@ -1,16 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.UseCases.Recipes.Queries.GetAllRecipes;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-using Recipes.Application.UseCases.Recipes.Queries.SearchRecipes;
+using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
 using Recipes.WebApi.Dto.RecipeDtos;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.WebApi.Controllers
 {
@@ -18,40 +17,27 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/recipes" )]
     public class RecipesController( IMapper mapper ) : ControllerBase
     {
-        private IMapper _mapper => mapper;
-
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe( [FromBody] RecipeCreateDto dto,
-            [FromServices] ICommandHandler<CreateRecipeCommand> createRecipeCommandHandler )
+        public async Task<ActionResult<int>> CreateRecipe( [FromBody] RecipeCreateDto dto,
+            [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, int> createRecipeCommandHandler )
         {
-            var command = new CreateRecipeCommand
-            {
-                Name = dto.Name,
-                Description = dto.Description,
-                CookTime = dto.CookTime,
-                CountPortion = dto.CountPortion,
-                Tags = dto.Tags,
-                ImageUrl = dto.ImageUrl,
-                Ingredients = dto.Ingredients,
-                Steps = dto.Steps
-            };
-            var result = await createRecipeCommandHandler.HandleAsync( command );
+            CreateRecipeCommand command = mapper.Map<CreateRecipeCommand>( dto );
+            Result<int> result = await createRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
                 return BadRequest( result.Error );
             }
 
-            return Ok();
+            return CreatedAtAction( nameof( GetRecipeById ), new { id = result.Value }, result.Value );
         }
 
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteRecipe( [FromRoute, Range( 1, int.MaxValue )] int id,
-            [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler
-            )
+            [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
         {
-            var command = new DeleteRecipeCommand { RecipeId = id };
-            var result = await deleteRecipeCommandHandler.HandleAsync( command );
+            DeleteRecipeCommand command = new() { RecipeId = id };
+            Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
@@ -65,20 +51,10 @@ namespace Recipes.WebApi.Controllers
         public async Task<IActionResult> UpdateRecipe( [FromRoute, Range( 1, int.MaxValue )] int id,
             [FromBody] RecipeUpdateDto dto, [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
         {
-            var command = new UpdateRecipeCommand
-            {
-                Id = id,
-                Name = dto.Name,
-                Description = dto.Description,
-                CookTime = dto.CookTime,
-                CountPortion = dto.CountPortion,
-                ImageUrl = dto.ImageUrl,
-                Tags = dto.Tags,
-                Ingredients = dto.Ingredients,
-                Steps = dto.Steps
-            };
+            UpdateRecipeCommand command = mapper.Map<UpdateRecipeCommand>( dto );
+            command.Id = id;
 
-            var result = await updateRecipeCommandHandler.HandleAsync( command );
+            Result result = await updateRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
@@ -89,10 +65,11 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet( "{id}" )]
-        public async Task<IActionResult> GetRecipeById( [FromRoute, Range( 1, int.MaxValue )] int id,
+        public async Task<ActionResult<RecipeReadDto>> GetRecipeById( [FromRoute, Range( 1, int.MaxValue )] int id,
             [FromServices] IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
         {
-            var result = await getRecipeByIdQueryHandler.HandleAsync( new GetRecipeByIdQuery { Id = id } );
+            GetRecipeByIdQuery query = new() { Id = id };
+            Result<GetRecipeByIdQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {
@@ -103,28 +80,18 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRecipes( [FromServices] IQueryHandler<IEnumerable<RecipeDto>, GetAllRecipesQuery> getAllRecipesQueryHandler )
+        public async Task<ActionResult<IReadOnlyList<GetRecipePartDto>>> SearchRecipes(
+             [FromQuery] List<string> searchTerms,
+             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, SearchRecipesQuery> searchRecipesQueryHandler,
+             [FromQuery] int pageNumber = 1 )
         {
-            var result = await getAllRecipesQueryHandler.HandleAsync( new GetAllRecipesQuery() );
-
-            if ( !result.IsSuccess )
+            SearchRecipesQuery query = new SearchRecipesQuery
             {
-                return BadRequest( result.Error );
-            }
-
-            return Ok( result.Value );
-        }
-
-        [HttpGet( "search" )]
-        public async Task<IActionResult> SearchRecipes( [FromQuery] List<string> searchTerms,
-           [FromServices] IQueryHandler<IEnumerable<RecipeDto>, SearchRecipesQuery> searchRecipesQueryHandler )
-        {
-            var query = new SearchRecipesQuery
-            {
-                SearchTerms = searchTerms
+                SearchTerms = searchTerms,
+                PageNumber = pageNumber
             };
 
-            var result = await searchRecipesQueryHandler.HandleAsync( query );
+            Result<IEnumerable<GetRecipePartDto>> result = await searchRecipesQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {

@@ -5,15 +5,9 @@ namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/images" )]
-    public class ImagesController : ControllerBase
+    public class ImagesController( ImageHelperTools imageHelperTools )
+        : ControllerBase
     {
-        private readonly ImageHelperTools _imageHelperTools;
-
-        public ImagesController( ImageHelperTools imageHelperTools )
-        {
-            _imageHelperTools = imageHelperTools;
-        }
-
         [HttpPost( "upload" )]
         public async Task<IActionResult> UploadImage( IFormFile image )
         {
@@ -22,7 +16,7 @@ namespace Recipes.WebApi.Controllers
                 return BadRequest( "No image provided" );
             }
 
-            var fileName = await _imageHelperTools.SaveRecipeImageAsync( image );
+            var fileName = await imageHelperTools.SaveRecipeImageAsync( image );
 
             if ( string.IsNullOrEmpty( fileName ) )
             {

@@ -4,7 +4,7 @@ using Recipes.Application.Validation;
 
 public class GetTagByNameQueryValidator : IAsyncValidator<GetTagByNameQuery>
 {
-    public async Task<Result> ValidationAsync( GetTagByNameQuery query )
+    public async Task<Result> ValidateAsync( GetTagByNameQuery query )
     {
         if ( string.IsNullOrWhiteSpace( query.Name ) )
         {

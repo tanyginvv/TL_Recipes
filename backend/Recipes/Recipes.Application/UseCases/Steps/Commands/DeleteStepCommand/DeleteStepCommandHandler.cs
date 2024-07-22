@@ -2,28 +2,25 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
 {
     public class DeleteStepCommandHandler(
             IStepRepository stepRepository,
-            IUnitOfWork unitOfWork,
-            IAsyncValidator<DeleteStepCommand> validator ) : ICommandHandler<DeleteStepCommand>
+            IAsyncValidator<DeleteStepCommand> validator )
+        : ICommandHandler<DeleteStepCommand>
     {
-        private IStepRepository _stepRepository => stepRepository;
-        private IUnitOfWork _unitOfWork => unitOfWork;
-        private IAsyncValidator<DeleteStepCommand> _validator => validator;
-
         public async Task<Result> HandleAsync( DeleteStepCommand command )
         {
-            Result validationResult = await _validator.ValidationAsync( command );
+            Result validationResult = await validator.ValidateAsync( command );
             if ( !validationResult.IsSuccess )
             {
                 return Result.FromError( validationResult.Error );
             }
 
-            var step = await _stepRepository.GetByStepIdAsync( command.StepId );
-            if ( step == null )
+            Step step = await stepRepository.GetByStepIdAsync( command.StepId );
+            if ( step is null )
             {
                 return Result.FromError( "Step not found" );
             }
@@ -33,8 +30,7 @@ namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
                 return Result.FromError( "Step ID does not match the specified step number" );
             }
 
-            await _stepRepository.DeleteAsync( step.Id );
-            await _unitOfWork.CommitAsync();
+            await stepRepository.DeleteAsync( step.Id );
 
             return Result.Success;
         }

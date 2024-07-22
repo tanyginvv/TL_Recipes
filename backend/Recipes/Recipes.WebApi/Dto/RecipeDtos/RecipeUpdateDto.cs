@@ -17,7 +17,7 @@ namespace Recipes.WebApi.Dto.RecipeDtos
         public int CookTime { get; set; }
 
         [Required]
-        public int CountPortion { get; set; }
+        public int PortionCount { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }

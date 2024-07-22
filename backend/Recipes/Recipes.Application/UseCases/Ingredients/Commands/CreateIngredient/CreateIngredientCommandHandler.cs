@@ -8,17 +8,12 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient
 {
     public class CreateIngredientCommandHandler(
             IIngredientRepository ingredientRepository,
-            IAsyncValidator<CreateIngredientCommand> validator,
-            IUnitOfWork unitOfWork )
+            IAsyncValidator<CreateIngredientCommand> validator )
         : ICommandHandler<CreateIngredientCommand>
     {
-        private IIngredientRepository _ingredientRepository => ingredientRepository;
-        private IAsyncValidator<CreateIngredientCommand> _createIngredientCommandValidator => validator;
-        private IUnitOfWork _unitOfWork => unitOfWork;
-
         public async Task<Result> HandleAsync( CreateIngredientCommand createIngredientCommand )
         {
-            Result validationResult = await _createIngredientCommandValidator.ValidationAsync( createIngredientCommand );
+            Result validationResult = await validator.ValidateAsync( createIngredientCommand );
             if ( !validationResult.IsSuccess )
             {
                 return validationResult;
@@ -29,8 +24,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient
                 createIngredientCommand.Description,
                 createIngredientCommand.RecipeId );
 
-            await _ingredientRepository.AddIngredientAsync( ingredient );
-            await _unitOfWork.CommitAsync();
+            await ingredientRepository.AddAsync( ingredient );
 
             return Result.Success;
         }

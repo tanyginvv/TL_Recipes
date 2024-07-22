@@ -6,15 +6,14 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
 {
     public class DeleteIngredientCommandValidator( IIngredientRepository ingredientRepository ) : IAsyncValidator<DeleteIngredientCommand>
     {
-        private IIngredientRepository _ingredientRepository => ingredientRepository;
-        public async Task<Result> ValidationAsync( DeleteIngredientCommand command )
+        public async Task<Result> ValidateAsync( DeleteIngredientCommand command )
         {
             if ( command.Id <= 0 )
             {
                 return Result.FromError( "Invalid ingredient ID." );
             }
 
-            var ingredient = await _ingredientRepository.GetByIdAsync( command.Id );
+            var ingredient = await ingredientRepository.GetByIdAsync( command.Id );
             if ( ingredient is null )
             {
                 return Result.FromError( "Ingredient not found." );

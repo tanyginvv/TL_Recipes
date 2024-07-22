@@ -1,15 +1,12 @@
-﻿using Recipes.Application.Repositories;
-using Recipes.Application.Results;
+﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
 {
-    public class UpdateIngredientCommandValidator( IIngredientRepository ingredientRepository )
+    public class UpdateIngredientCommandValidator()
         : IAsyncValidator<UpdateIngredientCommand>
     {
-        private IIngredientRepository _ingredientRepository => ingredientRepository;
-
-        public async Task<Result> ValidationAsync( UpdateIngredientCommand command )
+        public async Task<Result> ValidateAsync( UpdateIngredientCommand command )
         {
             if ( command.Id <= 0 )
             {

@@ -2,7 +2,7 @@
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags
+namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 {
     public class UpdateRecipeTagsCommandValidator( IRecipeRepository recipeRepository )
         : IAsyncValidator<UpdateRecipeTagsCommand>

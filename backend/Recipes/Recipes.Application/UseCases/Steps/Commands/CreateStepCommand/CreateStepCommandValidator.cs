@@ -9,20 +9,20 @@ namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
     {
         public async Task<Result> ValidateAsync( CreateStepCommand command )
         {
-            if ( string.IsNullOrWhiteSpace( command.StepDescription ) )
+            if ( string.IsNullOrEmpty( command.StepDescription ) )
             {
-                return Result.FromError( "Step description cannot be empty" );
+                return Result.FromError( "Описание шага не может быть пустым" );
             }
 
             if ( command.RecipeId <= 0 )
             {
-                return Result.FromError( "Recipe ID must be a non-negative integer" );
+                return Result.FromError( "ID рецепта должен быть больше 0" );
             }
 
             var recipeExists = await recipeRepository.GetByIdAsync( command.RecipeId );
             if ( recipeExists is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
             return Result.Success;

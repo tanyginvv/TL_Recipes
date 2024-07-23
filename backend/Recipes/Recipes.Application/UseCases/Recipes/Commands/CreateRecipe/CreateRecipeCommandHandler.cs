@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Steps.Commands.CreateStepCommand;
-using Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand;
+using Recipes.Application.UseCases.Tags.Commands.CreateTag;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 

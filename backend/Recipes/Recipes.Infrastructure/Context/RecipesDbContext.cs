@@ -22,6 +22,10 @@ namespace Recipes.Infrastructure.Context
         {
             base.OnModelCreating( modelBuilder );
 
+            modelBuilder.HasSequence<int>( "RecipeHiLo", schema: "dbo" )
+               .StartsAt( 1 )
+               .IncrementsBy( 10 );
+
             modelBuilder.ApplyConfiguration( new RecipeConfiguration() );
             modelBuilder.ApplyConfiguration( new IngredientConfiguration() );
             modelBuilder.ApplyConfiguration( new TagConfiguration() );

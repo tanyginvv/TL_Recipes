@@ -34,19 +34,19 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById
                 PortionCount = foundRecipe.PortionCount,
                 ImageUrl = foundRecipe.ImageUrl,
 
-                Steps = foundRecipe.Steps.Select( step => new StepDtoUseCases
+                Steps = foundRecipe.Steps.Select( step => new StepDto
                 {
                     StepNumber = step.StepNumber,
                     StepDescription = step.StepDescription
                 } ).ToList(),
 
-                Ingredients = foundRecipe.Ingredients.Select( ingredient => new IngredientDtoUseCases
+                Ingredients = foundRecipe.Ingredients.Select( ingredient => new IngredientDto
                 {
                     Title = ingredient.Title,
                     Description = ingredient.Description
                 } ).ToList(),
 
-                Tags = foundRecipe.Tags.Select( tag => new TagDtoUseCases
+                Tags = foundRecipe.Tags.Select( tag => new TagDto
                 {
                     Name = tag.Name
                 } ).ToList()

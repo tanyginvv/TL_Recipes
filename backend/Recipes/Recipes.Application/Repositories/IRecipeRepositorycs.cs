@@ -10,6 +10,5 @@ namespace Recipes.Application.Repositories
         Task<IReadOnlyList<Recipe>> GetAllAsync( PaginationFilter paginationFilter );
         Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms, PaginationFilter paginationFilter );
         Task<Recipe> GetByIdAsync( int id );
-        Task UpdateAsync( Recipe recipe );
     }
 }

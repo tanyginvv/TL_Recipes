@@ -8,9 +8,9 @@ using Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand;
 using Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
-using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
+using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 {
@@ -38,7 +38,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             Recipe oldRecipe = await recipeRepository.GetByIdAsync( updateRecipeCommand.Id );
             if ( oldRecipe is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
             oldRecipe.Name = updateRecipeCommand.Name;

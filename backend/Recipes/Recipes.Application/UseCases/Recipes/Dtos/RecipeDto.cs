@@ -1,8 +1,4 @@
-﻿using Recipes.Application.UseCases.Ingredients.Dtos;
-using Recipes.Application.UseCases.Steps.Dtos;
-using Recipes.Application.UseCases.Tags.Dtos;
-
-namespace Recipes.Application.UseCases.Recipes.Dtos
+﻿namespace Recipes.Application.UseCases.Recipes.Dtos
 {
     public class RecipeDto
     {
@@ -12,8 +8,8 @@ namespace Recipes.Application.UseCases.Recipes.Dtos
         public required int CookTime { get; set; }
         public required int PortionCount { get; set; }
         public required string ImageUrl { get; set; }
-        public required List<TagDtoUseCases> Tags { get; set; }
-        public required List<StepDtoUseCases> Steps { get; set; }
-        public required List<IngredientDtoUseCases> Ingredients { get; set; }
+        public required List<TagDto> Tags { get; set; }
+        public required List<StepDto> Steps { get; set; }
+        public required List<IngredientDto> Ingredients { get; set; }
     }
 }

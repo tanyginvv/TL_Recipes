@@ -10,13 +10,13 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
         {
             if ( command.Id <= 0 )
             {
-                return Result.FromError( "Invalid ingredient ID." );
+                return Result.FromError( "Неверный ID ингредиента." );
             }
 
             var ingredient = await ingredientRepository.GetByIdAsync( command.Id );
             if ( ingredient is null )
             {
-                return Result.FromError( "Ingredient not found." );
+                return Result.FromError( "Ингредиент не найден." );
             }
 
             return Result.Success;

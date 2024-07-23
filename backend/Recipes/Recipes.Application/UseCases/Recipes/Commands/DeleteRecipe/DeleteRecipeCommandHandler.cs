@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
             Recipe foundRecipe = await recipeRepository.GetByIdAsync( deleteRecipeCommand.RecipeId );
             if ( foundRecipe is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
             await recipeRepository.DeleteAsync( foundRecipe.Id );

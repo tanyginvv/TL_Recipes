@@ -1,17 +1,14 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand;
-using Recipes.Application.UseCases.Tags.Dtos;
-using Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery;
+using Recipes.Application.UseCases.Tags.Commands.CreateTag;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags
+namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 {
     public class UpdateRecipeTagsCommandHandler(
             IRecipeRepository recipeRepository,
             ITagRepository tagRepository,
-            IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery> getTagsByRecipeIdQueryHandler,
             ICommandHandler<CreateTagCommand> createTagCommandHandler,
             IUnitOfWork unitOfWork )
         : ICommandHandler<UpdateRecipeTagsCommand>
@@ -20,13 +17,13 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags
         {
             if ( command.RecipeTags is null )
             {
-                return Result.FromError( "RecipeTags cannot be null" );
+                return Result.FromError( "Теги рецепта не могут быть пустыми" );
             }
 
             Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
             if ( recipe is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
             List<Tag> existingTags = recipe.Tags.ToList();

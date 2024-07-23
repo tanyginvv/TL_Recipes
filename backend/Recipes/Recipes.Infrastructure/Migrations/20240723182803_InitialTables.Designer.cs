@@ -11,8 +11,8 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240714091340_AddInitialTables")]
-    partial class AddInitialTables
+    [Migration("20240723182803_InitialTables")]
+    partial class InitialTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,9 @@ namespace Recipes.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
+                .IncrementsBy(10);
 
             modelBuilder.Entity("RecipeTag", b =>
                 {
@@ -73,12 +76,9 @@ namespace Recipes.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "RecipeHiLo", "dbo");
 
                     b.Property<int>("CookTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountPortion")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -94,6 +94,9 @@ namespace Recipes.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PortionCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -164,7 +167,7 @@ namespace Recipes.Infrastructure.Migrations
                     b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Recipe");

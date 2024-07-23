@@ -3,7 +3,6 @@ using Recipes.Application.Validation;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
-using Recipes.Application.UseCases.Tags.Dtos;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Paginator;
 
@@ -42,7 +41,7 @@ namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
                 CookTime = recipe.CookTime,
                 PortionCount = recipe.PortionCount,
                 ImageUrl = recipe.ImageUrl,
-                Tags = recipe.Tags.Select( t => new TagDtoUseCases
+                Tags = recipe.Tags.Select( t => new TagDto
                 {
                     Name = t.Name
                 } ).ToList(),

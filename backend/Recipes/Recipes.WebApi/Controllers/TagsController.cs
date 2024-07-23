@@ -1,21 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Tags.Queries.GetRandomTags;
-using Recipes.Domain.Entities;
+using Recipes.Application.UseCases.Recipes.Dtos;
+using Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;
+using Recipes.WebApi.Dto.TagsDto;
 
 namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/tags" )]
-    public class TagsController( IQueryHandler<IReadOnlyList<Tag>, GetTagsForSearchQuery> getTagsForSearchQueryHandler )
-        : ControllerBase
+    public class TagsController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Tag>>> GetTagsForSearch( [FromQuery] int count = 5 )
+        public async Task<ActionResult<IReadOnlyList<ReadTagDto>>> GetTagsForSearch(
+            [FromServices] IQueryHandler<IReadOnlyList<TagDto>, GetTagsForSearchQuery> getTagsForSearchQueryHandler,
+            [FromQuery] int count = 5 )
         {
             GetTagsForSearchQuery query = new() { Count = count };
-            Result<IReadOnlyList<Tag>> result = await getTagsForSearchQueryHandler.HandleAsync( query );
+            Result<IReadOnlyList<TagDto>> result = await getTagsForSearchQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {

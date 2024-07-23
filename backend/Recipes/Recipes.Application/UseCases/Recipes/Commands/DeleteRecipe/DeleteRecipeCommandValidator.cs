@@ -9,7 +9,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
     {
         public async Task<Result> ValidateAsync( DeleteRecipeCommand command )
         {
-            if ( command.RecipeId == 0 || command.RecipeId < 0 )
+            if ( command.RecipeId <= 0 )
             {
                 return Result.FromError( "ID рецепта должно быть больше нуля" );
             }

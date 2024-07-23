@@ -13,14 +13,14 @@ namespace Recipes.WebApi.Controllers
         {
             if ( image == null )
             {
-                return BadRequest( "No image provided" );
+                return BadRequest( "Изображение не предоставлено" );
             }
 
             var fileName = await imageHelperTools.SaveRecipeImageAsync( image );
 
             if ( string.IsNullOrEmpty( fileName ) )
             {
-                return StatusCode( 500, "Error saving the image" );
+                return StatusCode( 500, "Ошибка сохранения картинки" );
             }
 
             return Ok( new { FileName = fileName } );
@@ -33,7 +33,7 @@ namespace Recipes.WebApi.Controllers
 
             if ( imageBytes == null )
             {
-                return NotFound( "Image not found" );
+                return NotFound( "Картинка не найдена" );
             }
 
             return File( imageBytes, "image/jpeg" );

@@ -2,7 +2,7 @@
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
+namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
 {
     public class CreateTagCommandValidator
         : IAsyncValidator<CreateTagCommand>
@@ -11,7 +11,7 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
         {
             if ( string.IsNullOrWhiteSpace( command.Name ) )
             {
-                return Result.FromError( "Name cannot be empty." );
+                return Result.FromError( "Название тега не может быть пустым" );
             }
 
             return Result.FromSuccess();

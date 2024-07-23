@@ -21,7 +21,7 @@ namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecip
             IEnumerable<Ingredient> ingredients = await ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( ingredients is null )
             {
-                return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ingredients not found" );
+                return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ингредиент не найден" );
             }
 
             GetIngredientsByRecipeIdQueryDto dto = new GetIngredientsByRecipeIdQueryDto

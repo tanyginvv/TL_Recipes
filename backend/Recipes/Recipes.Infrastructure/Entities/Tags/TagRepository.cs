@@ -20,8 +20,8 @@ namespace Recipes.Infrastructure.Entities.Tags
 
         public async Task<IReadOnlyList<Tag>> GetTagsForSearchAsync( int count )
         {
-            var allTags = await _dbSet.ToListAsync();
-            var randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
+            List<Tag> allTags = await _dbSet.ToListAsync();
+            List<Tag> randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
             return randomTags;
         }
 
@@ -35,14 +35,9 @@ namespace Recipes.Infrastructure.Entities.Tags
             await base.AddAsync( tag );
         }
 
-        public async Task UpdateAsync( Tag tag )
-        {
-            await base.Update( tag );
-        }
-
         public async Task DeleteAsync( int id )
         {
-            var tag = await GetByIdAsync( id );
+            Tag tag = await GetByIdAsync( id );
             if ( tag is not null )
             {
                 Remove( tag );

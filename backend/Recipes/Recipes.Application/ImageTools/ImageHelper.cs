@@ -5,6 +5,7 @@ namespace Recipes.Application.ImageTools
     public class ImageHelperTools
     {
         private const string STORE_URL = "../Recipes.Infrastructure/store";
+
         public async Task<string> SaveRecipeImageAsync( IFormFile image )
         {
             if ( image is null )
@@ -12,10 +13,10 @@ namespace Recipes.Application.ImageTools
                 return null;
             }
 
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var folderPath = Path.Combine( currentDirectory, STORE_URL );
-            var fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
-            var filePath = Path.Combine( folderPath, fileName );
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string folderPath = Path.Combine( currentDirectory, STORE_URL );
+            string fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
+            string filePath = Path.Combine( folderPath, fileName );
 
             if ( !Directory.Exists( folderPath ) )
             {
@@ -42,9 +43,9 @@ namespace Recipes.Application.ImageTools
 
             try
             {
-                var currentDirectory = Directory.GetCurrentDirectory();
-                var folderPath = Path.Combine( currentDirectory, STORE_URL );
-                var filePath = Path.Combine( folderPath, imageName );
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string folderPath = Path.Combine( currentDirectory, STORE_URL );
+                string filePath = Path.Combine( folderPath, imageName );
 
                 if ( File.Exists( filePath ) )
                 {

@@ -5,9 +5,9 @@ using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
-using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
+using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 
 namespace Recipes.Application.UseCases.Recipes
 {

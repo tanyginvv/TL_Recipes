@@ -22,12 +22,12 @@ namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
             Step step = await stepRepository.GetByStepIdAsync( command.StepId );
             if ( step is null )
             {
-                return Result.FromError( "Step not found" );
+                return Result.FromError( "Шаг не найден" );
             }
 
             if ( step.Id != command.StepId )
             {
-                return Result.FromError( "Step ID does not match the specified step number" );
+                return Result.FromError( "ID шага не соответствует указанному номеру шага" );
             }
 
             await stepRepository.DeleteAsync( step.Id );

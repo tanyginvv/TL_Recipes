@@ -22,7 +22,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagByName
             var tag = await tagRepository.GetByNameAsync( query.Name );
             if ( tag is not null )
             {
-                return Result<GetTagByNameQueryDto>.FromError( "No tags found with the given name" );
+                return Result<GetTagByNameQueryDto>.FromError( "По этому названию не найдены теги" );
             }
 
             var dto = new GetTagByNameQueryDto

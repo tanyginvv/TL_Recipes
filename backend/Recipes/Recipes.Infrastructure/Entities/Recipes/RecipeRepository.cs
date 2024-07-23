@@ -20,7 +20,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
 
         public async Task DeleteAsync( int id )
         {
-            var recipe = await GetByIdAsync( id );
+            Recipe recipe = await GetByIdAsync( id );
             if ( recipe is not null )
             {
                 base.Remove( recipe );
@@ -29,13 +29,13 @@ namespace Recipes.Infrastructure.Entities.Recipes
 
         public async Task<IReadOnlyList<Recipe>> GetAllAsync( PaginationFilter paginationFilter )
         {
-            var spec = new RecipeSpecification( null, paginationFilter );
+            RecipeSpecification spec = new RecipeSpecification( null, paginationFilter );
             return await spec.Apply( _dbSet ).ToListAsync();
         }
 
         public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms, PaginationFilter paginationFilter )
         {
-            var spec = new RecipeSpecification( searchTerms, paginationFilter );
+            RecipeSpecification spec = new RecipeSpecification( searchTerms, paginationFilter );
             return await spec.Apply( _dbSet ).ToListAsync();
         }
 
@@ -46,11 +46,6 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .Include( r => r.Ingredients )
                 .Include( r => r.Tags )
                 .FirstOrDefaultAsync( r => r.Id == id );
-        }
-
-        public async Task UpdateAsync( Recipe recipe )
-        {
-            await base.Update( recipe );
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
                 {
                     ingredient.Title = updateIngredientCommand.Title;
                     ingredient.Description = updateIngredientCommand.Description;
-                    await ingredientRepository.UpdateAsync( ingredient );
                 }
                 else
                 {

@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Tags.Commands.CreateTag.CreateTagCommand
+﻿namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
 {
     public class CreateTagCommand
     {

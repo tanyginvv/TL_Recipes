@@ -11,6 +11,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
             builder.ToTable( nameof( Recipe ) ).HasKey( r => r.Id );
 
             builder.Property( r => r.Id )
+                .UseHiLo( "RecipeHiLo", "dbo" )
                 .IsRequired();
 
             builder.Property( r => r.Name )

@@ -6,9 +6,9 @@ public class GetTagByNameQueryValidator : IAsyncValidator<GetTagByNameQuery>
 {
     public async Task<Result> ValidateAsync( GetTagByNameQuery query )
     {
-        if ( string.IsNullOrWhiteSpace( query.Name ) )
+        if ( string.IsNullOrEmpty( query.Name ) )
         {
-            return Result.FromError( "Tag name cannot be null or empty" );
+            return Result.FromError( "Название тега не может быть пустым" );
         }
 
         return Result.Success;

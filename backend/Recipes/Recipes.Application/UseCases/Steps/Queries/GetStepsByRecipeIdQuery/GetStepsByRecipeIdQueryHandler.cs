@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
             IReadOnlyList<Step> steps = await stepRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( steps is null )
             {
-                return Result<GetStepsByRecipeIdQueryDto>.FromError( "Steps not found" );
+                return Result<GetStepsByRecipeIdQueryDto>.FromError( "Шаг не найден" );
             }
 
             var dto = new GetStepsByRecipeIdQueryDto

@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
             Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
             if ( recipe is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
             Step step = new( command.StepNumber, command.StepDescription, command.RecipeId );

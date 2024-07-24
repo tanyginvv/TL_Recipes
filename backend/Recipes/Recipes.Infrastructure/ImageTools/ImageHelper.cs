@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Recipes.Application.Interfaces;
 
-namespace Recipes.Application.ImageTools
+namespace Recipes.Infrastructure.ImageTools
 {
-    public class ImageHelperTools
+    public class ImageHelperTools : IImageTools
     {
         private const string STORE_URL = "../Recipes.Infrastructure/store";
 
@@ -34,7 +35,7 @@ namespace Recipes.Application.ImageTools
             return fileName;
         }
 
-        public static byte[] GetImage( string imageName )
+        public byte[] GetImage( string imageName )
         {
             if ( string.IsNullOrEmpty( imageName ) )
             {

@@ -1,5 +1,4 @@
-﻿using Recipes.Application.Repositories;
-using Recipes.Application.Results;
+﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
@@ -9,7 +8,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
     {
         public async Task<Result> ValidateAsync( CreateRecipeCommand command )
         {
-            if ( command.Name is null || command.Name == string.Empty )
+            if ( string.IsNullOrEmpty( command.Name ) )
             {
                 return Result.FromError( "Название блюда не может быть пустым" );
             }

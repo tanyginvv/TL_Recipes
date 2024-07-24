@@ -9,21 +9,28 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
     public class CreateTagCommandHandler(
             ITagRepository tagRepository,
             IAsyncValidator<CreateTagCommand> validator )
-        : ICommandHandler<CreateTagCommand>
+        : ICommandHandlerWithResult<CreateTagCommand, Tag>
     {
-        public async Task<Result> HandleAsync( CreateTagCommand createTagCommand )
+        public async Task<Result<Tag>> HandleAsync( CreateTagCommand createTagCommand )
         {
             Result validationResult = await validator.ValidateAsync( createTagCommand );
             if ( !validationResult.IsSuccess )
             {
-                return Result.FromError( validationResult.Error );
+                return Result<Tag>.FromError( validationResult.Error );
+            }
+
+            bool tagExists = await tagRepository.ContainsAsync( tag => tag.Name == createTagCommand.Name );
+
+            if ( tagExists )
+            {
+                Tag existingTag = await tagRepository.GetByNameAsync( createTagCommand.Name );
+                return Result<Tag>.FromSuccess( existingTag );
             }
 
             Tag tag = new Tag( createTagCommand.Name );
-
             await tagRepository.AddAsync( tag );
 
-            return Result.Success;
+            return Result<Tag>.FromSuccess( tag );
         }
     }
 }

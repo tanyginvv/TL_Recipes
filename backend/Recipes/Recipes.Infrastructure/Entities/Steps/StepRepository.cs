@@ -16,10 +16,10 @@ namespace Recipes.Infrastructure.Entities.Steps
             await base.AddAsync( step );
         }
 
-        public async Task DeleteAsync( int id )
+        public async Task Delete( Step step )
         {
-            Step step = await GetByIdAsync( id );
-            if ( step != null )
+            Step st = await GetByIdAsync( step.Id );
+            if ( st != null )
             {
                 base.Remove( step );
             }

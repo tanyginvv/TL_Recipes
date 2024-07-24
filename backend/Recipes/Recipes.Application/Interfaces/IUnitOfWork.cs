@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Repositories
+﻿namespace Recipes.Application.Interfaces
 {
     public interface IUnitOfWork
     {

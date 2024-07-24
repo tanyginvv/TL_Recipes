@@ -1,4 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
+﻿using Recipes.Domain.Entities;
+
+namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
 {
     public class CreateTagCommand
     {

@@ -18,12 +18,12 @@ namespace Recipes.Infrastructure.Entities.Recipes
             await base.AddAsync( recipe );
         }
 
-        public async Task DeleteAsync( int id )
+        public async Task Delete( Recipe recipe )
         {
-            Recipe recipe = await GetByIdAsync( id );
-            if ( recipe is not null )
+            Recipe rec = await GetByIdAsync( recipe.Id );
+            if ( rec is not null )
             {
-                base.Remove( recipe );
+                base.Remove( rec );
             }
         }
 

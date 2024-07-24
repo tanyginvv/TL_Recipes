@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class DeleteStepCommandHandler(
             IStepRepository stepRepository,
@@ -30,7 +30,7 @@ namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
                 return Result.FromError( "ID шага не соответствует указанному номеру шага" );
             }
 
-            await stepRepository.DeleteAsync( step.Id );
+            await stepRepository.Delete( step );
 
             return Result.Success;
         }

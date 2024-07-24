@@ -9,9 +9,9 @@
         public int PortionCount { get; set; }
         public string ImageUrl { get; set; }
 
-        public List<Tag> Tags { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
-        public List<Step> Steps { get; set; }
+        public ICollection<Tag> Tags { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<Step> Steps { get; set; }
 
         public Recipe( string name, string description, int cookTime, int portionCount, string imageUrl )
         {

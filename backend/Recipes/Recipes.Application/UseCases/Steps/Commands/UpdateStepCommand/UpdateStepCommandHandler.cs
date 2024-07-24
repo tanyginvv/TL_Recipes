@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class UpdateStepCommandHandler(
             IStepRepository stepRepository,

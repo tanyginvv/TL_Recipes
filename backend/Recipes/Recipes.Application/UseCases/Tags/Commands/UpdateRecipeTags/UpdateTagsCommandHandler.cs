@@ -2,20 +2,27 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.CreateTag;
+using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
+namespace Recipes.Application.UseCases.Tags.Commands
 {
-    public class UpdateRecipeTagsCommandHandler(
+    public class UpdateTagsCommandHandler(
             IRecipeRepository recipeRepository,
             ITagRepository tagRepository,
-            ICommandHandler<CreateTagCommand> createTagCommandHandler,
-            IUnitOfWork unitOfWork )
-        : ICommandHandler<UpdateRecipeTagsCommand>
+            ICommandHandlerWithResult<CreateTagCommand, Tag> createTagCommandHandler,
+            IAsyncValidator<UpdateTagsCommand> validator )
+        : ICommandHandler<UpdateTagsCommand>
     {
-        public async Task<Result> HandleAsync( UpdateRecipeTagsCommand command )
+        public async Task<Result> HandleAsync( UpdateTagsCommand command )
         {
-            if ( command.RecipeTags is null )
+            Result validationResult = await validator.ValidateAsync( command );
+            if ( !validationResult.IsSuccess )
+            {
+                return Result.FromError( validationResult.Error );
+            }
+
+            if ( command.RecipeTags is null || !command.RecipeTags.Any() )
             {
                 return Result.FromError( "Теги рецепта не могут быть пустыми" );
             }
@@ -27,19 +34,18 @@ namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
             }
 
             List<Tag> existingTags = recipe.Tags.ToList();
-
             List<string> existingTagNames = existingTags.Select( t => t.Name ).ToList();
-
             List<string> newTagNames = command.RecipeTags.Select( t => t.Name ).ToList();
 
             List<Tag> tagsToRemove = existingTags.Where( t => !newTagNames.Contains( t.Name ) ).ToList();
-
             List<Tag> tagsToAdd = new();
+
             foreach ( string name in newTagNames )
             {
-                Tag tag = await tagRepository.GetByNameAsync( name );
-                if ( tag is not null )
+                bool tagExists = await tagRepository.ContainsAsync( tag => tag.Name == name );
+                if ( tagExists )
                 {
+                    Tag tag = await tagRepository.GetByNameAsync( name );
                     if ( !existingTags.Any( t => t.Id == tag.Id ) )
                     {
                         tagsToAdd.Add( tag );
@@ -48,13 +54,8 @@ namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
                 else
                 {
                     CreateTagCommand createTagCommand = new() { Name = name };
-                    Result createResult = await createTagCommandHandler.HandleAsync( createTagCommand );
-                    if ( !createResult.IsSuccess )
-                    {
-                        return Result.FromError( createResult.Error );
-                    }
-                    tag = await tagRepository.GetByNameAsync( name );
-                    tagsToAdd.Add( tag );
+                    Result<Tag> createResult = await createTagCommandHandler.HandleAsync( createTagCommand );
+                    tagsToAdd.Add( createResult.Value );
                 }
             }
 
@@ -65,13 +66,11 @@ namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 
             foreach ( Tag tag in tagsToAdd )
             {
-                if ( !recipe.Tags.Contains( tag ) )
+                if ( !recipe.Tags.Any( t => t.Id == tag.Id ) )
                 {
                     recipe.Tags.Add( tag );
                 }
             }
-
-            await unitOfWork.CommitAsync();
 
             return Result.Success;
         }

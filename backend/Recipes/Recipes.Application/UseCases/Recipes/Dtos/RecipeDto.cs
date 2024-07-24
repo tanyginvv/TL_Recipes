@@ -8,8 +8,8 @@
         public required int CookTime { get; set; }
         public required int PortionCount { get; set; }
         public required string ImageUrl { get; set; }
-        public required List<TagDto> Tags { get; set; }
-        public required List<StepDto> Steps { get; set; }
-        public required List<IngredientDto> Ingredients { get; set; }
+        public required ICollection<TagDto> Tags { get; set; }
+        public required ICollection<StepDto> Steps { get; set; }
+        public required ICollection<IngredientDto> Ingredients { get; set; }
     }
 }

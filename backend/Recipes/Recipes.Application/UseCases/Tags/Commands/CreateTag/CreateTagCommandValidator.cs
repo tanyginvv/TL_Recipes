@@ -14,6 +14,11 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
                 return Result.FromError( "Название тега не может быть пустым" );
             }
 
+            if ( command.Name.Length > 50 )
+            {
+                return Result.FromError( "Название тега не может быть больше 50 символов" );
+            }
+
             return Result.FromSuccess();
         }
     }

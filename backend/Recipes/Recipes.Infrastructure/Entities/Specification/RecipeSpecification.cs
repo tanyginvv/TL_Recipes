@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Recipes.Application.Interfaces;
 using Recipes.Application.Paginator;
-using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Infrastructure.Entities.Specification

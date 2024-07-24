@@ -16,12 +16,12 @@ namespace Recipes.Infrastructure.Entities.Ingredients
             await base.AddAsync( ingredient );
         }
 
-        public async Task DeleteAsync( int id )
+        public async Task Delete( Ingredient ingredient )
         {
-            Ingredient ingredient = await GetByIdAsync( id );
+            Ingredient ingred = await GetByIdAsync( ingredient.Id );
             if ( ingredient is not null )
             {
-                base.Remove( ingredient );
+                base.Remove( ingred );
             }
         }
 

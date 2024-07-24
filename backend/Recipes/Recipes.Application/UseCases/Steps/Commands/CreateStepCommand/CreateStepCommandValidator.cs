@@ -1,10 +1,9 @@
-﻿using Recipes.Application.Repositories;
-using Recipes.Application.Results;
+﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
-    public class CreateStepCommandValidator( IRecipeRepository recipeRepository )
+    public class CreateStepCommandValidator
         : IAsyncValidator<CreateStepCommand>
     {
         public async Task<Result> ValidateAsync( CreateStepCommand command )
@@ -17,12 +16,6 @@ namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
             if ( command.RecipeId <= 0 )
             {
                 return Result.FromError( "ID рецепта должен быть больше 0" );
-            }
-
-            var recipeExists = await recipeRepository.GetByIdAsync( command.RecipeId );
-            if ( recipeExists is null )
-            {
-                return Result.FromError( "Рецепт не найден" );
             }
 
             return Result.Success;

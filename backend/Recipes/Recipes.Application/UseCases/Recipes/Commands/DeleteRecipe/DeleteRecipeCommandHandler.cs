@@ -3,6 +3,7 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
+using Recipes.Application.Interfaces;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
 {
@@ -26,7 +27,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
                 return Result.FromError( "Рецепт не найден" );
             }
 
-            await recipeRepository.DeleteAsync( foundRecipe.Id );
+            await recipeRepository.Delete( foundRecipe );
 
             await unitOfWork.CommitAsync();
 

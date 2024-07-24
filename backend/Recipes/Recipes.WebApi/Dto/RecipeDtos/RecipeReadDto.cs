@@ -26,12 +26,12 @@ namespace Recipes.WebApi.Dto.RecipeDtos
         public string ImageUrl { get; set; }
 
         [Required]
-        public List<IngredientDto> Ingredients { get; set; }
+        public ICollection<IngredientDto> Ingredients { get; set; }
 
         [Required]
-        public List<StepDto> Steps { get; set; }
+        public ICollection<StepDto> Steps { get; set; }
 
         [Required]
-        public List<TagDto> Tags { get; set; }
+        public ICollection<TagDto> Tags { get; set; }
     }
 }

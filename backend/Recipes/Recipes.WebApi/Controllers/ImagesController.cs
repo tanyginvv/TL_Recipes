@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.Application.ImageTools;
+using Recipes.Application.Interfaces;
 
 namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/images" )]
-    public class ImagesController( ImageHelperTools imageHelperTools )
+    public class ImagesController( IImageTools imageHelperTools )
         : ControllerBase
     {
         [HttpPost( "upload" )]
@@ -29,7 +29,7 @@ namespace Recipes.WebApi.Controllers
         [HttpGet( "{fileName}" )]
         public IActionResult GetImage( [FromRoute] string fileName )
         {
-            var imageBytes = ImageHelperTools.GetImage( fileName );
+            var imageBytes = imageHelperTools.GetImage( fileName );
 
             if ( imageBytes == null )
             {

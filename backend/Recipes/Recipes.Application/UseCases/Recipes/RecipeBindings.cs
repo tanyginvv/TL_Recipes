@@ -7,7 +7,7 @@ using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
-using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
+using Recipes.Application.UseCases.Tags.Commands;
 
 namespace Recipes.Application.UseCases.Recipes
 {
@@ -18,7 +18,7 @@ namespace Recipes.Application.UseCases.Recipes
             services.AddScoped<ICommandHandlerWithResult<CreateRecipeCommand, int>, CreateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateRecipeCommand>, UpdateRecipeCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
             services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, SearchRecipesQuery>, SearchRecipesQueryHandler>();
@@ -26,7 +26,7 @@ namespace Recipes.Application.UseCases.Recipes
             services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateRecipeCommand>, UpdateRecipeCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateRecipeTagsCommand>, UpdateRecipeTagsCommandValidator>();
+            services.AddScoped<IAsyncValidator<UpdateTagsCommand>, UpdateTagsCommandValidator>();
 
             services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
             services.AddScoped<IAsyncValidator<SearchRecipesQuery>, SearchRecipesQueryValidator>();

@@ -7,6 +7,7 @@ using Recipes.Application.UseCases.Tags.Queries.GetTagByName;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;
 using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags
 {
@@ -14,7 +15,7 @@ namespace Recipes.Application.UseCases.Tags
     {
         public static IServiceCollection AddTagsBindings( this IServiceCollection services )
         {
-            services.AddScoped<ICommandHandler<CreateTagCommand>, CreateTagCommandHandler>();
+            services.AddScoped<ICommandHandlerWithResult<CreateTagCommand, Tag>, CreateTagCommandHandler>();
 
             services.AddScoped<IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>, GetTagsByRecipeIdQueryHandler>();
             services.AddScoped<IQueryHandler<GetTagByNameQueryDto, GetTagByNameQuery>, GetTagByNameQueryHandler>();

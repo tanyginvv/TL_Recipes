@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
@@ -35,13 +36,9 @@ namespace Recipes.Infrastructure.Entities.Tags
             await base.AddAsync( tag );
         }
 
-        public async Task DeleteAsync( int id )
+        public async Task<bool> ContainsAsync( Expression<Func<Tag, bool>> predicate )
         {
-            Tag tag = await GetByIdAsync( id );
-            if ( tag is not null )
-            {
-                Remove( tag );
-            }
+            return await _dbSet.AnyAsync( predicate );
         }
     }
 }

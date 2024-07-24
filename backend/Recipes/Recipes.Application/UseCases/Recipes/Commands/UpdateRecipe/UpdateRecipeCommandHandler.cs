@@ -3,28 +3,20 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
-using Recipes.Application.UseCases.Steps.Commands.CreateStepCommand;
-using Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand;
-using Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand;
-using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
-using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
-using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
-using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
+using Recipes.Application.Interfaces;
+using Recipes.Application.UseCases.Ingredients.Commands;
+using Recipes.Application.UseCases.Steps.Commands;
+using Recipes.Application.UseCases.Tags.Commands;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 {
     public class UpdateRecipeCommandHandler(
             IRecipeRepository recipeRepository,
-            IAsyncValidator<UpdateRecipeCommand> validator,
+    IAsyncValidator<UpdateRecipeCommand> validator,
             IUnitOfWork unitOfWork,
-            ICommandHandler<UpdateStepCommand> updateStepCommandHandler,
-            ICommandHandler<UpdateIngredientCommand> updateIngredientCommandHandler,
-            ICommandHandler<DeleteStepCommand> deleteStepCommandHandler,
-            ICommandHandler<DeleteIngredientCommand> deleteIngredientCommandHandler,
-            ICommandHandler<CreateStepCommand> createStepCommandHandler,
-            ICommandHandler<CreateIngredientCommand> createIngredientCommandHandler,
-            ICommandHandler<UpdateRecipeTagsCommand> updateRecipeTagsCommandHandler )
+            ICommandHandler<UpdateStepsCommand> updateStepsCommandHandler,
+            ICommandHandler<UpdateIngredientsCommand> updateIngredientsCommandHandler,
+            ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler )
         : ICommandHandler<UpdateRecipeCommand>
     {
         public async Task<Result> HandleAsync( UpdateRecipeCommand updateRecipeCommand )
@@ -47,80 +39,31 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             oldRecipe.CookTime = updateRecipeCommand.CookTime;
             oldRecipe.ImageUrl = updateRecipeCommand.ImageUrl;
 
-            List<Step> oldSteps = oldRecipe.Steps.ToList();
-            List<StepDto> newSteps = updateRecipeCommand.Steps.ToList();
-
-            for ( int i = 0; i < Math.Min( oldSteps.Count, newSteps.Count ); i++ )
+            UpdateStepsCommand updateStepsCommand = new UpdateStepsCommand
             {
-                UpdateStepCommand updateStepCommand = new()
-                {
-                    StepId = oldSteps[ i ].Id,
-                    StepDescription = newSteps[ i ].StepDescription,
-                    StepNumber = newSteps[ i ].StepNumber
-                };
-                await updateStepCommandHandler.HandleAsync( updateStepCommand );
-            }
+                Recipe = oldRecipe,
+                NewSteps = updateRecipeCommand.Steps
+            };
+            await updateStepsCommandHandler.HandleAsync( updateStepsCommand );
 
-            for ( int i = newSteps.Count; i < oldSteps.Count; i++ )
+            var updateIngredientsCommand = new UpdateIngredientsCommand
             {
-                DeleteStepCommand deleteStepCommand = new() { StepId = oldSteps[ i ].Id };
-                await deleteStepCommandHandler.HandleAsync( deleteStepCommand );
-            }
+                Recipe = oldRecipe,
+                NewIngredients = updateRecipeCommand.Ingredients
+            };
+            await updateIngredientsCommandHandler.HandleAsync( updateIngredientsCommand );
 
-            for ( int i = oldSteps.Count; i < newSteps.Count; i++ )
-            {
-                CreateStepCommand createStepCommand = new()
-                {
-                    RecipeId = updateRecipeCommand.Id,
-                    StepDescription = newSteps[ i ].StepDescription,
-                    StepNumber = newSteps[ i ].StepNumber
-                };
-                await createStepCommandHandler.HandleAsync( createStepCommand );
-            }
-
-            List<Ingredient> oldIngredients = oldRecipe.Ingredients.ToList();
-            List<IngredientDto> newIngredients = updateRecipeCommand.Ingredients.ToList();
-
-            for ( int i = 0; i < Math.Min( oldIngredients.Count, newIngredients.Count ); i++ )
-            {
-                UpdateIngredientCommand updateIngredientCommand = new()
-                {
-                    Id = oldIngredients[ i ].Id,
-                    Title = newIngredients[ i ].Title,
-                    Description = newIngredients[ i ].Description
-                };
-                await updateIngredientCommandHandler.HandleAsync( updateIngredientCommand );
-            }
-
-            for ( int i = newIngredients.Count; i < oldIngredients.Count; i++ )
-            {
-                DeleteIngredientCommand deleteIngredientCommand = new() { Id = oldIngredients[ i ].Id };
-                await deleteIngredientCommandHandler.HandleAsync( deleteIngredientCommand );
-            }
-
-            for ( int i = oldIngredients.Count; i < newIngredients.Count; i++ )
-            {
-                CreateIngredientCommand createIngredientCommand = new()
-                {
-                    RecipeId = updateRecipeCommand.Id,
-                    Title = newIngredients[ i ].Title,
-                    Description = newIngredients[ i ].Description
-                };
-                await createIngredientCommandHandler.HandleAsync( createIngredientCommand );
-            }
-
-            List<TagDto> newTagIds = updateRecipeCommand.Tags.ToList();
-            UpdateRecipeTagsCommand newTagCommand = new()
+            UpdateTagsCommand updateTagsCommand = new UpdateTagsCommand
             {
                 RecipeId = updateRecipeCommand.Id,
-                RecipeTags = newTagIds
+                RecipeTags = updateRecipeCommand.Tags
             };
-
-            await updateRecipeTagsCommandHandler.HandleAsync( newTagCommand );
+            await updateTagsCommandHandler.HandleAsync( updateTagsCommand );
 
             await unitOfWork.CommitAsync();
 
             return Result.Success;
         }
+
     }
 }

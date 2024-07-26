@@ -1,22 +1,38 @@
-import styles from "./header.module.css"
-import login from "../../assets/images/login.svg"
+import styles from "./header.module.css";
+import login from "../../assets/images/login.svg";
+import { Link, useLocation } from "react-router-dom";
+
 export const Header = () => {
+    const location = useLocation();
+
     return (
         <>
             <div className={styles.headerBody}>
                 <div className={styles.headerMenu}>
-                    <p className={styles.menuIcon}>Recipes</p>
+                    <Link to='/homePage'>
+                        <button className={styles.menuIcon}>
+                            Recipes
+                        </button>
+                    </Link>
                     <div className={styles.menuButtons}>
-                        <button className={styles.menuButton}>Главная</button>
-                        <button className={styles.menuButton}>Рецепты</button>
+                        <Link to='/homePage'>
+                            <button className={location.pathname === '/homePage' ? styles.menuButtonBold : styles.menuButton}>
+                                Главная
+                            </button>
+                        </Link>
+                        <Link to='/allRecipesPage'>
+                            <button className={location.pathname != '/homePage' ? styles.menuButtonBold : styles.menuButton}>
+                                Рецепты
+                            </button>
+                        </Link>
                         <button className={styles.menuButton}>Избранное</button>
                     </div>
                 </div>
                 <div className={styles.headerLoginInfo}>
-                    <img className={styles.loginInfoIcon} src={login}/>
+                    <img className={styles.loginInfoIcon} src={login} />
                     <button className={styles.loginText}>Войти</button>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};

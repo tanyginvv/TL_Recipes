@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    width: 1250px;
+    width: 1200px;
     height: 600px;
     background: url("../../../assets/images/example.png");
     background-position-x: left;

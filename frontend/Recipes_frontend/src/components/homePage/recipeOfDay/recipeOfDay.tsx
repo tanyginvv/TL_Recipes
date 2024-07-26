@@ -1,6 +1,6 @@
 import styles from './example.module.css';
 
-const Example = () => {
+export const RecipeOfDay= () => {
     return (
         <div className={styles.example}>
             <div className={styles.exampleContent}>
@@ -17,5 +17,3 @@ const Example = () => {
         </div>
     );
 };
-
-export default Example;

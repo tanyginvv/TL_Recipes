@@ -1,6 +1,6 @@
 import styles from './footer.module.css';
 
-const Footer = () => {
+export const Footer = () => {
     return (
         <div className={styles.footer}>
             <p className={styles.footerIcon}>Recipes</p>
@@ -8,5 +8,3 @@ const Footer = () => {
         </div>
     );
 };
-
-export default Footer;

@@ -1,5 +1,45 @@
  .mainPage{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+   width: 1200px;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+ }
+
+ 
+ .searchContainer {
+   display: flex;
+   flex-direction: column;
+   text-align: center;
+   gap: 58px;
+   align-items: center;
+   margin: 74px 0 128px 0;
+ }
+
+ .searchIntro {
+   display: flex;
+   flex-direction: column;
+ }
+
+ .searchTitle {
+   font-family: Montserrat;
+   font-size: 42px;
+   font-weight: 700;
+   line-height: 51.2px;
+   text-align: center;
+   color : #25292D;
+   margin: 0;
+ }
+
+ .searchSubTitle {
+   font-family: Mulish;
+   font-size: 19px;
+   font-weight: 400;
+   line-height: 32px;
+   text-align: center;
+   color: #4A525A;
+   margin-top: 12px;
+ }
+
+ p {
+   margin: 0;
  }

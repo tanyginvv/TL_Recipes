@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
@@ -21,8 +22,8 @@ namespace Recipes.WebApi.Controllers
             [FromBody] RecipeCreateDto dto,
             [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler )
         {
-            var command = dto.Adapt<CreateRecipeCommand>();
-            var result = await createRecipeCommandHandler.HandleAsync( command );
+            CreateRecipeCommand command = dto.Adapt<CreateRecipeCommand>();
+            Result<RecipeIdDto> result = await createRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
@@ -37,8 +38,8 @@ namespace Recipes.WebApi.Controllers
             [FromRoute, Range( 1, int.MaxValue )] int id,
             [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
         {
-            var command = new DeleteRecipeCommand { RecipeId = id };
-            var result = await deleteRecipeCommandHandler.HandleAsync( command );
+            DeleteRecipeCommand command = new DeleteRecipeCommand { RecipeId = id };
+            Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
@@ -54,10 +55,10 @@ namespace Recipes.WebApi.Controllers
             [FromBody] RecipeUpdateDto dto,
             [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
         {
-            var command = dto.Adapt<UpdateRecipeCommand>();
+            UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
             command.Id = id;
 
-            var result = await updateRecipeCommandHandler.HandleAsync( command );
+            Result result = await updateRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
@@ -72,8 +73,8 @@ namespace Recipes.WebApi.Controllers
             [FromRoute, Range( 1, int.MaxValue )] int id,
             [FromServices] IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
         {
-            var query = new GetRecipeByIdQuery { Id = id };
-            var result = await getRecipeByIdQueryHandler.HandleAsync( query );
+            GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = id };
+            Result<GetRecipeByIdQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {
@@ -84,18 +85,18 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<GetRecipePartDto>>> GetRecipes(
+        public async Task<ActionResult<IEnumerable<GetRecipePartDto>>> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
             [FromQuery] int pageNumber = 1,
             [FromQuery] List<string> searchTerms = null )
         {
-            var query = new GetRecipesQuery
+            GetRecipesQuery query = new GetRecipesQuery
             {
                 SearchTerms = searchTerms,
                 PageNumber = pageNumber
             };
 
-            var result = await getRecipesQueryHandler.HandleAsync( query );
+            Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {

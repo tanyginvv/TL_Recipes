@@ -1,4 +1,4 @@
-﻿namespace Recipes.WebApi.Dto.TagsDto
+﻿namespace Recipes.WebApi.Dto.TagDtos
 {
     public class ReadTagDto
     {

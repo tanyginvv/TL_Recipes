@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Application.Paginator;
+using Recipes.Application.Filters;
+using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
-using Recipes.Infrastructure.Entities.Specification;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
@@ -13,7 +13,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
         {
         }
 
-        public override async Task AddAsync( Recipe recipe )
+        public async Task AddAsync( Recipe recipe )
         {
             await base.AddAsync( recipe );
         }
@@ -27,16 +27,19 @@ namespace Recipes.Infrastructure.Entities.Recipes
             }
         }
 
-        public async Task<IReadOnlyList<Recipe>> GetAllAsync( PaginationFilter paginationFilter )
+        public async Task<List<Recipe>> GetRecipesAsync( IEnumerable<IFilter<Recipe>> filters )
         {
-            RecipeSpecification spec = new RecipeSpecification( null, paginationFilter );
-            return await spec.Apply( _dbSet ).ToListAsync();
-        }
+            IQueryable<Recipe> query = _dbSet
+                .AsQueryable().ApplyFilters( filters );
 
-        public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms, PaginationFilter paginationFilter )
-        {
-            RecipeSpecification spec = new RecipeSpecification( searchTerms, paginationFilter );
-            return await spec.Apply( _dbSet ).ToListAsync();
+            List<Recipe> recipes = await query.ToListAsync();
+
+            foreach ( Recipe recipe in recipes )
+            {
+                await _context.Entry( recipe ).Collection( r => r.Tags ).LoadAsync();
+            }
+
+            return recipes;
         }
 
         public override async Task<Recipe> GetByIdAsync( int id )

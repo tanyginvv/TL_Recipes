@@ -8,7 +8,6 @@ namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class CreateStepCommandHandler(
             IStepRepository stepRepository,
-            IRecipeRepository recipeRepository,
             IAsyncValidator<CreateStepCommand> validator )
         : ICommandHandlerWithResult<CreateStepCommand, Step>
     {
@@ -20,7 +19,7 @@ namespace Recipes.Application.UseCases.Steps.Commands
                 return Result<Step>.FromError( validationResult.Error );
             }
 
-            Step step = new( command.StepNumber, command.StepDescription, command.RecipeId );
+            Step step = new( command.StepNumber, command.StepDescription, command.Recipe.Id );
 
             await stepRepository.AddAsync( step );
 

@@ -30,7 +30,7 @@ namespace Recipes.Application.UseCases.Steps.Commands
                 {
                     CreateStepCommand createStepCommand = new CreateStepCommand
                     {
-                        RecipeId = command.Recipe.Id,
+                        Recipe = command.Recipe,
                         StepDescription = newStep.StepDescription,
                         StepNumber = newStep.StepNumber
                     };

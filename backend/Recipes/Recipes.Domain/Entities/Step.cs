@@ -1,8 +1,7 @@
 ﻿namespace Recipes.Domain.Entities
 {
-    public class Step
+    public class Step : Entity
     {
-        public int Id { get; init; }
         public int RecipeId { get; init; }
         public int StepNumber { get; set; }
         public string StepDescription { get; set; }

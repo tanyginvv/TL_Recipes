@@ -7,28 +7,28 @@ namespace Recipes.WebApi.Dto.RecipeDtos
     {
         [Required]
         [StringLength( 50 )]
-        public string Name { get; set; }
+        public string Name { get; init; }
 
         [Required]
         [StringLength( 250 )]
-        public string Description { get; set; }
+        public string Description { get; init; }
 
         [Required]
-        public int CookTime { get; set; }
+        public int CookTime { get; init; }
 
         [Required]
-        public int PortionCount { get; set; }
+        public int PortionCount { get; init; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; init; }
 
         [Required]
-        public ICollection<IngredientDto> Ingredients { get; set; }
+        public ICollection<IngredientDto> Ingredients { get; init; }
 
         [Required]
-        public ICollection<StepDto> Steps { get; set; }
+        public ICollection<StepDto> Steps { get; init; }
 
         [Required]
-        public ICollection<TagDto> Tags { get; set; }
+        public ICollection<TagDto> Tags { get; init; }
     }
 }

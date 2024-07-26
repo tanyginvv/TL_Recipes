@@ -1,13 +1,12 @@
-﻿using Recipes.Application.Repositories;
-using Recipes.Application.Results;
+﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
+namespace Recipes.Application.UseCases.Tags.Commands
 {
-    public class CreateTagCommandValidator
-        : IAsyncValidator<CreateTagCommand>
+    public class GetOrCreateTagCommandValidator
+        : IAsyncValidator<GetOrCreateTagCommand>
     {
-        public async Task<Result> ValidateAsync( CreateTagCommand command )
+        public async Task<Result> ValidateAsync( GetOrCreateTagCommand command )
         {
             if ( string.IsNullOrWhiteSpace( command.Name ) )
             {

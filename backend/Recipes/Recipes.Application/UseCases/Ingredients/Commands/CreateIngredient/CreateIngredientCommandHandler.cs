@@ -22,7 +22,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient
             Ingredient ingredient = new Ingredient(
                 createIngredientCommand.Title,
                 createIngredientCommand.Description,
-                createIngredientCommand.RecipeId );
+                createIngredientCommand.Recipe.Id );
 
             await ingredientRepository.AddAsync( ingredient );
 

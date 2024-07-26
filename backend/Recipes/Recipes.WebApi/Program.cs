@@ -1,4 +1,6 @@
 using Recipes.Application;
+using Recipes.Application.UseCases.Ingredients;
+using Recipes.Application.UseCases.Recipes;
 using Recipes.Infrastructure;
 
 var builder = WebApplication.CreateBuilder( args );

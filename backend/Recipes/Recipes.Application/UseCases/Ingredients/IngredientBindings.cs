@@ -29,6 +29,8 @@ namespace Recipes.Application.UseCases.Ingredients
 
             services.AddScoped<IAsyncValidator<GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryValidator>();
 
+            IngredientMappingConfig.RegisterMappings();
+
             return services;
         }
     }

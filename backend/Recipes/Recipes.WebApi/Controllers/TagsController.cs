@@ -3,7 +3,7 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;
-using Recipes.WebApi.Dto.TagsDto;
+using Recipes.WebApi.Dto.TagDtos;
 
 namespace Recipes.WebApi.Controllers
 {

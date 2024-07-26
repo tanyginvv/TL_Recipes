@@ -1,6 +1,6 @@
 ﻿namespace Recipes.Application.Interfaces
 {
-    public interface ISpecification<T>
+    public interface IFilter<T>
     {
         IQueryable<T> Apply( IQueryable<T> query );
     }

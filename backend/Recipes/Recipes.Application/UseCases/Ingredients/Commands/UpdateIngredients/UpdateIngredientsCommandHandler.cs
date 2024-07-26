@@ -33,7 +33,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands
                 {
                     CreateIngredientCommand createIngredientCommand = new CreateIngredientCommand
                     {
-                        RecipeId = command.Recipe.Id,
+                        Recipe = command.Recipe,
                         Title = newIngredient.Title,
                         Description = newIngredient.Description
                     };

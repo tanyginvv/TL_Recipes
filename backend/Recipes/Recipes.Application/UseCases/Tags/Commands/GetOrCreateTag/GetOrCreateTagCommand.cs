@@ -1,8 +1,8 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
+namespace Recipes.Application.UseCases.Tags.Commands
 {
-    public class CreateTagCommand
+    public class GetOrCreateTagCommand
     {
         public required string Name { get; init; }
     }

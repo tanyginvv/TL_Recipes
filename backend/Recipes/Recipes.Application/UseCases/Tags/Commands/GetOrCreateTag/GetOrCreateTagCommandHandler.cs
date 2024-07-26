@@ -3,15 +3,16 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
+using Mapster;
 
-namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
+namespace Recipes.Application.UseCases.Tags.Commands
 {
-    public class CreateTagCommandHandler(
+    public class GetOrCreateTagCommandHandler(
             ITagRepository tagRepository,
-            IAsyncValidator<CreateTagCommand> validator )
-        : ICommandHandlerWithResult<CreateTagCommand, Tag>
+            IAsyncValidator<GetOrCreateTagCommand> validator )
+        : ICommandHandlerWithResult<GetOrCreateTagCommand, Tag>
     {
-        public async Task<Result<Tag>> HandleAsync( CreateTagCommand createTagCommand )
+        public async Task<Result<Tag>> HandleAsync( GetOrCreateTagCommand createTagCommand )
         {
             Result validationResult = await validator.ValidateAsync( createTagCommand );
             if ( !validationResult.IsSuccess )
@@ -19,15 +20,14 @@ namespace Recipes.Application.UseCases.Tags.Commands.CreateTag
                 return Result<Tag>.FromError( validationResult.Error );
             }
 
-            bool tagExists = await tagRepository.ContainsAsync( tag => tag.Name == createTagCommand.Name );
+            Tag existingTag = await tagRepository.GetByNameAsync( createTagCommand.Name );
 
-            if ( tagExists )
+            if ( existingTag is not null )
             {
-                Tag existingTag = await tagRepository.GetByNameAsync( createTagCommand.Name );
                 return Result<Tag>.FromSuccess( existingTag );
             }
 
-            Tag tag = new Tag( createTagCommand.Name );
+            Tag tag = createTagCommand.Adapt<Tag>();
             await tagRepository.AddAsync( tag );
 
             return Result<Tag>.FromSuccess( tag );

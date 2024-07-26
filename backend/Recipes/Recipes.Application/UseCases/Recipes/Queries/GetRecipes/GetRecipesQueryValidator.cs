@@ -3,9 +3,9 @@ using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
 {
-    public class SearchRecipesQueryValidator : IAsyncValidator<SearchRecipesQuery>
+    public class GetRecipesQueryValidator : IAsyncValidator<GetRecipesQuery>
     {
-        public async Task<Result> ValidateAsync( SearchRecipesQuery query )
+        public async Task<Result> ValidateAsync( GetRecipesQuery query )
         {
             return Result.Success;
         }

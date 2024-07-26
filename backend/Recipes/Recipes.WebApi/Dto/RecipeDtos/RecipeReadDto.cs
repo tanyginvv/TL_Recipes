@@ -17,21 +17,21 @@ namespace Recipes.WebApi.Dto.RecipeDtos
         public string Description { get; set; }
 
         [Required]
-        public int CookTime { get; set; }
+        public int CookTime { get; init; }
 
         [Required]
-        public int CountPortion { get; set; }
+        public int CountPortion { get; init; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; init; }
 
         [Required]
-        public ICollection<IngredientDto> Ingredients { get; set; }
+        public ICollection<IngredientDto> Ingredients { get; init; }
 
         [Required]
-        public ICollection<StepDto> Steps { get; set; }
+        public ICollection<StepDto> Steps { get; init; }
 
         [Required]
-        public ICollection<TagDto> Tags { get; set; }
+        public ICollection<TagDto> Tags { get; init; }
     }
 }

@@ -11,7 +11,7 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240723182803_InitialTables")]
+    [Migration("20240725172754_InitialTables")]
     partial class InitialTables
     {
         /// <inheritdoc />

@@ -1,8 +1,7 @@
 ﻿namespace Recipes.Domain.Entities
 {
-    public class Tag
+    public class Tag : Entity
     {
-        public int Id { get; init; }
         public string Name { get; init; }
         public ICollection<Recipe> Recipes { get; set; }
 

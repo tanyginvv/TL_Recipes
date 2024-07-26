@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Tags.Commands.CreateTag;
+using Recipes.Application.UseCases.Tags.Commands;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
@@ -10,7 +10,7 @@ namespace Recipes.Application.UseCases.Tags.Commands
     public class UpdateTagsCommandHandler(
             IRecipeRepository recipeRepository,
             ITagRepository tagRepository,
-            ICommandHandlerWithResult<CreateTagCommand, Tag> createTagCommandHandler,
+            ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
             IAsyncValidator<UpdateTagsCommand> validator )
         : ICommandHandler<UpdateTagsCommand>
     {
@@ -53,7 +53,7 @@ namespace Recipes.Application.UseCases.Tags.Commands
                 }
                 else
                 {
-                    CreateTagCommand createTagCommand = new() { Name = name };
+                    GetOrCreateTagCommand createTagCommand = new() { Name = name };
                     Result<Tag> createResult = await createTagCommandHandler.HandleAsync( createTagCommand );
                     tagsToAdd.Add( createResult.Value );
                 }

@@ -26,6 +26,8 @@ namespace Recipes.Application.UseCases.Steps
 
             services.AddScoped<IAsyncValidator<GetStepsByRecipeIdQuery>, GetStepsByRecipeIdQueryValidator>();
 
+            StepMappingConfig.RegisterMappings();
+
             return services;
         }
     }

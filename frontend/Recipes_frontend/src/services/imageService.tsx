@@ -20,4 +20,21 @@ export class ImageService {
             return null;
         }
     }
+
+    async uploadImage(image: File): Promise<string> {
+        const formData = new FormData();
+        formData.append('image', image);
+
+        const response = await fetch(`${this.apiUrl}/images/upload`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка при загрузке изображения');
+        }
+
+        const data = await response.json();
+        return data.fileName;
+    }
 }

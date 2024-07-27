@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './recipeCard.module.css';
 import cookingTimeIcon from "../../assets/images/cookingTime.svg";
 import countPortionIcon from "../../assets/images/personCount.svg";
 import { IRecipeAllRecipes } from '../../models/types';
+import { useNavigate } from 'react-router-dom';
 import { ImageService } from '../../services/imageService';
 
 interface RecipeCardProps {
@@ -14,10 +14,7 @@ const imageService = new ImageService();
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     const navigate = useNavigate();
-    const location = useLocation();
     const [imageSrc, setImageSrc] = useState<string>("");
-
-    const isDetailPage = location.pathname.includes(`/detailRecipesPage/${recipe.id}`);
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -46,7 +43,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
                     ))}
                 </span>
                 <span className={styles.recipeNameInfo}>
-                    {!isDetailPage && <h3 className={styles.recipeName}>{recipe.name}</h3>}
+                    <h3 className={styles.recipeName}>{recipe.name}</h3>
                     <p className={styles.recipeDescription}>{recipe.description}</p>
                 </span>
                 <span className={styles.recipeExtras}>

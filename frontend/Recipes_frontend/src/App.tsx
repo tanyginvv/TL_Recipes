@@ -5,6 +5,7 @@ import { Header } from './components/header/header'
 import { Footer } from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
 import { DetailRecipePage } from './components/detailRecipePage/detailRecipePage'
+import { AddAndEditRecipePage } from './components/addEndEditRecipePage/addAndEditRecipePage'
 function App() {
 
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Header/> 
           <Routes>
+            <Route path='/addAndEditRecipePage/:id?' element={<AddAndEditRecipePage/>}/>
             <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
             <Route path='/homePage' element={<HomePage/>}/>

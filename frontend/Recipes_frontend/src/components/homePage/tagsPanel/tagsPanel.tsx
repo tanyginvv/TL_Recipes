@@ -18,7 +18,7 @@ export const TagsPanel = ({ showCardText }: ShowCardProps) => {
                 </span>
             </div>
             }
-            <div className={styles.cards}>
+            <div className={`${styles.cards} ${!showCardText ? styles.cardsCondensed : ''}`}>
                 <div className={`${styles.card} ${styles.card1}`}>
                     <span className={styles.cardHeader}>Простые блюда</span>
                     {showCardText && (

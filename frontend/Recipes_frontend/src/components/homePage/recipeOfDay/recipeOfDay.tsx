@@ -1,4 +1,4 @@
-import styles from './example.module.css';
+import styles from './recipeOfDay.module.css';
 
 export const RecipeOfDay= () => {
     return (

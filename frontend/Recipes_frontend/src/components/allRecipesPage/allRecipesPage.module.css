@@ -1,0 +1,43 @@
+.recipesContainer {
+    margin-top: 130px;
+    height: auto;
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.recipeSearcher {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.searcherTitle {
+    align-items: flex-start;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: left;
+    color: #25292D;
+}
+
+.loadMoreButton {
+    height: 60px;
+    color: #F29E1F;
+    background-color: transparent;
+    border: #F29E1F solid 1px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadMoreButton:hover {
+    background-color: #F29E1F;
+    color: #FFFFFF;
+}

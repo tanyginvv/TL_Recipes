@@ -1,0 +1,34 @@
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
+
+namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
+{
+    public class UpdateIngredientCommandHandler(
+           IIngredientRepository ingredientRepository,
+           IAsyncValidator<UpdateIngredientCommand> validator )
+        : ICommandHandler<UpdateIngredientCommand>
+    {
+        public async Task<Result> HandleAsync( UpdateIngredientCommand updateIngredientCommand )
+        {
+            Result validationResult = await validator.ValidateAsync( updateIngredientCommand );
+            if ( !validationResult.IsSuccess )
+            {
+                Ingredient ingredient = await ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
+                if ( ingredient is not null )
+                {
+                    ingredient.Title = updateIngredientCommand.Title;
+                    ingredient.Description = updateIngredientCommand.Description;
+                    await ingredientRepository.UpdateAsync( ingredient );
+                }
+                else
+                {
+                    return Result.FromError( "Такого id не существует" );
+                }
+            }
+            return Result.FromSuccess();
+        }
+    }
+}

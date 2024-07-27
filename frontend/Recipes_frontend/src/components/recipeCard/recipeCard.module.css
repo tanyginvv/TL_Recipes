@@ -1,5 +1,5 @@
 .recipeItem {
-    width: 1250px;
+    width: 1200px;
     max-height: 430px;
     background-color: #FFFFFF;
     border-radius: 72px 24px 24px 0px;
@@ -73,7 +73,7 @@
     font-size: 18px;
     line-height: 30px;
     max-width: 571px;
-    max-height: 100px;
+    height: 100px;
 }
 
 .recipeExtras {

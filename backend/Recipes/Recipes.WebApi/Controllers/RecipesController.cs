@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
@@ -17,6 +18,7 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/recipes" )]
     public class RecipesController : ControllerBase
     {
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<RecipeIdDto>> CreateRecipe(
             [FromBody] RecipeCreateDto dto,
@@ -33,6 +35,7 @@ namespace Recipes.WebApi.Controllers
             return CreatedAtAction( nameof( GetRecipeById ), new { id = result.Value.Id }, result.Value );
         }
 
+        [Authorize]
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteRecipe(
             [FromRoute, Range( 1, int.MaxValue )] int id,
@@ -49,6 +52,7 @@ namespace Recipes.WebApi.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut( "{id}" )]
         public async Task<IActionResult> UpdateRecipe(
             [FromRoute, Range( 1, int.MaxValue )] int id,

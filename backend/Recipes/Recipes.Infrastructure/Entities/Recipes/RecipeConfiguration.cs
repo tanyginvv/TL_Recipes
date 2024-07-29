@@ -14,6 +14,9 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .UseHiLo( "RecipeHiLo", "dbo" )
                 .IsRequired();
 
+            builder.Property( r => r.UserId )
+                .IsRequired();
+
             builder.Property( r => r.Name )
                 .HasMaxLength( 100 )
                 .IsRequired();
@@ -31,12 +34,12 @@ namespace Recipes.Infrastructure.Entities.Recipes
             builder.Property( r => r.ImageUrl )
                 .IsRequired();
 
-            builder.HasMany( i => i.Ingredients )
+            builder.HasMany( r => r.Ingredients )
                 .WithOne( i => i.Recipe )
                 .HasForeignKey( i => i.RecipeId )
                 .OnDelete( DeleteBehavior.Cascade );
 
-            builder.HasMany( s => s.Steps )
+            builder.HasMany( r => r.Steps )
                 .WithOne( s => s.Recipe )
                 .HasForeignKey( s => s.RecipeId )
                 .OnDelete( DeleteBehavior.Cascade );

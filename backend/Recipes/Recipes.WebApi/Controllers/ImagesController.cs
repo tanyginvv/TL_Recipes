@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.Interfaces;
 
 namespace Recipes.WebApi.Controllers
@@ -8,6 +9,7 @@ namespace Recipes.WebApi.Controllers
     public class ImagesController( IImageTools imageHelperTools )
         : ControllerBase
     {
+        [Authorize]
         [HttpPost( "upload" )]
         public async Task<IActionResult> UploadImage( IFormFile image )
         {

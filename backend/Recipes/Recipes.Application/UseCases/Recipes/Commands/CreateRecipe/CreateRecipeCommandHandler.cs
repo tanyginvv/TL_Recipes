@@ -30,6 +30,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
             }
 
             Recipe recipe = new Recipe(
+                createRecipeCommand.UserId,
                 createRecipeCommand.Name,
                 createRecipeCommand.Description,
                 createRecipeCommand.CookTime,

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.Entities.UserAuthorizationTokens;
+using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Entities.Ingredients;
 using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Entities.Steps;
 using Recipes.Infrastructure.Entities.Tags;
+using Recipes.Infrastructure.Entities.Users;
 
 namespace Recipes.Infrastructure.Context
 {
@@ -17,6 +19,8 @@ namespace Recipes.Infrastructure.Context
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Step> Steps { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserAuthorizationToken> UserAuthorizationTokens { get; set; }
 
         protected override void OnModelCreating( ModelBuilder modelBuilder )
         {
@@ -39,6 +43,9 @@ namespace Recipes.Infrastructure.Context
                     j => j.HasOne<Tag>().WithMany().HasForeignKey( "TagId" ),
                     j => j.HasOne<Recipe>().WithMany().HasForeignKey( "RecipeId" )
                 );
+
+            modelBuilder.ApplyConfiguration( new UserConfiguration() );
+            modelBuilder.ApplyConfiguration( new UserAuthorizationTokenConfiguration() );
         }
     }
 }

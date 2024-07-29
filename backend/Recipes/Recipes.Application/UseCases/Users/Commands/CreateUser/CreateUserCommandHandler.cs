@@ -1,5 +1,6 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
+using Recipes.Application.PasswordHasher;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
@@ -10,7 +11,8 @@ namespace Recipes.Application.UseCases.Users.Commands
     public class CreateUserCommandHandler(
         IUserRepository userRepository,
         IAsyncValidator<CreateUserCommand> validator,
-        IUnitOfWork unitOfWork ) : ICommandHandler<CreateUserCommand>
+        IUnitOfWork unitOfWork,
+        IPasswordHasher passwordHasher ) : ICommandHandler<CreateUserCommand>
     {
         public async Task<Result> HandleAsync( CreateUserCommand command )
         {
@@ -20,7 +22,9 @@ namespace Recipes.Application.UseCases.Users.Commands
                 return Result.FromError( result.Error );
             }
 
-            User user = new User( command.Name, command.Login, command.PasswordHash );
+            string hashedPassword = passwordHasher.GeneratePassword( command.PasswordHash );
+
+            User user = new User( command.Name, command.Login, hashedPassword );
             await userRepository.AddAsync( user );
             await unitOfWork.CommitAsync();
 

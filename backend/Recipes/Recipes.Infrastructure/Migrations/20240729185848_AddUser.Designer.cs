@@ -12,7 +12,7 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240729130726_AddUser")]
+    [Migration("20240729185848_AddUser")]
     partial class AddUser
     {
         /// <inheritdoc />
@@ -176,8 +176,8 @@ namespace Recipes.Infrastructure.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 

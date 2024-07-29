@@ -6,13 +6,15 @@ using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Commands.UpdateUser;
+using Recipes.Application.PasswordHasher;
 
 namespace Application.Users.Commands.UpdateUser
 {
     public class UpdateUserCommandHandler(
             IUserRepository userRepository,
             IAsyncValidator<UpdateUserCommand> validator,
-            IUnitOfWork unitOfWork ) : ICommandHandler<UpdateUserCommand>
+            IUnitOfWork unitOfWork,
+            IPasswordHasher passwordHasher ) : ICommandHandler<UpdateUserCommand>
     {
         public async Task<Result> HandleAsync( UpdateUserCommand command )
         {
@@ -37,7 +39,8 @@ namespace Application.Users.Commands.UpdateUser
 
             if ( !string.IsNullOrEmpty( command.NewPasswordHash ) )
             {
-                user.PasswordHash = command.NewPasswordHash;
+                string hashedPassword = passwordHasher.GeneratePassword( command.NewPasswordHash );
+                user.PasswordHash = hashedPassword;
             }
 
             await unitOfWork.CommitAsync();

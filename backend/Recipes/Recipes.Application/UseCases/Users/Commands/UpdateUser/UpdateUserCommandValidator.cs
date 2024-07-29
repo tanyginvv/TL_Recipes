@@ -1,4 +1,5 @@
-﻿using Recipes.Application.Repositories;
+﻿using Recipes.Application.PasswordHasher;
+using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Commands.UpdateUser;
 using Recipes.Application.Validation;
@@ -6,7 +7,9 @@ using Recipes.Domain.Entities;
 
 namespace Application.Users.Commands.UpdateUser
 {
-    public class UpdateUserCommandValidator( IUserRepository userRepository ) : IAsyncValidator<UpdateUserCommand>
+    public class UpdateUserCommandValidator(
+        IUserRepository userRepository,
+        IPasswordHasher passwordHasher ) : IAsyncValidator<UpdateUserCommand>
     {
         public async Task<Result> ValidateAsync( UpdateUserCommand command )
         {
@@ -16,9 +19,9 @@ namespace Application.Users.Commands.UpdateUser
                 return Result.FromError( "Пользователь не найден." );
             }
 
-            if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && user.PasswordHash != command.OldPasswordHash )
+            if ( !passwordHasher.VerifyPassword( command.OldPasswordHash, user.PasswordHash ) )
             {
-                return Result.FromError( "Старый пароль неверен." );
+                return Result.FromError( "Введеный пароль неверный" );
             }
 
             if ( !string.IsNullOrEmpty( command.Login ) )

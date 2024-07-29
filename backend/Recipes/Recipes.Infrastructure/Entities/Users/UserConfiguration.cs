@@ -23,7 +23,7 @@ namespace Recipes.Infrastructure.Entities.Users
 
             builder.Property( t => t.PasswordHash )
                 .IsRequired()
-                .HasMaxLength( 50 );
+                .HasMaxLength( 250 );
 
             builder.HasMany( u => u.Recipes )
                 .WithOne( r => r.User )

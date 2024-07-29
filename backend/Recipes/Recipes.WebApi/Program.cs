@@ -1,21 +1,35 @@
-using Infrastructure.ConfigurationUtils.Token;
 using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Infrastructure.ConfigurationUtils.Token;
 using Recipes.Application;
-using Recipes.Application.Tokens;
 using Recipes.Infrastructure;
 using Recipes.WebApi;
+using Recipes.Application.Tokens;
+
 var builder = WebApplication.CreateBuilder( args );
 
+// Register dependencies
 builder.Services.AddAutoMapper( typeof( Program ).Assembly );
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
 builder.Services.AddControllers();
 
-builder.Services.Configure<TokenConfiguration>( builder.Configuration.GetSection( "TokenConfiguration" ) );
-builder.Services.AddSingleton<ITokenConfiguration>( provider => provider.GetRequiredService<IOptions<TokenConfiguration>>().Value );
+// Register token configuration
+builder.Services.Configure<TokenConfiguration>( builder.Configuration.GetSection( "JWTOptions" ) );
+builder.Services.AddSingleton<ITokenConfiguration>( provider =>
+{
+    var options = provider.GetRequiredService<IOptions<TokenConfiguration>>().Value;
+    return options;
+} );
 
-builder.Services.AddApiAuthentication( builder.Configuration.GetSection( "TokenConfiguration" ).Get<ITokenConfiguration>() );
+// Ensure API authentication uses the TokenConfiguration
+builder.Services.AddApiAuthentication();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

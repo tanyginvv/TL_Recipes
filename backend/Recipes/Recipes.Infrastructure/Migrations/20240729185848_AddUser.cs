@@ -27,7 +27,7 @@ namespace Recipes.Infrastructure.Migrations
                     Name = table.Column<string>( type: "nvarchar(50)", maxLength: 50, nullable: false ),
                     Description = table.Column<string>( type: "nvarchar(max)", nullable: true ),
                     Login = table.Column<string>( type: "nvarchar(50)", maxLength: 50, nullable: false ),
-                    PasswordHash = table.Column<string>( type: "nvarchar(50)", maxLength: 50, nullable: false )
+                    PasswordHash = table.Column<string>( type: "nvarchar(250)", maxLength: 250, nullable: false )
                 },
                 constraints: table =>
                 {

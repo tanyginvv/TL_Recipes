@@ -1,4 +1,5 @@
-﻿using Recipes.Application.Repositories;
+﻿using Recipes.Application.PasswordHasher;
+using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Commands.DeleteUser;
 using Recipes.Application.Validation;
@@ -7,8 +8,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Users.Commands.DeleteUser
 {
-    public class DeleteUserCommandValidator( IUserRepository userRepository )
-        : IAsyncValidator<DeleteUserCommand>
+    public class DeleteUserCommandValidator(
+            IUserRepository userRepository,
+            IPasswordHasher passwordHasher
+            )
+            : IAsyncValidator<DeleteUserCommand>
     {
         public async Task<Result> ValidateAsync( DeleteUserCommand command )
         {
@@ -18,9 +22,9 @@ namespace Application.Users.Commands.DeleteUser
             }
 
             User user = await userRepository.GetByIdAsync( command.userId );
-            if ( user.PasswordHash != command.PasswordHash )
+            if ( !passwordHasher.VerifyPassword( command.PasswordHash, user.PasswordHash ) )
             {
-                return Result.FromError( "Введенный пароль не совпадает с текущим" );
+                return Result.FromError( "Введеный пароль неверный" );
             }
 
             return Result.FromSuccess();

@@ -5,6 +5,7 @@ using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUserById;
 using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.PasswordHasher;
 using Recipes.Application.Tokens.CreateToken;
 using Recipes.Application.UseCases.UserAuthorizationTokens.Dto;
 using Recipes.Application.UseCases.UserAuthorizationTokens.RefreshToken;
@@ -37,6 +38,7 @@ namespace Recipes.Application.UseCases.Users
             services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidator>();
 
             services.AddScoped<TokenCreator>();
+
             return services;
         }
     }

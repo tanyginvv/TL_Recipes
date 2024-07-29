@@ -20,7 +20,7 @@ namespace Recipes.WebApi.Controllers
             IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler,
             IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler ) : ControllerBase
     {
-        [Authorize]
+
         [HttpGet( "{id}" )]
         public async Task<ActionResult<UserDto>> GetUserById( int id )
         {

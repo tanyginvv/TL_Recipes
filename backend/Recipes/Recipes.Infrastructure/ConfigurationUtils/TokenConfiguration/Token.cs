@@ -3,23 +3,30 @@ using Recipes.Application.Tokens;
 
 namespace Infrastructure.ConfigurationUtils.Token
 {
-    public class TokenConfiguration( IConfiguration configuration ) : ITokenConfiguration
+    public class TokenConfiguration : ITokenConfiguration
     {
+        private readonly IConfiguration _configuration;
+
+        // Конструктор с параметром IConfiguration
+        public TokenConfiguration( IConfiguration configuration )
+        {
+            _configuration = configuration;
+        }
         public int GetAccessTokenValidityInMinutes()
         {
-            string result = configuration[ "JWTOptions:TokenValidityInMinutes" ];
+            string result = _configuration[ "JWTOptions:TokenValidityInMinutes" ];
             return int.Parse( result );
         }
 
         public int GetRefreshTokenValidityInDays()
         {
-            string result = configuration[ "JWTOptions:RefreshTokenValidityInDays" ];
+            string result = _configuration[ "JWTOptions:RefreshTokenValidityInDays" ];
             return int.Parse( result );
         }
 
         public string GetSecret()
         {
-            string result = configuration[ "JWTOptions:Secret" ];
+            string result = _configuration[ "JWTOptions:Secret" ];
             return result;
         }
     }

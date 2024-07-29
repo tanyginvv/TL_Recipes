@@ -13,6 +13,7 @@ using Recipes.Infrastructure.Entities.Users;
 using Infrastructure.Entities.UserAuthorizationTokens;
 using Infrastructure.ConfigurationUtils.Token;
 using Recipes.Application.Tokens;
+using Recipes.Application.PasswordHasher;
 
 namespace Recipes.Infrastructure
 {
@@ -33,6 +34,7 @@ namespace Recipes.Infrastructure
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationRepository>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             return services;
         }

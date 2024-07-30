@@ -26,7 +26,8 @@ namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
             List<IFilter<Recipe>> filters = new List<IFilter<Recipe>>
             {
                 new SearchFilter { SearchTerms = query.SearchTerms },
-                new PaginationFilter { PageNumber = query.PageNumber, PageSize = 4 }
+                new PaginationFilter { PageNumber = query.PageNumber, PageSize = 4 },
+                new UserFilter { UserId = query.UserId }
             };
 
             IEnumerable<Recipe> recipes = await recipeRepository.GetRecipesAsync( filters );

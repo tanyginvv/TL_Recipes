@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Infrastructure.JwtAuthorizations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
 using Recipes.Application.UseCases.Users.Commands.DeleteUser;
@@ -24,15 +26,15 @@ namespace Recipes.WebApi.Controllers
         [HttpGet( "{id}" )]
         public async Task<ActionResult<UserDto>> GetUserById( int id )
         {
-            var query = new GetUserByIdQuery { Id = id };
-            var result = await getUserByIdQueryHandler.HandleAsync( query );
+            GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
+            Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
             if ( !result.IsSuccess )
             {
                 return NotFound( result.Error );
             }
 
-            var user = result.Value;
-            var userDto = new ReadUserDto
+            GetUserByIdQueryDto user = result.Value;
+            ReadUserDto userDto = new ReadUserDto
             {
                 Id = user.Id,
                 Login = user.Login
@@ -41,11 +43,11 @@ namespace Recipes.WebApi.Controllers
             return Ok( userDto );
         }
 
-        [Authorize]
+        [JwtAuthorization]
         [HttpPut( "{id}" )]
         public async Task<IActionResult> UpdateUser( int id, UpdateUserDto updateUserDto )
         {
-            var command = new UpdateUserCommand
+            UpdateUserCommand command = new UpdateUserCommand
             {
                 Id = id,
                 Name = updateUserDto.Name,
@@ -55,7 +57,7 @@ namespace Recipes.WebApi.Controllers
                 NewPasswordHash = updateUserDto.NewPasswordHash
             };
 
-            var result = await updateUserCommandHandler.HandleAsync( command );
+            Result result = await updateUserCommandHandler.HandleAsync( command );
             if ( !result.IsSuccess )
             {
                 return BadRequest( result.Error );
@@ -64,17 +66,17 @@ namespace Recipes.WebApi.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        [JwtAuthorization]
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteUser( int id, [FromQuery] string passwordHash )
         {
-            var command = new DeleteUserCommand
+            DeleteUserCommand command = new DeleteUserCommand
             {
                 userId = id,
                 PasswordHash = passwordHash
             };
 
-            var result = await deleteUserCommandHandler.HandleAsync( command );
+            Result result = await deleteUserCommandHandler.HandleAsync( command );
             if ( !result.IsSuccess )
             {
                 return BadRequest( result.Error );
@@ -83,21 +85,21 @@ namespace Recipes.WebApi.Controllers
             return NoContent();
         }
 
-        [Authorize]
+        [JwtAuthorization]
         [HttpGet( "{userId}/Recipes" )]
         public async Task<IActionResult> GetRecipes(
-            [FromRoute] int userId,
+            [FromRoute] int userId = 0,
             [FromQuery] int pageNumber = 1,
             [FromQuery] List<string> searchTerms = null )
         {
-            var query = new GetRecipesQuery
+            GetRecipesQuery query = new GetRecipesQuery
             {
                 UserId = userId,
                 PageNumber = pageNumber,
                 SearchTerms = searchTerms
             };
 
-            var result = await getRecipesQueryHandler.HandleAsync( query );
+            Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
             if ( !result.IsSuccess )
             {
                 return BadRequest( result.Error );

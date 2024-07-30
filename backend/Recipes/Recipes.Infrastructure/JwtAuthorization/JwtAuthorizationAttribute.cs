@@ -14,7 +14,7 @@ namespace Infrastructure.JwtAuthorizations
         {
             ITokenConfiguration configuration = context.HttpContext.RequestServices.GetService<ITokenConfiguration>();
 
-            string accessToken = context.HttpContext.Request.Headers[ "Access-Token" ];
+            string accessToken = context.HttpContext.Request.Cookies[ "AccessToken" ];
             if ( string.IsNullOrEmpty( accessToken ) )
             {
                 context.Result = new ForbidResult();
@@ -22,6 +22,8 @@ namespace Infrastructure.JwtAuthorizations
             }
 
             TokenSignatureVerificator tokenSignatureVerificator = new TokenSignatureVerificator( accessToken, configuration.GetSecret() );
+
+            tokenSignatureVerificator.VerifySignature();
             if ( !tokenSignatureVerificator.TokenIsValid )
             {
                 context.Result = new ForbidResult();
@@ -38,15 +40,16 @@ namespace Infrastructure.JwtAuthorizations
                 return;
             }
 
-            string userIdStr = context.HttpContext.Request.Headers[ "userId" ].FirstOrDefault() ??
-                               context.HttpContext.Request.Query[ "userId" ].FirstOrDefault();
-            if ( string.IsNullOrEmpty( userIdStr ) || !long.TryParse( userIdStr, out long requestUserId ) )
-            {
-                context.Result = new ForbidResult();
-                return;
-            }
+            //string userIdStr = context.HttpContext.Request.Headers[ "userId" ].FirstOrDefault() ??
+            //                   context.HttpContext.Request.Query[ "userId" ].FirstOrDefault();
+            //if ( string.IsNullOrEmpty( userIdStr ) || !long.TryParse( userIdStr, out long requestUserId ) )
+            //{
+            //    context.Result = new ForbidResult();
+            //    return;
+            //}
 
-            if ( !long.TryParse( token.Payload[ "userId" ]?.ToString(), out long tokenUserId ) || requestUserId != tokenUserId )
+            if ( !long.TryParse( token.Payload[ "userId" ]?.ToString(), out long tokenUserId ) /*|| requestUserId != tokenUserId*/
+                )
             {
                 context.Result = new ForbidResult();
                 return;

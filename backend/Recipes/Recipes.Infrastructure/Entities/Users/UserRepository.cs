@@ -41,7 +41,7 @@ namespace Recipes.Infrastructure.Entities.Users
             User user = await _context.Set<User>()
                                      .Include( u => u.Recipes )
                                      .FirstOrDefaultAsync( u => u.Id == id );
-            return user?.Recipes.ToList().AsReadOnly();
+            return user.Recipes.ToList().AsReadOnly();
         }
     }
 }

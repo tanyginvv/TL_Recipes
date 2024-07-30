@@ -3,13 +3,16 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Filters
 {
-    public class UserFilter : IFilter<User>
+    public class UserFilter : IFilter<Recipe>
     {
         public int UserId { get; set; }
 
-        public IQueryable<User> Apply( IQueryable<User> query )
+        public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
         {
-            query = query.Where( u => u.Id == UserId );
+            if ( UserId != 0 )
+            {
+                query = query.Where( u => u.UserId == UserId );
+            }
 
             return query;
         }

@@ -27,7 +27,7 @@ namespace Recipes.Application.UseCases.Tags.Commands
                 return Result<Tag>.FromSuccess( existingTag );
             }
 
-            Tag tag = createTagCommand.Adapt<Tag>();
+            Tag tag = new Tag( createTagCommand.Name );
             await tagRepository.AddAsync( tag );
 
             return Result<Tag>.FromSuccess( tag );

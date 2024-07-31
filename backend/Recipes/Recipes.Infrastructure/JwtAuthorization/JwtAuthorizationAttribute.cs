@@ -14,7 +14,7 @@ namespace Infrastructure.JwtAuthorizations
         {
             ITokenConfiguration configuration = context.HttpContext.RequestServices.GetService<ITokenConfiguration>();
 
-            string accessToken = context.HttpContext.Request.Cookies[ "AccessToken" ];
+            string accessToken = context.HttpContext.Request.Headers[ "Access-Token" ];
             if ( string.IsNullOrEmpty( accessToken ) )
             {
                 context.Result = new ForbidResult();
@@ -48,7 +48,7 @@ namespace Infrastructure.JwtAuthorizations
             //    return;
             //}
 
-            if ( !long.TryParse( token.Payload[ "userId" ]?.ToString(), out long tokenUserId ) /*|| requestUserId != tokenUserId*/
+            if ( !int.TryParse( token.Payload[ "userId" ]?.ToString(), out int tokenUserId ) /*|| requestUserId != tokenUserId*/
                 )
             {
                 context.Result = new ForbidResult();

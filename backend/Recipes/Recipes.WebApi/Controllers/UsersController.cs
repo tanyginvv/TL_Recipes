@@ -24,7 +24,7 @@ namespace Recipes.WebApi.Controllers
     {
 
         [HttpGet( "{id}" )]
-        public async Task<ActionResult<UserDto>> GetUserById( int id )
+        public async Task<ActionResult<UserDto>> GetUserLoginById( int id )
         {
             GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
             Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );

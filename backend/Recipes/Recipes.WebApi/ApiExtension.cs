@@ -1,5 +1,4 @@
-﻿using Infrastructure.ConfigurationUtils.Token;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Recipes.Application.Tokens;
 using System.Text;

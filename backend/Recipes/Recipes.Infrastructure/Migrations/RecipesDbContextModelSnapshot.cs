@@ -22,9 +22,6 @@ namespace Recipes.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
-                .IncrementsBy(10);
-
             modelBuilder.Entity("RecipeTag", b =>
                 {
                     b.Property<int>("RecipeId")

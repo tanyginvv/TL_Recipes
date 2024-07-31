@@ -64,6 +64,7 @@ namespace Presentation.Intranet.Api.Controllers
                 Login = authenticationDto.Login,
                 PasswordHash = authenticationDto.PasswordHash
             };
+
             Result<AuthenticateUserCommandDto> commandResult = await authenticateCommandHandler
                 .HandleAsync( authenticateUserCommand );
 
@@ -71,21 +72,6 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 return BadRequest( commandResult );
             }
-            Response.Cookies.Append( "AccessToken", commandResult.Value.AccessToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes( 30 )
-            } );
-
-            Response.Cookies.Append( "RefreshToken", commandResult.Value.RefreshToken, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays( 7 )
-            } );
 
             return Ok( commandResult );
         }

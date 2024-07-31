@@ -5,9 +5,9 @@ using Recipes.Application.Validation;
 
 namespace Application.Users.Queries.GetUserById
 {
-    public class GetUserByIdQueryValidator( IUserRepository userRepository ) : IAsyncValidator<GetUserByIdQuery>
+    public class GetUserLoginByIdQueryValidator( IUserRepository userRepository ) : IAsyncValidator<GetUserLoginByIdQuery>
     {
-        public async Task<Result> ValidateAsync( GetUserByIdQuery query )
+        public async Task<Result> ValidateAsync( GetUserLoginByIdQuery query )
         {
             if ( !await userRepository.ContainsAsync( user => user.Id == query.Id ) )
             {

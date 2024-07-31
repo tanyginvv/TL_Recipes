@@ -12,8 +12,8 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240729185848_AddUser")]
-    partial class AddUser
+    [Migration("20240731145219_TablesWithUser")]
+    partial class TablesWithUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,9 +24,6 @@ namespace Recipes.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
-                .IncrementsBy(10);
 
             modelBuilder.Entity("RecipeTag", b =>
                 {
@@ -77,7 +74,7 @@ namespace Recipes.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "RecipeHiLo", "dbo");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CookTime")
                         .HasColumnType("int");

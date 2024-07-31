@@ -41,6 +41,7 @@ namespace Recipes.WebApi.Controllers
             return File( imageBytes, "image/jpeg" );
         }
 
+        [Authorize]
         [HttpDelete( "{fileName}" )]
         public IActionResult DeleteImage( [FromRoute] string fileName )
         {

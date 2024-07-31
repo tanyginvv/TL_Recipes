@@ -28,6 +28,7 @@ namespace Recipes.Application.UseCases.Users
             services.AddScoped<ICommandHandler<DeleteUserCommand>, DeleteUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateUserCommand>, UpdateUserCommandHandler>();
 
+            services.AddScoped<IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery>, GetUserLoginByIdQueryHandler>();
             services.AddScoped<IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>, GetUserByIdQueryHandler>();
 
             services.AddScoped<IAsyncValidator<AuthenticateUserCommand>, AuthenticateUserCommandValidator>();
@@ -35,6 +36,7 @@ namespace Recipes.Application.UseCases.Users
             services.AddScoped<IAsyncValidator<DeleteUserCommand>, DeleteUserCommandValidator>();
             services.AddScoped<IAsyncValidator<UpdateUserCommand>, UpdateUserCommandValidator>();
 
+            services.AddScoped<IAsyncValidator<GetUserLoginByIdQuery>, GetUserLoginByIdQueryValidator>();
             services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidator>();
 
             services.AddScoped<TokenCreator>();

@@ -26,7 +26,7 @@ namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
                 return Result<GetStepsByRecipeIdQueryDto>.FromError( "Шаг не найден" );
             }
 
-            var dto = new GetStepsByRecipeIdQueryDto
+            GetStepsByRecipeIdQueryDto dto = new GetStepsByRecipeIdQueryDto
             {
                 RecipeId = query.RecipeId,
                 Steps = new List<Step>( steps )

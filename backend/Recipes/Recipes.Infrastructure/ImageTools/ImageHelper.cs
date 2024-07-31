@@ -60,5 +60,32 @@ namespace Recipes.Infrastructure.ImageTools
                 return null;
             }
         }
+
+        public bool DeleteImage( string imageName )
+        {
+            if ( string.IsNullOrEmpty( imageName ) )
+            {
+                return false;
+            }
+
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string folderPath = Path.Combine( currentDirectory, STORE_URL );
+                string filePath = Path.Combine( folderPath, imageName );
+
+                if ( File.Exists( filePath ) )
+                {
+                    File.Delete( filePath );
+                    return true;
+                }
+
+                return false;
+            }
+            catch ( Exception )
+            {
+                return false;
+            }
+        }
     }
 }

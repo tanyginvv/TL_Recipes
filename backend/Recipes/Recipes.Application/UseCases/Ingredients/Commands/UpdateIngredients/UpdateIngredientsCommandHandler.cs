@@ -6,6 +6,7 @@ using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
+using Mapster;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands
 {
@@ -31,22 +32,16 @@ namespace Recipes.Application.UseCases.Ingredients.Commands
                 Ingredient existingIngredient = oldIngredients.FirstOrDefault( oldIngredient => oldIngredient.Title == newIngredient.Title );
                 if ( existingIngredient is null )
                 {
-                    CreateIngredientCommand createIngredientCommand = new CreateIngredientCommand
-                    {
-                        Recipe = command.Recipe,
-                        Title = newIngredient.Title,
-                        Description = newIngredient.Description
-                    };
+                    CreateIngredientCommand createIngredientCommand = newIngredient.Adapt<CreateIngredientCommand>();
+                    createIngredientCommand.Recipe = command.Recipe;
+
                     await createIngredientCommandHandler.HandleAsync( createIngredientCommand );
                 }
                 else if ( existingIngredient.Description != newIngredient.Description )
                 {
-                    UpdateIngredientCommand updateIngredientCommand = new UpdateIngredientCommand
-                    {
-                        Id = existingIngredient.Id,
-                        Title = newIngredient.Title,
-                        Description = newIngredient.Description
-                    };
+                    UpdateIngredientCommand updateIngredientCommand = newIngredient.Adapt<UpdateIngredientCommand>();
+                    updateIngredientCommand.Id = existingIngredient.Id;
+
                     await updateIngredientCommandHandler.HandleAsync( updateIngredientCommand );
                 }
             }
@@ -54,7 +49,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands
             List<Ingredient> ingredientsToDelete = oldIngredients.Where( oldIngredient => !command.NewIngredients.Any( newIngredient => newIngredient.Title == oldIngredient.Title ) ).ToList();
             foreach ( Ingredient ingredientToDelete in ingredientsToDelete )
             {
-                var deleteIngredientCommand = new DeleteIngredientCommand { Id = ingredientToDelete.Id };
+                DeleteIngredientCommand deleteIngredientCommand = new DeleteIngredientCommand { Id = ingredientToDelete.Id };
                 await deleteIngredientCommandHandler.HandleAsync( deleteIngredientCommand );
             }
 

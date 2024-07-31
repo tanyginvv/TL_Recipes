@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Mapster;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
@@ -27,10 +28,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch
                 return Result<IReadOnlyList<TagDto>>.FromError( "Теги не найдены" );
             }
 
-            List<TagDto> tagDtos = tags.Select( tag => new TagDto
-            {
-                Name = tag.Name
-            } ).ToList();
+            IReadOnlyList<TagDto> tagDtos = tags.Adapt<IReadOnlyList<TagDto>>();
 
             return Result<IReadOnlyList<TagDto>>.FromSuccess( tagDtos );
         }

@@ -1,5 +1,6 @@
 ﻿using Recipes.Application.Repositories;
 using Recipes.Application.Results;
+using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
@@ -21,7 +22,7 @@ namespace Recipes.Application.UseCases.Tags.Commands
                 return Result.FromError( "Рецепт с указанным ID не найден" );
             }
 
-            foreach ( var tag in command.RecipeTags )
+            foreach ( TagDto tag in command.RecipeTags )
             {
                 if ( tag.Name.Length > 50 )
                 {

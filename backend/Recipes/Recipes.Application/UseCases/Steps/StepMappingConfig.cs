@@ -8,8 +8,6 @@ namespace Recipes.Application.UseCases.Steps
     {
         public static void RegisterMappings()
         {
-            TypeAdapterConfig<CreateStepCommand, Step>.NewConfig()
-                .Map( dest => dest.RecipeId, src => src.Recipe.Id );
         }
     }
 }

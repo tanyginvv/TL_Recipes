@@ -6,5 +6,6 @@ namespace Recipes.Application.Interfaces
     {
         Task<string> SaveRecipeImageAsync( IFormFile image );
         byte[] GetImage( string imageName );
+        bool DeleteImage( string imageName );
     }
 }

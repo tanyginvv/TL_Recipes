@@ -12,7 +12,7 @@ namespace Recipes.WebApi.Controllers
     public class TagsController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ReadTagDto>>> GetTagsForSearch(
+        public async Task<ActionResult<IReadOnlyList<TagApiDto>>> GetTagsForSearch(
             [FromServices] IQueryHandler<IReadOnlyList<TagDto>, GetTagsForSearchQuery> getTagsForSearchQueryHandler,
             [FromQuery] int count = 5 )
         {

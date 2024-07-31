@@ -1,8 +1,10 @@
-import { ITag } from "../models/types";
+import { API_URL } from '../constants/apiUrl';
+import { ITag } from '../models/types';
+
 export class TagService {
     private apiUrl: string;
 
-    constructor(apiUrl: string) {
+    constructor(apiUrl: string = `${API_URL}/tags`) {
         this.apiUrl = apiUrl;
     }
 

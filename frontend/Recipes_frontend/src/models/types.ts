@@ -2,7 +2,7 @@ export interface IRecipe {
     id: number,
     name: string,
     description: string,
-    countPortion: number,
+    portionCount: number,
     cookTime: number,
     imageUrl: string,
     tags: ITag[],
@@ -14,7 +14,7 @@ export interface IRecipeAllRecipes {
     id: number,
     name: string,
     description: string,
-    countPortion: number,
+    portionCount: number,
     cookTime: number,
     imageUrl: string,
     tags: ITag[]

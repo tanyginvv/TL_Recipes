@@ -9,7 +9,7 @@ interface SearchComponentProps {
     onSearch: () => void;
 }
 
-const tagService = new TagService('http://localhost:5218/api/tags');
+const tagService = new TagService();
 
 export const SearchComponent = ({ initialSearchTerms = [], onSearchTermsChange, onSearch }: SearchComponentProps) => {
     const [tags, setTags] = useState<ITag[]>([]);

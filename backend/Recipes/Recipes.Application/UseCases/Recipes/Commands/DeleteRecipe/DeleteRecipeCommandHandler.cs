@@ -3,13 +3,15 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
+using Recipes.Application.Interfaces;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
 {
     public class DeleteRecipeCommandHandler(
             IRecipeRepository recipeRepository,
             IAsyncValidator<DeleteRecipeCommand> validator,
-            IUnitOfWork unitOfWork )
+            IUnitOfWork unitOfWork,
+            IImageTools imageTools )
         : ICommandHandler<DeleteRecipeCommand>
     {
         public async Task<Result> HandleAsync( DeleteRecipeCommand deleteRecipeCommand )
@@ -23,12 +25,15 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
             Recipe foundRecipe = await recipeRepository.GetByIdAsync( deleteRecipeCommand.RecipeId );
             if ( foundRecipe is null )
             {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Рецепт не найден" );
             }
 
-            await recipeRepository.DeleteAsync( foundRecipe.Id );
+
+            await recipeRepository.Delete( foundRecipe );
 
             await unitOfWork.CommitAsync();
+
+            imageTools.DeleteImage( foundRecipe.ImageUrl );
 
             return Result.Success;
         }

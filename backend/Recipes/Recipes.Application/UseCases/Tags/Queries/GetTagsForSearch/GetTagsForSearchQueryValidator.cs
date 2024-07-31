@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Tags.Queries.GetRandomTags
+namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch
 {
     public class GetRandomTagsQueryValidator
         : IAsyncValidator<GetTagsForSearchQuery>
@@ -10,7 +10,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetRandomTags
         {
             if ( query.Count <= 0 )
             {
-                return Task.FromResult( Result.FromError( "Count must be greater than zero." ) );
+                return Task.FromResult( Result.FromError( "Тегов должно быть больше 0" ) );
             }
 
             return Task.FromResult( Result.Success );

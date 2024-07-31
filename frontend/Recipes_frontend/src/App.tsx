@@ -5,6 +5,7 @@ import { Header } from './components/header/header'
 import { Footer } from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
 import { DetailRecipePage } from './components/detailRecipePage/detailRecipePage'
+
 function App() {
 
   return (

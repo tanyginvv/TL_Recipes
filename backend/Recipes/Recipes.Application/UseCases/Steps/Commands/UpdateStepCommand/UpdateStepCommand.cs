@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand
+﻿namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class UpdateStepCommand
     {

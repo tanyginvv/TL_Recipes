@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Recipes.Application.Paginator;
+using Recipes.Application.Filters;
+using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
-using Recipes.Infrastructure.Entities.Specification;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
@@ -13,30 +13,27 @@ namespace Recipes.Infrastructure.Entities.Recipes
         {
         }
 
-        public override async Task AddAsync( Recipe recipe )
+        public async Task AddAsync( Recipe recipe )
         {
             await base.AddAsync( recipe );
         }
 
-        public async Task DeleteAsync( int id )
+        public async Task Delete( Recipe recipe )
         {
-            var recipe = await GetByIdAsync( id );
-            if ( recipe is not null )
+            Recipe rec = await GetByIdAsync( recipe.Id );
+            if ( rec is not null )
             {
-                base.Remove( recipe );
+                base.Remove( rec );
             }
         }
 
-        public async Task<IReadOnlyList<Recipe>> GetAllAsync( PaginationFilter paginationFilter )
+        public async Task<List<Recipe>> GetRecipesAsync( IEnumerable<IFilter<Recipe>> filters )
         {
-            var spec = new RecipeSpecification( null, paginationFilter );
-            return await spec.Apply( _dbSet ).ToListAsync();
-        }
+            return await _dbSet
+               .ApplyFilters( filters )
+               .Include( r => r.Tags )
+               .ToListAsync();
 
-        public async Task<IReadOnlyList<Recipe>> GetFilteredRecipesAsync( IEnumerable<string> searchTerms, PaginationFilter paginationFilter )
-        {
-            var spec = new RecipeSpecification( searchTerms, paginationFilter );
-            return await spec.Apply( _dbSet ).ToListAsync();
         }
 
         public override async Task<Recipe> GetByIdAsync( int id )
@@ -46,11 +43,6 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .Include( r => r.Ingredients )
                 .Include( r => r.Tags )
                 .FirstOrDefaultAsync( r => r.Id == id );
-        }
-
-        public async Task UpdateAsync( Recipe recipe )
-        {
-            await base.Update( recipe );
         }
     }
 }

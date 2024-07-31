@@ -1,0 +1,26 @@
+.footer {
+    background-color: #FBF9F4;
+    width: 1200px;
+    padding: 0 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 113px;
+    align-items: center;
+}
+
+.footerIcon {
+    color: #FDB100;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.footerText {
+    color: #4A525A;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24.38px;
+    text-align: left;
+}

@@ -73,7 +73,7 @@ namespace Presentation.Intranet.Api.Controllers
                 return BadRequest( commandResult );
             }
 
-            return Ok( commandResult );
+            return Ok( commandResult.Value );
         }
     }
 }

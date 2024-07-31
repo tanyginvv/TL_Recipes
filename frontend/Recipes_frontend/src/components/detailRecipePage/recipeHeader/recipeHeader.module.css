@@ -1,0 +1,86 @@
+.recipeHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.buttonBack {
+    display: flex;
+    flex-direction: row;
+    width: 90px;
+    height: 25px;
+    background-color: transparent;
+    color: #FDB100;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21.94px;
+    text-align: left;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.recipeTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 1200px;
+    margin-top: 7px;
+}
+
+.title {
+    color: #25292D;
+    margin: 0;
+}
+
+.titleButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.buttonDelete {
+    background-color: transparent;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border-radius: 16px;
+}
+
+.buttonDelete:hover{
+    background-color: #59595a;
+}
+
+.buttonEdit {
+    width: 278px;
+    height: 60px;
+    color: #FFFFFF;
+    background-color: #FDB100;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 16px;
+    font-family: Montserrat;
+    line-height: 28px;
+    border: transparent solid 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+}
+
+.buttonEdit:hover {
+    border: 1px solid #fdb100;
+    box-sizing: border-box;
+    background-color: rgba(253, 137, 0, 0.1);
+    color: #fdb100;
+    transition: 700ms;
+}
+
+.editImg {
+    width: 18px;
+    height: 18px;
+}

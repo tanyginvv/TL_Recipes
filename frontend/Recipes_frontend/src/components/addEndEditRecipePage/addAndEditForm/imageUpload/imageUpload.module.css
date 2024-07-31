@@ -1,0 +1,37 @@
+.recipeImgPlace {
+    width: 430px;
+    height: 430px;
+    background-color: #FFEFCC;
+    border-radius: 72px 0px 72px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.imagePlaceholder {
+    width: 269px;
+    height: 269px;
+    border: 1px dashed #F29E1F;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.imgLabel {
+    width: 165px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.5px;
+    text-align: center;
+    color: #F29E1F;
+}

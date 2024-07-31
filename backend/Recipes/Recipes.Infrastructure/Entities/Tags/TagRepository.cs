@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using Recipes.Infrastructure.Context;
@@ -20,8 +21,8 @@ namespace Recipes.Infrastructure.Entities.Tags
 
         public async Task<IReadOnlyList<Tag>> GetTagsForSearchAsync( int count )
         {
-            var allTags = await _dbSet.ToListAsync();
-            var randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
+            List<Tag> allTags = await _dbSet.ToListAsync();
+            List<Tag> randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
             return randomTags;
         }
 
@@ -35,18 +36,9 @@ namespace Recipes.Infrastructure.Entities.Tags
             await base.AddAsync( tag );
         }
 
-        public async Task UpdateAsync( Tag tag )
+        public async Task<bool> ContainsAsync( Expression<Func<Tag, bool>> predicate )
         {
-            await base.Update( tag );
-        }
-
-        public async Task DeleteAsync( int id )
-        {
-            var tag = await GetByIdAsync( id );
-            if ( tag is not null )
-            {
-                Remove( tag );
-            }
+            return await _dbSet.AnyAsync( predicate );
         }
     }
 }

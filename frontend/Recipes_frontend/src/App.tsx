@@ -6,6 +6,7 @@ import { Footer } from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
 import { DetailRecipePage } from './components/detailRecipePage/detailRecipePage'
 import { AddAndEditRecipePage } from './components/addEndEditRecipePage/addAndEditRecipePage'
+
 function App() {
 
   return (

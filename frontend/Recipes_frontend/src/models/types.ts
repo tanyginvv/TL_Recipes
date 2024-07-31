@@ -31,7 +31,6 @@ export interface IRecipeAllRecipes {
     tags: ITag[]
 }
 
-
 export interface ITag {
     name: string
 }

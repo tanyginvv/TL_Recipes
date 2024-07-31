@@ -97,18 +97,18 @@
 }
 
 .card1::before {
-    content: url("../../../assets/images/card1.png");
+    content: url("../../../assets/images/bookTag.png");
 }
 
 .card2::before {
-    content: url("../../../assets/images/card2.png");
+    content: url("../../../assets/images/kidsTag.png");
 }
 
 .card3::before {
-    content: url("../../../assets/images/card3.png");
+    content: url("../../../assets/images/chefTag.png");
 }
 
 .card4::before {
-    content: url("../../../assets/images/card4.png");
+    content: url("../../../assets/images/partyTag.png");
 }
   

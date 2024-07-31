@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿using Mapster;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
@@ -6,15 +6,17 @@ using Recipes.WebApi.Dto.RecipeDtos;
 
 namespace Recipes.WebApi.Profiles
 {
-    public class RecipeProfile : Profile
+    public static class MappingConfig
     {
-        public RecipeProfile()
+        public static void RegisterMappings()
         {
-            CreateMap<RecipeCreateDto, CreateRecipeCommand>();
-            CreateMap<RecipeUpdateDto, UpdateRecipeCommand>()
-                .ForMember( dest => dest.Id, opt => opt.Ignore() );
-            CreateMap<RecipeDto, RecipeUpdateDto>();
-            CreateMap<RecipeDto, RecipeCreateDto>();
+            TypeAdapterConfig<RecipeCreateDto, CreateRecipeCommand>.NewConfig();
+
+            TypeAdapterConfig<RecipeUpdateDto, UpdateRecipeCommand>.NewConfig()
+                .Ignore( dest => dest.Id );
+
+            TypeAdapterConfig<RecipeDto, RecipeUpdateDto>.NewConfig();
+            TypeAdapterConfig<RecipeDto, RecipeCreateDto>.NewConfig();
         }
     }
 }

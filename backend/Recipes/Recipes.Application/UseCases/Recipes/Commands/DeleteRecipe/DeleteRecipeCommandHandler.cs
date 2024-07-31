@@ -28,11 +28,12 @@ namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
                 return Result.FromError( "Рецепт не найден" );
             }
 
-            imageTools.DeleteImage( foundRecipe.ImageUrl );
 
             await recipeRepository.Delete( foundRecipe );
 
             await unitOfWork.CommitAsync();
+
+            imageTools.DeleteImage( foundRecipe.ImageUrl );
 
             return Result.Success;
         }

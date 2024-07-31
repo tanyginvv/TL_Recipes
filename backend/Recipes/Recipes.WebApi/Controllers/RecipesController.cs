@@ -56,7 +56,8 @@ namespace Recipes.WebApi.Controllers
         public async Task<IActionResult> UpdateRecipe(
             [FromRoute, Range( 1, int.MaxValue )] int id,
             [FromBody] RecipeUpdateDto dto,
-            [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
+            [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler,
+            [FromServices] IImageTools imageTool )
         {
             UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
             command.Id = id;
@@ -65,6 +66,7 @@ namespace Recipes.WebApi.Controllers
 
             if ( !result.IsSuccess )
             {
+                imageTool.DeleteImage( dto.ImageUrl );
                 return BadRequest( result.Error );
             }
 

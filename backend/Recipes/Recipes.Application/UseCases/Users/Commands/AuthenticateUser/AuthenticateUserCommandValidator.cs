@@ -20,7 +20,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
             }
 
             User user = await userRepository.GetByLoginAsync( command.Login );
-            if ( user == null )
+            if ( user is null )
             {
                 return Result.FromError( "Неверное имя пользователя или пароль" );
             }

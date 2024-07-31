@@ -1,10 +1,12 @@
 ﻿using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 {
-    public class UpdateRecipeCommandValidator
+    public class UpdateRecipeCommandValidator(
+        IRecipeRepository recipeRepository )
         : IAsyncValidator<UpdateRecipeCommand>
     {
 
@@ -43,6 +45,13 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             if ( string.IsNullOrEmpty( command.ImageUrl ) )
             {
                 return Result.FromError( "Изображение блюда должно быть обязательно " );
+            }
+
+            Recipe recipe = await recipeRepository.GetByIdAsync( command.Id );
+
+            if ( recipe.UserId != command.UserId )
+            {
+                return Result.FromError( "У пользователя нет доступа к обновлению данного рецепта" );
             }
 
             return Result.Success;

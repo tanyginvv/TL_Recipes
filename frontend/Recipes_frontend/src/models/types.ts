@@ -44,3 +44,39 @@ export interface IStep {
     stepNumber: number,
     stepDescription: string
 }
+
+export interface IAuthentication {
+    Login: string,
+    PasswordHash: string
+}
+
+export interface IRegister {
+    Name: string,
+    Login: string,
+    PasswordHash: string
+}
+
+export interface IToken {
+    accessToken: string | null,
+    refreshToken: string | null
+}
+
+export interface IDecryptedToken{
+    userId: number,
+    exp: number
+}
+
+export interface IUser {
+    id: number,
+    name: string,
+    description: string,
+    login: string
+}
+
+export interface IUserUpdate {
+   name: string,
+   description: string,
+   login: string,
+   oldPasswordHash: string,
+   newPasswordHash: string
+}

@@ -6,8 +6,16 @@ import { Footer } from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
 import { DetailRecipePage } from './components/detailRecipePage/detailRecipePage'
 import { AddAndEditRecipePage } from './components/addEndEditRecipePage/addAndEditRecipePage'
-
+import { AuthorizationWindow } from './components/authorizationWindow/authorizationWindow'
+import { AuthOrRegistrWindow } from './components/authOrRegistWindow/authOrRegistrWindow'
+import { RegistrationWindow } from './components/registrationWindow/registrationWindow'
+import useStore from './store/store'
 function App() {
+  const {
+    isRegistrationWindowOpen,
+    isAuthorizationWindowOpen,
+    isAuthOrRegistrWindowOpen,
+  } = useStore();
 
   return (
     <>
@@ -22,6 +30,9 @@ function App() {
             <Route path="*" element={<Navigate to="/homePage" replace/>}/>
           </Routes>
         <Footer/>
+          {isRegistrationWindowOpen && <RegistrationWindow />}
+          {isAuthorizationWindowOpen && <AuthorizationWindow />}
+          {isAuthOrRegistrWindowOpen && <AuthOrRegistrWindow />}
       </BrowserRouter>
     </div>
     </>

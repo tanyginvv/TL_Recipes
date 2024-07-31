@@ -20,11 +20,32 @@ namespace Recipes.WebApi.Controllers
             ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
             ICommandHandler<UpdateUserCommand> updateUserCommandHandler,
             IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler,
+             IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery> getUserLoginByIdQueryHandler,
             IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler ) : ControllerBase
     {
 
+        [HttpGet( "login/{id}" )]
+        public async Task<ActionResult<ReadUserDto>> GetUserLoginById( int id )
+        {
+            GetUserLoginByIdQuery query = new GetUserLoginByIdQuery { Id = id };
+            Result<GetUserLoginByIdQueryDto> result = await getUserLoginByIdQueryHandler.HandleAsync( query );
+            if ( !result.IsSuccess )
+            {
+                return NotFound( result.Error );
+            }
+
+            GetUserLoginByIdQueryDto user = result.Value;
+            ReadUserDto userDto = new ReadUserDto
+            {
+                Id = user.Id,
+                Login = user.Login
+            };
+
+            return Ok( userDto );
+        }
+
         [HttpGet( "{id}" )]
-        public async Task<ActionResult<UserDto>> GetUserLoginById( int id )
+        public async Task<ActionResult<UserDto>> GetUserById( int id )
         {
             GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
             Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
@@ -34,10 +55,12 @@ namespace Recipes.WebApi.Controllers
             }
 
             GetUserByIdQueryDto user = result.Value;
-            ReadUserDto userDto = new ReadUserDto
+            UserDto userDto = new UserDto
             {
                 Id = user.Id,
-                Login = user.Login
+                Login = user.Login,
+                Name = user.Name,
+                Description = user.Description
             };
 
             return Ok( userDto );

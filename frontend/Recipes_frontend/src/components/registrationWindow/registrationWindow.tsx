@@ -1,0 +1,147 @@
+import { useState } from "react";
+import styles from "./registrationWindow.module.css";
+import exit from "../../assets/images/exit.svg";
+import useStore from "../../store/store";
+import { AuthenticationService } from "../../services/authService";
+import { IRegister } from "../../models/types"; // Ensure this is imported
+
+export const RegistrationWindow = () => {
+    const {
+        setRegistrationWindowOpen,
+        setAuthorizationWindowOpen,
+    } = useStore(); 
+
+    const [name, setName] = useState('');
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [generalError, setGeneralError] = useState<string | null>(null);
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [fieldError, setFieldError] = useState<string | null>(null); // New state for field errors
+    const authService = new AuthenticationService();
+
+    const handleRegistration = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        setGeneralError(null);
+        setPasswordError(null);
+        setFieldError(null);
+
+        if (!name || !login || !password || !confirmPassword) {
+            setFieldError('Пожалуйста, заполните все поля.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setPasswordError('Пароли не совпадают');
+            return;
+        }
+
+        const registrationData: IRegister = {
+            Name: name,
+            Login: login,
+            PasswordHash: password
+        };
+
+        try {
+            const tokenData = await authService.register(registrationData);
+
+            if (tokenData.accessToken) {
+                setRegistrationWindowOpen(false);
+                setAuthorizationWindowOpen(false);
+                alert("Вы успешно зарегистрированы");
+            } else {
+                setGeneralError('Ошибка регистрации. Попробуйте снова.');
+            }
+        } catch (e) {
+            setGeneralError('Ошибка регистрации. Попробуйте снова.');
+        }
+    };
+
+    const handleCancel = () => {
+        setRegistrationWindowOpen(false);
+        setAuthorizationWindowOpen(false);
+    };
+
+    const setAuth = () => {
+        setAuthorizationWindowOpen(true);
+        setRegistrationWindowOpen(false);
+    };
+
+    return (
+        <div className={styles.registrationOverlay}>
+            <div className={styles.registrationContainer}>
+                <span className={styles.exitButtonContainer}>
+                    <button 
+                        onClick={handleCancel} 
+                        className={styles.exitButton}
+                    >
+                        <img src={exit} alt="Exit" />
+                    </button>
+                </span>
+                <span className={styles.registrationFormContainer}>
+                    <h3 className={styles.registrationHeader}>Регистрация</h3>
+                    <form className={styles.registrationForm} onSubmit={handleRegistration}>
+                        <input 
+                            type="text" 
+                            placeholder="Имя" 
+                            className={styles.inputText}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <input 
+                            type="text" 
+                            placeholder="Логин" 
+                            className={styles.inputText}
+                            value={login}
+                            onChange={(e) => setLogin(e.target.value)}
+                        />
+                        {fieldError && <p className={styles.fieldError}>{fieldError}</p>}
+                        {generalError && <p className={styles.generalError}>{generalError}</p>}
+                        <span className={styles.passwordsContainer}>
+                            <span className={styles.passwordBlock}>
+                                <input 
+                                    type="password" 
+                                    placeholder="Пароль" 
+                                    className={styles.inputPassword}
+                                    value={password}
+                                    minLength={8}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <p className={styles.passwordSubtext}>Минимум 8 символов</p>
+                            </span>
+                            <span className={styles.passwordBlock}>
+                                <input 
+                                    type="password" 
+                                    placeholder="Повторите пароль" 
+                                    className={styles.inputPassword}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                {passwordError && <p className={styles.passwordError}>{passwordError}</p>}
+                            </span>
+                        </span>
+                        <span className={styles.registrationButtons}>
+                            <button 
+                                type="submit" 
+                                className={styles.submitButton}
+                            >
+                                Зарегистрироваться
+                            </button>
+                            <button 
+                                type="button" 
+                                onClick={handleCancel} 
+                                className={styles.resetButton}
+                            >
+                                Отмена
+                            </button>
+                        </span>
+                    </form>
+                </span>
+                <button onClick={setAuth} className={styles.authLink}>
+                    У меня уже есть аккаунт
+                </button>
+            </div>
+        </div>
+    );
+};

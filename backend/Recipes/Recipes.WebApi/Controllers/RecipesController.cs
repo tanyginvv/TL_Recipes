@@ -43,9 +43,14 @@ namespace Recipes.WebApi.Controllers
         [HttpDelete( "{id}" )]
         public async Task<IActionResult> DeleteRecipe(
             [FromRoute, Range( 1, int.MaxValue )] int id,
+             [FromQuery] int userId,
             [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
         {
-            DeleteRecipeCommand command = new DeleteRecipeCommand { RecipeId = id };
+            DeleteRecipeCommand command = new DeleteRecipeCommand
+            {
+                RecipeId = id,
+                UserId = userId
+            };
             Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
@@ -60,12 +65,14 @@ namespace Recipes.WebApi.Controllers
         [HttpPut( "{id}" )]
         public async Task<IActionResult> UpdateRecipe(
             [FromRoute, Range( 1, int.MaxValue )] int id,
+            [FromQuery] int userId,
             [FromBody] RecipeUpdateDto dto,
             [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler,
             [FromServices] IImageTools imageTool )
         {
             UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
             command.Id = id;
+            command.UserId = userId;
 
             Result result = await updateRecipeCommandHandler.HandleAsync( command );
 

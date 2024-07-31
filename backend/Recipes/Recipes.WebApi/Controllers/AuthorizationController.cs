@@ -12,13 +12,13 @@ using Recipes.WebApi.Dto.AuthenticationDto;
 namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
-    [Route( "Api/Users" )]
+    [Route( "api/users" )]
     public class AuthenticationController( ICommandHandler<CreateUserCommand> createUserCommandHandler,
             ICommandHandlerWithResult<AuthenticateUserCommand, AuthenticateUserCommandDto> authenticateCommandHandler,
             ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler ) : ControllerBase
     {
         [HttpPost]
-        [Route( "Registrate" )]
+        [Route( "registrate" )]
         public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto )
         {
             CreateUserCommand createUserCommand = new CreateUserCommand
@@ -37,7 +37,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok( commandResult );
         }
 
-        [HttpPost( "Refresh-Token" )]
+        [HttpPost( "refresh-token" )]
         public async Task<IActionResult> RefreshToken()
         {
             string refreshTokenFromCookie = Request.Cookies[ "RefreshToken" ];
@@ -56,7 +56,7 @@ namespace Presentation.Intranet.Api.Controllers
             return Ok( commandResult );
         }
 
-        [HttpPost( "Authentication" )]
+        [HttpPost( "authentication" )]
         public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto )
         {
             AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand

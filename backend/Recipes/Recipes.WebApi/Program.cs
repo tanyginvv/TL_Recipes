@@ -6,11 +6,17 @@ using Recipes.WebApi;
 var builder = WebApplication.CreateBuilder( args );
 
 // Register dependencies
-builder.Services.AddAutoMapper( typeof( Program ).Assembly );
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
 builder.Services.AddControllers();
 
+builder.Services.AddCors( options =>
+{
+    options.AddPolicy( "AllowSpecificOrigin",
+        builder => builder.WithOrigins( "http://localhost:5173" )
+                          .AllowAnyHeader()
+                          .AllowAnyMethod() );
+} );
 
 // Ensure API authentication uses the TokenConfiguration
 builder.Services.AddApiAuthentication();
@@ -33,6 +39,7 @@ app.UseCookiePolicy( new CookiePolicyOptions
     Secure = CookieSecurePolicy.Always
 } );
 
+app.UseCors( "AllowSpecificOrigin" );
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

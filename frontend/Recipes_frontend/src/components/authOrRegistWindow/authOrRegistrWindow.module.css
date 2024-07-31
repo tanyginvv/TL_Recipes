@@ -1,0 +1,113 @@
+.authOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.authContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 660px;
+    height: 290px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    z-index: 11;
+    margin-top: 120px; 
+}
+
+.exitButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 660px;
+}
+
+.exitButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding: 0;
+    background-color: #FFFFFF;
+    color: #25292D80;
+}
+
+.authFormContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 40px;
+    gap: 25px;
+}
+
+.authHeader {
+    color: #25292D;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.authDescription {
+    color: #4A525A;
+    font-size: 18px;
+    line-height: 28px;
+    font-weight: 400;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    width: 580px;
+    gap: 23px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    margin-top: 10px;
+}
+
+.loginButton {
+    width: 278px;
+    border-radius: 16px;
+    background-color: #FDB100;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.loginButton:hover {
+    background-color: #FFFFFF;
+    color: #FDB100;
+    border: solid 1px #FDB100;
+}
+
+.registrButton {
+    width: 278px;
+    border-radius: 16px;
+    background-color: #FFFFFF;
+    color: #FDB100;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+    border: solid 1px #FDB100;
+}
+
+.registrButton:hover {
+    background-color: #FDB100;
+    color: #FFFFFF;
+}

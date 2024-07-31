@@ -7,6 +7,8 @@ using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Entities.Steps;
 using Recipes.Infrastructure.Entities.Tags;
 using Recipes.Infrastructure.Entities.Ingredients;
+using Recipes.Application.Interfaces;
+using Recipes.Infrastructure.ImageTools;
 
 namespace Recipes.Infrastructure
 {
@@ -22,6 +24,7 @@ namespace Recipes.Infrastructure
             services.AddScoped<IIngredientRepository, IngredientRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IStepRepository, StepRepository>();
+            services.AddScoped<IImageTools, ImageHelperTools>();
 
             return services;
         }

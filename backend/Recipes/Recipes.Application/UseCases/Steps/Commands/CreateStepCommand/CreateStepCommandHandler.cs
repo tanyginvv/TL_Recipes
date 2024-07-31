@@ -4,33 +4,26 @@ using Recipes.Application.Results;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class CreateStepCommandHandler(
             IStepRepository stepRepository,
-            IRecipeRepository recipeRepository,
             IAsyncValidator<CreateStepCommand> validator )
-        : ICommandHandler<CreateStepCommand>
+        : ICommandHandlerWithResult<CreateStepCommand, Step>
     {
-        public async Task<Result> HandleAsync( CreateStepCommand command )
+        public async Task<Result<Step>> HandleAsync( CreateStepCommand command )
         {
             Result validationResult = await validator.ValidateAsync( command );
             if ( !validationResult.IsSuccess )
             {
-                return Result.FromError( validationResult.Error );
+                return Result<Step>.FromError( validationResult.Error );
             }
 
-            Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
-            if ( recipe is null )
-            {
-                return Result.FromError( "Recipe not found" );
-            }
-
-            Step step = new( command.StepNumber, command.StepDescription, command.RecipeId );
+            Step step = new( command.StepNumber, command.StepDescription, command.Recipe.Id );
 
             await stepRepository.AddAsync( step );
 
-            return Result.Success;
+            return Result<Step>.FromSuccess( step );
         }
     }
 }

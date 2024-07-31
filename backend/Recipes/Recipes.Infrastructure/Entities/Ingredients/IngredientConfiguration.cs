@@ -23,11 +23,6 @@ namespace Recipes.Infrastructure.Entities.Ingredients
 
             builder.Property( i => i.RecipeId )
                 .IsRequired();
-
-            builder.HasOne( i => i.Recipe )
-                .WithMany( r => r.Ingredients )
-                .HasForeignKey( i => i.RecipeId )
-                .OnDelete( DeleteBehavior.Cascade );
         }
     }
 }

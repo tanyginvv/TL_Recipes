@@ -4,6 +4,7 @@ namespace Recipes.Application.UseCases.Recipes.Dtos
 {
     public class IngredientDto
     {
+
         [Required]
         [StringLength( 50 )]
         public string Title { get; set; }

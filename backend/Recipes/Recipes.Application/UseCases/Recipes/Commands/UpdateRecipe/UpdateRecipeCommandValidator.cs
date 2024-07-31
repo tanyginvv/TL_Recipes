@@ -10,7 +10,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 
         public async Task<Result> ValidateAsync( UpdateRecipeCommand command )
         {
-            if ( command.Name is null || command.Name == string.Empty )
+            if ( string.IsNullOrEmpty( command.Name ) )
             {
                 return Result.FromError( "Название блюда не может быть пустым" );
             }
@@ -20,7 +20,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Название блюда не может быть больше чем 100 символов" );
             }
 
-            if ( command.Description is null || command.Description == string.Empty )
+            if ( string.IsNullOrEmpty( command.Description ) )
             {
                 return Result.FromError( "Описание блюда не может быть пустым" );
             }
@@ -30,17 +30,17 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Описание блюда не может быть больше чем 150 символов" );
             }
 
-            if ( command.PortionCount == 0 || command.PortionCount < 0 )
+            if ( command.PortionCount <= 0 )
             {
                 return Result.FromError( "Количество порций должно быть больше 0" );
             }
 
-            if ( command.CookTime == 0 || command.CookTime < 0 )
+            if ( command.CookTime <= 0 )
             {
                 return Result.FromError( "Время приготовления должно быть больше 0" );
             }
 
-            if ( command.ImageUrl is null || command.ImageUrl == string.Empty )
+            if ( string.IsNullOrEmpty( command.ImageUrl ) )
             {
                 return Result.FromError( "Изображение блюда должно быть обязательно " );
             }

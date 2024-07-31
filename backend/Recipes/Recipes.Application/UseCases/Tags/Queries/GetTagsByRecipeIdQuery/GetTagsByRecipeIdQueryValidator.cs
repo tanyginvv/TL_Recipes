@@ -9,7 +9,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
         {
             if ( query.RecipeId <= 0 )
             {
-                return Result.FromError( "Recipe ID must be greater than zero." );
+                return Result.FromError( "Id рецепта должен быть больше 0" );
             }
 
             return Result.Success;

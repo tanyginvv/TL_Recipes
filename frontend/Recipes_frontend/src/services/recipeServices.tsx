@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/apiUrl';
-import { IRecipeAllRecipes, IRecipe } from '../models/types';
+import { IRecipeAllRecipes, IRecipe, IRecipeSubmit } from '../models/types';
 
 export class RecipeService {
     private apiUrl: string;
@@ -54,6 +54,23 @@ export class RecipeService {
         } catch (error) {
             console.error('Error deleting recipe:', error);
             return false;
+        }
+    }
+
+    async submitRecipe(recipeData: IRecipeSubmit, id?: string): Promise<void> {
+        const url = id ? `${this.apiUrl}/recipes/${id}` : `${this.apiUrl}/recipes`;
+        const method = id ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(recipeData),
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка при обработке рецепта');
         }
     }
 }

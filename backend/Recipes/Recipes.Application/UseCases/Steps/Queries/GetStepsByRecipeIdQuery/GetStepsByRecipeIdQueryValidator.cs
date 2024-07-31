@@ -1,6 +1,7 @@
 ﻿using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
 {
@@ -14,7 +15,7 @@ namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
                 return Result.FromError( "Id рецепта должен быть больше нуля" );
             }
 
-            var recipe = await recipeRepository.GetByIdAsync( query.RecipeId );
+            Recipe recipe = await recipeRepository.GetByIdAsync( query.RecipeId );
             if ( recipe is null )
             {
                 return Result.FromError( "Рецепта с этим Id не существует" );

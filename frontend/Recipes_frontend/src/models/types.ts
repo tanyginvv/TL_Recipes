@@ -10,6 +10,17 @@ export interface IRecipe {
     steps: IStep[]
 }
 
+export interface IRecipeSubmit {
+    name: string,
+    description: string,
+    portionCount: number,
+    cookTime: number,
+    imageUrl: string,
+    tags: ITag[],
+    ingredients: IIngredient[],
+    steps: IStep[]
+}
+
 export interface IRecipeAllRecipes {
     id: number,
     name: string,
@@ -19,7 +30,6 @@ export interface IRecipeAllRecipes {
     imageUrl: string,
     tags: ITag[]
 }
-
 
 export interface ITag {
     name: string

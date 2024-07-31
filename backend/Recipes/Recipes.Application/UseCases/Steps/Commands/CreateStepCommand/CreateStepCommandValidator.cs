@@ -1,28 +1,21 @@
-﻿using Recipes.Application.Repositories;
-using Recipes.Application.Results;
+﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Steps.Commands.CreateStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
-    public class CreateStepCommandValidator( IRecipeRepository recipeRepository )
+    public class CreateStepCommandValidator
         : IAsyncValidator<CreateStepCommand>
     {
         public async Task<Result> ValidateAsync( CreateStepCommand command )
         {
-            if ( string.IsNullOrWhiteSpace( command.StepDescription ) )
+            if ( string.IsNullOrEmpty( command.StepDescription ) )
             {
-                return Result.FromError( "Step description cannot be empty" );
+                return Result.FromError( "Описание шага не может быть пустым" );
             }
 
-            if ( command.RecipeId <= 0 )
+            if ( command.StepNumber <= 0 )
             {
-                return Result.FromError( "Recipe ID must be a non-negative integer" );
-            }
-
-            var recipeExists = await recipeRepository.GetByIdAsync( command.RecipeId );
-            if ( recipeExists is null )
-            {
-                return Result.FromError( "Recipe not found" );
+                return Result.FromError( "Номер шага не может быть меньше или равен нулю" );
             }
 
             return Result.Success;

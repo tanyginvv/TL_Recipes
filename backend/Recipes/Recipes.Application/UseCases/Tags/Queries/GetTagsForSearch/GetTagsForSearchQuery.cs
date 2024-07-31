@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Tags.Queries.GetRandomTags
+﻿namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch
 {
     public class GetTagsForSearchQuery
     {

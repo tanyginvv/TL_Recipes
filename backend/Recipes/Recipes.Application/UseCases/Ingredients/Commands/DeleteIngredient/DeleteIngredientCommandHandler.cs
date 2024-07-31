@@ -2,6 +2,7 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
 {
@@ -18,13 +19,13 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
                 return Result.FromError( validationResult.Error );
             }
 
-            var ingredient = await ingredientRepository.GetByIdAsync( command.Id );
+            Ingredient ingredient = await ingredientRepository.GetByIdAsync( command.Id );
             if ( ingredient is null )
             {
-                return Result.FromError( "Ingredient not found" );
+                return Result.FromError( "Ингредиент не найден" );
             }
 
-            await ingredientRepository.DeleteAsync( command.Id );
+            await ingredientRepository.Delete( ingredient );
 
             return Result.Success;
         }

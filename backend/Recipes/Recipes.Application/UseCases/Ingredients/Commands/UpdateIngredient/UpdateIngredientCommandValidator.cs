@@ -13,7 +13,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
                 return Result.FromError( "ID ингредиента должен быть больше нуля" );
             }
 
-            if ( string.IsNullOrWhiteSpace( command.Title ) )
+            if ( string.IsNullOrEmpty( command.Title ) )
             {
                 return Result.FromError( "Название ингредиента не может быть пустым" );
             }
@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
                 return Result.FromError( "Название ингредиента не может быть больше чем 100 символов" );
             }
 
-            if ( string.IsNullOrWhiteSpace( command.Description ) )
+            if ( string.IsNullOrEmpty( command.Description ) )
             {
                 return Result.FromError( "Описание ингредиента не может быть пустым" );
             }

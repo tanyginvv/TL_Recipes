@@ -3,7 +3,6 @@ using Recipes.Application.UseCases.Tags;
 using Recipes.Application.UseCases.Steps;
 using Recipes.Application.UseCases.Ingredients;
 using Recipes.Application.UseCases.Recipes;
-using Recipes.Application.ImageTools;
 
 namespace Recipes.Application
 {
@@ -15,7 +14,6 @@ namespace Recipes.Application
             services.AddTagsBindings();
             services.AddStepsBindings();
             services.AddIngredientsBindings();
-            services.AddScoped<ImageHelperTools>();
 
             return services;
         }

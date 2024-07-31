@@ -21,6 +21,9 @@ namespace Recipes.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
+                .IncrementsBy(10);
+
             modelBuilder.Entity("RecipeTag", b =>
                 {
                     b.Property<int>("RecipeId")
@@ -75,9 +78,6 @@ namespace Recipes.Infrastructure.Migrations
                     b.Property<int>("CookTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountPortion")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -91,6 +91,9 @@ namespace Recipes.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PortionCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -161,7 +164,7 @@ namespace Recipes.Infrastructure.Migrations
                     b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Recipe");

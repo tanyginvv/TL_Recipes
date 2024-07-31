@@ -22,11 +22,6 @@ namespace Recipes.Infrastructure.Entities.Steps
 
             builder.Property( s => s.RecipeId )
                 .IsRequired();
-
-            builder.HasOne( s => s.Recipe )
-                .WithMany( r => r.Steps )
-                .HasForeignKey( s => s.RecipeId )
-                .OnDelete( DeleteBehavior.Cascade );
         }
     }
 }

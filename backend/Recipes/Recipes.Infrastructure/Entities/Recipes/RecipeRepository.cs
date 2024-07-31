@@ -29,17 +29,11 @@ namespace Recipes.Infrastructure.Entities.Recipes
 
         public async Task<List<Recipe>> GetRecipesAsync( IEnumerable<IFilter<Recipe>> filters )
         {
-            IQueryable<Recipe> query = _dbSet
-                .AsQueryable().ApplyFilters( filters );
+            return await _dbSet
+               .ApplyFilters( filters )
+               .Include( r => r.Tags )
+               .ToListAsync();
 
-            List<Recipe> recipes = await query.ToListAsync();
-
-            foreach ( Recipe recipe in recipes )
-            {
-                await _context.Entry( recipe ).Collection( r => r.Tags ).LoadAsync();
-            }
-
-            return recipes;
         }
 
         public override async Task<Recipe> GetByIdAsync( int id )

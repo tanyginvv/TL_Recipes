@@ -14,19 +14,23 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
         public async Task<Result> HandleAsync( UpdateIngredientCommand updateIngredientCommand )
         {
             Result validationResult = await validator.ValidateAsync( updateIngredientCommand );
-            if ( validationResult.IsSuccess )
+
+            if ( !validationResult.IsSuccess )
             {
-                Ingredient ingredient = await ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
-                if ( ingredient is not null )
-                {
-                    ingredient.Title = updateIngredientCommand.Title;
-                    ingredient.Description = updateIngredientCommand.Description;
-                }
-                else
-                {
-                    return Result.FromError( "Такого id ингредиента не существует" );
-                }
+                return Result.FromError( validationResult.Error );
             }
+
+            Ingredient ingredient = await ingredientRepository.GetByIdAsync( updateIngredientCommand.Id );
+            if ( ingredient is not null )
+            {
+                ingredient.Title = updateIngredientCommand.Title;
+                ingredient.Description = updateIngredientCommand.Description;
+            }
+            else
+            {
+                return Result.FromError( "Такого id ингредиента не существует" );
+            }
+
             return Result.FromSuccess();
         }
     }

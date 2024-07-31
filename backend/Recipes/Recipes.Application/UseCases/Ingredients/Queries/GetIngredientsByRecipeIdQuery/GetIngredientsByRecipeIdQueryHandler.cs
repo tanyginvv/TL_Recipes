@@ -7,8 +7,10 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery
 {
-    public class GetIngredientsByRecipeIdQueryHandler( IIngredientRepository ingredientRepository,
-        IAsyncValidator<GetIngredientsByRecipeIdQuery> validator ) : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
+    public class GetIngredientsByRecipeIdQueryHandler(
+        IIngredientRepository ingredientRepository,
+        IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
+        : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
     {
         public async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQuery query )
         {

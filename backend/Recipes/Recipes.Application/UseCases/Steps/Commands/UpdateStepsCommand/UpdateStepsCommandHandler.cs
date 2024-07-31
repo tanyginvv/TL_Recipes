@@ -51,7 +51,7 @@ namespace Recipes.Application.UseCases.Steps.Commands
             List<Step> stepsToDelete = oldSteps.Where( oldStep => !command.NewSteps.Any( newStep => newStep.StepNumber == oldStep.StepNumber ) ).ToList();
             foreach ( Step stepToDelete in stepsToDelete )
             {
-                var deleteStepCommand = new DeleteStepCommand { StepId = stepToDelete.Id };
+                DeleteStepCommand deleteStepCommand = new DeleteStepCommand { StepId = stepToDelete.Id };
                 await deleteStepCommandHandler.HandleAsync( deleteStepCommand );
             }
 

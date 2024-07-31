@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Interfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
@@ -18,15 +19,17 @@ namespace Recipes.WebApi.Controllers
     public class RecipesController : ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<RecipeIdDto>> CreateRecipe(
+        public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
             [FromBody] RecipeCreateDto dto,
-            [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler )
+            [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler,
+            [FromServices] IImageTools imageTool )
         {
             CreateRecipeCommand command = dto.Adapt<CreateRecipeCommand>();
             Result<RecipeIdDto> result = await createRecipeCommandHandler.HandleAsync( command );
 
             if ( !result.IsSuccess )
             {
+                imageTool.DeleteImage( dto.ImageUrl );
                 return BadRequest( result.Error );
             }
 
@@ -85,7 +88,7 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetRecipePartDto>>> GetRecipes(
+        public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
             [FromQuery] int pageNumber = 1,
             [FromQuery] List<string> searchTerms = null )

@@ -22,11 +22,6 @@ namespace Recipes.Application.UseCases.Tags.Commands
                 return Result.FromError( validationResult.Error );
             }
 
-            if ( command.RecipeTags is null || !command.RecipeTags.Any() )
-            {
-                return Result.FromError( "Теги рецепта не могут быть пустыми" );
-            }
-
             Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
             if ( recipe is null )
             {

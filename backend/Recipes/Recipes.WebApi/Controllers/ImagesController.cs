@@ -11,12 +11,12 @@ namespace Recipes.WebApi.Controllers
         [HttpPost( "upload" )]
         public async Task<IActionResult> UploadImage( IFormFile image )
         {
-            if ( image == null )
+            if ( image is null )
             {
                 return BadRequest( "Изображение не предоставлено" );
             }
 
-            var fileName = await imageHelperTools.SaveRecipeImageAsync( image );
+            string fileName = await imageHelperTools.SaveRecipeImageAsync( image );
 
             if ( string.IsNullOrEmpty( fileName ) )
             {
@@ -29,14 +29,27 @@ namespace Recipes.WebApi.Controllers
         [HttpGet( "{fileName}" )]
         public IActionResult GetImage( [FromRoute] string fileName )
         {
-            var imageBytes = imageHelperTools.GetImage( fileName );
+            byte[] imageBytes = imageHelperTools.GetImage( fileName );
 
-            if ( imageBytes == null )
+            if ( imageBytes is null )
             {
                 return NotFound( "Картинка не найдена" );
             }
 
             return File( imageBytes, "image/jpeg" );
+        }
+
+        [HttpDelete( "{fileName}" )]
+        public IActionResult DeleteImage( [FromRoute] string fileName )
+        {
+            bool imageDeleted = imageHelperTools.DeleteImage( fileName );
+
+            if ( !imageDeleted )
+            {
+                return NotFound( "Картинка не найдена" );
+            }
+
+            return Ok( "Картинка успешно удалена" );
         }
     }
 }

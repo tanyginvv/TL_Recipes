@@ -2,7 +2,6 @@
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Ingredients.Dtos;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;

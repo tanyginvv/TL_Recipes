@@ -1,6 +1,8 @@
 ﻿using Mapster;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Tags.Commands;
+using Recipes.Application.UseCases.Tags.Dtos;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags
 {
@@ -8,7 +10,18 @@ namespace Recipes.Application.UseCases.Tags
     {
         public static void RegisterMappings()
         {
-            TypeAdapterConfig<TagDto, GetOrCreateTagCommand>.NewConfig();
+            TypeAdapterConfig<GetOrCreateTagCommand, Tag>
+                .NewConfig()
+                .ConstructUsing( src => new Tag( src.Name ) );
+
+            TypeAdapterConfig<TagDto, GetOrCreateTagCommand>
+                .NewConfig();
+
+            TypeAdapterConfig<Tag, GetTagByNameQueryDto>
+                .NewConfig();
+
+            TypeAdapterConfig<Tag, TagDto>
+                .NewConfig();
         }
     }
 }

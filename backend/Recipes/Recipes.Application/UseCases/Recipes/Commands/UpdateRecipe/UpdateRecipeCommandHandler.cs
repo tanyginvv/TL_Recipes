@@ -16,7 +16,8 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             IUnitOfWork unitOfWork,
             ICommandHandler<UpdateStepsCommand> updateStepsCommandHandler,
             ICommandHandler<UpdateIngredientsCommand> updateIngredientsCommandHandler,
-            ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler )
+            ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler,
+            IImageTools imageTools )
         : ICommandHandler<UpdateRecipeCommand>
     {
         public async Task<Result> HandleAsync( UpdateRecipeCommand updateRecipeCommand )
@@ -33,6 +34,8 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "Рецепт не найден" );
             }
 
+            string oldImageUrl = oldRecipe.ImageUrl;
+
             oldRecipe.Name = updateRecipeCommand.Name;
             oldRecipe.Description = updateRecipeCommand.Description;
             oldRecipe.PortionCount = updateRecipeCommand.PortionCount;
@@ -46,7 +49,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             };
             await updateStepsCommandHandler.HandleAsync( updateStepsCommand );
 
-            var updateIngredientsCommand = new UpdateIngredientsCommand
+            UpdateIngredientsCommand updateIngredientsCommand = new UpdateIngredientsCommand
             {
                 Recipe = oldRecipe,
                 NewIngredients = updateRecipeCommand.Ingredients
@@ -61,6 +64,8 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
             await updateTagsCommandHandler.HandleAsync( updateTagsCommand );
 
             await unitOfWork.CommitAsync();
+
+            imageTools.DeleteImage( oldImageUrl );
 
             return Result.Success;
         }

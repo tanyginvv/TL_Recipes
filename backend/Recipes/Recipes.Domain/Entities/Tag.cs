@@ -5,6 +5,8 @@
         public string Name { get; init; }
         public ICollection<Recipe> Recipes { get; set; }
 
+        public Tag() { }
+
         public Tag( string name )
         {
             Name = name;

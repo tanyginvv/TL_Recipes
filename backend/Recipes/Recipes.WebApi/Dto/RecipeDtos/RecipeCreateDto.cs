@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Recipes.Application.UseCases.Recipes.Dtos;
+using Recipes.WebApi.Dto.IngredientDtos;
+using Recipes.WebApi.Dto.StepDtos;
+using Recipes.WebApi.Dto.TagDtos;
 
 namespace Recipes.WebApi.Dto.RecipeDtos
 {
@@ -23,12 +25,12 @@ namespace Recipes.WebApi.Dto.RecipeDtos
         public string ImageUrl { get; init; }
 
         [Required]
-        public ICollection<IngredientDto> Ingredients { get; init; }
+        public ICollection<IngredientApiDto> Ingredients { get; init; }
 
         [Required]
-        public ICollection<StepDto> Steps { get; init; }
+        public ICollection<StepApiDto> Steps { get; init; }
 
         [Required]
-        public ICollection<TagDto> Tags { get; init; }
+        public ICollection<TagApiDto> Tags { get; init; }
     }
 }

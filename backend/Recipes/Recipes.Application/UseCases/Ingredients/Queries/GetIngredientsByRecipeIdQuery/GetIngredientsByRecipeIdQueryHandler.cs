@@ -7,8 +7,10 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery
 {
-    public class GetIngredientsByRecipeIdQueryHandler( IIngredientRepository ingredientRepository,
-        IAsyncValidator<GetIngredientsByRecipeIdQuery> validator ) : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
+    public class GetIngredientsByRecipeIdQueryHandler(
+        IIngredientRepository ingredientRepository,
+        IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
+        : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
     {
         public async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQuery query )
         {
@@ -21,7 +23,7 @@ namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecip
             IEnumerable<Ingredient> ingredients = await ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( ingredients is null )
             {
-                return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ingredients not found" );
+                return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ингредиент не найден" );
             }
 
             GetIngredientsByRecipeIdQueryDto dto = new GetIngredientsByRecipeIdQueryDto

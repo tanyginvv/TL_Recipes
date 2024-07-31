@@ -8,13 +8,6 @@ builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
 builder.Services.AddControllers();
 
-builder.Services.AddCors( options =>
-{
-    options.AddPolicy( "AllowSpecificOrigin",
-        builder => builder.WithOrigins( "http://localhost:5173" )
-                          .AllowAnyHeader()
-                          .AllowAnyMethod() );
-} );
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -26,7 +19,6 @@ if ( app.Environment.IsDevelopment() )
     app.UseSwaggerUI();
 }
 
-app.UseCors( "AllowSpecificOrigin" );
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

@@ -23,7 +23,7 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
             IEnumerable<Tag> tags = await tagRepository.GetByRecipeIdAsync( query.RecipeId );
             if ( tags is null )
             {
-                return Result<GetTagsByRecipeIdQueryDto>.FromError( "Tags not found" );
+                return Result<GetTagsByRecipeIdQueryDto>.FromError( "Теги не найдены" );
             }
 
             GetTagsByRecipeIdQueryDto dto = new GetTagsByRecipeIdQueryDto

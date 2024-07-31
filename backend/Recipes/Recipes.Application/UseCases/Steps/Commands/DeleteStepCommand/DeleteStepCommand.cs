@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Steps.Commands.DeleteStepCommand
+﻿namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class DeleteStepCommand
     {

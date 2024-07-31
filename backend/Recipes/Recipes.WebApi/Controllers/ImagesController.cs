@@ -1,26 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Recipes.Application.ImageTools;
+using Recipes.Application.Interfaces;
 
 namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/images" )]
-    public class ImagesController( ImageHelperTools imageHelperTools )
+    public class ImagesController( IImageTools imageHelperTools )
         : ControllerBase
     {
         [HttpPost( "upload" )]
         public async Task<IActionResult> UploadImage( IFormFile image )
         {
-            if ( image == null )
+            if ( image is null )
             {
-                return BadRequest( "No image provided" );
+                return BadRequest( "Изображение не предоставлено" );
             }
 
-            var fileName = await imageHelperTools.SaveRecipeImageAsync( image );
+            string fileName = await imageHelperTools.SaveRecipeImageAsync( image );
 
             if ( string.IsNullOrEmpty( fileName ) )
             {
-                return StatusCode( 500, "Error saving the image" );
+                return StatusCode( 500, "Ошибка сохранения картинки" );
             }
 
             return Ok( new { FileName = fileName } );
@@ -29,14 +29,27 @@ namespace Recipes.WebApi.Controllers
         [HttpGet( "{fileName}" )]
         public IActionResult GetImage( [FromRoute] string fileName )
         {
-            var imageBytes = ImageHelperTools.GetImage( fileName );
+            byte[] imageBytes = imageHelperTools.GetImage( fileName );
 
-            if ( imageBytes == null )
+            if ( imageBytes is null )
             {
-                return NotFound( "Image not found" );
+                return NotFound( "Картинка не найдена" );
             }
 
             return File( imageBytes, "image/jpeg" );
+        }
+
+        [HttpDelete( "{fileName}" )]
+        public IActionResult DeleteImage( [FromRoute] string fileName )
+        {
+            bool imageDeleted = imageHelperTools.DeleteImage( fileName );
+
+            if ( !imageDeleted )
+            {
+                return NotFound( "Картинка не найдена" );
+            }
+
+            return Ok( "Картинка успешно удалена" );
         }
     }
 }

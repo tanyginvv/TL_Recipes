@@ -3,7 +3,7 @@ using Recipes.Application.Results;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand
+namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class UpdateStepCommandValidator( IStepRepository stepRepository )
         : IAsyncValidator<UpdateStepCommand>
@@ -12,23 +12,23 @@ namespace Recipes.Application.UseCases.Steps.Commands.UpdateStepCommand
         {
             if ( command.StepId <= 0 )
             {
-                return Result.FromError( "StepId must be greater than zero." );
+                return Result.FromError( "ID шага должен быть больше нуля" );
             }
 
             if ( command.StepNumber <= 0 )
             {
-                return Result.FromError( "StepNumber must be greater than zero." );
+                return Result.FromError( "Номер шага должен быть больше нуля" );
             }
 
-            if ( string.IsNullOrWhiteSpace( command.StepDescription ) )
+            if ( string.IsNullOrEmpty( command.StepDescription ) )
             {
-                return Result.FromError( "StepDescription cannot be empty." );
+                return Result.FromError( "Описание шага не может быть пустым" );
             }
 
             Step step = await stepRepository.GetByStepIdAsync( command.StepId );
             if ( step is null || step.Id != command.StepId )
             {
-                return Result.FromError( "Step not found or does not belong to the specified recipe." );
+                return Result.FromError( "Шаг не найден или не относится к указанному рецепту." );
             }
 
             return Result.Success;

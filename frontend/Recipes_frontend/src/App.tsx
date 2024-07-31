@@ -4,6 +4,7 @@ import { HomePage } from './components/homePage/homePage'
 import { Header } from './components/header/header'
 import { Footer } from './components/footer/footer'
 import { AllRecipesPage } from './components/allRecipesPage/allRecipesPage'
+
 function App() {
 
   return (

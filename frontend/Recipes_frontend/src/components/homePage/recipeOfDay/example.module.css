@@ -1,0 +1,100 @@
+.example {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 1200px;
+    height: 600px;
+    background: url("../../../assets/images/example.png");
+    background-position-x: left;
+    background-repeat: no-repeat;
+    position: relative;
+    text-align: left;
+}
+
+.exampleContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 48.7%;
+    padding: 178px 0;
+}
+
+.example::before {
+    content: url("../../../assets/images/favorite.png");
+    width: 59px;
+    height: 28px;
+    position: absolute;
+    top: 0;
+    left: 79.3%;
+}
+
+.example::after {
+    content: url("../../../assets/images/timer.png");
+    width: 109px;
+    height: 28px;
+    position: absolute;
+    top: 0;
+    left: 86.6%;
+}
+
+.exampleHeader::before {
+    content: url("../../../assets/images/yummy-text.png");
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -150px;
+    left: -26px;
+    border-radius: 50%;
+    padding: 15px;
+}
+
+.exampleHeader::after {
+    content: url("../../../assets/images/yummy.png");
+    background-color: #fdb100;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -112px;
+    left: 0px;
+    border-radius: 50%;
+    padding: 15px;
+}
+
+.exampleHeader {
+    position: relative;
+    width: 512px;
+    height: 120px;
+    font-family: Montserrat;
+    font-weight: bold;
+    font-size: 42px;
+    line-height: 60px;
+    text-transform: capitalize;
+    color: #25292d;
+}
+
+.exampleText {
+    display: block;
+    width: 520px;
+    height: 128px;
+    margin-top: 16px;
+    font-family: Montserrat;
+    font-size: 18px;
+    line-height: 32px;
+    font-feature-settings: 'case' on;
+    color: #4a525a;
+}
+
+.exampleTag {
+    width: 108px;
+    height: 32px;
+    position: absolute;
+    top: 475px;
+    left: 0;
+    background-color: #fff;
+    text-align: center;
+    font-family: Montserrat;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 28px;
+    color: #fdb100;
+}  

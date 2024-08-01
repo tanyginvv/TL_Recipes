@@ -11,7 +11,7 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240731093037_InitialTables")]
+    [Migration("20240801095118_InitialTables")]
     partial class InitialTables
     {
         /// <inheritdoc />
@@ -24,20 +24,17 @@ namespace Recipes.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
-                .IncrementsBy(10);
-
             modelBuilder.Entity("RecipeTag", b =>
                 {
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("RecipeId", "TagId");
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TagId");
+                    b.HasKey("TagId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeTag");
                 });

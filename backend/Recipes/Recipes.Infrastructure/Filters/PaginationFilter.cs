@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.Interfaces;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Infrastructure
+namespace Recipes.Infrastructure.Filters
 {
     public class PaginationFilter : IFilter<Recipe>
     {

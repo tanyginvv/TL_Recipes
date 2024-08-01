@@ -8,7 +8,7 @@ using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 using Mapster;
 
-namespace Recipes.Application.UseCases.Ingredients.Commands
+namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients
 {
     public class UpdateIngredientsCommandHandler(
         ICommandHandler<UpdateIngredientCommand> updateIngredientCommandHandler,

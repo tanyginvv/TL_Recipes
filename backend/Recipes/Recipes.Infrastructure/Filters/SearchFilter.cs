@@ -4,7 +4,7 @@ using Recipes.Application.Interfaces;
 using Recipes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Recipes.Infrastructure
+namespace Recipes.Infrastructure.Filters
 {
     public class SearchFilter : IFilter<Recipe>
     {

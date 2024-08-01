@@ -8,7 +8,7 @@ using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Filters;
 
-namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
+namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes
 {
     public class GetRecipesQueryHandler(
             IRecipeRepository recipeRepository,

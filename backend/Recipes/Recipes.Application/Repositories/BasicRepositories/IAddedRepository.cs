@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Repositories
+﻿namespace Recipes.Application.Repositories.BasicRepositories
 {
     public interface IAddedRepository<TEntity> where TEntity : class
     {

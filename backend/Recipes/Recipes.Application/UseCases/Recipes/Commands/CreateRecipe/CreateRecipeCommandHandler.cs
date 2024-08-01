@@ -6,7 +6,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Steps.Commands;
-using Recipes.Application.UseCases.Tags.Commands;
+using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
@@ -87,6 +87,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 recipe.Steps.Add( stepResult.Value );
             }
 
+            await recipeRepository.AddAsync( recipe );
             await unitOfWork.CommitAsync();
 
             return Result<RecipeIdDto>.FromSuccess( new RecipeIdDto { Id = recipe.Id } );

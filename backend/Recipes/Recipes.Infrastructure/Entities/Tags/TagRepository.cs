@@ -35,10 +35,5 @@ namespace Recipes.Infrastructure.Entities.Tags
         {
             await base.AddAsync( tag );
         }
-
-        public async Task<bool> ContainsAsync( Expression<Func<Tag, bool>> predicate )
-        {
-            return await _dbSet.AnyAsync( predicate );
-        }
     }
 }

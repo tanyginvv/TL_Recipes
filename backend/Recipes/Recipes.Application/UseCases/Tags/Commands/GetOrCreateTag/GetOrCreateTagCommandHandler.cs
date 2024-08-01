@@ -5,7 +5,7 @@ using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Mapster;
 
-namespace Recipes.Application.UseCases.Tags.Commands
+namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag
 {
     public class GetOrCreateTagCommandHandler(
             ITagRepository tagRepository,
@@ -20,15 +20,12 @@ namespace Recipes.Application.UseCases.Tags.Commands
                 return Result<Tag>.FromError( validationResult.Error );
             }
 
-            Tag existingTag = await tagRepository.GetByNameAsync( createTagCommand.Name );
-
-            if ( existingTag is not null )
+            Tag tag = await tagRepository.GetByNameAsync( createTagCommand.Name );
+            if ( tag is null )
             {
-                return Result<Tag>.FromSuccess( existingTag );
+                tag = createTagCommand.Adapt<Tag>();
+                await tagRepository.AddAsync( tag );
             }
-
-            Tag tag = createTagCommand.Adapt<Tag>();
-            await tagRepository.AddAsync( tag );
 
             return Result<Tag>.FromSuccess( tag );
         }

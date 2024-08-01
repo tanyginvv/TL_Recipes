@@ -1,0 +1,16 @@
+﻿{
+  "profiles": {
+    "tanygin": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "jsonConfigName": "dev"
+      }
+    },
+    "prod": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "jsonConfigName": "prod"
+      }
+    }
+  }
+}

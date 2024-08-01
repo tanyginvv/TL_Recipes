@@ -8,7 +8,7 @@ using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.WebApi.Dto.RecipeDtos;
 using System.ComponentModel.DataAnnotations;
 

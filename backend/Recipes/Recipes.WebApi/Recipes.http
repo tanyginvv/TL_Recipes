@@ -1,6 +1,5 @@
-@Recipes_HostAddress = http://localhost:5218
 
-GET {{Recipes_HostAddress}}/weatherforecast/
+GET {}
 Accept: application/json
 
 ###

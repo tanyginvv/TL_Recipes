@@ -10,14 +10,6 @@ namespace Recipes.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up( MigrationBuilder migrationBuilder )
         {
-            migrationBuilder.EnsureSchema(
-                name: "dbo" );
-
-            migrationBuilder.CreateSequence<int>(
-                name: "RecipeHiLo",
-                schema: "dbo",
-                incrementBy: 10 );
-
             migrationBuilder.CreateTable(
                 name: "Recipe",
                 columns: table => new
@@ -94,12 +86,12 @@ namespace Recipes.Infrastructure.Migrations
                 name: "RecipeTag",
                 columns: table => new
                 {
-                    RecipeId = table.Column<int>( type: "int", nullable: false ),
-                    TagId = table.Column<int>( type: "int", nullable: false )
+                    TagId = table.Column<int>( type: "int", nullable: false ),
+                    RecipeId = table.Column<int>( type: "int", nullable: false )
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey( "PK_RecipeTag", x => new { x.RecipeId, x.TagId } );
+                    table.PrimaryKey( "PK_RecipeTag", x => new { x.TagId, x.RecipeId } );
                     table.ForeignKey(
                         name: "FK_RecipeTag_Recipe_RecipeId",
                         column: x => x.RecipeId,
@@ -120,9 +112,9 @@ namespace Recipes.Infrastructure.Migrations
                 column: "RecipeId" );
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecipeTag_TagId",
+                name: "IX_RecipeTag_RecipeId",
                 table: "RecipeTag",
-                column: "TagId" );
+                column: "RecipeId" );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Step_RecipeId",
@@ -147,10 +139,6 @@ namespace Recipes.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Recipe" );
-
-            migrationBuilder.DropSequence(
-                name: "RecipeHiLo",
-                schema: "dbo" );
         }
     }
 }

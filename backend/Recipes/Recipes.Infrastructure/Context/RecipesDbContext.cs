@@ -33,8 +33,8 @@ namespace Recipes.Infrastructure.Context
                 .UsingEntity<Dictionary<string, object>>(
                     "RecipeTag",
                     j => j.HasOne<Tag>().WithMany().HasForeignKey( "TagId" ),
-                    j => j.HasOne<Recipe>().WithMany().HasForeignKey( "RecipeId" )
-                );
+                    j => j.HasOne<Recipe>().WithMany().HasForeignKey( "RecipeId" ) )
+                .HasKey( "TagId", "RecipeId" ); ;
         }
     }
 }

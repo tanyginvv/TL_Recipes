@@ -21,20 +21,17 @@ namespace Recipes.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence<int>("RecipeHiLo", "dbo")
-                .IncrementsBy(10);
-
             modelBuilder.Entity("RecipeTag", b =>
                 {
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("RecipeId", "TagId");
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("TagId");
+                    b.HasKey("TagId", "RecipeId");
+
+                    b.HasIndex("RecipeId");
 
                     b.ToTable("RecipeTag");
                 });

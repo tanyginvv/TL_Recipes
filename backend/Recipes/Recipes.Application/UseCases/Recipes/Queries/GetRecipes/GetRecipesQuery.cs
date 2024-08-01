@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Recipes.Queries.SearchRecipe
+﻿namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes
 {
     public class GetRecipesQuery
     {

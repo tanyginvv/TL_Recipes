@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Tags.Commands
+namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag
 {
     public class GetOrCreateTagCommandValidator
         : IAsyncValidator<GetOrCreateTagCommand>

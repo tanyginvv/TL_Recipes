@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Infrastructure.JwtAuthorizations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.Interfaces;
 
@@ -6,10 +7,9 @@ namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/images" )]
-    public class ImagesController()
-        : ControllerBase
+    public class ImagesController() : ControllerBase
     {
-        [Authorize]
+        [JwtAuthorization]
         [HttpPost( "upload" )]
         public async Task<IActionResult> UploadImage( IFormFile image,
             [FromServices] IImageTools imageHelperTools )
@@ -43,7 +43,7 @@ namespace Recipes.WebApi.Controllers
             return File( imageBytes, "image/jpeg" );
         }
 
-        [Authorize]
+        [JwtAuthorization]
         [HttpDelete( "{fileName}" )]
         public IActionResult DeleteImage( [FromRoute] string fileName,
             [FromServices] IImageTools imageHelperTools )

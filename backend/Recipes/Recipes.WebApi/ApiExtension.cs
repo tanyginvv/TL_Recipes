@@ -13,7 +13,6 @@ namespace Recipes.WebApi
             services.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
                 .AddJwtBearer( JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    // Resolve ITokenConfiguration from DI
                     var serviceProvider = services.BuildServiceProvider();
                     var tokenConfiguration = serviceProvider.GetRequiredService<ITokenConfiguration>();
 

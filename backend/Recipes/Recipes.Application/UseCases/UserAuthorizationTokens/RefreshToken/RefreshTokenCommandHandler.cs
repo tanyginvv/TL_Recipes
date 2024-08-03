@@ -15,9 +15,10 @@ namespace Application.UseCases.UserAuthorizationTokens
             IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
             IAsyncValidator<RefreshTokenCommand> validator,
             IUnitOfWork unitOfWork,
-            ITokenConfiguration tokenConfiguration,
-            TokenCreator tokenCreator ) : ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto>
+            ITokenConfiguration tokenConfiguration )
+        : ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto>
     {
+        private TokenCreator tokenCreator => new TokenCreator( tokenConfiguration );
         public async Task<Result<RefreshTokenCommandDto>> HandleAsync( RefreshTokenCommand command )
         {
             Result validationResult = await validator.ValidateAsync( command );

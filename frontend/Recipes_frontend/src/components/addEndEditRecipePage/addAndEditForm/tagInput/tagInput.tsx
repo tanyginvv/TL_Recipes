@@ -26,7 +26,7 @@ export const TagInput: React.FC<TagInputProps> = ({ tags, setTags, tagInput, set
                 setTagInput("");
             }
         }
-    };
+    }
 
     const handleRemoveTag = (tagToRemove: string) => {
         setTags(tags.filter(tag => tag.name !== tagToRemove));
@@ -48,7 +48,7 @@ export const TagInput: React.FC<TagInputProps> = ({ tags, setTags, tagInput, set
                 className={styles.inputTag}
                 value={tagInput}
                 onChange={handleTagInputChange}
-                onKeyPress={handleTagInputKeyPress}
+                onKeyDown={handleTagInputKeyPress}
             />
         </div>
     );

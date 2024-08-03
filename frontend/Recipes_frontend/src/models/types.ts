@@ -1,5 +1,6 @@
 export interface IRecipe {
     id: number,
+    userId: number,
     name: string,
     description: string,
     portionCount: number,
@@ -12,6 +13,7 @@ export interface IRecipe {
 
 export interface IRecipeSubmit {
     name: string,
+    userId: number | null,
     description: string,
     portionCount: number,
     cookTime: number,
@@ -23,6 +25,7 @@ export interface IRecipeSubmit {
 
 export interface IRecipeAllRecipes {
     id: number,
+    userId: number,
     name: string,
     description: string,
     portionCount: number,
@@ -70,6 +73,11 @@ export interface IUser {
     id: number,
     name: string,
     description: string,
+    login: string
+}
+
+export interface ILogin {
+    id: number,
     login: string
 }
 

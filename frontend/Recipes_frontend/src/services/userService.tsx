@@ -1,23 +1,17 @@
 import { API_URL } from '../constants/apiUrl';
-import {  IUser, IUserUpdate } from '../models/types';
+import {  ILogin, IUser, IUserUpdate } from '../models/types';
 
 export class UserService {
     private apiUrl: string;
-    private accessToken: string | null;
 
-    constructor(apiUrl: string = API_URL, accessToken: string | null = null) {
+    constructor(apiUrl: string = API_URL ) {
         this.apiUrl = apiUrl;
-        this.accessToken = accessToken;
     }
 
     private getHeaders(): HeadersInit {
         const headers: HeadersInit = {
             'Content-Type': 'application/json'
         };
-
-        if (this.accessToken) {
-            headers['Access-Token'] = this.accessToken;
-        }
 
         return headers;
     }
@@ -40,6 +34,24 @@ export class UserService {
         }
     }
 
+
+    async fetchUserLogin(id: number): Promise<ILogin> {
+        try {
+            const response = await fetch(`${this.apiUrl}/Users/login/${id}`, {
+                method: 'GET',
+                headers: this.getHeaders()
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching user:', error);
+            throw error;
+        }
+    }
     async updateUser(id: number, userData: IUserUpdate): Promise<void> {
         try {
             const response = await fetch(`${this.apiUrl}/users/${id}`, {

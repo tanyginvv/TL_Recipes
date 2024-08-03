@@ -7,12 +7,16 @@ import { StepsSection } from './stepsSection/stepsSection';
 import { IIngredient, ITag, IStep, IRecipeSubmit } from "../../../models/types";
 import { RecipeService } from '../../../services/recipeServices';
 import { ImageService } from '../../../services/imageService';
-
-const recipeService = new RecipeService();
-const imageService = new ImageService();
+import useStore from '../../../store/store';
+import { API_URL } from '../../../constants/apiUrl';
 
 export const AddAndEditForm = forwardRef((_, ref) => {
     const { id } = useParams<{ id: string }>();
+    const { userId } = useStore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const imageService = new ImageService(API_URL);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const recipeService = new RecipeService();
     const navigate = useNavigate();
     const [, setIsUpdating] = useState<boolean>(false);
     const [name, setName] = useState<string>("");
@@ -32,6 +36,10 @@ export const AddAndEditForm = forwardRef((_, ref) => {
             const fetchRecipe = async () => {
                 try {
                     const recipe = await recipeService.fetchRecipeById(id);
+                    if (recipe.userId !== Number(userId)) {
+                        navigate('/allRecipesPage');
+                        return;
+                    }
                     setName(recipe.name);
                     setDescription(recipe.description);
                     setCookTime(recipe.cookTime);
@@ -44,9 +52,9 @@ export const AddAndEditForm = forwardRef((_, ref) => {
                     console.error('Ошибка:', error);
                 }
             };
-
             fetchRecipe();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     useEffect(() => {
@@ -64,18 +72,18 @@ export const AddAndEditForm = forwardRef((_, ref) => {
                     console.error('Ошибка при загрузке изображения:', error);
                 }
             };
-
             fetchImage();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageUrl]);
 
-    const validateForm = () => {
+    function validateForm() {
         if (!name || !image || !description || !tags.length || !ingredients.length || !steps.length) {
             alert("Заполните все поля.");
             return false;
         }
         return true;
-    };
+    }
 
     const submitForm = async () => {
         if (!validateForm()) {
@@ -94,6 +102,7 @@ export const AddAndEditForm = forwardRef((_, ref) => {
 
         const recipeData: IRecipeSubmit = {
             name,
+            userId,
             description,
             cookTime,
             portionCount: portions,

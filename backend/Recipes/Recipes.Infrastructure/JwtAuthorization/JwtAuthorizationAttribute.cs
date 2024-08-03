@@ -32,28 +32,13 @@ namespace Infrastructure.JwtAuthorizations
 
             TokenDecoder tokenDecoder = new TokenDecoder();
             JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
-            DateTime expDate = new DateTime( 1970, 1, 1 ).AddSeconds( ( token.Payload.Exp.Value ) ).AddHours( 3 );
-
+            DateTime expDate = DateTimeOffset.FromUnixTimeSeconds( token.Payload.Exp.Value ).UtcDateTime;
             if ( DateTime.UtcNow > expDate )
             {
                 context.Result = new ForbidResult();
                 return;
             }
 
-            //string userIdStr = context.HttpContext.Request.Headers[ "userId" ].FirstOrDefault() ??
-            //                   context.HttpContext.Request.Query[ "userId" ].FirstOrDefault();
-            //if ( string.IsNullOrEmpty( userIdStr ) || !long.TryParse( userIdStr, out long requestUserId ) )
-            //{
-            //    context.Result = new ForbidResult();
-            //    return;
-            //}
-
-            if ( !int.TryParse( token.Payload[ "userId" ]?.ToString(), out int tokenUserId ) /*|| requestUserId != tokenUserId*/
-                )
-            {
-                context.Result = new ForbidResult();
-                return;
-            }
         }
     }
 }

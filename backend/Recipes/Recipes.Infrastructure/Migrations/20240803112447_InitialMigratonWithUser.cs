@@ -6,31 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Recipes.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TablesWithUser : Migration
+    public partial class InitialMigratonWithUser : Migration
     {
         /// <inheritdoc />
         protected override void Up( MigrationBuilder migrationBuilder )
         {
-<<<<<<<< HEAD:backend/Recipes/Recipes.Infrastructure/Migrations/20240731145219_TablesWithUser.cs
-========
-            migrationBuilder.CreateTable(
-                name: "Recipe",
-                columns: table => new
-                {
-                    Id = table.Column<int>( type: "int", nullable: false )
-                        .Annotation( "SqlServer:Identity", "1, 1" ),
-                    Name = table.Column<string>( type: "nvarchar(100)", maxLength: 100, nullable: false ),
-                    Description = table.Column<string>( type: "nvarchar(150)", maxLength: 150, nullable: false ),
-                    CookTime = table.Column<int>( type: "int", nullable: false ),
-                    PortionCount = table.Column<int>( type: "int", nullable: false ),
-                    ImageUrl = table.Column<string>( type: "nvarchar(max)", nullable: false )
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey( "PK_Recipe", x => x.Id );
-                } );
-
->>>>>>>> Backend-MVP:backend/Recipes/Recipes.Infrastructure/Migrations/20240801095118_InitialTables.cs
             migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
@@ -175,16 +155,12 @@ namespace Recipes.Infrastructure.Migrations
                 column: "RecipeId" );
 
             migrationBuilder.CreateIndex(
-<<<<<<<< HEAD:backend/Recipes/Recipes.Infrastructure/Migrations/20240731145219_TablesWithUser.cs
                 name: "IX_Recipe_UserId",
                 table: "Recipe",
                 column: "UserId" );
 
             migrationBuilder.CreateIndex(
-                name: "IX_RecipeTag_TagId",
-========
                 name: "IX_RecipeTag_RecipeId",
->>>>>>>> Backend-MVP:backend/Recipes/Recipes.Infrastructure/Migrations/20240801095118_InitialTables.cs
                 table: "RecipeTag",
                 column: "RecipeId" );
 
@@ -214,12 +190,9 @@ namespace Recipes.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Recipe" );
-<<<<<<<< HEAD:backend/Recipes/Recipes.Infrastructure/Migrations/20240731145219_TablesWithUser.cs
 
             migrationBuilder.DropTable(
                 name: "User" );
-========
->>>>>>>> Backend-MVP:backend/Recipes/Recipes.Infrastructure/Migrations/20240801095118_InitialTables.cs
         }
     }
 }

@@ -8,11 +8,11 @@ import { StepsList } from "./stepsList/stepsList";
 import { RecipeCard } from "../recipeCard/recipeCard";
 import { RecipeService } from "../../services/recipeServices";
 
-const recipeService = new RecipeService();
-
 export const DetailRecipePage = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const recipeService = new RecipeService();
 
     const allRecipesPageHandler = () => {
         navigate("/allRecipesPage");
@@ -30,6 +30,7 @@ export const DetailRecipePage = () => {
             }
         };
         fetchRecipe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     if (!recipe) {
@@ -38,7 +39,7 @@ export const DetailRecipePage = () => {
 
     return (
         <div className={styles.recipeContainer}>
-            <RecipeHeader name={recipe.name} id={recipe.id} onBack={allRecipesPageHandler} />
+            <RecipeHeader recipe={recipe} onBack={allRecipesPageHandler}/>
             <RecipeCard recipe={recipe} />
             <div className={styles.recipeInfo}>
                 <IngredientsList ingredients={recipe.ingredients} />

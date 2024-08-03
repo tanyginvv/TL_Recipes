@@ -5,16 +5,19 @@ import countPortionIcon from "../../assets/images/personCount.svg";
 import { IRecipeAllRecipes } from '../../models/types';
 import { useNavigate } from 'react-router-dom';
 import { ImageService } from '../../services/imageService';
+import { UserService } from '../../services/userService';
 
 interface RecipeCardProps {
     recipe: IRecipeAllRecipes;
 }
 
 const imageService = new ImageService();
+const userService = new UserService();
 
 export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     const navigate = useNavigate();
     const [imageSrc, setImageSrc] = useState<string>("");
+    const [login, setLogin] = useState<string>("");
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -29,6 +32,18 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
         fetchImage();
     }, [recipe.imageUrl]);
 
+
+    useEffect(() => {
+        const fetchLogin = async () => {
+            if ( recipe.userId ) {
+                const userLogin = await userService.fetchUserLogin( recipe.userId );
+                setLogin(userLogin.login);
+            }
+        };
+
+        fetchLogin();
+    }, [recipe.userId])
+
     const recipeHandler = () => {
         navigate(`/detailRecipesPage/${recipe.id}`);
     };
@@ -36,6 +51,7 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
     return (
         <div className={styles.recipeItem} onClick={recipeHandler}>
             <img className={styles.recipeImg} src={imageSrc} alt="Recipe" />
+            <p className={styles.userLogin}>{"@"+ login}</p>
             <span className={styles.recipeInfo}>
                 <span className={styles.recipeTags}>
                     {recipe.tags.map(tag => (

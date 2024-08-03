@@ -72,7 +72,7 @@ namespace Recipes.Infrastructure.ImageTools
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 string folderPath = Path.Combine( currentDirectory, StoreUrl );
-                
+
                 string filePath = Path.Combine( folderPath, imageName );
 
                 if ( File.Exists( filePath ) )

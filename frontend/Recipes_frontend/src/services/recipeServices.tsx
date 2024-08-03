@@ -1,5 +1,7 @@
 import { API_URL } from '../constants/apiUrl';
 import { IRecipeAllRecipes, IRecipe, IRecipeSubmit } from '../models/types';
+import useStore from '../store/store';
+import { CheckToken } from '../custom-utils/checkToken';
 
 export class RecipeService {
     private apiUrl: string;
@@ -40,11 +42,20 @@ export class RecipeService {
         }
     }
 
-    async deleteRecipe(id: number): Promise<boolean> {
+    async deleteRecipe(id: number, userId: number | null): Promise<boolean> {
         try {
-            const response = await fetch(`${this.apiUrl}/recipes/${id}`, {
+            await CheckToken(); 
+        
+            const { accessToken } = await useStore.getState();
+            const headers: HeadersInit = {
+                'Access-Token': `${accessToken}`,
+            };
+
+            const response = await fetch(`${this.apiUrl}/recipes/${id}?userId=${userId}`, {
                 method: 'DELETE',
+                headers: headers,
             });
+
             if (response.ok) {
                 return true;
             } else {
@@ -58,19 +69,29 @@ export class RecipeService {
     }
 
     async submitRecipe(recipeData: IRecipeSubmit, id?: string): Promise<void> {
-        const url = id ? `${this.apiUrl}/recipes/${id}` : `${this.apiUrl}/recipes`;
-        const method = id ? 'PUT' : 'POST';
+        try {
+            const { accessToken } = await useStore.getState();
 
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(recipeData),
-        });
+            const headers: HeadersInit = {
+                'Content-Type': 'application/json',
+                'Access-Token': `${accessToken}`,
+            };
+            
+            const url = id ? `${this.apiUrl}/recipes/${id}` : `${this.apiUrl}/recipes`;
+            const method = id ? 'PUT' : 'POST';
 
-        if (!response.ok) {
-            throw new Error('Ошибка при обработке рецепта');
+            const response = await fetch(url, {
+                method: method,
+                headers: headers,
+                body: JSON.stringify(recipeData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Ошибка при обработке рецепта');
+            }
+        } catch (error) {
+            console.error('Error submitting recipe:', error);
+            throw error;
         }
     }
 }

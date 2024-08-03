@@ -13,13 +13,12 @@ namespace Presentation.Intranet.Api.Controllers
 {
     [ApiController]
     [Route( "api/users" )]
-    public class AuthenticationController( ICommandHandler<CreateUserCommand> createUserCommandHandler,
-            ICommandHandlerWithResult<AuthenticateUserCommand, AuthenticateUserCommandDto> authenticateCommandHandler,
-            ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler ) : ControllerBase
+    public class AuthenticationController() : ControllerBase
     {
         [HttpPost]
         [Route( "registrate" )]
-        public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto )
+        public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto,
+            [FromServices] ICommandHandler<CreateUserCommand> createUserCommandHandler )
         {
             CreateUserCommand createUserCommand = new CreateUserCommand
             {
@@ -38,9 +37,10 @@ namespace Presentation.Intranet.Api.Controllers
         }
 
         [HttpPost( "refresh-token" )]
-        public async Task<IActionResult> RefreshToken()
+        public async Task<IActionResult> RefreshToken(
+            [FromServices] ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler )
         {
-            string refreshTokenFromCookie = Request.Cookies[ "RefreshToken" ];
+            string refreshTokenFromCookie = Request.Headers[ "Authorization" ];
 
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
@@ -50,14 +50,15 @@ namespace Presentation.Intranet.Api.Controllers
 
             if ( !commandResult.IsSuccess )
             {
-                return BadRequest( commandResult );
+                return BadRequest( commandResult.Value );
             }
 
-            return Ok( commandResult );
+            return Ok( commandResult.Value );
         }
 
         [HttpPost( "authentication" )]
-        public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto )
+        public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto,
+            [FromServices] ICommandHandlerWithResult<AuthenticateUserCommand, AuthenticateUserCommandDto> authenticateCommandHandler )
         {
             AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand
             {

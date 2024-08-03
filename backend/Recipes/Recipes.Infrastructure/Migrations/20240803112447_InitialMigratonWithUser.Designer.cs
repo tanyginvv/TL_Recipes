@@ -12,13 +12,8 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-<<<<<<<< HEAD:backend/Recipes/Recipes.Infrastructure/Migrations/20240731145219_TablesWithUser.Designer.cs
-    [Migration("20240731145219_TablesWithUser")]
-    partial class TablesWithUser
-========
-    [Migration("20240801095118_InitialTables")]
-    partial class InitialTables
->>>>>>>> Backend-MVP:backend/Recipes/Recipes.Infrastructure/Migrations/20240801095118_InitialTables.Designer.cs
+    [Migration("20240803112447_InitialMigratonWithUser")]
+    partial class InitialMigratonWithUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

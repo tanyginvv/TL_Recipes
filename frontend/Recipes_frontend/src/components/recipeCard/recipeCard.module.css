@@ -118,3 +118,20 @@
     font-weight: 400;
     margin: 0;
 }
+
+.userLogin {
+    position: absolute;
+    height: 32px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+    color: #FDB100;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 0px 14px;
+    margin-top: 363px;
+    display: flex;
+    align-items: center ;
+}

@@ -14,7 +14,7 @@ function App() {
   const {
     isRegistrationWindowOpen,
     isAuthorizationWindowOpen,
-    isAuthOrRegistrWindowOpen,
+    isAuthOrRegistrWindowOpen
   } = useStore();
 
   return (
@@ -23,6 +23,7 @@ function App() {
       <BrowserRouter>
         <Header/> 
           <Routes>
+            <Route path='/userPage/:id?' element={<AddAndEditRecipePage/>}/>
             <Route path='/addAndEditRecipePage/:id?' element={<AddAndEditRecipePage/>}/>
             <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>

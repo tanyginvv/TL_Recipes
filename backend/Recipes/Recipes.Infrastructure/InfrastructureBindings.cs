@@ -22,8 +22,7 @@ namespace Recipes.Infrastructure
         public static IServiceCollection AddInfrastructureBindings( this IServiceCollection services, IConfiguration configuration )
         {
             services.AddDbContext<RecipesDbContext>( options =>
-                    options.UseSqlServer( configuration.GetConnectionString( "Recipes" ),
-                    db => db.MigrationsAssembly( "Infrastructure.Migration" ) ) );
+                    options.UseSqlServer( configuration.GetConnectionString( "Recipes" ) ) );
 
             services.AddScoped<ITokenConfiguration, TokenConfiguration>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

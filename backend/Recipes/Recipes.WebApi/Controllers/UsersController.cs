@@ -1,10 +1,9 @@
 ﻿using Infrastructure.JwtAuthorizations;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.UseCases.Recipes.Queries.SearchRecipe;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.Application.UseCases.Users.Commands.DeleteUser;
 using Recipes.Application.UseCases.Users.Commands.UpdateUser;
 using Recipes.Application.UseCases.Users.Dto;
@@ -15,17 +14,12 @@ namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/[controller]" )]
-    public class UsersController
-        (
-            ICommandHandler<DeleteUserCommand> deleteUserCommandHandler,
-            ICommandHandler<UpdateUserCommand> updateUserCommandHandler,
-            IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler,
-             IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery> getUserLoginByIdQueryHandler,
-            IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler ) : ControllerBase
+    public class UsersController() : ControllerBase
     {
 
         [HttpGet( "login/{id}" )]
-        public async Task<ActionResult<ReadUserDto>> GetUserLoginById( int id )
+        public async Task<ActionResult<ReadUserDto>> GetUserLoginById( int id,
+            [FromServices] IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery> getUserLoginByIdQueryHandler )
         {
             GetUserLoginByIdQuery query = new GetUserLoginByIdQuery { Id = id };
             Result<GetUserLoginByIdQueryDto> result = await getUserLoginByIdQueryHandler.HandleAsync( query );
@@ -45,7 +39,8 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet( "{id}" )]
-        public async Task<ActionResult<UserDto>> GetUserById( int id )
+        public async Task<ActionResult<UserDto>> GetUserById( int id,
+             [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
         {
             GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
             Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
@@ -68,7 +63,10 @@ namespace Recipes.WebApi.Controllers
 
         [JwtAuthorization]
         [HttpPut( "{id}" )]
-        public async Task<IActionResult> UpdateUser( int id, UpdateUserDto updateUserDto )
+        public async Task<IActionResult> UpdateUser(
+            int id,
+            UpdateUserDto updateUserDto,
+            [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
         {
             UpdateUserCommand command = new UpdateUserCommand
             {
@@ -91,7 +89,10 @@ namespace Recipes.WebApi.Controllers
 
         [JwtAuthorization]
         [HttpDelete( "{id}" )]
-        public async Task<IActionResult> DeleteUser( int id, [FromQuery] string passwordHash )
+        public async Task<IActionResult> DeleteUser(
+            int id,
+            [FromQuery] string passwordHash,
+            [FromServices] ICommandHandler<DeleteUserCommand> deleteUserCommandHandler )
         {
             DeleteUserCommand command = new DeleteUserCommand
             {
@@ -111,6 +112,7 @@ namespace Recipes.WebApi.Controllers
         [JwtAuthorization]
         [HttpGet( "{userId}/Recipes" )]
         public async Task<IActionResult> GetRecipes(
+            [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
             [FromRoute] int userId = 0,
             [FromQuery] int pageNumber = 1,
             [FromQuery] List<string> searchTerms = null )

@@ -6,11 +6,9 @@ import useStore from "../store/store";
 
 export class AuthenticationService {
     private apiUrl: string;
-    private cookies: Cookies;
 
     constructor(apiUrl: string = `${API_URL}/users`) {
         this.apiUrl = apiUrl;
-        this.cookies = new Cookies();
     }
 
     async register(body: IRegister): Promise<IToken> {
@@ -53,32 +51,47 @@ export class AuthenticationService {
 
     async refreshToken(): Promise<IToken> {
         try {
+            const cookie = new Cookies();
+            const refreshToken = cookie.get("RefreshToken");
+    
+            if (!refreshToken) {
+                throw new Error('No refresh token available');
+            }
+    
             const response = await fetch(`${this.apiUrl}/refresh-token`, {
-                method: "POST"
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${refreshToken}`,
+                },
+                credentials: "include",
             });
-
+    
             if (!response.ok) {
                 throw new Error('Failed to refresh token');
             }
-
+    
             const data: IToken = await response.json();
-
-            localStorage.removeItem("AccessToken");
-            localStorage.setItem("AccessToken", JSON.stringify(data.accessToken));
-            this.cookies.set("RefreshToken", data.refreshToken);
-
+    
+            if (data.accessToken && data.refreshToken) {
+                const { setAccessToken, setRefreshToken } = useStore.getState();
+                await setAccessToken(data.accessToken);
+                await setRefreshToken(data.refreshToken);
+            }
+            
             return data;
-        } catch (Error) {
-            this.cookies.remove("RefreshToken");
+        } catch (error) {
+            console.error('Token refresh error:', error);
             return {
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
             };
         }
-    }
+    }    
 
     async authentication(body: IAuthentication): Promise<IToken> {
         try {
+            const cookie = new Cookies()
             const response = await fetch(`${this.apiUrl}/authentication`, {
                 method: "POST",
                 headers: {
@@ -94,8 +107,10 @@ export class AuthenticationService {
             const data: IToken = await response.json();
 
             localStorage.removeItem("AccessToken");
+            cookie.remove("RefreshToken");
+            
             localStorage.setItem("AccessToken", JSON.stringify(data.accessToken));
-            this.cookies.set("RefreshToken", data.refreshToken);
+            cookie.set("RefreshToken", data.refreshToken);
 
             return data;
         } catch (Error) {
@@ -107,7 +122,8 @@ export class AuthenticationService {
     }
 
     logout(): void {
+        const cookie = new Cookies();
         localStorage.removeItem("AccessToken");
-        this.cookies.remove("RefreshToken");
+        cookie.remove("RefreshToken");
     }
 }

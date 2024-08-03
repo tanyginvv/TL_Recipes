@@ -5,23 +5,25 @@ import trash from '../../../assets/images/trash.svg';
 import edit from '../../../assets/images/edit.svg';
 import { useNavigate } from 'react-router-dom';
 import { RecipeService } from '../../../services/recipeServices'
+import useStore from '../../../store/store';
+import { IRecipe } from '../../../models/types';
 
 interface RecipeHeaderProps {
-    name: string;
+    recipe: IRecipe;
     onBack: () => void;
-    id: number;
 }
 
-export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ name, onBack, id }) => {
+export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ recipe, onBack}) => {
     const navigate = useNavigate();
+    const { userId } = useStore();
     const recipeService = new RecipeService();
 
     const editButtonHandler = () => {
-        navigate(`/addAndEditRecipePage/${id}`);
+        navigate(`/addAndEditRecipePage/${recipe.id}`);
     };
 
     const deleteRecipeHandler = async () => {
-        const isSuccess = await recipeService.deleteRecipe(id);
+        const isSuccess = await recipeService.deleteRecipe(recipe.id, userId);
         if (isSuccess) {
             navigate('/allRecipesPage');
         } else {
@@ -36,7 +38,8 @@ export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ name, onBack, id }) 
                 <p>Назад</p>
             </button>
             <div className={styles.recipeTitle}>
-                <h1 className={styles.title}>{name}</h1>
+                <h1 className={styles.title}>{recipe.name}</h1>
+                { recipe.userId === Number(userId) ?
                 <div className={styles.titleButtons}>
                     <button className={styles.buttonDelete} onClick={deleteRecipeHandler}>
                         <img src={trash} alt="delete" />
@@ -46,6 +49,7 @@ export const RecipeHeader: React.FC<RecipeHeaderProps> = ({ name, onBack, id }) 
                         <p>Редактировать</p>
                     </button>
                 </div>
+            : null }
             </div>
         </div>
     );

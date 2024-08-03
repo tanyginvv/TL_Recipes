@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
 using Recipes.Application;
 using Recipes.Infrastructure;
@@ -19,7 +20,8 @@ builder.Services.AddCors( options =>
     options.AddPolicy( "AllowSpecificOrigin",
         builder => builder.WithOrigins( "http://localhost:5173" )
                           .AllowAnyHeader()
-                          .AllowAnyMethod() );
+                          .AllowAnyMethod()
+                          .AllowCredentials() );
 } );
 
 // Ensure API authentication uses the TokenConfiguration
@@ -38,9 +40,9 @@ if ( app.Environment.IsDevelopment() )
 
 app.UseCookiePolicy( new CookiePolicyOptions
 {
-    MinimumSameSitePolicy = SameSiteMode.Strict,
+    MinimumSameSitePolicy = SameSiteMode.None,
     HttpOnly = HttpOnlyPolicy.Always,
-    Secure = CookieSecurePolicy.Always
+    Secure = CookieSecurePolicy.SameAsRequest
 } );
 
 app.UseCors( "AllowSpecificOrigin" );

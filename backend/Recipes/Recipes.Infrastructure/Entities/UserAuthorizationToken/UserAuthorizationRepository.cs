@@ -28,12 +28,16 @@ namespace Infrastructure.Entities.UserAuthorizationTokens
 
         public async Task<UserAuthorizationToken> GetByRefreshTokenAsync( string refreshToken )
         {
-            return await _dbSet.Where( ua => ua.RefreshToken == refreshToken ).FirstOrDefaultAsync();
+            return await _dbSet
+                .Where( ua => ua.RefreshToken == refreshToken )
+                .FirstOrDefaultAsync();
         }
 
         public async Task<UserAuthorizationToken> GetByUserIdAsync( long userId )
         {
-            return await _dbSet.Where( ua => ua.UserId == userId ).FirstOrDefaultAsync();
+            return await _dbSet
+                .Where( ua => ua.UserId == userId )
+                .FirstOrDefaultAsync();
         }
     }
 }

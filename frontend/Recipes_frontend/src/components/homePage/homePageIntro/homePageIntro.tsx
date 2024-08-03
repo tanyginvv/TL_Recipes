@@ -2,12 +2,23 @@ import styles from "./homePageIntro.module.css";
 import introImg from "../../../assets/images/introImage.png";
 import plus from "../../../assets/images/plus.svg";
 import useStore from "../../../store/store";
+import { useNavigate } from "react-router-dom";
 
 export const HomePageIntro = () => {
-    const {
-        setAuthOrRegistrWindowOpen,
-        userId // Get userId from the store to check if the user is authenticated
-    } = useStore();
+    const { setAuthOrRegistrWindowOpen, userId } = useStore();
+    const navigate = useNavigate();
+
+    const handleAddRecipeClick = () => {
+        if (userId === null) {
+            setAuthOrRegistrWindowOpen(true);
+        } else {
+            navigate("/addAndEditRecipePage");
+        }
+    };
+
+    const handleLoginClick = () => {
+        setAuthOrRegistrWindowOpen(true);
+    };
 
     return (
         <div className={styles.introBody}>
@@ -20,18 +31,21 @@ export const HomePageIntro = () => {
                     </p>
                 </span>
                 <div className={styles.introButtons}>
-                    <button className={styles.addRecipeButton}>
+                    <button 
+                        className={styles.addRecipeButton} 
+                        onClick={handleAddRecipeClick}
+                    >
                         <img className={styles.plus} src={plus} alt="Plus icon" /> 
                         Добавить рецепт
                     </button>
-                    {userId === null ? (
+                    {userId === null && (
                         <button 
-                            onClick={() => setAuthOrRegistrWindowOpen(true)} 
+                            onClick={handleLoginClick} 
                             className={styles.loginButton}
                         >
                             Войти
                         </button>
-                    ) : null}
+                    )}
                 </div>
             </div>
             <img src={introImg} className={styles.introImg} alt="Intro" />

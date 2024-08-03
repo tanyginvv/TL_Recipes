@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Recipes.Application.Interfaces;
+﻿using Recipes.Application.Interfaces;
 using Recipes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

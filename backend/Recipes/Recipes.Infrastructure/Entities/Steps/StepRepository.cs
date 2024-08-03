@@ -19,7 +19,7 @@ namespace Recipes.Infrastructure.Entities.Steps
         public async Task Delete( Step step )
         {
             Step st = await GetByIdAsync( step.Id );
-            if ( st != null )
+            if ( st is not null )
             {
                 base.Remove( step );
             }

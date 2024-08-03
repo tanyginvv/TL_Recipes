@@ -10,7 +10,7 @@ namespace Recipes.Application.Filters
 
         public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
         {
-            var skip = ( PageNumber - 1 ) * PageSize;
+            int skip = ( PageNumber - 1 ) * PageSize;
             query = query
                 .Skip( skip )
                 .Take( PageSize );

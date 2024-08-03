@@ -18,8 +18,6 @@ namespace Recipes.Application.UseCases.Ingredients
                 .Map( dest => dest.Title, src => src.Title )
                 .Map( dest => dest.Description, src => src.Description );
 
-            TypeAdapterConfig<CreateIngredientCommand, Ingredient>.NewConfig();
-
             TypeAdapterConfig<UpdateIngredientCommand, Ingredient>.NewConfig()
                 .Map( dest => dest.Id, src => src.Id )
                 .Map( dest => dest.Title, src => src.Title )

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Recipes.Application.Repositories
+namespace Recipes.Application.Repositories.BasicRepositories
 {
     public interface ISearchRepository<TEntity> where TEntity : class
     {

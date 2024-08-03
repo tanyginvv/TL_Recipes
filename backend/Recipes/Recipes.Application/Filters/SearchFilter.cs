@@ -11,7 +11,7 @@ namespace Recipes.Application.Filters
         {
             if ( SearchTerms is not null && SearchTerms.Any() )
             {
-                var normalizedSearchTerms = SearchTerms.Select( term => term.ToLower() ).ToList();
+                List<string> normalizedSearchTerms = SearchTerms.Select( term => term.ToLower() ).ToList();
 
                 query = query.Where( r =>
                     normalizedSearchTerms.Any( term =>

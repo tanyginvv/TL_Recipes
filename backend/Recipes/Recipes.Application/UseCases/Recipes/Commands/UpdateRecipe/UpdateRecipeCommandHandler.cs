@@ -4,8 +4,8 @@ using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Recipes.Application.Interfaces;
-using Recipes.Application.UseCases.Ingredients.Commands;
-using Recipes.Application.UseCases.Tags.Commands;
+using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
+using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Steps.Commands;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe

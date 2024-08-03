@@ -1,6 +1,4 @@
-﻿using Recipes.Domain.Entities;
-
-namespace Recipes.Application.UseCases.Tags.Commands
+﻿namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag
 {
     public class GetOrCreateTagCommand
     {

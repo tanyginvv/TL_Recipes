@@ -14,7 +14,6 @@ namespace Recipes.WebApi.Dto.RecipeDtos
         public int UserId { get; set; }
 
         [Required]
-        [StringLength( 50 )]
         public string Name { get; init; }
 
         [Required]

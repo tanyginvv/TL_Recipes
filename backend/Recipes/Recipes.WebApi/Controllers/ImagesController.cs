@@ -6,12 +6,13 @@ namespace Recipes.WebApi.Controllers
 {
     [ApiController]
     [Route( "api/images" )]
-    public class ImagesController( IImageTools imageHelperTools )
+    public class ImagesController()
         : ControllerBase
     {
         [Authorize]
         [HttpPost( "upload" )]
-        public async Task<IActionResult> UploadImage( IFormFile image )
+        public async Task<IActionResult> UploadImage( IFormFile image,
+            [FromServices] IImageTools imageHelperTools )
         {
             if ( image is null )
             {
@@ -29,7 +30,8 @@ namespace Recipes.WebApi.Controllers
         }
 
         [HttpGet( "{fileName}" )]
-        public IActionResult GetImage( [FromRoute] string fileName )
+        public IActionResult GetImage( [FromRoute] string fileName,
+            [FromServices] IImageTools imageHelperTools )
         {
             byte[] imageBytes = imageHelperTools.GetImage( fileName );
 
@@ -43,7 +45,8 @@ namespace Recipes.WebApi.Controllers
 
         [Authorize]
         [HttpDelete( "{fileName}" )]
-        public IActionResult DeleteImage( [FromRoute] string fileName )
+        public IActionResult DeleteImage( [FromRoute] string fileName,
+            [FromServices] IImageTools imageHelperTools )
         {
             bool imageDeleted = imageHelperTools.DeleteImage( fileName );
 

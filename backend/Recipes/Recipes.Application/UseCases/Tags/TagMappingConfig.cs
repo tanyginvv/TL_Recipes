@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Tags.Commands;
+using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.UseCases.Tags.Dtos;
 using Recipes.Domain.Entities;
 

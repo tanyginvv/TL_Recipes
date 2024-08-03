@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.UseCases.Ingredients.Commands;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
+using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Ingredients.Dtos;
 using Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
 using Recipes.Application.Validation;

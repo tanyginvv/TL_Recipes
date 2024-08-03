@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.UseCases.Tags.Commands;
+using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.UseCases.Tags.Dtos;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;

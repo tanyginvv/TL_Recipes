@@ -2,7 +2,7 @@
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Ingredients.Commands
+namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients
 {
     public class UpdateIngredientsCommandValidator : IAsyncValidator<UpdateIngredientsCommand>
     {

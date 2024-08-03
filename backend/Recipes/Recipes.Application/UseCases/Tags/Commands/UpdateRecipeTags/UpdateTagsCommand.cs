@@ -1,6 +1,6 @@
 ﻿using Recipes.Application.UseCases.Recipes.Dtos;
 
-namespace Recipes.Application.UseCases.Tags.Commands
+namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 {
     public class UpdateTagsCommand
     {

@@ -5,7 +5,11 @@ using Recipes.WebApi;
 
 var builder = WebApplication.CreateBuilder( args );
 
-// Register dependencies
+IConfiguration configuration = new ConfigurationBuilder()
+              .AddJsonFile( "appsettings.json" )
+              .AddJsonFile( $"appsettings.{builder.Environment.EnvironmentName}.json" )
+              .Build();
+
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
 builder.Services.AddControllers();

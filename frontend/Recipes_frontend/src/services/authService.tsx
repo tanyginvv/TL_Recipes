@@ -71,6 +71,7 @@ export class AuthenticationService {
             
             return data;
         } catch (error) {
+            this.logout();
             return {
                 accessToken: null,
                 refreshToken: null,

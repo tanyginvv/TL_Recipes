@@ -19,7 +19,7 @@ namespace Application.Users.Commands.UpdateUser
                 return Result.FromError( "Пользователь не найден." );
             }
 
-            if ( !passwordHasher.VerifyPassword( command.OldPasswordHash, user.PasswordHash ) )
+            if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && !passwordHasher.VerifyPassword( command.OldPasswordHash, user.PasswordHash ) )
             {
                 return Result.FromError( "Введеный пароль неверный" );
             }

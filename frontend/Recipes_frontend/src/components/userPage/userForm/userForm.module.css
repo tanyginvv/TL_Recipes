@@ -91,6 +91,8 @@
     cursor: pointer;
     background-color: transparent;
     width: 30px;
+    height: 30px;
+    padding: 0;
 }
 
 .buttonImg {

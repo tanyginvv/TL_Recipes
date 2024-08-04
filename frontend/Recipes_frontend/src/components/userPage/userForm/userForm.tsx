@@ -1,15 +1,19 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FormEvent, forwardRef, useImperativeHandle } from 'react';
 import styles from "./userForm.module.css";
-import editUser from "../../../assets/images/editUser.svg";
-import submitUser from "../../../assets/images/submitUser.svg";
 import { UserService } from "../../../services/userService";
 import { IUserUpdate } from '../../../models/types';
 
 interface UserFormProps {
     userId: number;
+    isEditing: boolean;
+    setIsEditing: (isEditing: boolean) => void;
 }
 
-export const UserForm = ({ userId }: UserFormProps) => {
+export interface UserFormHandle {
+    submitForm: () => void;
+}
+
+export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isEditing, setIsEditing }, ref) => {
     const [formData, setFormData] = useState({
         name: '',
         login: '',
@@ -17,7 +21,15 @@ export const UserForm = ({ userId }: UserFormProps) => {
         oldPassword: '',
         newPassword: ''
     });
-    const [isEditing, setIsEditing] = useState(false);
+
+    useImperativeHandle(ref, () => ({
+        submitForm: () => {
+            const formElement = document.querySelector(`form.${styles.userForm}`) as HTMLFormElement;
+            if (formElement) {
+                formElement.requestSubmit();
+            }
+        }
+    }));
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -49,13 +61,9 @@ export const UserForm = ({ userId }: UserFormProps) => {
         }));
     };
 
-    // const handleEditClick = () => {
-    //     setIsEditing(prevEditing => !prevEditing);
-    // };
-
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault(); 
         const userService = new UserService();
-
         try {
             const body: IUserUpdate = {
                 name: formData.name,
@@ -65,8 +73,9 @@ export const UserForm = ({ userId }: UserFormProps) => {
                 newPasswordHash: formData.newPassword
             };
 
-            await userService.updateUser(userId, body);
-            setIsEditing(false); 
+            await userService.updateUser(Number(userId), body);
+            setIsEditing(false);
+            alert("Ваши данные успешно обновлены");
         } catch (error) {
             console.error("Ошибка при обновлении данных пользователя", error);
         }
@@ -132,6 +141,7 @@ export const UserForm = ({ userId }: UserFormProps) => {
                                 name="newPassword"
                                 value={formData.newPassword}
                                 onChange={handleChange}
+                                minLength={8}
                             />
                         </span>
                     </>
@@ -148,24 +158,6 @@ export const UserForm = ({ userId }: UserFormProps) => {
                     disabled={!isEditing}
                 />
             </div>
-            <div className={styles.buttonContainer}>
-                {!isEditing ? (
-                    <button 
-                        type="button"
-                        className={styles.editUserBtn}
-                        onClick={() =>setIsEditing(true)}
-                    >
-                        <img className={styles.buttonImg} src={editUser} alt="Edit User" />
-                    </button>
-                ) : (
-                    <button
-                        type="submit"
-                        className={styles.submitUserBtn}
-                    >
-                        <img className={styles.buttonImg} src={submitUser} alt="Submit User" />
-                    </button>
-                )}
-            </div>
         </form>
     );
-};
+});

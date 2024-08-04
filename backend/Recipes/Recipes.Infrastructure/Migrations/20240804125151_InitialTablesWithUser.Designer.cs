@@ -12,8 +12,8 @@ using Recipes.Infrastructure.Context;
 namespace Recipes.Infrastructure.Migrations
 {
     [DbContext(typeof(RecipesDbContext))]
-    [Migration("20240803112447_InitialMigratonWithUser")]
-    partial class InitialMigratonWithUser
+    [Migration("20240804125151_InitialTablesWithUser")]
+    partial class InitialTablesWithUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,7 +159,9 @@ namespace Recipes.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Login")
                         .IsRequired()

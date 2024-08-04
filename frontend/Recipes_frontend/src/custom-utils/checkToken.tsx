@@ -2,11 +2,28 @@ import { AuthenticationService } from "../services/authService";
 import { TokenDecoder } from "./tokenDecoder";
 
 export async function CheckToken() {
-    if (localStorage.getItem('AccessToken') != null) {
-        const tokenStr: string = "" + localStorage.getItem('AccessToken');
-        if (new Date() >= new Date(new Date(0).setSeconds(TokenDecoder(tokenStr).decoded.exp))) {
-            const service: AuthenticationService = new AuthenticationService();
-            await service.refreshToken(); 
+    const accessToken = localStorage.getItem('AccessToken');
+
+    if (accessToken) {
+        const tokenStr = accessToken;
+        const decodedToken = TokenDecoder(tokenStr).decoded;
+        
+        const tokenExpirationDate = new Date(0).setUTCSeconds(decodedToken.exp);
+        const now = new Date().getTime();
+
+        if (now >= tokenExpirationDate) {
+            const service = new AuthenticationService();
+            const newTokens = await service.refreshToken();
+
+            if (newTokens.accessToken && newTokens.refreshToken) {
+                localStorage.setItem('AccessToken', newTokens.accessToken);
+            }
+
+            return newTokens.accessToken;
         }
+
+        return accessToken;
     }
+
+    return null;
 }

@@ -13,7 +13,7 @@ using Recipes.WebApi.Dto.UserDto;
 namespace Recipes.WebApi.Controllers
 {
     [ApiController]
-    [Route( "api/[controller]" )]
+    [Route( "api/users" )]
     public class UsersController() : ControllerBase
     {
 

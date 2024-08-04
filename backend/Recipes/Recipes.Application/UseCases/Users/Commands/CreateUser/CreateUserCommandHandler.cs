@@ -24,7 +24,7 @@ namespace Recipes.Application.UseCases.Users.Commands
 
             string hashedPassword = passwordHasher.GeneratePassword( command.PasswordHash );
 
-            User user = new User( command.Name, command.Login, hashedPassword );
+            User user = new User( command.Name, command.Login, hashedPassword, command.Description );
             await userRepository.AddAsync( user );
             await unitOfWork.CommitAsync();
 

@@ -14,6 +14,11 @@ export const AuthorizationWindow = () => {
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
 
+        if (!login || !password) {
+            setErrorMessage("Пожалуйста, заполните все поля.");
+            return;
+        }
+
         try {
             const credentials = { Login: login, PasswordHash: password };
             const tokenData = await authService.authentication(credentials);
@@ -22,7 +27,7 @@ export const AuthorizationWindow = () => {
                 setAccessToken(tokenData.accessToken);
                 setAuthorizationWindowOpen(false); 
             } else {
-                setErrorMessage("Введены неверный пароль или логин");
+                setErrorMessage(String(tokenData?.errorMessage));
             }
         } catch (error) {
             setErrorMessage("Ошибка при авторизации. Попробуйте еще раз.");
@@ -33,6 +38,8 @@ export const AuthorizationWindow = () => {
         setRegistrationWindowOpen(true);
         setAuthorizationWindowOpen(false);
     };
+
+    const displayErrorMessage = errorMessage.startsWith("Error:") ? errorMessage.replace("Error:", "").trim() : errorMessage;
 
     return (
         <div className={styles.authOverlay}>
@@ -59,7 +66,7 @@ export const AuthorizationWindow = () => {
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        {errorMessage && <p className={styles.authError}>{errorMessage}</p>}
+                        {errorMessage && <p className={styles.authError}>{displayErrorMessage}</p>}
                         <span className={styles.authButtons}>
                             <button type="submit" className={styles.submitButton}>Войти</button>
                             <button type="reset" className={styles.resetButton} onClick={() => {

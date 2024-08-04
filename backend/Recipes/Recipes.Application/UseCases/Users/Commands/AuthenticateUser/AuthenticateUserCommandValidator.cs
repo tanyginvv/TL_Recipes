@@ -27,7 +27,7 @@ namespace Application.UserAuthorizationTokens.Commands.AuthenticateUser
 
             if ( !passwordHasher.VerifyPassword( command.PasswordHash, user.PasswordHash ) )
             {
-                return Result.FromError( "Введеный пароль неверный" );
+                return Result.FromError( "Введен неверный пароль" );
             }
 
             return Result.FromSuccess();

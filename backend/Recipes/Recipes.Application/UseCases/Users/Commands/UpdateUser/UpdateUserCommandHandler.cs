@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Recipes.Application.Interfaces;
+﻿using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;

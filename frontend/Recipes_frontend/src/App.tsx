@@ -10,6 +10,7 @@ import { AuthorizationWindow } from './components/authorizationWindow/authorizat
 import { AuthOrRegistrWindow } from './components/authOrRegistWindow/authOrRegistrWindow'
 import { RegistrationWindow } from './components/registrationWindow/registrationWindow'
 import useStore from './store/store'
+import { UserPage } from './components/userPage/userPage'
 function App() {
   const {
     isRegistrationWindowOpen,
@@ -23,7 +24,7 @@ function App() {
       <BrowserRouter>
         <Header/> 
           <Routes>
-            <Route path='/userPage/:id?' element={<AddAndEditRecipePage/>}/>
+            <Route path='/userPage/:id?' element={<UserPage/>}/>
             <Route path='/addAndEditRecipePage/:id?' element={<AddAndEditRecipePage/>}/>
             <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>

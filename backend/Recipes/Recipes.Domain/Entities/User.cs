@@ -9,11 +9,12 @@
         public IReadOnlyList<Recipe> Recipes { get; set; }
         public UserAuthorizationToken AuthorizationToken { get; set; }
 
-        public User( string name, string login, string passwordHash )
+        public User( string name, string login, string passwordHash, string description )
         {
             Name = name;
             Login = login;
             PasswordHash = passwordHash;
+            Description = description;
             Recipes = new List<Recipe>();
         }
     }

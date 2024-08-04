@@ -3,7 +3,7 @@ import styles from "./registrationWindow.module.css";
 import exit from "../../assets/images/exit.svg";
 import useStore from "../../store/store";
 import { AuthenticationService } from "../../services/authService";
-import { IRegister } from "../../models/types"; // Ensure this is imported
+import { IRegister } from "../../models/types"; 
 
 export const RegistrationWindow = () => {
     const {
@@ -17,7 +17,7 @@ export const RegistrationWindow = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [generalError, setGeneralError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
-    const [fieldError, setFieldError] = useState<string | null>(null); // New state for field errors
+    const [fieldError, setFieldError] = useState<string | null>(null); 
     const authService = new AuthenticationService();
 
     const handleRegistration = async (event: React.FormEvent) => {
@@ -40,7 +40,8 @@ export const RegistrationWindow = () => {
         const registrationData: IRegister = {
             Name: name,
             Login: login,
-            PasswordHash: password
+            PasswordHash: password,
+            Description : ""
         };
 
         try {
@@ -51,7 +52,7 @@ export const RegistrationWindow = () => {
                 setAuthorizationWindowOpen(false);
                 alert("Вы успешно зарегистрированы");
             } else {
-                setGeneralError('Ошибка регистрации. Попробуйте снова.');
+                setGeneralError(String(tokenData.errorMessage));
             }
         } catch (e) {
             setGeneralError('Ошибка регистрации. Попробуйте снова.');
@@ -97,7 +98,7 @@ export const RegistrationWindow = () => {
                             onChange={(e) => setLogin(e.target.value)}
                         />
                         {fieldError && <p className={styles.fieldError}>{fieldError}</p>}
-                        {generalError && <p className={styles.generalError}>{generalError}</p>}
+                        {generalError && <p className={styles.generalError}>{generalError.slice(7)}</p>}
                         <span className={styles.passwordsContainer}>
                             <span className={styles.passwordBlock}>
                                 <input 

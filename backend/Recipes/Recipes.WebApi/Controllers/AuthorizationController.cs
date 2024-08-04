@@ -24,13 +24,14 @@ namespace Presentation.Intranet.Api.Controllers
             {
                 Login = registrateUserDto.Login,
                 PasswordHash = registrateUserDto.PasswordHash,
-                Name = registrateUserDto.Name
+                Name = registrateUserDto.Name,
+                Description = registrateUserDto.Description
             };
             Result commandResult = await createUserCommandHandler.HandleAsync( createUserCommand );
 
             if ( !commandResult.IsSuccess )
             {
-                return BadRequest( commandResult );
+                return BadRequest( commandResult.Error );
             }
 
             return Ok( commandResult );
@@ -40,7 +41,7 @@ namespace Presentation.Intranet.Api.Controllers
         public async Task<IActionResult> RefreshToken(
             [FromServices] ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler )
         {
-            string refreshTokenFromCookie = Request.Headers[ "Authorization" ];
+            string refreshTokenFromCookie = Request.Cookies[ "RefreshToken" ];
 
             RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
             {
@@ -71,7 +72,7 @@ namespace Presentation.Intranet.Api.Controllers
 
             if ( !commandResult.IsSuccess )
             {
-                return BadRequest( commandResult );
+                return BadRequest( commandResult.Error );
             }
 
             return Ok( commandResult.Value );

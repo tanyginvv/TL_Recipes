@@ -1,6 +1,5 @@
 import { API_URL } from '../constants/apiUrl';
 import { IRecipeAllRecipes, IRecipe, IRecipeSubmit } from '../models/types';
-import useStore from '../store/store';
 import { CheckToken } from '../custom-utils/checkToken';
 
 export class RecipeService {
@@ -44,11 +43,10 @@ export class RecipeService {
 
     async deleteRecipe(id: number, userId: number | null): Promise<boolean> {
         try {
-            await CheckToken(); 
+            const token = await CheckToken(); 
         
-            const { accessToken } = await useStore.getState();
             const headers: HeadersInit = {
-                'Access-Token': `${accessToken}`,
+                'Access-Token': `${token}`,
             };
 
             const response = await fetch(`${this.apiUrl}/recipes/${id}?userId=${userId}`, {
@@ -70,11 +68,11 @@ export class RecipeService {
 
     async submitRecipe(recipeData: IRecipeSubmit, id?: string): Promise<void> {
         try {
-            const { accessToken } = await useStore.getState();
+            const token = await CheckToken(); 
 
             const headers: HeadersInit = {
                 'Content-Type': 'application/json',
-                'Access-Token': `${accessToken}`,
+                'Access-Token': `${token}`,
             };
             
             const url = id ? `${this.apiUrl}/recipes/${id}` : `${this.apiUrl}/recipes`;

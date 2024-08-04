@@ -14,7 +14,7 @@ export const Header = () => {
     const [user, setUser] = useState<IUser | undefined>(undefined);
 
     const {
-        setAuthOrRegistrWindowOpen,
+        setAuthorizationWindowOpen,
         userId,
         setUserId
     } = useStore();
@@ -31,6 +31,7 @@ export const Header = () => {
         };
 
         fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId]);
 
     const logOut = async () => {
@@ -70,7 +71,9 @@ export const Header = () => {
                 <img className={styles.loginInfoIcon} src={login} alt="Login icon" />
                 {userId ? 
                     <span className={styles.loginInfo}>
-                        <p className={styles.loginGreeting}>{"Привет, " + user?.name}</p>
+                        <p className={styles.loginGreeting}
+                        onClick={() =>navigate(`/userPage/${userId}`)}
+                        >{"Привет, " + user?.name}</p>
                         <img 
                             className={styles.logoutButton} 
                             onClick={logOut} 
@@ -80,7 +83,7 @@ export const Header = () => {
                     </span>
                     :
                     <button 
-                        onClick={() => setAuthOrRegistrWindowOpen(true)} 
+                        onClick={() => setAuthorizationWindowOpen(true)} 
                         className={styles.loginText}
                     >
                         Войти

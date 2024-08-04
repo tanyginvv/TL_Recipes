@@ -17,6 +17,10 @@ namespace Recipes.Infrastructure.Entities.Users
                 .IsRequired()
                 .HasMaxLength( 50 );
 
+            builder.Property( t => t.Description )
+                .IsRequired()
+                .HasMaxLength( 200 );
+
             builder.Property( t => t.Login )
                 .IsRequired()
                 .HasMaxLength( 50 );

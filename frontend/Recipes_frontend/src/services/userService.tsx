@@ -1,5 +1,6 @@
 import { API_URL } from '../constants/apiUrl';
 import {  ILogin, IUser, IUserUpdate } from '../models/types';
+import { CheckToken } from '../custom-utils/checkToken';
 
 export class UserService {
     private apiUrl: string;
@@ -8,19 +9,10 @@ export class UserService {
         this.apiUrl = apiUrl;
     }
 
-    private getHeaders(): HeadersInit {
-        const headers: HeadersInit = {
-            'Content-Type': 'application/json'
-        };
-
-        return headers;
-    }
-
     async fetchUser(id: number): Promise<IUser> {
         try {
             const response = await fetch(`${this.apiUrl}/Users/${id}`, {
                 method: 'GET',
-                headers: this.getHeaders()
             });
 
             if (!response.ok) {
@@ -34,12 +26,10 @@ export class UserService {
         }
     }
 
-
     async fetchUserLogin(id: number): Promise<ILogin> {
         try {
             const response = await fetch(`${this.apiUrl}/Users/login/${id}`, {
-                method: 'GET',
-                headers: this.getHeaders()
+                method: 'GET'
             });
 
             if (!response.ok) {
@@ -54,9 +44,16 @@ export class UserService {
     }
     async updateUser(id: number, userData: IUserUpdate): Promise<void> {
         try {
+            const token = await CheckToken();
+        
+            const headers: HeadersInit = {
+                'Access-Token': `${token}`,
+                'Content-Type': 'application/json',
+            };
+
             const response = await fetch(`${this.apiUrl}/users/${id}`, {
                 method: 'PUT',
-                headers: this.getHeaders(),
+                headers: headers,
                 body: JSON.stringify(userData),
             });
 
@@ -71,9 +68,14 @@ export class UserService {
 
     async deleteUser(id: number, passwordHash: string): Promise<void> {
         try {
+            const token = await CheckToken();
+        
+            const headers: HeadersInit = {
+                'Access-Token': `${token}`,
+            };
             const response = await fetch(`${this.apiUrl}/users/${id}?passwordHash=${encodeURIComponent(passwordHash)}`, {
                 method: 'DELETE',
-                headers: this.getHeaders()
+                headers: headers
             });
 
             if (!response.ok) {

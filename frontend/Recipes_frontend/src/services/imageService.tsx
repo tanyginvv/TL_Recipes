@@ -1,6 +1,5 @@
 import { API_URL } from "../constants/apiUrl";
 import { CheckToken } from "../custom-utils/checkToken";
-import useStore from "../store/store";
 export class ImageService {
     private apiUrl: string;
 
@@ -23,15 +22,13 @@ export class ImageService {
     }
 
     async uploadImage(image: File): Promise<string> {
-        await CheckToken(); 
-        
-        const { accessToken } = await useStore.getState();
+        const token = await CheckToken(); 
 
         const formData = new FormData();
         formData.append('image', image);
     
         const headers: HeadersInit = {
-            'Access-Token': `${accessToken}`,
+            'Access-Token': `${token}`,
         };
     
         const response = await fetch(`${this.apiUrl}/images/upload`, {

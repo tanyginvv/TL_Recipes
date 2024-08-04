@@ -56,12 +56,14 @@ export interface IAuthentication {
 export interface IRegister {
     Name: string,
     Login: string,
-    PasswordHash: string
+    PasswordHash: string,
+    Description: string
 }
 
 export interface IToken {
     accessToken: string | null,
-    refreshToken: string | null
+    refreshToken: string | null,
+    errorMessage?: unknown
 }
 
 export interface IDecryptedToken{

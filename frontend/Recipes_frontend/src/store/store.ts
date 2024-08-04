@@ -9,7 +9,6 @@ interface AuthState {
     isLoggedIn: boolean;
     setUserId: (userId: number | null) => void;
     setAccessToken: (token: string | null) => void;
-    setRefreshToken: (token: string | null) => void;
     setIsLoggedIn: (isLoggedIn: boolean) => void;
     logout: () => void;
 }
@@ -23,7 +22,6 @@ interface PopupState {
     setAuthOrRegistrWindowOpen: (isOpen: boolean) => void;
 }
 
-// Store implementation using Zustand
 const useStore = create<AuthState & PopupState>((set) => {
     const cookies = new Cookies();
     let accessToken = localStorage.getItem("AccessToken") || null;
@@ -47,15 +45,6 @@ const useStore = create<AuthState & PopupState>((set) => {
                 isLoggedIn: false 
             });
         }
-    };
-
-    const updateRefreshToken = (token: string | null) => {
-        if (token) {
-            cookies.set("RefreshToken", token);
-        } else {
-            cookies.remove("RefreshToken");
-        }
-        set({ refreshToken: token });
     };
 
     const setUserId = (userId: number | null) => {
@@ -91,7 +80,6 @@ const useStore = create<AuthState & PopupState>((set) => {
         userId,
         isLoggedIn,
         setAccessToken: updateTokens,
-        setRefreshToken: updateRefreshToken,
         setUserId,
         setIsLoggedIn,
         logout,

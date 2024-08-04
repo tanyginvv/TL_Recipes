@@ -2,7 +2,6 @@ import { IToken } from "../models/types";
 import { IAuthentication, IRegister } from "../models/types";
 import { Cookies } from "react-cookie";
 import { API_URL } from "../constants/apiUrl";
-import useStore from "../store/store";
 
 export class AuthenticationService {
     private apiUrl: string;
@@ -22,7 +21,8 @@ export class AuthenticationService {
             });
     
             if (!response.ok) {
-                throw new Error('Registration failed');
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
     
             const loginData: IAuthentication = {
@@ -31,20 +31,13 @@ export class AuthenticationService {
             };
     
             const authResponse = await this.authentication(loginData);
-            
-            if (authResponse.accessToken && authResponse.refreshToken) {
-                const { setAccessToken, setRefreshToken, setIsLoggedIn } = useStore.getState();
-                setAccessToken(authResponse.accessToken);
-                setRefreshToken(authResponse.refreshToken);
-                setIsLoggedIn(true);
-            }
     
             return authResponse;
         } catch (error) {
-            console.error('Registration Error:', error);
             return {
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
+                errorMessage: error
             };
         }
     }
@@ -60,10 +53,6 @@ export class AuthenticationService {
     
             const response = await fetch(`${this.apiUrl}/refresh-token`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `${refreshToken}`,
-                },
                 credentials: "include",
             });
     
@@ -72,51 +61,59 @@ export class AuthenticationService {
             }
     
             const data: IToken = await response.json();
-    
+            
             if (data.accessToken && data.refreshToken) {
-                const { setAccessToken, setRefreshToken } = useStore.getState();
-                await setAccessToken(data.accessToken);
-                await setRefreshToken(data.refreshToken);
+                localStorage.removeItem('AccessToken');
+                cookie.remove('RefreshToken');
+                localStorage.setItem('AccessToken', data.accessToken);
+                cookie.set('RefreshToken', data.refreshToken, { path: '/' });
             }
             
             return data;
         } catch (error) {
-            console.error('Token refresh error:', error);
             return {
                 accessToken: null,
                 refreshToken: null,
             };
         }
-    }    
+    }
 
     async authentication(body: IAuthentication): Promise<IToken> {
         try {
-            const cookie = new Cookies()
+            const cookies = new Cookies();
             const response = await fetch(`${this.apiUrl}/authentication`, {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(body),
             });
-
+    
             if (!response.ok) {
-                throw new Error('Authentication failed');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Authentication failed');
             }
-
+    
             const data: IToken = await response.json();
-
-            localStorage.removeItem("AccessToken");
-            cookie.remove("RefreshToken");
-            
-            localStorage.setItem("AccessToken", JSON.stringify(data.accessToken));
-            cookie.set("RefreshToken", data.refreshToken);
-
+    
+            localStorage.removeItem('AccessToken');
+            cookies.remove('RefreshToken');
+    
+            if (data.accessToken) {
+                localStorage.setItem('AccessToken', data.accessToken);
+            }
+    
+            if (data.refreshToken) {
+                cookies.set('RefreshToken', data.refreshToken, { path: '/' });
+            }
+    
             return data;
-        } catch (Error) {
+        } catch (error) {
+            console.error('Error during authentication:', error);
             return {
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
+                errorMessage: error
             };
         }
     }

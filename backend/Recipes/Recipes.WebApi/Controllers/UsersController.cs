@@ -55,7 +55,8 @@ namespace Recipes.WebApi.Controllers
                 Id = user.Id,
                 Login = user.Login,
                 Name = user.Name,
-                Description = user.Description
+                Description = user.Description,
+                RecipesCount = user.RecipesCount
             };
 
             return Ok( userDto );
@@ -110,7 +111,7 @@ namespace Recipes.WebApi.Controllers
         }
 
         [JwtAuthorization]
-        [HttpGet( "{userId}/Recipes" )]
+        [HttpGet( "{userId}/recipes" )]
         public async Task<IActionResult> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
             [FromRoute] int userId = 0,

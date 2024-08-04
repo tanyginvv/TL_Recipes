@@ -36,7 +36,7 @@ namespace Application.Users.Commands.UpdateUser
                 user.Login = command.Login;
             }
 
-            if ( !string.IsNullOrEmpty( command.NewPasswordHash ) )
+            if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && !string.IsNullOrEmpty( command.NewPasswordHash ) )
             {
                 string hashedPassword = passwordHasher.GeneratePassword( command.NewPasswordHash );
                 user.PasswordHash = hashedPassword;

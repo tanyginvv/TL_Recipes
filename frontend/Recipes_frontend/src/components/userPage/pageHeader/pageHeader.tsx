@@ -25,9 +25,14 @@ export const PageHeader = ({ onPublish, isEditing, onEdit }: Props) => {
                 <h1 className={styles.title}>Мой профиль</h1>
                 <div className={styles.titleButton}>
                     {isEditing ? (
-                        <button className={styles.buttonPost} onClick={onPublish}>
-                            <p>Сохранить изменения</p>
-                        </button>
+                        <>
+                            <button className={styles.buttonPost} onClick={onEdit}>
+                                <p>Отменить</p>
+                            </button>
+                            <button className={styles.buttonPost} onClick={onPublish}>
+                                <p>Сохранить изменения</p>
+                            </button>
+                         </>
                     ) : (
                         <button className={styles.buttonPost} onClick={onEdit}>
                             <p>Редактировать данные</p>

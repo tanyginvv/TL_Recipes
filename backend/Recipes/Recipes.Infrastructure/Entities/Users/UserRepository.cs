@@ -28,7 +28,9 @@ namespace Recipes.Infrastructure.Entities.Users
 
         public async Task<User> GetByIdAsync( int id )
         {
-            return await _context.Set<User>().FindAsync( id );
+            return await _context.Set<User>()
+                .Include( u => u.Recipes )
+                .FirstOrDefaultAsync( u => u.Id == id );
         }
 
         public async Task<User> GetByLoginAsync( string login )

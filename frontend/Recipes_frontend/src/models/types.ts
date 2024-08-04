@@ -75,7 +75,8 @@ export interface IUser {
     id: number,
     name: string,
     description: string,
-    login: string
+    login: string,
+    recipesCount: number
 }
 
 export interface ILogin {
@@ -88,5 +89,6 @@ export interface IUserUpdate {
    description: string,
    login: string,
    oldPasswordHash: string,
-   newPasswordHash: string
+   newPasswordHash: string,
+   error?: unknown
 }

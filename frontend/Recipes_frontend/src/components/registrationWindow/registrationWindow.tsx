@@ -9,6 +9,7 @@ export const RegistrationWindow = () => {
     const {
         setRegistrationWindowOpen,
         setAuthorizationWindowOpen,
+        setAccessToken
     } = useStore(); 
 
     const [name, setName] = useState('');
@@ -48,6 +49,7 @@ export const RegistrationWindow = () => {
             const tokenData = await authService.register(registrationData);
 
             if (tokenData.accessToken) {
+                setAccessToken(tokenData.accessToken);
                 setRegistrationWindowOpen(false);
                 setAuthorizationWindowOpen(false);
                 alert("Вы успешно зарегистрированы");

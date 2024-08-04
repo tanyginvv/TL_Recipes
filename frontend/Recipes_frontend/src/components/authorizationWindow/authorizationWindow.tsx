@@ -1,8 +1,8 @@
 import styles from "./authorizationWindow.module.css";
 import exit from "../../assets/images/exit.svg";
-import useStore from "../../store/store"; // Update with the correct path
+import useStore from "../../store/store";
 import { useState } from "react";
-import { AuthenticationService } from "../../services/authService"; // Update with the correct path
+import { AuthenticationService } from "../../services/authService";
 
 export const AuthorizationWindow = () => {
     const { setRegistrationWindowOpen, setAuthorizationWindowOpen, setAccessToken } = useStore();

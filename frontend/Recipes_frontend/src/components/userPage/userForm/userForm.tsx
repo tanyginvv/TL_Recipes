@@ -1,19 +1,20 @@
 import { useState, useEffect, ChangeEvent, FormEvent, forwardRef, useImperativeHandle } from 'react';
 import styles from "./userForm.module.css";
 import { UserService } from "../../../services/userService";
-import { IUserUpdate } from '../../../models/types';
+import { IUser, IUserUpdate } from '../../../models/types';
 
 interface UserFormProps {
     userId: number;
     isEditing: boolean;
     setIsEditing: (isEditing: boolean) => void;
+    onUserUpdated: (updatedUser: IUser) => void;
 }
 
 export interface UserFormHandle {
     submitForm: () => void;
 }
 
-export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isEditing, setIsEditing }, ref) => {
+export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isEditing, setIsEditing, onUserUpdated }, ref) => {
     const [formData, setFormData] = useState({
         name: '',
         login: '',
@@ -73,7 +74,11 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                 newPasswordHash: formData.newPassword
             };
 
-            await userService.updateUser(Number(userId), body);
+            await userService.updateUser(userId, body);
+
+            const updatedUser = await userService.fetchUser(userId);
+            onUserUpdated(updatedUser);
+
             setIsEditing(false);
             alert("Ваши данные успешно обновлены");
         } catch (error) {
@@ -142,6 +147,7 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                                 value={formData.newPassword}
                                 onChange={handleChange}
                                 minLength={8}
+                                disabled={!formData.oldPassword}
                             />
                         </span>
                     </>

@@ -1,43 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./header.module.css";
 import login from "../../assets/images/login.svg";
 import logout from "../../assets/images/logout.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useStore from "../../store/store";
-import { UserService } from "../../services/userService";
 import { AuthenticationService } from "../../services/authService";
-import { IUser } from "../../models/types";
+import { UserService } from "../../services/userService";
 
 export const Header = () => {
     const location = useLocation();
     const navigate = useNavigate(); 
-    const [user, setUser] = useState<IUser | undefined>(undefined);
 
     const {
-        setAuthorizationWindowOpen,
+        user,
         userId,
-        setUserId
+        setAuthorizationWindowOpen,
+        setUserId,
+        setUser
     } = useStore();
     
-    const userService = new UserService();
     const authService = new AuthenticationService();
+    const userService = new UserService();
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchUserData = async () => {
             if (userId) {
-                const fetchedUser = await userService.fetchUser(userId);
-                setUser(fetchedUser);
+                try {
+                    const fetchedUser = await userService.fetchUser(userId);
+                    setUser(fetchedUser);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
             }
         };
 
-        fetchUser();
+        fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId]);
 
     const logOut = async () => {
         await authService.logout(); 
         setUserId(null); 
-        setUser(undefined); 
+        setUser(null); 
         navigate('/'); 
     }
 
@@ -72,8 +76,10 @@ export const Header = () => {
                 {userId ? 
                     <span className={styles.loginInfo}>
                         <p className={styles.loginGreeting}
-                        onClick={() =>navigate(`/userPage/${userId}`)}
-                        >{"Привет, " + user?.name}</p>
+                        onClick={() => navigate(`/userPage/${userId}`)}
+                        >
+                            {"Привет, " + (user?.name || 'пользователь')}
+                        </p>
                         <img 
                             className={styles.logoutButton} 
                             onClick={logOut} 

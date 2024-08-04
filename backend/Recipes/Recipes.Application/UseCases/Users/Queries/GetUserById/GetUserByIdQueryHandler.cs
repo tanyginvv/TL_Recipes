@@ -25,13 +25,13 @@ namespace Application.Users.Queries.GetUserById
 
             User user = await userRepository.GetByIdAsync( getUserByIdQuery.Id );
 
-
             GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
             {
                 Id = user.Id,
                 Name = user.Name,
                 Login = user.Login,
-                Description = user.Description
+                Description = user.Description,
+                RecipesCount = user.Recipes.Count()
             };
 
             return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );

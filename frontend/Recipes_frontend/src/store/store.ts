@@ -1,15 +1,18 @@
 import create from 'zustand';
 import { Cookies } from 'react-cookie';
 import { TokenDecoder } from '../custom-utils/tokenDecoder';
+import { IUser } from '../models/types'; 
 
 interface AuthState {
     accessToken: string | null;
     refreshToken: string | null;
     userId: number | null;
     isLoggedIn: boolean;
+    user: IUser | null;
     setUserId: (userId: number | null) => void;
     setAccessToken: (token: string | null) => void;
     setIsLoggedIn: (isLoggedIn: boolean) => void;
+    setUser: (user: IUser | null) => void; 
     logout: () => void;
 }
 
@@ -55,10 +58,14 @@ const useStore = create<AuthState & PopupState>((set) => {
         set({ isLoggedIn });
     };
 
+    const setUser = (user: IUser | null) => {
+        set({ user });
+    };
+
     const logout = () => {
         localStorage.removeItem("AccessToken");
         cookies.remove("RefreshToken");
-        set({ accessToken: null, refreshToken: null, userId: null, isLoggedIn: false });
+        set({ accessToken: null, refreshToken: null, userId: null, isLoggedIn: false, user: null });
     };
 
     setInterval(() => {
@@ -70,18 +77,19 @@ const useStore = create<AuthState & PopupState>((set) => {
         }
 
         accessToken = currentAccessToken;
-        refreshToken = currentRefreshToken
+        refreshToken = currentRefreshToken;
     }, 1000);
-    
 
     return {
         accessToken,
         refreshToken,
         userId,
         isLoggedIn,
+        user: null,
         setAccessToken: updateTokens,
         setUserId,
         setIsLoggedIn,
+        setUser, 
         logout,
 
         isRegistrationWindowOpen: false,

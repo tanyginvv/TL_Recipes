@@ -11,7 +11,8 @@ namespace Recipes.Application.Filters
         {
             if ( UserId != 0 )
             {
-                query = query.Where( u => u.UserId == UserId );
+                query = query
+                    .Where( u => u.UserId == UserId );
             }
 
             return query;

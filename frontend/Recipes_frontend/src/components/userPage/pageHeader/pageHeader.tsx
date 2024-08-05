@@ -26,7 +26,7 @@ export const PageHeader = ({ onPublish, isEditing, onEdit }: Props) => {
                 <div className={styles.titleButton}>
                     {isEditing ? (
                         <>
-                            <button className={styles.buttonPost} onClick={onEdit}>
+                            <button className={styles.buttonСancel} onClick={onEdit}>
                                 <p>Отменить</p>
                             </button>
                             <button className={styles.buttonPost} onClick={onPublish}>

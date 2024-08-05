@@ -66,3 +66,27 @@
     color: #fdb100;
     transition: 700ms;
 }
+
+.buttonСancel {
+    width: 278px;
+    height: 60px;
+    color: #FDB100;
+    background-color: #FFFFFF;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 16px;
+    border: #FDB100 solid 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+}
+
+.buttonСancel:hover {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    background-color: #FDB100;
+    color: #FFFFFF;
+    transition: 700ms;
+}

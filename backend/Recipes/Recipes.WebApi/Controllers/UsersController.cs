@@ -110,7 +110,7 @@ namespace Recipes.WebApi.Controllers
             return NoContent();
         }
 
-        [JwtAuthorization]
+        //[JwtAuthorization]
         [HttpGet( "{userId}/recipes" )]
         public async Task<IActionResult> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,

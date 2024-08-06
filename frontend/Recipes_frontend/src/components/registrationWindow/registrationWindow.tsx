@@ -62,14 +62,23 @@ export const RegistrationWindow = () => {
     };
 
     const handleCancel = () => {
-        setRegistrationWindowOpen(false);
-        setAuthorizationWindowOpen(false);
+        setName("");
+        setLogin("");
+        setPassword("");
+        setConfirmPassword("");
+        setFieldError(null);
+        setPasswordError(null);
     };
 
     const setAuth = () => {
         setAuthorizationWindowOpen(true);
         setRegistrationWindowOpen(false);
     };
+
+    const nameInputClass = !name && fieldError ? `${styles.inputText} ${styles.errorBorder}` : styles.inputText;
+    const loginInputClass = !login && fieldError ? `${styles.inputText} ${styles.errorBorder}` : styles.inputText;
+    const passwordInputClass = !password && fieldError ? `${styles.inputPassword} ${styles.errorBorder}` : styles.inputPassword;
+    const confirmPasswordInputClass = !confirmPassword && fieldError ? `${styles.inputPassword} ${styles.errorBorder}` : styles.inputPassword;
 
     return (
         <div className={styles.registrationOverlay}>
@@ -88,14 +97,14 @@ export const RegistrationWindow = () => {
                         <input 
                             type="text" 
                             placeholder="Имя" 
-                            className={styles.inputText}
+                            className={nameInputClass}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />
                         <input 
                             type="text" 
                             placeholder="Логин" 
-                            className={styles.inputText}
+                            className={loginInputClass}
                             value={login}
                             onChange={(e) => setLogin(e.target.value)}
                         />
@@ -106,7 +115,7 @@ export const RegistrationWindow = () => {
                                 <input 
                                     type="password" 
                                     placeholder="Пароль" 
-                                    className={styles.inputPassword}
+                                    className={passwordInputClass}
                                     value={password}
                                     minLength={8}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -117,7 +126,7 @@ export const RegistrationWindow = () => {
                                 <input 
                                     type="password" 
                                     placeholder="Повторите пароль" 
-                                    className={styles.inputPassword}
+                                    className={confirmPasswordInputClass}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
@@ -132,7 +141,7 @@ export const RegistrationWindow = () => {
                                 Зарегистрироваться
                             </button>
                             <button 
-                                type="button" 
+                                type="reset" 
                                 onClick={handleCancel} 
                                 className={styles.resetButton}
                             >

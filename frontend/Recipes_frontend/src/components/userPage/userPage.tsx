@@ -46,13 +46,19 @@ export const UserPage = () => {
     const onPublish = () => {
         if (formRef.current) {
             formRef.current.submitForm(); 
-            setIsEditing(!isEditing);
         }
     };
 
     const onEdit = () => {
-        setIsEditing(!isEditing);
-    }
+        setIsEditing(true);
+    };
+
+    const onCancel = () => {
+        setIsEditing(false); 
+        if (formRef.current) {
+            formRef.current.resetForm(); 
+        }
+    };
 
     if (loading) {
         return <p>Загрузка данных пользователя...</p>;
@@ -60,7 +66,7 @@ export const UserPage = () => {
 
     return (
         <div className={styles.userPageContainer}>
-            <PageHeader isEditing={isEditing} onPublish={onPublish} onEdit={onEdit}/>
+            <PageHeader isEditing={isEditing} onPublish={onPublish} onEdit={onEdit} onCancel={onCancel}/>
             {user && (
                 <UserForm 
                     ref={formRef}

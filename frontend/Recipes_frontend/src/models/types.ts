@@ -92,3 +92,8 @@ export interface IUserUpdate {
    newPasswordHash: string,
    error?: unknown
 }
+
+export interface IError {
+    status?: number;
+    errorMessage?: unknown
+}

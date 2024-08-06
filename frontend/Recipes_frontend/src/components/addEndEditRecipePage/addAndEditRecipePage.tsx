@@ -1,16 +1,19 @@
-import { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useRef, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { AddAndEditForm } from "./addAndEditForm/addAndEditForm";
 import styles from "./addAndEditRecipePage.module.css";
 import { AddAndEditHeader } from "./addAndEditHeader/addAndEditHeader";
+import useStore from "../../store/store";
 
 interface AddRecipeFormHandle {
     submitForm: () => void;
 }
 
 export const AddAndEditRecipePage = () => {
+    const navigate = useNavigate();
     const formRef = useRef<AddRecipeFormHandle>(null);
     const { id } = useParams<{ id?: string }>();
+    const { userId } = useStore();
     const isEditing = !!id;
 
     const handlePublish = () => {
@@ -18,6 +21,12 @@ export const AddAndEditRecipePage = () => {
             formRef.current.submitForm();
         }
     };
+
+    useEffect(()=> {
+        if(userId === null){
+            navigate("*")
+        }
+    })
 
     return (
         <div className={styles.addRecipeContainer}>

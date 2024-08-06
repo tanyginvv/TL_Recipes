@@ -21,7 +21,7 @@ export const TagInput: React.FC<TagInputProps> = ({ tags, setTags, tagInput, set
                 alert('Максимально вы можете добавить 5 тегов');
                 return;
             }
-            if (!tags.some(tag => tag.name === tagInput.trim())) {
+            if (!tags.some(tag => tag.name.toLowerCase() === tagInput.trim().toLowerCase())) {
                 setTags([...tags, { name: tagInput.trim() }]);
                 setTagInput("");
             }

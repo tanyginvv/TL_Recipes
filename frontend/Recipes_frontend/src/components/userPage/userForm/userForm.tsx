@@ -12,6 +12,7 @@ interface UserFormProps {
 
 export interface UserFormHandle {
     submitForm: () => void;
+    resetForm: () => void;
 }
 
 export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isEditing, setIsEditing, onUserUpdated }, ref) => {
@@ -23,12 +24,31 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
         newPassword: ''
     });
 
+    const [initialFormData, setInitialFormData] = useState(formData);
+    const [error, setError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState({
+        name: false,
+        login: false,
+        oldPassword: false,
+        newPassword: false,
+    });
+
     useImperativeHandle(ref, () => ({
         submitForm: () => {
             const formElement = document.querySelector(`form.${styles.userForm}`) as HTMLFormElement;
             if (formElement) {
                 formElement.requestSubmit();
             }
+        },
+        resetForm: () => {
+            setFormData(initialFormData);
+            setError(null);
+            setFieldErrors({
+                name: false,
+                login: false,
+                oldPassword: false,
+                newPassword: false,
+            });
         }
     }));
 
@@ -38,13 +58,15 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                 const userService = new UserService();
                 try {
                     const user = await userService.fetchUser(userId);
-                    setFormData({
+                    const userData = {
                         name: user.name,
                         login: user.login,
                         description: user.description || '',
                         oldPassword: '', 
                         newPassword: ''  
-                    });
+                    };
+                    setFormData(userData);
+                    setInitialFormData(userData);
                 } catch (error) {
                     console.error("Ошибка при загрузке данных пользователя", error);
                 }
@@ -64,6 +86,35 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
+        setError(null);
+        setFieldErrors({
+            name: false,
+            login: false,
+            oldPassword: false,
+            newPassword: false,
+        });
+
+        if (!formData.name || !formData.login) {
+            setError("Пожалуйста, заполните все обязательные поля.");
+            setFieldErrors({
+                name: !formData.name,
+                login: !formData.login,
+                oldPassword: false,
+                newPassword: false,
+            });
+            return;
+        }
+
+        if (formData.oldPassword && !formData.newPassword) {
+            setError("Пожалуйста, введите новый пароль.");
+            setFieldErrors(prevErrors => ({
+                ...prevErrors,
+                oldPassword: true,
+                newPassword: true,
+            }));
+            return;
+        }
+
         const userService = new UserService();
         try {
             const body: IUserUpdate = {
@@ -83,13 +134,14 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
             alert("Ваши данные успешно обновлены");
         } catch (error) {
             console.error("Ошибка при обновлении данных пользователя", error);
+            setError("Ошибка при обновлении данных. Попробуйте снова.");
         }
     };
 
     return (
         <form className={styles.userForm} onSubmit={handleSubmit}>
             <div className={styles.formsInputs}>
-                <span className={styles.formInput}>
+                <span className={`${styles.formInput} ${fieldErrors.name ? styles.error : ''}`}>
                     <label htmlFor="name" className={styles.inputLabel}>Имя</label>
                     <input
                         type="text"
@@ -101,7 +153,7 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                         disabled={!isEditing}
                     />
                 </span>
-                <span className={styles.formInput}>
+                <span className={`${styles.formInput} ${fieldErrors.login ? styles.error : ''}`}>
                     <label htmlFor="login" className={styles.inputLabel}>Логин</label>
                     <input
                         type="text"
@@ -126,7 +178,7 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                     </span>
                 ) : (
                     <>
-                        <span className={styles.formInput}>
+                        <span className={`${styles.formInput} ${fieldErrors.oldPassword ? styles.error : ''}`}>
                             <label htmlFor="oldPassword" className={styles.inputLabel}>Старый пароль</label>
                             <input
                                 type="password"
@@ -137,7 +189,7 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                                 onChange={handleChange}
                             />
                         </span>
-                        <span className={styles.formInput}>
+                        <span className={`${styles.formInput} ${fieldErrors.newPassword ? styles.error : ''}`}>
                             <label htmlFor="newPassword" className={styles.inputLabel}>Новый пароль</label>
                             <input
                                 type="password"
@@ -163,7 +215,8 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ userId, isE
                     onChange={handleChange}
                     disabled={!isEditing}
                 />
-            </div>
+                {error && <p className={styles.formError}>{error}</p>}
+            </div>      
         </form>
     );
 });

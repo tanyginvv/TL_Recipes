@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/apiUrl';
-import {  ILogin, IRecipeAllRecipes, IUser, IUserUpdate } from '../models/types';
+import {  IError, ILogin, IRecipeAllRecipes, IUser, IUserUpdate } from '../models/types';
 import { CheckToken } from '../custom-utils/checkToken';
 
 export class UserService {
@@ -42,7 +42,8 @@ export class UserService {
             throw error;
         }
     }
-    async updateUser(id: number, userData: IUserUpdate): Promise<void> {
+
+    async updateUser(id: number, userData: IUserUpdate): Promise<IError> {
         try {
             const token = await CheckToken();
         
@@ -58,11 +59,12 @@ export class UserService {
             });
 
             if (!response.ok) {
-                throw new Error(`${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Authentication failed')
             }
+            return {};
         } catch (error) {
-            console.error('Error updating user:', error);
-            throw error;
+            return { errorMessage: error}
         }
     }
 

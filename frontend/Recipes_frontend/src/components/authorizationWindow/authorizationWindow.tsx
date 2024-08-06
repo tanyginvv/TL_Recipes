@@ -12,7 +12,7 @@ export const AuthorizationWindow = () => {
     const authService = new AuthenticationService();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         if (!login || !password) {
             setErrorMessage("Пожалуйста, заполните все поля.");
@@ -25,7 +25,7 @@ export const AuthorizationWindow = () => {
 
             if (tokenData.accessToken) {
                 setAccessToken(tokenData.accessToken);
-                setAuthorizationWindowOpen(false); 
+                setAuthorizationWindowOpen(false);
             } else {
                 setErrorMessage(String(tokenData?.errorMessage));
             }
@@ -41,6 +41,9 @@ export const AuthorizationWindow = () => {
 
     const displayErrorMessage = errorMessage.startsWith("Error:") ? errorMessage.replace("Error:", "").trim() : errorMessage;
 
+    const loginInputClass = !login && errorMessage ? `${styles.inputText} ${styles.errorBorder}` : styles.inputText;
+    const passwordInputClass = !password && errorMessage ? `${styles.inputText} ${styles.errorBorder}` : styles.inputText;
+
     return (
         <div className={styles.authOverlay}>
             <div className={styles.authContainer}>
@@ -55,14 +58,14 @@ export const AuthorizationWindow = () => {
                         <input 
                             type="text" 
                             placeholder="Логин" 
-                            className={styles.inputText} 
+                            className={loginInputClass} 
                             value={login} 
                             onChange={(e) => setLogin(e.target.value)}
                         />
                         <input 
                             type="password" 
                             placeholder="Пароль" 
-                            className={styles.inputText} 
+                            className={passwordInputClass} 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)}
                         />

@@ -6,9 +6,10 @@ interface Props {
     onPublish: () => void;
     isEditing: boolean;
     onEdit: () => void ;
+    onCancel: () => void ;
 }
 
-export const PageHeader = ({ onPublish, isEditing, onEdit }: Props) => {
+export const PageHeader = ({ onPublish, isEditing, onEdit, onCancel }: Props) => {
     const navigate = useNavigate();
 
     const allRecipesPageHandler = () => {
@@ -26,7 +27,7 @@ export const PageHeader = ({ onPublish, isEditing, onEdit }: Props) => {
                 <div className={styles.titleButton}>
                     {isEditing ? (
                         <>
-                            <button className={styles.buttonСancel} onClick={onEdit}>
+                            <button className={styles.buttonСancel} onClick={onCancel}>
                                 <p>Отменить</p>
                             </button>
                             <button className={styles.buttonPost} onClick={onPublish}>

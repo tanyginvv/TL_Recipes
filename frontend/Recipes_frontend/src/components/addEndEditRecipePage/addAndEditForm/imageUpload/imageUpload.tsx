@@ -28,7 +28,6 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ image, onImageChange }
                 {image ? (
                     <img
                         src={URL.createObjectURL(image)}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         alt="Selected recipe"
                         className={styles.selectedImage}
                     />

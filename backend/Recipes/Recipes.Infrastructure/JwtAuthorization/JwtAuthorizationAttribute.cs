@@ -5,6 +5,7 @@ using Recipes.Application.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace Infrastructure.JwtAuthorizations
 {
@@ -39,6 +40,18 @@ namespace Infrastructure.JwtAuthorizations
                 return;
             }
 
+            Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
+            if ( userIdClaim is null )
+            {
+                context.Result = new ForbidResult();
+                return;
+            }
+
+            if ( !int.TryParse( userIdClaim.Value, out int userId ) )
+            {
+                context.Result = new ForbidResult();
+                return;
+            }
         }
     }
 }

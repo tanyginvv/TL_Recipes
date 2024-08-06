@@ -192,3 +192,7 @@
     padding: 0px 5px;
     margin-top: 20px;
 }
+
+.errorBorder {
+    border: 1px solid #FF0000;
+}

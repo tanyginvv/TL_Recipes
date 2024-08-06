@@ -54,6 +54,11 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
                 return Result.FromError( "У пользователя нет доступа к обновлению данного рецепта" );
             }
 
+            if ( command.Tags.Count > 5 )
+            {
+                return Result.FromError( "Количество тегов ограничено до 5 " );
+            }
+
             return Result.Success;
         }
     }

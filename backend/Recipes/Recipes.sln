@@ -15,33 +15,24 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-		tanygin|Any CPU = tanygin|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.tanygin|Any CPU.ActiveCfg = Release|Any CPU
-		{0BEA5509-E7DF-4586-86BB-AC5E222813FF}.tanygin|Any CPU.Build.0 = Release|Any CPU
 		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.tanygin|Any CPU.ActiveCfg = Release|Any CPU
-		{900BA6E4-B743-480A-9EFB-DC33DD2F675A}.tanygin|Any CPU.Build.0 = Release|Any CPU
 		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.tanygin|Any CPU.ActiveCfg = Release|Any CPU
-		{4A37E5C5-39CA-48CF-B1E5-7BA0E49973B9}.tanygin|Any CPU.Build.0 = Release|Any CPU
 		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.Release|Any CPU.Build.0 = Release|Any CPU
-		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.tanygin|Any CPU.ActiveCfg = tanygin|Any CPU
-		{301435C2-AF20-4E2D-92FB-9DBB9E5FC922}.tanygin|Any CPU.Build.0 = tanygin|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

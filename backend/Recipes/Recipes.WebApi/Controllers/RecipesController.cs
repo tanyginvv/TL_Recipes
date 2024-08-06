@@ -102,13 +102,15 @@ namespace Recipes.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+            [FromRoute] int userId = 0,
             [FromQuery] int pageNumber = 1,
             [FromQuery] List<string> searchTerms = null )
         {
             GetRecipesQuery query = new GetRecipesQuery
             {
                 SearchTerms = searchTerms,
-                PageNumber = pageNumber
+                PageNumber = pageNumber,
+                UserId = userId
             };
 
             Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );

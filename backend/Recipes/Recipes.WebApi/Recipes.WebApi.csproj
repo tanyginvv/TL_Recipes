@@ -4,10 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Configurations>Debug;Release;tanygin</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="appsettings.prod.json" />
+    <Content Include="Properties\launchSettings.json" />
   </ItemGroup>
 
   <ItemGroup>

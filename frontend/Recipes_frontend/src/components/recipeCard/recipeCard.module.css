@@ -23,6 +23,11 @@
     object-fit: cover;
 }
 
+.recipeHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .recipeInfo {
     height: 430px;
     width: 700px;

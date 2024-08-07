@@ -6,6 +6,7 @@ import { IRecipeAllRecipes } from '../../models/types';
 import { useNavigate } from 'react-router-dom';
 import { ImageService } from '../../services/imageService';
 import { UserService } from '../../services/userService';
+import { LikeAndFavouriteButtons } from './likeAndFavouritesButtons/likeAndFavouriteButtons';
 
 interface RecipeCardProps {
     recipe: IRecipeAllRecipes;
@@ -53,11 +54,14 @@ export const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }) => {
             <img className={styles.recipeImg} src={imageSrc} alt="Recipe" />
             <p className={styles.userLogin}>{"@"+ login}</p>
             <span className={styles.recipeInfo}>
+                <div className={styles.recipeHeader}>
                 <span className={styles.recipeTags}>
                     {recipe.tags.map(tag => (
                         <p key={tag.name} className={styles.recipeTag}>{tag.name}</p>
                     ))}
                 </span>
+                <LikeAndFavouriteButtons recipeId={recipe.id}/>
+                </div>
                 <span className={styles.recipeNameInfo}>
                     <h3 className={styles.recipeName}>{recipe.name}</h3>
                     <p className={styles.recipeDescription}>{recipe.description}</p>

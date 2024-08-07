@@ -76,7 +76,8 @@ export const UserPage = () => {
                     onUserUpdated={setUser}
                 />
             )}
-            <UserRecipesHeader recipesCount={Number(user?.recipesCount)}/>
+            <UserRecipesHeader recipesCount={Number(user?.recipesCount)} favouritesCount={Number(user?.favouritesCount)} 
+            likesCount={Number(user?.likesCount)}/>
             {userId && <RecipesList />}
         </div>
     );

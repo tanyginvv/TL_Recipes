@@ -14,7 +14,7 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/likes" )]
     public class LikeController : ControllerBase
     {
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpPost( "{userId}/{recipeId}" )]
         public async Task<IActionResult> CreateLike(
             [FromRoute] int userId,
@@ -37,7 +37,7 @@ namespace Recipes.WebApi.Controllers
             return Ok();
         }
 
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpDelete( "{userId}/{recipeId}" )]
         public async Task<IActionResult> DeleteLike(
             [FromRoute] int userId,

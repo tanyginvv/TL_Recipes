@@ -7,5 +7,7 @@
         public string Description { get; init; }
         public string Login { get; init; }
         public int RecipesCount { get; init; }
+        public int FavouritesCount { get; set; }
+        public int LikesCount { get; set; }
     }
 }

@@ -29,7 +29,9 @@ namespace Application.Users.Queries.GetUserById
                 Name = user.Name,
                 Login = user.Login,
                 Description = user.Description,
-                RecipesCount = user.Recipes.Count()
+                RecipesCount = user.Recipes.Count(),
+                FavouritesCount = user.Favourites.Count(),
+                LikesCount = user.Likes.Count(),
             };
 
             return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );

@@ -76,7 +76,9 @@ export interface IUser {
     name: string,
     description: string,
     login: string,
-    recipesCount: number
+    recipesCount: number,
+    favouritesCount: number,
+    likesCount: number
 }
 
 export interface ILogin {
@@ -96,4 +98,16 @@ export interface IUserUpdate {
 export interface IError {
     status?: number;
     errorMessage?: unknown
+}
+
+export interface ILikeBool {
+    value: {
+        isLiked: boolean
+    } 
+}
+
+export interface IFavouriteBool {
+    value: {
+        isFavourite: boolean
+    } 
 }

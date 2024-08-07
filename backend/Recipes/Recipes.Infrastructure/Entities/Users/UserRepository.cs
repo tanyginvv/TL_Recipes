@@ -30,6 +30,8 @@ namespace Recipes.Infrastructure.Entities.Users
         {
             return await _context.Set<User>()
                 .Include( u => u.Recipes )
+                .Include( u => u.Favourites )
+                .Include( u => u.Likes )
                 .FirstOrDefaultAsync( u => u.Id == id );
         }
 

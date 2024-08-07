@@ -41,7 +41,7 @@ namespace Recipes.Infrastructure.Entities.Favourites
                 .CountAsync();
         }
 
-        public async Task<Favourite> GetFavouriteByAttributes( int userId, int recipeId )
+        public async Task<Favourite> GetFavouriteByAttributes( int recipeId, int userId )
         {
             return await _dbSet
                 .Where( r => r.RecipeId == recipeId && r.UserId == userId )

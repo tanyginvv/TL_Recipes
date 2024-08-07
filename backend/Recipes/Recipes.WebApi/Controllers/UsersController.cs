@@ -56,7 +56,9 @@ namespace Recipes.WebApi.Controllers
                 Login = user.Login,
                 Name = user.Name,
                 Description = user.Description,
-                RecipesCount = user.RecipesCount
+                RecipesCount = user.RecipesCount,
+                LikesCount = user.LikesCount,
+                FavouritesCount = user.FavouritesCount
             };
 
             return Ok( userDto );
@@ -110,7 +112,7 @@ namespace Recipes.WebApi.Controllers
             return NoContent();
         }
 
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpGet( "{userId}/recipes" )]
         public async Task<IActionResult> GetRecipes(
             [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,

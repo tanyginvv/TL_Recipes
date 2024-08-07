@@ -13,7 +13,7 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/favourites" )]
     public class FavouriteController : ControllerBase
     {
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpPost( "{userId}/{recipeId}" )]
         public async Task<IActionResult> CreateFavourite(
             [FromRoute] int userId,
@@ -36,7 +36,7 @@ namespace Recipes.WebApi.Controllers
             return Ok();
         }
 
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpDelete( "{userId}/{recipeId}" )]
         public async Task<IActionResult> DeleteFavourite(
             [FromRoute] int userId,
@@ -76,7 +76,6 @@ namespace Recipes.WebApi.Controllers
             }
             return Ok( new { Count = count.Value } );
         }
-
 
         [HttpGet( "{userId}/{recipeId}" )]
         public async Task<IActionResult> GetFavouriteBool(

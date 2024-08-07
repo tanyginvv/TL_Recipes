@@ -7,6 +7,8 @@
         public string Login { get; set; }
         public string PasswordHash { get; set; }
         public IReadOnlyList<Recipe> Recipes { get; set; }
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<Favourite> Favourites { get; set; }
         public UserAuthorizationToken AuthorizationToken { get; set; }
 
         public User( string name, string login, string passwordHash, string description )

@@ -14,6 +14,8 @@ using Infrastructure.Entities.UserAuthorizationTokens;
 using Infrastructure.ConfigurationUtils.Token;
 using Recipes.Application.Tokens;
 using Recipes.Application.PasswordHasher;
+using Recipes.Infrastructure.Entities.Likes;
+using Recipes.Infrastructure.Entities.Favourites;
 
 namespace Recipes.Infrastructure
 {
@@ -35,6 +37,8 @@ namespace Recipes.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationRepository>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<IFavouriteRepository, FavouriteRepository>();
 
             return services;
         }

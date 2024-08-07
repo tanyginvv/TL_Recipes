@@ -10,6 +10,9 @@
         public int PortionCount { get; set; }
         public string ImageUrl { get; set; }
 
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<Favourite> Favourites { get; set; }
+
         public ICollection<Tag> Tags { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
         public ICollection<Step> Steps { get; set; }

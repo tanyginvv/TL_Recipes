@@ -1,5 +1,4 @@
 ﻿using Recipes.Application.CQRSInterfaces;
-using Recipes.Application.PasswordHasher;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Dto;
@@ -11,8 +10,7 @@ namespace Application.Users.Queries.GetUserById
 {
     public class GetUserByIdQueryHandler(
         IUserRepository userRepository,
-        IAsyncValidator<GetUserByIdQuery> validator,
-        IPasswordHasher passwordHasher )
+        IAsyncValidator<GetUserByIdQuery> validator )
         : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
     {
         public async Task<Result<GetUserByIdQueryDto>> HandleAsync( GetUserByIdQuery getUserByIdQuery )

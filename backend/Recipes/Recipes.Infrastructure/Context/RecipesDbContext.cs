@@ -1,7 +1,9 @@
 ﻿using Infrastructure.Entities.UserAuthorizationTokens;
 using Microsoft.EntityFrameworkCore;
 using Recipes.Domain.Entities;
+using Recipes.Infrastructure.Entities.Favourites;
 using Recipes.Infrastructure.Entities.Ingredients;
+using Recipes.Infrastructure.Entities.Likes;
 using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Entities.Steps;
 using Recipes.Infrastructure.Entities.Tags;
@@ -21,6 +23,8 @@ namespace Recipes.Infrastructure.Context
         public DbSet<Step> Steps { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserAuthorizationToken> UserAuthorizationTokens { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
 
         protected override void OnModelCreating( ModelBuilder modelBuilder )
         {
@@ -42,6 +46,8 @@ namespace Recipes.Infrastructure.Context
 
             modelBuilder.ApplyConfiguration( new UserConfiguration() );
             modelBuilder.ApplyConfiguration( new UserAuthorizationTokenConfiguration() );
+            modelBuilder.ApplyConfiguration( new LikeConfiguration() );
+            modelBuilder.ApplyConfiguration( new FavouriteConfiguration() );
         }
     }
 }

@@ -38,6 +38,16 @@ namespace Recipes.Infrastructure.Entities.Users
                 .WithOne( ua => ua.User )
                 .HasForeignKey<UserAuthorizationToken>( ua => ua.UserId )
                 .IsRequired();
+
+            builder.HasMany( u => u.Likes )
+                .WithOne( ua => ua.User )
+                .HasForeignKey( ua => ua.UserId )
+                .OnDelete( DeleteBehavior.Restrict );
+
+            builder.HasMany( u => u.Favourites )
+                .WithOne( ua => ua.User )
+                .HasForeignKey( ua => ua.UserId )
+                .OnDelete( DeleteBehavior.Restrict );
         }
     }
 }

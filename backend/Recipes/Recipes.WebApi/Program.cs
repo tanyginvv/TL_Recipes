@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
 using Recipes.Application;
+using Recipes.Application.Tokens;
 using Recipes.Infrastructure;
 using Recipes.WebApi;
 
-var builder = WebApplication.CreateBuilder( args );
+WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
-IConfiguration configuration = new ConfigurationBuilder()
-              .AddJsonFile( "appsettings.json" )
-              .AddJsonFile( $"appsettings.{builder.Environment.EnvironmentName}.json" )
-              .Build();
+string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "Development";
+builder.Configuration
+       .AddJsonFile( "appsettings.json" )
+       .AddJsonFile( $"appsettings.{environmentName}.json", optional: true )
+       .Build();
 
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
@@ -18,14 +20,16 @@ builder.Services.AddControllers();
 builder.Services.AddCors( options =>
 {
     options.AddPolicy( "AllowSpecificOrigin",
-        builder => builder.WithOrigins( "http://localhost:5173" )
+        builder => builder.WithOrigins( "http://localhost:5173")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials() );
 } );
 
+ITokenConfiguration tokenConfiguration = builder.Services.BuildServiceProvider().GetRequiredService<ITokenConfiguration>();
+
 // Ensure API authentication uses the TokenConfiguration
-builder.Services.AddApiAuthentication();
+builder.Services.AddApiAuthentication( tokenConfiguration );
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

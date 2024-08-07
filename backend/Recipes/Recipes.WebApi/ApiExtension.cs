@@ -7,15 +7,11 @@ namespace Recipes.WebApi
 {
     public static class ApiExtensions
     {
-        public static void AddApiAuthentication(
-        this IServiceCollection services )
+        public static void AddApiAuthentication( this IServiceCollection services, ITokenConfiguration tokenConfiguration )
         {
             services.AddAuthentication( JwtBearerDefaults.AuthenticationScheme )
                 .AddJwtBearer( JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    var serviceProvider = services.BuildServiceProvider();
-                    var tokenConfiguration = serviceProvider.GetRequiredService<ITokenConfiguration>();
-
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = false,

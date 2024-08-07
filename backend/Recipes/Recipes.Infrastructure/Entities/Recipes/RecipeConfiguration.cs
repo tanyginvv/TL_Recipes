@@ -42,6 +42,17 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .WithOne( s => s.Recipe )
                 .HasForeignKey( s => s.RecipeId )
                 .OnDelete( DeleteBehavior.Cascade );
+
+            builder.HasMany( r => r.Likes )
+                .WithOne( l => l.Recipe )
+                .HasForeignKey( l => l.RecipeId )
+                .OnDelete( DeleteBehavior.Restrict );
+
+            builder.HasMany( r => r.Favourites )
+                .WithOne( f => f.Recipe )
+                .HasForeignKey( f => f.RecipeId )
+                .OnDelete( DeleteBehavior.Restrict );
+
         }
     }
 }

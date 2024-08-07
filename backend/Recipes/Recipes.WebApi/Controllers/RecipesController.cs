@@ -20,7 +20,7 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/recipes" )]
     public class RecipesController : ControllerBase
     {
-        [JwtAuthorization]
+        //[JwtAuthorization]
         [HttpPost]
         public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
             [FromBody] RecipeCreateDto dto,

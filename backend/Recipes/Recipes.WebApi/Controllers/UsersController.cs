@@ -135,5 +135,32 @@ namespace Recipes.WebApi.Controllers
 
             return Ok( result.Value );
         }
+
+        //[JwtAuthorization]
+        [HttpGet( "{userId}/favourites" )]
+        public async Task<IActionResult> GetFavouriteRecipes(
+           [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+           [FromRoute] int userId = 0,
+           [FromQuery] int pageNumber = 1,
+           [FromQuery] List<string> searchTerms = null )
+        {
+            bool isFavourite = true;
+
+            GetRecipesQuery query = new GetRecipesQuery
+            {
+                UserId = userId,
+                PageNumber = pageNumber,
+                SearchTerms = searchTerms,
+                IsFavourite = isFavourite
+            };
+
+            Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+            if ( !result.IsSuccess )
+            {
+                return BadRequest( result.Error );
+            }
+
+            return Ok( result.Value );
+        }
     }
 }

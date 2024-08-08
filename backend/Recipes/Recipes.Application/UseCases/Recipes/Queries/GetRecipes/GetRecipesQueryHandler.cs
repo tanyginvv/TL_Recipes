@@ -26,7 +26,7 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes
             List<IFilter<Recipe>> filters = new List<IFilter<Recipe>>
             {
                 new SearchFilter { SearchTerms = query.SearchTerms },
-                new UserFilter { UserId = query.UserId },
+                new UserFilter { UserId = query.UserId, IsFavourite = query.IsFavourite },
                 new PaginationFilter { PageNumber = query.PageNumber, PageSize = 4 },
             };
 

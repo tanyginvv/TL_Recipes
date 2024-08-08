@@ -63,12 +63,14 @@ export const Header = () => {
                     </Link>
                     <Link to='/allRecipesPage'>
                         <button 
-                            className={location.pathname !== '/homePage' ? styles.menuButtonBold : styles.menuButton}
+                            className={(location.pathname !== '/homePage' && !location.pathname.includes('/favourites'))
+                                 ? styles.menuButtonBold : styles.menuButton}
                         >
                             Рецепты
                         </button>
                     </Link>
-                    <button className={styles.menuButton}>Избранное</button>
+                    <button  className={location.pathname.includes('/favourites') ? styles.menuButtonBold : styles.menuButton}
+                     onClick={()=> !userId ? setAuthorizationWindowOpen(true) : navigate(`/favourites/${userId}`)}>Избранное</button>
                 </div>
             </div>
             <div className={styles.headerLoginInfo}>

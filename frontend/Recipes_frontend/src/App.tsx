@@ -11,6 +11,7 @@ import { AuthOrRegistrWindow } from './components/authOrRegistWindow/authOrRegis
 import { RegistrationWindow } from './components/registrationWindow/registrationWindow'
 import useStore from './store/store'
 import { UserPage } from './components/userPage/userPage'
+import { FavouritesPage } from './components/favouritesPage/favouritesPage'
 function App() {
   const {
     isRegistrationWindowOpen,
@@ -30,6 +31,7 @@ function App() {
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
             <Route path='/homePage' element={<HomePage/>}/>
             <Route path="*" element={<Navigate to="/homePage" replace/>}/>
+            <Route path='/favourites/:id' element={<FavouritesPage/>}/>
           </Routes>
         <Footer/>
           {isRegistrationWindowOpen && <RegistrationWindow />}

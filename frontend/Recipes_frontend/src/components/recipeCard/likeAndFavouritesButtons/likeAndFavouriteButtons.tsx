@@ -17,7 +17,7 @@ export const LikeAndFavouriteButtons: React.FC<ButtonsProps> = ({ recipeId }) =>
     const [isFavourite, setIsFavourite] = useState<boolean>(false);
     const [likesCount, setLikesCount] = useState<number>(0);
     const [favouritesCount, setFavouritesCount] = useState<number>(0);
-    const { userId } = useStore();
+    const { userId, setAuthOrRegistrWindowOpen } = useStore();
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -30,19 +30,32 @@ export const LikeAndFavouriteButtons: React.FC<ButtonsProps> = ({ recipeId }) =>
 
                 const favouriteStatus = await favouriteService.getFavouriteStatus(Number(userId), recipeId);
                 setIsFavourite(favouriteStatus.value.isFavourite);
-
-                const likeCount = await likeService.getLikesCount(recipeId);
-                setLikesCount(likeCount);
-
-                const favouriteCount = await favouriteService.getFavouritesCount(recipeId);
-                setFavouritesCount(favouriteCount);
             } catch (error) {
                 console.error('Error fetching initial data:', error);
             }
         };
 
+        const fetchInitialCountData = async () =>{
+            try{
+                const likeService = new LikeService();
+                const favouriteService = new FavouriteService();
+                const likeCount = await likeService.getLikesCount(recipeId);
+                setLikesCount(likeCount);
+
+                const favouriteCount = await favouriteService.getFavouritesCount(recipeId);
+                setFavouritesCount(favouriteCount);
+
+            }catch(error) {
+                console.error('Error fetching initial data:', error);
+            }
+        }
+
         if( recipeId && userId){
             fetchInitialData();
+        }
+
+        if( recipeId ){
+            fetchInitialCountData();
         }
         
     }, [recipeId, userId]);
@@ -51,15 +64,19 @@ export const LikeAndFavouriteButtons: React.FC<ButtonsProps> = ({ recipeId }) =>
     const handleLikeClick = async (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation(); 
         try {
-            const likeService = new LikeService();
-            if (isLiked) {
-                await likeService.deleteLike(recipeId, Number(userId));
-                setLikesCount(likesCount - 1);
+            if( userId ) {
+                const likeService = new LikeService();
+                if (isLiked) {
+                    await likeService.deleteLike(recipeId, Number(userId));
+                    setLikesCount(likesCount - 1);
+                } else {
+                    await likeService.createLike(recipeId, Number(userId));
+                    setLikesCount(likesCount + 1);
+                }
+                setIsLiked(!isLiked);
             } else {
-                await likeService.createLike(recipeId, Number(userId));
-                setLikesCount(likesCount + 1);
+                setAuthOrRegistrWindowOpen(true)
             }
-            setIsLiked(!isLiked);
         } catch (error) {
             console.error('Error handling like click:', error);
         }
@@ -68,22 +85,26 @@ export const LikeAndFavouriteButtons: React.FC<ButtonsProps> = ({ recipeId }) =>
     const handleFavouriteClick = async (event: MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation(); 
         try {
-            const favouriteService = new FavouriteService();
-            if (isFavourite) {
-                await favouriteService.deleteFavourite(recipeId, Number(userId));
-                setFavouritesCount(favouritesCount - 1);
-            } else {
-                await favouriteService.createFavourite(recipeId, Number(userId));
-                setFavouritesCount(favouritesCount + 1);
+            if( userId ){
+                const favouriteService = new FavouriteService();
+                if (isFavourite) {
+                    await favouriteService.deleteFavourite(recipeId, Number(userId));
+                    setFavouritesCount(favouritesCount - 1);
+                } else {
+                    await favouriteService.createFavourite(recipeId, Number(userId));
+                    setFavouritesCount(favouritesCount + 1);
+                }
+                setIsFavourite(!isFavourite);
+            }else {
+                setAuthOrRegistrWindowOpen(true)
             }
-            setIsFavourite(!isFavourite);
         } catch (error) {
             console.error('Error handling favourite click:', error);
         }
     };
 
     return (
-        <div className={styles.buttonsContainer}>
+        <div className={styles.buttonsContainer} >
             <button className={styles.button} onClick={handleFavouriteClick}>
                 <img
                     className={styles.btnIcon}

@@ -32,6 +32,7 @@ namespace Recipes.Infrastructure.Entities.Recipes
             return await _dbSet
                .ApplyFilters( filters )
                .Include( r => r.Tags )
+               .Include( r => r.Favourites )
                .ToListAsync();
         }
 

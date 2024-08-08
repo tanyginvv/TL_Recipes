@@ -116,4 +116,32 @@ export class UserService {
             throw error;
         }
     }
+
+    async fetchUserFavouriteRecipes(userId: number, pageNumber: number = 1, searchTerms: string[] = []): Promise<IRecipeAllRecipes[]> {
+        try {
+            const token = await CheckToken();
+
+            const headers: HeadersInit = {
+                'Access-Token': `${token}`,
+                'Content-Type': 'application/json',
+            };
+            const query = new URLSearchParams();
+            query.append('pageNumber', pageNumber.toString());
+            searchTerms.forEach(term => query.append('searchTerms', term));
+
+            const response = await fetch(`${this.apiUrl}/users/${userId}/favourites?${query.toString()}`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching user recipes:', error);
+            return [];
+        }
+    }
 }

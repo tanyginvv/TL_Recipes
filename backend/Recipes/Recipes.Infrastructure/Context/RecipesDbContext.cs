@@ -7,12 +7,8 @@ using Recipes.Infrastructure.Entities.Tags;
 
 namespace Recipes.Infrastructure.Context
 {
-    public class RecipesDbContext : DbContext
+    public class RecipesDbContext( DbContextOptions<RecipesDbContext> options ) : DbContext( options )
     {
-        public RecipesDbContext( DbContextOptions<RecipesDbContext> options )
-           : base( options )
-        { }
-
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Tag> Tags { get; set; }

@@ -6,7 +6,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 {
-    public class UpdateTagsCommandValidator( IRecipeRepository recipeRepository )
+    public class UpdateTagsCommandValidator( 
+        IRecipeRepository recipeRepository )
         : IAsyncValidator<UpdateTagsCommand>
     {
         public async Task<Result> ValidateAsync( UpdateTagsCommand command )

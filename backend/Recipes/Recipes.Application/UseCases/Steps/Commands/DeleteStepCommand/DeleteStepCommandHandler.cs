@@ -7,8 +7,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class DeleteStepCommandHandler(
-            IStepRepository stepRepository,
-            IAsyncValidator<DeleteStepCommand> validator )
+        IStepRepository stepRepository,
+        IAsyncValidator<DeleteStepCommand> validator )
         : ICommandHandler<DeleteStepCommand>
     {
         public async Task<Result> HandleAsync( DeleteStepCommand command )

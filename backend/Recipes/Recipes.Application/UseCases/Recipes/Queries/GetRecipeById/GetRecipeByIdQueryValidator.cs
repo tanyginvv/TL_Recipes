@@ -3,20 +3,25 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.Validation;
 
-public class GetRecipeByIdQueryValidator( IRecipeRepository repository ) : IAsyncValidator<GetRecipeByIdQuery>
+namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById
 {
-    public async Task<Result> ValidateAsync( GetRecipeByIdQuery query )
+    public class GetRecipeByIdQueryValidator(
+        IRecipeRepository repository )
+        : IAsyncValidator<GetRecipeByIdQuery>
     {
-        if ( query.Id <= 0 )
+        public async Task<Result> ValidateAsync( GetRecipeByIdQuery query )
         {
-            return Result.FromError( "Id рецепта меньше нуля" );
-        }
+            if ( query.Id <= 0 )
+            {
+                return Result.FromError( "Id рецепта меньше нуля" );
+            }
 
-        if ( await repository.GetByIdAsync( query.Id ) is null )
-        {
-            return Result.FromError( "Рецепта с этим Id не существует" );
-        }
+            if ( await repository.GetByIdAsync( query.Id ) is null )
+            {
+                return Result.FromError( "Рецепта с этим Id не существует" );
+            }
 
-        return Result.Success;
+            return Result.Success;
+        }
     }
 }

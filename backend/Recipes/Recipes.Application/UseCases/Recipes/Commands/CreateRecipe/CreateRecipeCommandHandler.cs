@@ -13,12 +13,12 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
 {
     public class CreateRecipeCommandHandler(
-            IRecipeRepository recipeRepository,
-            IAsyncValidator<CreateRecipeCommand> validator,
-            ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
-            ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
-            ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
-            IUnitOfWork unitOfWork )
+        IRecipeRepository recipeRepository,
+        IAsyncValidator<CreateRecipeCommand> validator,
+        ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
+        ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
+        ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
+        IUnitOfWork unitOfWork )
         : ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto>
     {
         public async Task<Result<RecipeIdDto>> HandleAsync( CreateRecipeCommand createRecipeCommand )
@@ -35,8 +35,6 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe
                 createRecipeCommand.CookTime,
                 createRecipeCommand.PortionCount,
                 createRecipeCommand.ImageUrl );
-
-            await recipeRepository.AddAsync( recipe );
 
             foreach ( TagDto tagDto in createRecipeCommand.Tags )
             {

@@ -8,8 +8,8 @@ using Mapster;
 namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag
 {
     public class GetOrCreateTagCommandHandler(
-            ITagRepository tagRepository,
-            IAsyncValidator<GetOrCreateTagCommand> validator )
+        ITagRepository tagRepository,
+        IAsyncValidator<GetOrCreateTagCommand> validator )
         : ICommandHandlerWithResult<GetOrCreateTagCommand, Tag>
     {
         public async Task<Result<Tag>> HandleAsync( GetOrCreateTagCommand createTagCommand )

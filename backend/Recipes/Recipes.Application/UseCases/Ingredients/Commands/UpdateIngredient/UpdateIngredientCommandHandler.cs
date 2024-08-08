@@ -7,8 +7,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient
 {
     public class UpdateIngredientCommandHandler(
-           IIngredientRepository ingredientRepository,
-           IAsyncValidator<UpdateIngredientCommand> validator )
+        IIngredientRepository ingredientRepository,
+        IAsyncValidator<UpdateIngredientCommand> validator )
         : ICommandHandler<UpdateIngredientCommand>
     {
         public async Task<Result> HandleAsync( UpdateIngredientCommand updateIngredientCommand )

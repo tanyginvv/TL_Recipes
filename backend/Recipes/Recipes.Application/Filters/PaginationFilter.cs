@@ -17,5 +17,4 @@ namespace Recipes.Application.Filters
             return query;
         }
     }
-
 }

@@ -7,8 +7,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Steps.Commands
 {
     public class CreateStepCommandHandler(
-            IStepRepository stepRepository,
-            IAsyncValidator<CreateStepCommand> validator )
+        IStepRepository stepRepository,
+        IAsyncValidator<CreateStepCommand> validator )
         : ICommandHandlerWithResult<CreateStepCommand, Step>
     {
         public async Task<Result<Step>> HandleAsync( CreateStepCommand command )

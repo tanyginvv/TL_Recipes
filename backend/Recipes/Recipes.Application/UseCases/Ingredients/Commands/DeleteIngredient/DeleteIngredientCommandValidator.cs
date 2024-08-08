@@ -5,7 +5,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
 {
-    public class DeleteIngredientCommandValidator( IIngredientRepository ingredientRepository )
+    public class DeleteIngredientCommandValidator(
+        IIngredientRepository ingredientRepository )
         : IAsyncValidator<DeleteIngredientCommand>
     {
         public async Task<Result> ValidateAsync( DeleteIngredientCommand command )

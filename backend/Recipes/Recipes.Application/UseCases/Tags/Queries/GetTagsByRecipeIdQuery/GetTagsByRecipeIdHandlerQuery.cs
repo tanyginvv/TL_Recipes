@@ -8,8 +8,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
 {
     public class GetTagsByRecipeIdQueryHandler(
-            ITagRepository tagRepository,
-            IAsyncValidator<GetTagsByRecipeIdQuery> validator )
+        ITagRepository tagRepository,
+        IAsyncValidator<GetTagsByRecipeIdQuery> validator )
         : IQueryHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>
     {
         public async Task<Result<GetTagsByRecipeIdQueryDto>> HandleAsync( GetTagsByRecipeIdQuery query )

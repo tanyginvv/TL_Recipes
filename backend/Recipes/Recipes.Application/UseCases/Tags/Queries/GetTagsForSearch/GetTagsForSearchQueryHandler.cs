@@ -8,7 +8,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch
 {
-    public class GetTagsForSearchQueryHandler( ITagRepository tagRepository,
+    public class GetTagsForSearchQueryHandler( 
+        ITagRepository tagRepository,
         IAsyncValidator<GetTagsForSearchQuery> validator )
         : IQueryHandler<IReadOnlyList<TagDto>, GetTagsForSearchQuery>
     {

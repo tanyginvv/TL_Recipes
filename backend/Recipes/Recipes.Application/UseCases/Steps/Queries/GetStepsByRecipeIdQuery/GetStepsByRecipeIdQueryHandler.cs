@@ -8,8 +8,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
 {
     public class GetStepsByRecipeIdQueryHandler(
-            IStepRepository stepRepository,
-            IAsyncValidator<GetStepsByRecipeIdQuery> validator )
+        IStepRepository stepRepository,
+        IAsyncValidator<GetStepsByRecipeIdQuery> validator )
         : IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>
     {
         public async Task<Result<GetStepsByRecipeIdQueryDto>> HandleAsync( GetStepsByRecipeIdQuery query )

@@ -8,10 +8,10 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags
 {
     public class UpdateTagsCommandHandler(
-            IRecipeRepository recipeRepository,
-            ITagRepository tagRepository,
-            ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
-            IAsyncValidator<UpdateTagsCommand> validator )
+        IRecipeRepository recipeRepository,
+        ITagRepository tagRepository,
+        ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
+        IAsyncValidator<UpdateTagsCommand> validator )
         : ICommandHandler<UpdateTagsCommand>
     {
         public async Task<Result> HandleAsync( UpdateTagsCommand command )

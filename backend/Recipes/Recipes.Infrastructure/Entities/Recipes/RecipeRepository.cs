@@ -7,17 +7,8 @@ using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Recipes
 {
-    public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
+    public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recipe>(context), IRecipeRepository
     {
-        public RecipeRepository( RecipesDbContext context ) : base( context )
-        {
-        }
-
-        public async Task AddAsync( Recipe recipe )
-        {
-            await base.AddAsync( recipe );
-        }
-
         public async Task Delete( Recipe recipe )
         {
             Recipe rec = await GetByIdAsync( recipe.Id );

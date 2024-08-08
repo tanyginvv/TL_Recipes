@@ -5,7 +5,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands
 {
-    public class UpdateStepCommandValidator( IStepRepository stepRepository )
+    public class UpdateStepCommandValidator(
+        IStepRepository stepRepository )
         : IAsyncValidator<UpdateStepCommand>
     {
         public async Task<Result> ValidateAsync( UpdateStepCommand command )

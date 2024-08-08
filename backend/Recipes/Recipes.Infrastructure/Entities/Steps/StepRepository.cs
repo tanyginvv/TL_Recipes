@@ -5,17 +5,8 @@ using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Steps
 {
-    public class StepRepository : BaseRepository<Step>, IStepRepository
+    public class StepRepository( RecipesDbContext context ) : BaseRepository<Step>(context), IStepRepository
     {
-        public StepRepository( RecipesDbContext context ) : base( context )
-        {
-        }
-
-        public override async Task AddAsync( Step step )
-        {
-            await base.AddAsync( step );
-        }
-
         public async Task Delete( Step step )
         {
             Step st = await GetByIdAsync( step.Id );

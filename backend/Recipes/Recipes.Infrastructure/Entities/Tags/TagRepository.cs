@@ -5,12 +5,8 @@ using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Tags
 {
-    public class TagRepository : BaseRepository<Tag>, ITagRepository
+    public class TagRepository( RecipesDbContext context ) : BaseRepository<Tag>(context), ITagRepository
     {
-        public TagRepository( RecipesDbContext context ) : base( context )
-        {
-        }
-
         public async Task<IReadOnlyList<Tag>> GetByRecipeIdAsync( int recipeId )
         {
             return await _dbSet
@@ -20,19 +16,15 @@ namespace Recipes.Infrastructure.Entities.Tags
 
         public async Task<IReadOnlyList<Tag>> GetTagsForSearchAsync( int count )
         {
-            List<Tag> allTags = await _dbSet.ToListAsync();
-            List<Tag> randomTags = allTags.OrderBy( _ => Guid.NewGuid() ).Take( count ).ToList();
-            return randomTags;
+            return await _dbSet
+                .OrderBy( _ => Guid.NewGuid() )
+                .Take( count )
+                .ToListAsync();
         }
 
         public async Task<Tag> GetByNameAsync( string name )
         {
             return await _dbSet.FirstOrDefaultAsync( t => t.Name == name );
-        }
-
-        public override async Task AddAsync( Tag tag )
-        {
-            await base.AddAsync( tag );
         }
     }
 }

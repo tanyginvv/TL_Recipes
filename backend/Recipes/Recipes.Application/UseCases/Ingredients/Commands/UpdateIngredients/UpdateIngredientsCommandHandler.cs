@@ -15,7 +15,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients
         ICommandHandler<DeleteIngredientCommand> deleteIngredientCommandHandler,
         ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
         IAsyncValidator<UpdateIngredientsCommand> validator )
-    : ICommandHandler<UpdateIngredientsCommand>
+        : ICommandHandler<UpdateIngredientsCommand>
     {
         public async Task<Result> HandleAsync( UpdateIngredientsCommand command )
         {

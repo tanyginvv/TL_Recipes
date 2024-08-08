@@ -7,8 +7,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient
 {
     public class DeleteIngredientCommandHandler(
-            IIngredientRepository ingredientRepository,
-            IAsyncValidator<DeleteIngredientCommand> validator )
+        IIngredientRepository ingredientRepository,
+        IAsyncValidator<DeleteIngredientCommand> validator )
         : ICommandHandler<DeleteIngredientCommand>
     {
         public async Task<Result> HandleAsync( DeleteIngredientCommand command )

@@ -5,17 +5,8 @@ using Recipes.Infrastructure.Context;
 
 namespace Recipes.Infrastructure.Entities.Ingredients
 {
-    public class IngredientRepository : BaseRepository<Ingredient>, IIngredientRepository
+    public class IngredientRepository( RecipesDbContext context ) : BaseRepository<Ingredient>(context), IIngredientRepository
     {
-        public IngredientRepository( RecipesDbContext context ) : base( context )
-        {
-        }
-
-        public override async Task AddAsync( Ingredient ingredient )
-        {
-            await base.AddAsync( ingredient );
-        }
-
         public async Task Delete( Ingredient ingredient )
         {
             Ingredient ingred = await GetByIdAsync( ingredient.Id );

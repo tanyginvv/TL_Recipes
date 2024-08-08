@@ -7,8 +7,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient
 {
     public class CreateIngredientCommandHandler(
-            IIngredientRepository ingredientRepository,
-            IAsyncValidator<CreateIngredientCommand> validator )
+        IIngredientRepository ingredientRepository,
+        IAsyncValidator<CreateIngredientCommand> validator )
         : ICommandHandlerWithResult<CreateIngredientCommand, Ingredient>
     {
         public async Task<Result<Ingredient>> HandleAsync( CreateIngredientCommand createIngredientCommand )

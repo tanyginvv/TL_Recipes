@@ -12,15 +12,16 @@ namespace Recipes.Infrastructure.Filters
         {
             if ( SearchTerm is not null && SearchTerm.Any() )
             {
-                var normalizedSearchTerms = SearchTerm.Select( term => term.ToLower() ).ToList();
-                query = query.Include( r => r.Tags )
-                             .Where( r =>
-                                 normalizedSearchTerms.Any( term =>
-                                     r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
-                                     r.Name.ToLower().Contains( term ) ||
-                                     r.Description.ToLower().Contains( term )
-                                 )
-                             );
+                List<string> normalizedSearchTerms = SearchTerm.Select( term => term.ToLower() ).ToList();
+                query = query
+                    .Include( r => r.Tags )
+                    .Where( r =>
+                        normalizedSearchTerms.Any( term =>
+                            r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
+                            r.Name.ToLower().Contains( term ) ||
+                            r.Description.ToLower().Contains( term )
+                        )
+                    );
             }
 
             return query;

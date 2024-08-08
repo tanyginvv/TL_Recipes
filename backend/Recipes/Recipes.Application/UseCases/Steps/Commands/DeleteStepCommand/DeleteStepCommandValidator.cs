@@ -5,7 +5,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands
 {
-    public class DeleteStepCommandValidator( IStepRepository stepRepository )
+    public class DeleteStepCommandValidator( 
+        IStepRepository stepRepository )
         : IAsyncValidator<DeleteStepCommand>
     {
         public async Task<Result> ValidateAsync( DeleteStepCommand command )

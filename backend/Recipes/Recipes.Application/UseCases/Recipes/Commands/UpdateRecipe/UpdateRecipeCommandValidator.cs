@@ -7,7 +7,6 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
     public class UpdateRecipeCommandValidator
         : IAsyncValidator<UpdateRecipeCommand>
     {
-
         public async Task<Result> ValidateAsync( UpdateRecipeCommand command )
         {
             if ( string.IsNullOrEmpty( command.Name ) )

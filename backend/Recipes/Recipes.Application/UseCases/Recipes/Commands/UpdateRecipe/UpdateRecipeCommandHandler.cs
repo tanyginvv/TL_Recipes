@@ -11,13 +11,13 @@ using Recipes.Application.UseCases.Steps.Commands;
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 {
     public class UpdateRecipeCommandHandler(
-            IRecipeRepository recipeRepository,
-    IAsyncValidator<UpdateRecipeCommand> validator,
-            IUnitOfWork unitOfWork,
-            ICommandHandler<UpdateStepsCommand> updateStepsCommandHandler,
-            ICommandHandler<UpdateIngredientsCommand> updateIngredientsCommandHandler,
-            ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler,
-            IImageTools imageTools )
+        IRecipeRepository recipeRepository,
+        IAsyncValidator<UpdateRecipeCommand> validator,
+        IUnitOfWork unitOfWork,
+        ICommandHandler<UpdateStepsCommand> updateStepsCommandHandler,
+        ICommandHandler<UpdateIngredientsCommand> updateIngredientsCommandHandler,
+        ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler,
+        IImageTools imageTools )
         : ICommandHandler<UpdateRecipeCommand>
     {
         public async Task<Result> HandleAsync( UpdateRecipeCommand updateRecipeCommand )
@@ -69,6 +69,5 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe
 
             return Result.Success;
         }
-
     }
 }

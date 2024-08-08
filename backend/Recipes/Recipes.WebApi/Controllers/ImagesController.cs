@@ -17,7 +17,7 @@ namespace Recipes.WebApi.Controllers
                 return BadRequest( "Изображение не предоставлено" );
             }
 
-            string fileName = await imageHelperTools.SaveRecipeImageAsync( image );
+            string fileName = await imageHelperTools.SaveImageAsync( image );
 
             if ( string.IsNullOrEmpty( fileName ) )
             {

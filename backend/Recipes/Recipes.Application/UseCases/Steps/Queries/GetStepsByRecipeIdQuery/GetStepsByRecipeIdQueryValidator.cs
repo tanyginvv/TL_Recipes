@@ -5,7 +5,8 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
 {
-    public class GetStepsByRecipeIdQueryValidator( IRecipeRepository recipeRepository )
+    public class GetStepsByRecipeIdQueryValidator( 
+        IRecipeRepository recipeRepository )
         : IAsyncValidator<GetStepsByRecipeIdQuery>
     {
         public async Task<Result> ValidateAsync( GetStepsByRecipeIdQuery query )

@@ -4,7 +4,8 @@ using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe
 {
-    public class DeleteRecipeCommandValidator( IRecipeRepository recipeRepository )
+    public class DeleteRecipeCommandValidator(
+        IRecipeRepository recipeRepository )
         : IAsyncValidator<DeleteRecipeCommand>
     {
         public async Task<Result> ValidateAsync( DeleteRecipeCommand command )

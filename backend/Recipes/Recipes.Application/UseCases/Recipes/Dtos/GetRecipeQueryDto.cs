@@ -11,6 +11,5 @@
         public required ICollection<TagDto> Tags { get; init; }
         public required ICollection<StepDto> Steps { get; init; }
         public required ICollection<IngredientDto> Ingredients { get; init; }
-
     }
 }

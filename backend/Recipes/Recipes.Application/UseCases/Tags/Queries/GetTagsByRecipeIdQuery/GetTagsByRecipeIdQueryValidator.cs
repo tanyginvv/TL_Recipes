@@ -3,7 +3,8 @@ using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery
 {
-    public class GetTagsByRecipeIdQueryValidator : IAsyncValidator<GetTagsByRecipeIdQuery>
+    public class GetTagsByRecipeIdQueryValidator 
+        : IAsyncValidator<GetTagsByRecipeIdQuery>
     {
         public async Task<Result> ValidateAsync( GetTagsByRecipeIdQuery query )
         {

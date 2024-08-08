@@ -9,8 +9,8 @@ using Recipes.Domain.Entities;
 namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById
 {
     public class GetRecipeByIdQueryHandler(
-            IRecipeRepository recipeRepository,
-            IAsyncValidator<GetRecipeByIdQuery> validator )
+        IRecipeRepository recipeRepository,
+        IAsyncValidator<GetRecipeByIdQuery> validator )
         : IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>
     {
         public async Task<Result<GetRecipeByIdQueryDto>> HandleAsync( GetRecipeByIdQuery query )

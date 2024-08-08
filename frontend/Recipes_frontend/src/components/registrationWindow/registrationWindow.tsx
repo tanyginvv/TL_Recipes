@@ -85,7 +85,7 @@ export const RegistrationWindow = () => {
             <div className={styles.registrationContainer}>
                 <span className={styles.exitButtonContainer}>
                     <button 
-                        onClick={handleCancel} 
+                        onClick={() => setRegistrationWindowOpen(false)} 
                         className={styles.exitButton}
                     >
                         <img src={exit} alt="Exit" />

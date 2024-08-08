@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.Interfaces
+﻿namespace Recipes.Application.Interfaces;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        Task CommitAsync();
-    }
+    Task CommitAsync();
 }

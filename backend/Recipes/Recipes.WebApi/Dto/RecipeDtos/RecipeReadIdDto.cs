@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recipes.WebApi.Dto.RecipeDtos
+namespace Recipes.WebApi.Dto.RecipeDtos;
+
+public class RecipeReadIdDto
 {
-    public class RecipeReadIdDto
-    {
-        [Required]
-        public int Id { get; init; }
-    }
+    [Required]
+    public int Id { get; init; }
 }

@@ -1,91 +1,90 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Recipes.Application.Interfaces;
 
-namespace Recipes.Infrastructure.ImageTools
+namespace Recipes.Infrastructure.ImageTools;
+
+public class ImageHelperTools : IImageTools
 {
-    public class ImageHelperTools : IImageTools
+    private const string StorageUrl = "../Recipes.Infrastructure/Storage";
+
+    public async Task<string> SaveImageAsync( IFormFile image )
     {
-        private const string StorageUrl = "../Recipes.Infrastructure/store";
-
-        public async Task<string> SaveImageAsync( IFormFile image )
+        if ( image is null )
         {
-            if ( image is null )
-            {
-                return null;
-            }
+            return null;
+        }
 
+        string currentDirectory = Directory.GetCurrentDirectory();
+        string folderPath = Path.Combine( currentDirectory, StorageUrl );
+        string fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
+        string filePath = Path.Combine( folderPath, fileName );
+
+        if ( !Directory.Exists( folderPath ) )
+        {
+            Directory.CreateDirectory( folderPath );
+        }
+
+        if ( image.Length > 0 )
+        {
+            using ( FileStream stream = new FileStream( filePath, FileMode.Create ) )
+            {
+                await image.CopyToAsync( stream );
+            }
+        }
+
+        return fileName;
+    }
+
+    public byte[] GetImage( string imageName )
+    {
+        if ( string.IsNullOrEmpty( imageName ) )
+        {
+            return null;
+        }
+
+        try
+        {
             string currentDirectory = Directory.GetCurrentDirectory();
             string folderPath = Path.Combine( currentDirectory, StorageUrl );
-            string fileName = Guid.NewGuid() + Path.GetExtension( image.FileName );
-            string filePath = Path.Combine( folderPath, fileName );
+            string filePath = Path.Combine( folderPath, imageName );
 
-            if ( !Directory.Exists( folderPath ) )
+            if ( File.Exists( filePath ) )
             {
-                Directory.CreateDirectory( folderPath );
+                return File.ReadAllBytes( filePath );
             }
 
-            if ( image.Length > 0 )
-            {
-                using ( FileStream stream = new FileStream( filePath, FileMode.Create ) )
-                {
-                    await image.CopyToAsync( stream );
-                }
-            }
+            return null;
+        }
+        catch ( Exception )
+        {
+            return null;
+        }
+    }
 
-            return fileName;
+    public bool DeleteImage( string imageName )
+    {
+        if ( string.IsNullOrEmpty( imageName ) )
+        {
+            return false;
         }
 
-        public byte[] GetImage( string imageName )
+        try
         {
-            if ( string.IsNullOrEmpty( imageName ) )
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string folderPath = Path.Combine( currentDirectory, StorageUrl );
+            string filePath = Path.Combine( folderPath, imageName );
+
+            if ( File.Exists( filePath ) )
             {
-                return null;
+                File.Delete( filePath );
+                return true;
             }
 
-            try
-            {
-                string currentDirectory = Directory.GetCurrentDirectory();
-                string folderPath = Path.Combine( currentDirectory, StorageUrl );
-                string filePath = Path.Combine( folderPath, imageName );
-
-                if ( File.Exists( filePath ) )
-                {
-                    return File.ReadAllBytes( filePath );
-                }
-
-                return null;
-            }
-            catch ( Exception )
-            {
-                return null;
-            }
+            return false;
         }
-
-        public bool DeleteImage( string imageName )
+        catch ( Exception )
         {
-            if ( string.IsNullOrEmpty( imageName ) )
-            {
-                return false;
-            }
-
-            try
-            {
-                string currentDirectory = Directory.GetCurrentDirectory();
-                string folderPath = Path.Combine( currentDirectory, StorageUrl );
-                string filePath = Path.Combine( folderPath, imageName );
-
-                if ( File.Exists( filePath ) )
-                {
-                    File.Delete( filePath );
-                    return true;
-                }
-
-                return false;
-            }
-            catch ( Exception )
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

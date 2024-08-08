@@ -4,18 +4,17 @@ using Recipes.Application.UseCases.Steps;
 using Recipes.Application.UseCases.Ingredients;
 using Recipes.Application.UseCases.Recipes;
 
-namespace Recipes.Application
-{
-    public static class ApplicationBindings
-    {
-        public static IServiceCollection AddApplicationBindings( this IServiceCollection services )
-        {
-            services.AddRecipesBindings();
-            services.AddTagsBindings();
-            services.AddStepsBindings();
-            services.AddIngredientsBindings();
+namespace Recipes.Application;
 
-            return services;
-        }
+public static class ApplicationBindings
+{
+    public static IServiceCollection AddApplicationBindings( this IServiceCollection services )
+    {
+        services.AddRecipesBindings();
+        services.AddTagsBindings();
+        services.AddStepsBindings();
+        services.AddIngredientsBindings();
+
+        return services;
     }
 }

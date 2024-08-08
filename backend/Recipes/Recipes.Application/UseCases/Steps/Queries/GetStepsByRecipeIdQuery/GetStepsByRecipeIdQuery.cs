@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery
+﻿namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery;
+
+public class GetStepsByRecipeIdQuery
 {
-    public class GetStepsByRecipeIdQuery
-    {
-        public required int RecipeId { get; init; }
-    }
+    public required int RecipeId { get; init; }
 }

@@ -1,11 +1,10 @@
 ﻿using Recipes.Application.Results;
 
-namespace Recipes.Application.CQRSInterfaces
+namespace Recipes.Application.CQRSInterfaces;
+
+public interface IQueryHandler<TResult, TQuery>
+    where TResult : class
+    where TQuery : class
 {
-    public interface IQueryHandler<TResult, TQuery>
-        where TResult : class
-        where TQuery : class
-    {
-        Task<Result<TResult>> HandleAsync( TQuery query );
-    }
+    Task<Result<TResult>> HandleAsync( TQuery query );
 }

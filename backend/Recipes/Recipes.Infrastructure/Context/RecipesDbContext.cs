@@ -5,32 +5,31 @@ using Recipes.Infrastructure.Entities.Recipes;
 using Recipes.Infrastructure.Entities.Steps;
 using Recipes.Infrastructure.Entities.Tags;
 
-namespace Recipes.Infrastructure.Context
+namespace Recipes.Infrastructure.Context;
+
+public class RecipesDbContext( DbContextOptions<RecipesDbContext> options ) : DbContext( options )
 {
-    public class RecipesDbContext( DbContextOptions<RecipesDbContext> options ) : DbContext( options )
+    public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Step> Steps { get; set; }
+
+    protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Step> Steps { get; set; }
+        base.OnModelCreating( modelBuilder );
 
-        protected override void OnModelCreating( ModelBuilder modelBuilder )
-        {
-            base.OnModelCreating( modelBuilder );
+        modelBuilder.ApplyConfiguration( new RecipeConfiguration() );
+        modelBuilder.ApplyConfiguration( new IngredientConfiguration() );
+        modelBuilder.ApplyConfiguration( new TagConfiguration() );
+        modelBuilder.ApplyConfiguration( new StepConfiguration() );
 
-            modelBuilder.ApplyConfiguration( new RecipeConfiguration() );
-            modelBuilder.ApplyConfiguration( new IngredientConfiguration() );
-            modelBuilder.ApplyConfiguration( new TagConfiguration() );
-            modelBuilder.ApplyConfiguration( new StepConfiguration() );
-
-            modelBuilder.Entity<Recipe>()
-                .HasMany( r => r.Tags )
-                .WithMany( t => t.Recipes )
-                .UsingEntity<Dictionary<string, object>>(
-                    "RecipeTag",
-                    j => j.HasOne<Tag>().WithMany().HasForeignKey( "TagId" ),
-                    j => j.HasOne<Recipe>().WithMany().HasForeignKey( "RecipeId" ) )
-                .HasKey( "TagId", "RecipeId" ); ;
-        }
+        modelBuilder.Entity<Recipe>()
+            .HasMany( r => r.Tags )
+            .WithMany( t => t.Recipes )
+            .UsingEntity<Dictionary<string, object>>(
+                "RecipeTag",
+                j => j.HasOne<Tag>().WithMany().HasForeignKey( "TagId" ),
+                j => j.HasOne<Recipe>().WithMany().HasForeignKey( "RecipeId" ) )
+            .HasKey( "TagId", "RecipeId" ); ;
     }
 }

@@ -9,29 +9,28 @@ using Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQ
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Ingredients
+namespace Recipes.Application.UseCases.Ingredients;
+
+public static class IngredientBindings
 {
-    public static class IngredientBindings
+    public static IServiceCollection AddIngredientsBindings( this IServiceCollection services )
     {
-        public static IServiceCollection AddIngredientsBindings( this IServiceCollection services )
-        {
-            services.AddScoped<ICommandHandlerWithResult<CreateIngredientCommand, Ingredient>, CreateIngredientCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateIngredientCommand>, UpdateIngredientCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteIngredientCommand>, DeleteIngredientCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateIngredientsCommand>, UpdateIngredientsCommandHandler>();
+        services.AddScoped<ICommandHandlerWithResult<CreateIngredientCommand, Ingredient>, CreateIngredientCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateIngredientCommand>, UpdateIngredientCommandHandler>();
+        services.AddScoped<ICommandHandler<DeleteIngredientCommand>, DeleteIngredientCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateIngredientsCommand>, UpdateIngredientsCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateIngredientCommand>, CreateIngredientCommandValidator>();
-            services.AddScoped<IAsyncValidator<DeleteIngredientCommand>, DeleteIngredientCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateIngredientCommand>, UpdateIngredientCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateIngredientsCommand>, UpdateIngredientsCommandValidator>();
+        services.AddScoped<IAsyncValidator<CreateIngredientCommand>, CreateIngredientCommandValidator>();
+        services.AddScoped<IAsyncValidator<DeleteIngredientCommand>, DeleteIngredientCommandValidator>();
+        services.AddScoped<IAsyncValidator<UpdateIngredientCommand>, UpdateIngredientCommandValidator>();
+        services.AddScoped<IAsyncValidator<UpdateIngredientsCommand>, UpdateIngredientsCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryValidator>();
+        services.AddScoped<IAsyncValidator<GetIngredientsByRecipeIdQuery>, GetIngredientsByRecipeIdQueryValidator>();
 
-            IngredientMappingConfig.RegisterMappings();
+        IngredientMappingConfig.RegisterMappings();
 
-            return services;
-        }
+        return services;
     }
 }

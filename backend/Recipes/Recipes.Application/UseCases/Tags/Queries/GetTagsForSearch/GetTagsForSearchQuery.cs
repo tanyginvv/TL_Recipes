@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch
+﻿namespace Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;
+
+public class GetTagsForSearchQuery
 {
-    public class GetTagsForSearchQuery
-    {
-        public int Count { get; set; }
-    }
+    public int Count { get; set; }
 }

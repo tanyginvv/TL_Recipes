@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag
+﻿namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
+
+public class GetOrCreateTagCommand
 {
-    public class GetOrCreateTagCommand
-    {
-        public required string Name { get; init; }
-    }
+    public required string Name { get; init; }
 }

@@ -9,31 +9,30 @@ using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 
-namespace Recipes.Application.UseCases.Recipes
+namespace Recipes.Application.UseCases.Recipes;
+
+public static class RecipesBindings
 {
-    public static class RecipesBindings
+    public static IServiceCollection AddRecipesBindings( this IServiceCollection services )
     {
-        public static IServiceCollection AddRecipesBindings( this IServiceCollection services )
-        {
-            services.AddScoped<ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto>, CreateRecipeCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateRecipeCommand>, UpdateRecipeCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
+        services.AddScoped<ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto>, CreateRecipeCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateRecipeCommand>, UpdateRecipeCommandHandler>();
+        services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
+        services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
-            services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>, GetRecipesQueryHandler>();
+        services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>, GetRecipesQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
-            services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateRecipeCommand>, UpdateRecipeCommandValidator>();
-            services.AddScoped<IAsyncValidator<UpdateTagsCommand>, UpdateTagsCommandValidator>();
+        services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
+        services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
+        services.AddScoped<IAsyncValidator<UpdateRecipeCommand>, UpdateRecipeCommandValidator>();
+        services.AddScoped<IAsyncValidator<UpdateTagsCommand>, UpdateTagsCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
-            services.AddScoped<IAsyncValidator<GetRecipesQuery>, GetRecipesQueryValidator>();
+        services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
+        services.AddScoped<IAsyncValidator<GetRecipesQuery>, GetRecipesQueryValidator>();
 
-            RecipeMappingConfig.RegisterMappings();
+        RecipeMappingConfig.RegisterMappings();
 
-            return services;
-        }
+        return services;
     }
 }

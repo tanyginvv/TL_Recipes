@@ -2,29 +2,28 @@
 using Recipes.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Recipes.Infrastructure.Filters
+namespace Recipes.Infrastructure.Filters;
+
+public class SearchFilter : IFilter<Recipe>
 {
-    public class SearchFilter : IFilter<Recipe>
+    public List<string> SearchTerm { get; set; }
+
+    public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
     {
-        public List<string> SearchTerm { get; set; }
-
-        public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
+        if ( SearchTerm is not null && SearchTerm.Any() )
         {
-            if ( SearchTerm is not null && SearchTerm.Any() )
-            {
-                List<string> normalizedSearchTerms = SearchTerm.Select( term => term.ToLower() ).ToList();
-                query = query
-                    .Include( r => r.Tags )
-                    .Where( r =>
-                        normalizedSearchTerms.Any( term =>
-                            r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
-                            r.Name.ToLower().Contains( term ) ||
-                            r.Description.ToLower().Contains( term )
-                        )
-                    );
-            }
-
-            return query;
+            List<string> normalizedSearchTerms = SearchTerm.Select( term => term.ToLower() ).ToList();
+            query = query
+                .Include( r => r.Tags )
+                .Where( r =>
+                    normalizedSearchTerms.Any( term =>
+                        r.Tags.Any( tag => tag.Name.ToLower().Equals( term ) ) ||
+                        r.Name.ToLower().Contains( term ) ||
+                        r.Description.ToLower().Contains( term )
+                    )
+                );
         }
+
+        return query;
     }
 }

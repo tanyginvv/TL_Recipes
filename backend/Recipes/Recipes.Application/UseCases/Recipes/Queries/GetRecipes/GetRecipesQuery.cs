@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes
+﻿namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
+
+public class GetRecipesQuery
 {
-    public class GetRecipesQuery
-    {
-        public List<string> SearchTerms { get; set; }
-        public int PageNumber { get; set; } = 1;
-    }
+    public List<string> SearchTerms { get; set; }
+    public int PageNumber { get; set; } = 1;
 }

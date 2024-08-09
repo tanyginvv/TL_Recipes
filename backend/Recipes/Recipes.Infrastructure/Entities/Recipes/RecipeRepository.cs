@@ -44,5 +44,13 @@ namespace Recipes.Infrastructure.Entities.Recipes
                 .Include( r => r.Tags )
                 .FirstOrDefaultAsync( r => r.Id == id );
         }
+
+        public async Task<Recipe> GetRecipeOfDayAsync()
+        {
+            return await _dbSet
+                .Include( r => r.Likes )
+                .OrderByDescending( r => r.Likes.Count )
+                .FirstOrDefaultAsync();
+        }
     }
 }

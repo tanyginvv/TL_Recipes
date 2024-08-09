@@ -1,6 +1,7 @@
 ﻿using Infrastructure.JwtAuthorizations;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
@@ -10,6 +11,7 @@ using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.WebApi.Dto.RecipeDtos;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +22,7 @@ namespace Recipes.WebApi.Controllers
     [Route( "api/recipes" )]
     public class RecipesController : ControllerBase
     {
-        //[JwtAuthorization]
+        [JwtAuthorization]
         [HttpPost]
         public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
             [FromBody] RecipeCreateDto dto,
@@ -86,10 +88,10 @@ namespace Recipes.WebApi.Controllers
         [HttpGet( "{id}" )]
         public async Task<ActionResult<RecipeReadDto>> GetRecipeById(
             [FromRoute, Range( 1, int.MaxValue )] int id,
-            [FromServices] IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
+            [FromServices] IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
         {
             GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = id };
-            Result<GetRecipeByIdQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
+            Result<GetRecipeQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {
@@ -114,6 +116,21 @@ namespace Recipes.WebApi.Controllers
             };
 
             Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+
+            if ( !result.IsSuccess )
+            {
+                return BadRequest( result.Error );
+            }
+
+            return Ok( result.Value );
+        }
+
+        [HttpGet( "recipe-of-day" )]
+        public async Task<ActionResult<RecipeReadDto>> GetRecipeOfDay(
+            [FromServices] IQueryHandler<GetRecipeQueryDto, GetRecipeOfDayQuery> getRecipeOfDayQueryHandler )
+        {
+            GetRecipeOfDayQuery query = new GetRecipeOfDayQuery { };
+            Result<GetRecipeQueryDto> result = await getRecipeOfDayQueryHandler.HandleAsync( query );
 
             if ( !result.IsSuccess )
             {

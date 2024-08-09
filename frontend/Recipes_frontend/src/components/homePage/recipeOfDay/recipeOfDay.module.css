@@ -1,101 +1,103 @@
 .example {
+    width: 1200px;
+    height: 543px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    width: 1200px;
-    height: 600px;
-    background: url("../../../assets/images/example.png");
-    background-position-x: left;
-    background-repeat: no-repeat;
-    position: relative;
-    text-align: left;
-    margin-top: 150px;
+    gap: 60px;
+    margin-top: 40px;
+    cursor: pointer;
+    border-radius: 72px 0px 72px 0px;
+}
+
+.example:hover {
+    box-shadow: 0 0 30px rgba(160, 82, 45, 0.5);
+    transition: 300ms;
+}
+
+.img {
+    width: 543px;
+    height: 543px;
+    object-fit: cover;
+    border-radius: 72px 0px 72px 0px;
 }
 
 .exampleContent {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    width: 48.7%;
-    padding: 178px 0;
+    height: 543px;
+    width: 600px;
+    gap: 20px;
 }
 
-.example::before {
-    content: url("../../../assets/images/favorite.png");
-    width: 59px;
-    height: 28px;
-    position: absolute;
-    top: 0;
-    left: 79.3%;
+.exampleLikeAndFavourites{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: end;
+    margin-top: 3px;
+    margin-right: 55px;
 }
 
-.example::after {
-    content: url("../../../assets/images/timer.png");
-    width: 109px;
-    height: 28px;
-    position: absolute;
-    top: 0;
-    left: 86.6%;
+.exampleInfo {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
 }
 
-.exampleHeader::before {
-    content: url("../../../assets/images/yummy-text.png");
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: -150px;
-    left: -26px;
-    border-radius: 50%;
-    padding: 15px;
+.infoImg {
+    height: 21px;
 }
 
-.exampleHeader::after {
-    content: url("../../../assets/images/yummy.png");
-    background-color: #fdb100;
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: -112px;
-    left: 0px;
-    border-radius: 50%;
-    padding: 15px;
+.infoText {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    text-align: left;
+    color: #25292D;
+    margin-top: 3px;
+}
+
+.recipeDayImg {
+    width: 100px;
 }
 
 .exampleHeader {
-    position: relative;
-    width: 512px;
-    height: 120px;
+    width: 507px;
     font-family: Montserrat;
-    font-weight: bold;
     font-size: 42px;
+    font-weight: 700;
     line-height: 60px;
-    text-transform: capitalize;
-    color: #25292d;
+    text-align: left;
+    color: #25292D;
+    margin: 10px 0 0 10px;
 }
 
 .exampleText {
-    display: block;
-    width: 520px;
-    height: 128px;
-    margin-top: 16px;
+    width: 507px;
     font-family: Montserrat;
     font-size: 18px;
+    font-weight: 400;
     line-height: 32px;
-    font-feature-settings: 'case' on;
-    color: #4a525a;
+    text-align: left;
+    color: #4A525A;
+    margin-left: 10px;
 }
 
 .exampleTag {
-    width: 108px;
-    height: 32px;
     position: absolute;
-    top: 475px;
-    left: 0;
-    background-color: #fff;
-    text-align: center;
+    height: 32px;
     font-family: Montserrat;
-    font-weight: 600;
     font-size: 16px;
+    font-weight: 600;
     line-height: 28px;
-    color: #fdb100;
-}  
+    text-align: left;
+    color: #FDB100;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 0px 18px;
+    margin-top: 473px;
+    display: flex;
+    align-items: center;
+}

@@ -41,6 +41,19 @@ export class RecipeService {
         }
     }
 
+    async fetchRecipeOfDay(): Promise<IRecipe> {
+        try {
+            const response = await fetch(`${this.apiUrl}/recipes/recipe-of-day`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching recipe:', error);
+            throw error;
+        }
+    }
+
     async deleteRecipe(id: number, userId: number | null): Promise<boolean> {
         try {
             const token = await CheckToken(); 

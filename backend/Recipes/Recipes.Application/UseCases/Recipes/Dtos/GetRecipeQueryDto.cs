@@ -1,6 +1,6 @@
 ﻿namespace Recipes.Application.UseCases.Recipes.Dtos
 {
-    public class GetRecipeByIdQueryDto
+    public class GetRecipeQueryDto
     {
         public required int Id { get; init; }
         public required int UserId { get; init; }

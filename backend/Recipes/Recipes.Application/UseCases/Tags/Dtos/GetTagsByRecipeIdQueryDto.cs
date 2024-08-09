@@ -1,10 +1,9 @@
 ﻿using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Tags.Dtos
+namespace Recipes.Application.UseCases.Tags.Dtos;
+
+public class GetTagsByRecipeIdQueryDto
 {
-    public class GetTagsByRecipeIdQueryDto
-    {
-        public required int RecipeId { get; init; }
-        public required IReadOnlyList<Tag> Tags { get; init; }
-    }
+    public required int RecipeId { get; init; }
+    public required IReadOnlyList<Tag> Tags { get; init; }
 }

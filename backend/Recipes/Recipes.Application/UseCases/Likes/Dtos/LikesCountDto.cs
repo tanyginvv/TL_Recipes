@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Likes.Dtos
+﻿namespace Recipes.Application.UseCases.Likes.Dtos;
+
+public class LikesCountDto
 {
-    public class LikesCountDto
-    {
-        public int Count { get; init; }
-    }
+    public int Count { get; init; }
 }

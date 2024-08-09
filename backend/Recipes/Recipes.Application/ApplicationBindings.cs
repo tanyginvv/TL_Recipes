@@ -8,22 +8,21 @@ using Application.UserAuthorizationTokens;
 using Recipes.Application.UseCases.Likes;
 using Recipes.Application.UseCases.Favourites;
 
-namespace Recipes.Application
-{
-    public static class ApplicationBindings
-    {
-        public static IServiceCollection AddApplicationBindings( this IServiceCollection services )
-        {
-            services.AddRecipesBindings();
-            services.AddTagsBindings();
-            services.AddStepsBindings();
-            services.AddIngredientsBindings();
-            services.AddUserBindings();
-            services.AddUserAuthorizationTokenBindings();
-            services.AddLikesBindings();
-            services.AddFavouriteBindings();
+namespace Recipes.Application;
 
-            return services;
-        }
+public static class ApplicationBindings
+{
+    public static IServiceCollection AddApplicationBindings( this IServiceCollection services )
+    {
+        services.AddRecipesBindings();
+        services.AddTagsBindings();
+        services.AddStepsBindings();
+        services.AddIngredientsBindings();
+        services.AddUserBindings();
+        services.AddUserAuthorizationTokenBindings();
+        services.AddLikesBindings();
+        services.AddFavouriteBindings();
+
+        return services;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Recipes.Dtos
+﻿namespace Recipes.Application.UseCases.Recipes.Dtos;
+
+public class RecipeIdDto
 {
-    public class RecipeIdDto
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

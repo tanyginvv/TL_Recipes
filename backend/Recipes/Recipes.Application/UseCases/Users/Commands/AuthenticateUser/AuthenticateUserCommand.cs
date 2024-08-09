@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.UseCases.Users.Commands.AuthenticatePassword
+﻿namespace Recipes.Application.UseCases.Users.Commands.AuthenticatePassword;
+
+public class AuthenticateUserCommand
 {
-    public class AuthenticateUserCommand
-    {
-        public string Login { get; init; }
-        public string PasswordHash { get; init; }
-    }
+    public string Login { get; init; }
+    public string PasswordHash { get; init; }
 }

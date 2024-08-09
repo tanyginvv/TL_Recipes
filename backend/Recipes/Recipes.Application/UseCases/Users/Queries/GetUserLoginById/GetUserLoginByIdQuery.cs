@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Users.Queries.GetUserById
+﻿namespace Recipes.Application.UseCases.Users.Queries.GetUserById;
+
+public class GetUserLoginByIdQuery
 {
-    public class GetUserLoginByIdQuery
-    {
-        public int Id { get; init; }
-    }
+    public int Id { get; init; }
 }

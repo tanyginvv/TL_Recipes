@@ -5,35 +5,34 @@ using Recipes.Application.UseCases.Users.Commands.UpdateUser;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Application.Users.Commands.UpdateUser
+namespace Application.Users.Commands.UpdateUser;
+
+public class UpdateUserCommandValidator(
+    IUserRepository userRepository,
+    IPasswordHasher passwordHasher ) : IAsyncValidator<UpdateUserCommand>
 {
-    public class UpdateUserCommandValidator(
-        IUserRepository userRepository,
-        IPasswordHasher passwordHasher ) : IAsyncValidator<UpdateUserCommand>
+    public async Task<Result> ValidateAsync( UpdateUserCommand command )
     {
-        public async Task<Result> ValidateAsync( UpdateUserCommand command )
+        User user = await userRepository.GetByIdAsync( command.Id );
+        if ( user is null )
         {
-            User user = await userRepository.GetByIdAsync( command.Id );
-            if ( user is null )
-            {
-                return Result.FromError( "Пользователь не найден." );
-            }
-
-            if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && !passwordHasher.VerifyPassword( command.OldPasswordHash, user.PasswordHash ) )
-            {
-                return Result.FromError( "Введеный пароль неверный" );
-            }
-
-            if ( !string.IsNullOrEmpty( command.Login ) )
-            {
-                User existingUserWithNewLogin = await userRepository.GetByLoginAsync( command.Login );
-                if ( existingUserWithNewLogin is not null && existingUserWithNewLogin.Id != user.Id )
-                {
-                    return Result.FromError( "Новый логин уже используется другим пользователем." );
-                }
-            }
-
-            return Result.FromSuccess();
+            return Result.FromError( "Пользователь не найден." );
         }
+
+        if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && !passwordHasher.VerifyPassword( command.OldPasswordHash, user.PasswordHash ) )
+        {
+            return Result.FromError( "Введеный пароль неверный" );
+        }
+
+        if ( !string.IsNullOrEmpty( command.Login ) )
+        {
+            User existingUserWithNewLogin = await userRepository.GetByLoginAsync( command.Login );
+            if ( existingUserWithNewLogin is not null && existingUserWithNewLogin.Id != user.Id )
+            {
+                return Result.FromError( "Новый логин уже используется другим пользователем." );
+            }
+        }
+
+        return Result.FromSuccess();
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay
+﻿namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay;
+
+public class GetRecipeOfDayQuery
 {
-    public class GetRecipeOfDayQuery
-    {
-    }
 }

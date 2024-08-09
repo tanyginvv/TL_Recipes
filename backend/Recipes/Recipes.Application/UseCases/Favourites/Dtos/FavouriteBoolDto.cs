@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Favourites.Dtos
+﻿namespace Recipes.Application.UseCases.Favourites.Dtos;
+
+public class FavouriteBoolDto
 {
-    public class FavouriteBoolDto
-    {
-        public bool IsFavourite { get; set; }
-    }
+    public bool IsFavourite { get; set; }
 }

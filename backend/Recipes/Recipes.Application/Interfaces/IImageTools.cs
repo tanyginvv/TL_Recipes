@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Recipes.Application.Interfaces
+namespace Recipes.Application.Interfaces;
+
+public interface IImageTools
 {
-    public interface IImageTools
-    {
-        Task<string> SaveRecipeImageAsync( IFormFile image );
-        byte[] GetImage( string imageName );
-        bool DeleteImage( string imageName );
-    }
+    Task<string> SaveRecipeImageAsync( IFormFile image );
+    byte[] GetImage( string imageName );
+    bool DeleteImage( string imageName );
 }

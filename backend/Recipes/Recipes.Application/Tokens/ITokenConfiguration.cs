@@ -1,9 +1,8 @@
-﻿namespace Recipes.Application.Tokens
+﻿namespace Recipes.Application.Tokens;
+
+public interface ITokenConfiguration
 {
-    public interface ITokenConfiguration
-    {
-        string GetSecret();
-        int GetAccessTokenValidityInMinutes();
-        int GetRefreshTokenValidityInDays();
-    }
+    string GetSecret();
+    int GetAccessTokenValidityInMinutes();
+    int GetRefreshTokenValidityInDays();
 }

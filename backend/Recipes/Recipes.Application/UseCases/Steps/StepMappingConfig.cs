@@ -2,12 +2,11 @@
 using Recipes.Application.UseCases.Steps.Commands;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps
+namespace Recipes.Application.UseCases.Steps;
+
+public class StepMappingConfig
 {
-    public class StepMappingConfig
+    public static void RegisterMappings()
     {
-        public static void RegisterMappings()
-        {
-        }
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.UserAuthorizationTokens.RefreshToken
+﻿namespace Recipes.Application.UseCases.UserAuthorizationTokens.RefreshToken;
+
+public class RefreshTokenCommand
 {
-    public class RefreshTokenCommand
-    {
-        public string RefreshToken { get; init; }
-    }
+    public string RefreshToken { get; init; }
 }

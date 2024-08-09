@@ -10,157 +10,156 @@ using Recipes.Application.UseCases.Users.Dto;
 using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.WebApi.Dto.UserDto;
 
-namespace Recipes.WebApi.Controllers
+namespace Recipes.WebApi.Controllers;
+
+[ApiController]
+[Route( "api/users" )]
+public class UsersController() : ControllerBase
 {
-    [ApiController]
-    [Route( "api/users" )]
-    public class UsersController() : ControllerBase
+
+    [HttpGet( "login/{id}" )]
+    public async Task<ActionResult<ReadUserDto>> GetUserLoginById( int id,
+        [FromServices] IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery> getUserLoginByIdQueryHandler )
     {
-
-        [HttpGet( "login/{id}" )]
-        public async Task<ActionResult<ReadUserDto>> GetUserLoginById( int id,
-            [FromServices] IQueryHandler<GetUserLoginByIdQueryDto, GetUserLoginByIdQuery> getUserLoginByIdQueryHandler )
+        GetUserLoginByIdQuery query = new GetUserLoginByIdQuery { Id = id };
+        Result<GetUserLoginByIdQueryDto> result = await getUserLoginByIdQueryHandler.HandleAsync( query );
+        if ( !result.IsSuccess )
         {
-            GetUserLoginByIdQuery query = new GetUserLoginByIdQuery { Id = id };
-            Result<GetUserLoginByIdQueryDto> result = await getUserLoginByIdQueryHandler.HandleAsync( query );
-            if ( !result.IsSuccess )
-            {
-                return NotFound( result.Error );
-            }
-
-            GetUserLoginByIdQueryDto user = result.Value;
-            ReadUserDto userDto = new ReadUserDto
-            {
-                Id = user.Id,
-                Login = user.Login
-            };
-
-            return Ok( userDto );
+            return NotFound( result.Error );
         }
 
-        [HttpGet( "{id}" )]
-        public async Task<ActionResult<UserDto>> GetUserById( int id,
-             [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
+        GetUserLoginByIdQueryDto user = result.Value;
+        ReadUserDto userDto = new ReadUserDto
         {
-            GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
-            Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
-            if ( !result.IsSuccess )
-            {
-                return NotFound( result.Error );
-            }
+            Id = user.Id,
+            Login = user.Login
+        };
 
-            GetUserByIdQueryDto user = result.Value;
-            UserDto userDto = new UserDto
-            {
-                Id = user.Id,
-                Login = user.Login,
-                Name = user.Name,
-                Description = user.Description,
-                RecipesCount = user.RecipesCount,
-                LikesCount = user.LikesCount,
-                FavouritesCount = user.FavouritesCount
-            };
+        return Ok( userDto );
+    }
 
-            return Ok( userDto );
+    [HttpGet( "{id}" )]
+    public async Task<ActionResult<UserDto>> GetUserById( int id,
+         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
+    {
+        GetUserByIdQuery query = new GetUserByIdQuery { Id = id };
+        Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
+        if ( !result.IsSuccess )
+        {
+            return NotFound( result.Error );
         }
 
-        [JwtAuthorization]
-        [HttpPut( "{id}" )]
-        public async Task<IActionResult> UpdateUser(
-            int id,
-            UpdateUserDto updateUserDto,
-            [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
+        GetUserByIdQueryDto user = result.Value;
+        UserDto userDto = new UserDto
         {
-            UpdateUserCommand command = new UpdateUserCommand
-            {
-                Id = id,
-                Name = updateUserDto.Name,
-                Description = updateUserDto.Description,
-                Login = updateUserDto.Login,
-                OldPasswordHash = updateUserDto.OldPasswordHash,
-                NewPasswordHash = updateUserDto.NewPasswordHash
-            };
+            Id = user.Id,
+            Login = user.Login,
+            Name = user.Name,
+            Description = user.Description,
+            RecipesCount = user.RecipesCount,
+            LikesCount = user.LikesCount,
+            FavouritesCount = user.FavouritesCount
+        };
 
-            Result result = await updateUserCommandHandler.HandleAsync( command );
-            if ( !result.IsSuccess )
-            {
-                return BadRequest( result.Error );
-            }
+        return Ok( userDto );
+    }
 
-            return NoContent();
+    [JwtAuthorization]
+    [HttpPut( "{id}" )]
+    public async Task<IActionResult> UpdateUser(
+        int id,
+        UpdateUserDto updateUserDto,
+        [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
+    {
+        UpdateUserCommand command = new UpdateUserCommand
+        {
+            Id = id,
+            Name = updateUserDto.Name,
+            Description = updateUserDto.Description,
+            Login = updateUserDto.Login,
+            OldPasswordHash = updateUserDto.OldPasswordHash,
+            NewPasswordHash = updateUserDto.NewPasswordHash
+        };
+
+        Result result = await updateUserCommandHandler.HandleAsync( command );
+        if ( !result.IsSuccess )
+        {
+            return BadRequest( result.Error );
         }
 
-        [JwtAuthorization]
-        [HttpDelete( "{id}" )]
-        public async Task<IActionResult> DeleteUser(
-            int id,
-            [FromQuery] string passwordHash,
-            [FromServices] ICommandHandler<DeleteUserCommand> deleteUserCommandHandler )
+        return NoContent();
+    }
+
+    [JwtAuthorization]
+    [HttpDelete( "{id}" )]
+    public async Task<IActionResult> DeleteUser(
+        int id,
+        [FromQuery] string passwordHash,
+        [FromServices] ICommandHandler<DeleteUserCommand> deleteUserCommandHandler )
+    {
+        DeleteUserCommand command = new DeleteUserCommand
         {
-            DeleteUserCommand command = new DeleteUserCommand
-            {
-                userId = id,
-                PasswordHash = passwordHash
-            };
+            userId = id,
+            PasswordHash = passwordHash
+        };
 
-            Result result = await deleteUserCommandHandler.HandleAsync( command );
-            if ( !result.IsSuccess )
-            {
-                return BadRequest( result.Error );
-            }
-
-            return NoContent();
+        Result result = await deleteUserCommandHandler.HandleAsync( command );
+        if ( !result.IsSuccess )
+        {
+            return BadRequest( result.Error );
         }
 
-        [JwtAuthorization]
-        [HttpGet( "{userId}/recipes" )]
-        public async Task<IActionResult> GetRecipes(
-            [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
-            [FromRoute] int userId = 0,
-            [FromQuery] int pageNumber = 1,
-            [FromQuery] List<string> searchTerms = null )
+        return NoContent();
+    }
+
+    [JwtAuthorization]
+    [HttpGet( "{userId}/recipes" )]
+    public async Task<IActionResult> GetRecipes(
+        [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+        [FromRoute] int userId = 0,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] List<string> searchTerms = null )
+    {
+        GetRecipesQuery query = new GetRecipesQuery
         {
-            GetRecipesQuery query = new GetRecipesQuery
-            {
-                UserId = userId,
-                PageNumber = pageNumber,
-                SearchTerms = searchTerms
-            };
+            UserId = userId,
+            PageNumber = pageNumber,
+            SearchTerms = searchTerms
+        };
 
-            Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
-            if ( !result.IsSuccess )
-            {
-                return BadRequest( result.Error );
-            }
-
-            return Ok( result.Value );
+        Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+        if ( !result.IsSuccess )
+        {
+            return BadRequest( result.Error );
         }
 
-        //[JwtAuthorization]
-        [HttpGet( "{userId}/favourites" )]
-        public async Task<IActionResult> GetFavouriteRecipes(
-           [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
-           [FromRoute] int userId = 0,
-           [FromQuery] int pageNumber = 1,
-           [FromQuery] List<string> searchTerms = null )
+        return Ok( result.Value );
+    }
+
+    //[JwtAuthorization]
+    [HttpGet( "{userId}/favourites" )]
+    public async Task<IActionResult> GetFavouriteRecipes(
+       [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+       [FromRoute] int userId = 0,
+       [FromQuery] int pageNumber = 1,
+       [FromQuery] List<string> searchTerms = null )
+    {
+        bool isFavourite = true;
+
+        GetRecipesQuery query = new GetRecipesQuery
         {
-            bool isFavourite = true;
+            UserId = userId,
+            PageNumber = pageNumber,
+            SearchTerms = searchTerms,
+            IsFavourite = isFavourite
+        };
 
-            GetRecipesQuery query = new GetRecipesQuery
-            {
-                UserId = userId,
-                PageNumber = pageNumber,
-                SearchTerms = searchTerms,
-                IsFavourite = isFavourite
-            };
-
-            Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
-            if ( !result.IsSuccess )
-            {
-                return BadRequest( result.Error );
-            }
-
-            return Ok( result.Value );
+        Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+        if ( !result.IsSuccess )
+        {
+            return BadRequest( result.Error );
         }
+
+        return Ok( result.Value );
     }
 }

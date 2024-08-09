@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Likes.Dtos
+﻿namespace Recipes.Application.UseCases.Likes.Dtos;
+
+public class LikeBoolDto
 {
-    public class LikeBoolDto
-    {
-        public bool IsLiked { get; set; }
-    }
+    public bool IsLiked { get; set; }
 }

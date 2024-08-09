@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.UseCases.Likes.Queries.GetLikeBoolRecipeAndUser
+﻿namespace Recipes.Application.UseCases.Likes.Queries.GetLikeBoolRecipeAndUser;
+
+public class GetFavouriteBoolRecipeAndUserQuery
 {
-    public class GetFavouriteBoolRecipeAndUserQuery
-    {
-        public int RecipeId { get; set; }
-        public int UserId { get; set; }
-    }
+    public int RecipeId { get; set; }
+    public int UserId { get; set; }
 }

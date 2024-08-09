@@ -3,34 +3,33 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Recipes.Application.Tokens.CreateToken
+namespace Recipes.Application.Tokens.CreateToken;
+
+public class TokenCreator( ITokenConfiguration tokenConfiguration )
 {
-    public class TokenCreator( ITokenConfiguration tokenConfiguration )
+    public string GenerateAccessToken( int userId )
     {
-        public string GenerateAccessToken( int userId )
+        List<Claim> claims = new List<Claim>()
         {
-            List<Claim> claims = new List<Claim>()
-            {
-                new Claim( nameof(userId), userId.ToString())
-            };
+            new Claim( nameof(userId), userId.ToString())
+        };
 
-            SigningCredentials signingCredentials = new SigningCredentials(
-               new SymmetricSecurityKey( Encoding.UTF8.GetBytes( tokenConfiguration.GetSecret() ) ), SecurityAlgorithms.HmacSha256 );
+        SigningCredentials signingCredentials = new SigningCredentials(
+           new SymmetricSecurityKey( Encoding.UTF8.GetBytes( tokenConfiguration.GetSecret() ) ), SecurityAlgorithms.HmacSha256 );
 
-            JwtSecurityToken token = new JwtSecurityToken(
-                signingCredentials: signingCredentials,
-                expires: DateTime.UtcNow.AddMinutes( tokenConfiguration.GetAccessTokenValidityInMinutes() ),
-                claims: claims
-                );
+        JwtSecurityToken token = new JwtSecurityToken(
+            signingCredentials: signingCredentials,
+            expires: DateTime.UtcNow.AddMinutes( tokenConfiguration.GetAccessTokenValidityInMinutes() ),
+            claims: claims
+            );
 
-            string tokenString = new JwtSecurityTokenHandler().WriteToken( token );
+        string tokenString = new JwtSecurityTokenHandler().WriteToken( token );
 
-            return tokenString;
-        }
+        return tokenString;
+    }
 
-        public string GenerateRefreshToken()
-        {
-            return Guid.NewGuid().ToString();
-        }
+    public string GenerateRefreshToken()
+    {
+        return Guid.NewGuid().ToString();
     }
 }

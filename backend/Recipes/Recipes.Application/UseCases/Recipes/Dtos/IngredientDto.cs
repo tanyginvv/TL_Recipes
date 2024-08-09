@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recipes.Application.UseCases.Recipes.Dtos
+namespace Recipes.Application.UseCases.Recipes.Dtos;
+
+public class IngredientDto
 {
-    public class IngredientDto
-    {
 
-        [Required]
-        [StringLength( 50 )]
-        public string Title { get; set; }
+    [Required]
+    [StringLength( 50 )]
+    public string Title { get; set; }
 
-        [Required]
-        [StringLength( 250 )]
-        public string Description { get; set; }
-    }
+    [Required]
+    [StringLength( 250 )]
+    public string Description { get; set; }
 }

@@ -9,73 +9,72 @@ using Recipes.Application.UseCases.UserAuthorizationTokens.Dto;
 using Recipes.Application.UseCases.UserAuthorizationTokens.RefreshToken;
 using Recipes.WebApi.Dto.AuthenticationDto;
 
-namespace Presentation.Intranet.Api.Controllers
+namespace Presentation.Intranet.Api.Controllers;
+
+[ApiController]
+[Route( "api/users" )]
+public class AuthenticationController() : ControllerBase
 {
-    [ApiController]
-    [Route( "api/users" )]
-    public class AuthenticationController() : ControllerBase
+    [HttpPost]
+    [Route( "registrate" )]
+    public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto,
+        [FromServices] ICommandHandler<CreateUserCommand> createUserCommandHandler )
     {
-        [HttpPost]
-        [Route( "registrate" )]
-        public async Task<IActionResult> Registrate( [FromBody] RegistrateUserDto registrateUserDto,
-            [FromServices] ICommandHandler<CreateUserCommand> createUserCommandHandler )
+        CreateUserCommand createUserCommand = new CreateUserCommand
         {
-            CreateUserCommand createUserCommand = new CreateUserCommand
-            {
-                Login = registrateUserDto.Login,
-                PasswordHash = registrateUserDto.PasswordHash,
-                Name = registrateUserDto.Name,
-                Description = registrateUserDto.Description
-            };
-            Result commandResult = await createUserCommandHandler.HandleAsync( createUserCommand );
+            Login = registrateUserDto.Login,
+            PasswordHash = registrateUserDto.PasswordHash,
+            Name = registrateUserDto.Name,
+            Description = registrateUserDto.Description
+        };
+        Result commandResult = await createUserCommandHandler.HandleAsync( createUserCommand );
 
-            if ( !commandResult.IsSuccess )
-            {
-                return BadRequest( commandResult.Error );
-            }
-
-            return Ok( commandResult );
+        if ( !commandResult.IsSuccess )
+        {
+            return BadRequest( commandResult.Error );
         }
 
-        [HttpPost( "refresh-token" )]
-        public async Task<IActionResult> RefreshToken(
-            [FromServices] ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler )
+        return Ok( commandResult );
+    }
+
+    [HttpPost( "refresh-token" )]
+    public async Task<IActionResult> RefreshToken(
+        [FromServices] ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto> refreshTokenCommandHandler )
+    {
+        string refreshTokenFromCookie = Request.Cookies[ "RefreshToken" ];
+
+        RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
         {
-            string refreshTokenFromCookie = Request.Cookies[ "RefreshToken" ];
+            RefreshToken = refreshTokenFromCookie,
+        };
+        Result<RefreshTokenCommandDto> commandResult = await refreshTokenCommandHandler.HandleAsync( refreshTokenCommand );
 
-            RefreshTokenCommand refreshTokenCommand = new RefreshTokenCommand
-            {
-                RefreshToken = refreshTokenFromCookie,
-            };
-            Result<RefreshTokenCommandDto> commandResult = await refreshTokenCommandHandler.HandleAsync( refreshTokenCommand );
-
-            if ( !commandResult.IsSuccess )
-            {
-                return BadRequest( commandResult.Value );
-            }
-
-            return Ok( commandResult.Value );
+        if ( !commandResult.IsSuccess )
+        {
+            return BadRequest( commandResult.Value );
         }
 
-        [HttpPost( "authentication" )]
-        public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto,
-            [FromServices] ICommandHandlerWithResult<AuthenticateUserCommand, AuthenticateUserCommandDto> authenticateCommandHandler )
+        return Ok( commandResult.Value );
+    }
+
+    [HttpPost( "authentication" )]
+    public async Task<IActionResult> Authentication( [FromBody] AuthenticationDto authenticationDto,
+        [FromServices] ICommandHandlerWithResult<AuthenticateUserCommand, AuthenticateUserCommandDto> authenticateCommandHandler )
+    {
+        AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand
         {
-            AuthenticateUserCommand authenticateUserCommand = new AuthenticateUserCommand
-            {
-                Login = authenticationDto.Login,
-                PasswordHash = authenticationDto.PasswordHash
-            };
+            Login = authenticationDto.Login,
+            PasswordHash = authenticationDto.PasswordHash
+        };
 
-            Result<AuthenticateUserCommandDto> commandResult = await authenticateCommandHandler
-                .HandleAsync( authenticateUserCommand );
+        Result<AuthenticateUserCommandDto> commandResult = await authenticateCommandHandler
+            .HandleAsync( authenticateUserCommand );
 
-            if ( !commandResult.IsSuccess )
-            {
-                return BadRequest( commandResult.Error );
-            }
-
-            return Ok( commandResult.Value );
+        if ( !commandResult.IsSuccess )
+        {
+            return BadRequest( commandResult.Error );
         }
+
+        return Ok( commandResult.Value );
     }
 }

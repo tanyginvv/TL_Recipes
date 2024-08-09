@@ -1,7 +1,6 @@
-﻿namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery
+﻿namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
+
+public class GetIngredientsByRecipeIdQuery
 {
-    public class GetIngredientsByRecipeIdQuery
-    {
-        public required int RecipeId { get; init; }
-    }
+    public required int RecipeId { get; init; }
 }

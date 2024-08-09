@@ -1,33 +1,32 @@
-﻿namespace Recipes.Application.Results
+﻿namespace Recipes.Application.Results;
+
+public record ResultError( string Message );
+
+public class Result
 {
-    public record ResultError( string Message );
+    public readonly ResultError Error;
 
-    public class Result
+    public bool IsSuccess => Error is null;
+
+    public static Result Success { get; } = FromSuccess();
+
+    private Result( ResultError error )
     {
-        public readonly ResultError Error;
+        Error = error;
+    }
 
-        public bool IsSuccess => Error is null;
+    public static Result FromSuccess()
+    {
+        return new Result( null );
+    }
 
-        public static Result Success { get; } = FromSuccess();
+    public static Result FromError( ResultError error )
+    {
+        return new Result( error );
+    }
 
-        private Result( ResultError error )
-        {
-            Error = error;
-        }
-
-        public static Result FromSuccess()
-        {
-            return new Result( null );
-        }
-
-        public static Result FromError( ResultError error )
-        {
-            return new Result( error );
-        }
-
-        public static Result FromError( string errorText )
-        {
-            return new Result( new ResultError( errorText ) );
-        }
+    public static Result FromError( string errorText )
+    {
+        return new Result( new ResultError( errorText ) );
     }
 }

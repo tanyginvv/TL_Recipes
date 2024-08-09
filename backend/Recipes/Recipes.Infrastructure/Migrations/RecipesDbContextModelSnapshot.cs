@@ -8,361 +8,360 @@ using Recipes.Infrastructure.Context;
 
 #nullable disable
 
-namespace Recipes.Infrastructure.Migrations
+namespace Recipes.Infrastructure.Migrations;
+
+[DbContext(typeof(RecipesDbContext))]
+partial class RecipesDbContextModelSnapshot : ModelSnapshot
 {
-    [DbContext(typeof(RecipesDbContext))]
-    partial class RecipesDbContextModelSnapshot : ModelSnapshot
+    protected override void BuildModel(ModelBuilder modelBuilder)
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+        modelBuilder
+            .HasAnnotation("ProductVersion", "8.0.6")
+            .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+        SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RecipeTag", b =>
-                {
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+        modelBuilder.Entity("RecipeTag", b =>
+            {
+                b.Property<int>("TagId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                b.Property<int>("RecipeId")
+                    .HasColumnType("int");
 
-                    b.HasKey("TagId", "RecipeId");
+                b.HasKey("TagId", "RecipeId");
 
-                    b.HasIndex("RecipeId");
+                b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeTag");
-                });
+                b.ToTable("RecipeTag");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                b.Property<int>("RecipeId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                b.HasIndex("RecipeId");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("Favourite", (string)null);
-                });
+                b.ToTable("Favourite", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                b.Property<int>("RecipeId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("Title")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                b.HasIndex("RecipeId");
 
-                    b.ToTable("Ingredient", (string)null);
-                });
+                b.ToTable("Ingredient", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                b.Property<int>("RecipeId")
+                    .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                b.HasIndex("RecipeId");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("Like", (string)null);
-                });
+                b.ToTable("Like", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CookTime")
-                        .HasColumnType("int");
+                b.Property<int>("CookTime")
+                    .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                b.Property<string>("ImageUrl")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("PortionCount")
-                        .HasColumnType("int");
+                b.Property<int>("PortionCount")
+                    .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                b.HasIndex("UserId");
 
-                    b.ToTable("Recipe", (string)null);
-                });
+                b.ToTable("Recipe", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Step", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Step", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("RecipeId")
-                        .HasColumnType("int");
+                b.Property<int>("RecipeId")
+                    .HasColumnType("int");
 
-                    b.Property<string>("StepDescription")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                b.Property<string>("StepDescription")
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .HasColumnType("nvarchar(250)");
 
-                    b.Property<int>("StepNumber")
-                        .HasColumnType("int");
+                b.Property<int>("StepNumber")
+                    .HasColumnType("int");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("RecipeId");
+                b.HasIndex("RecipeId");
 
-                    b.ToTable("Step", (string)null);
-                });
+                b.ToTable("Step", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.Tag", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Tag", (string)null);
-                });
+                b.ToTable("Tag", (string)null);
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+        modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                b.Property<string>("Description")
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                b.Property<string>("Login")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("nvarchar(50)");
+
+                b.Property<string>("PasswordHash")
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .HasColumnType("nvarchar(250)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RefreshToken")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserAuthorizationTokens", (string)null);
-                });
-
-            modelBuilder.Entity("RecipeTag", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Recipes.Domain.Entities.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasKey("Id");
+
+                b.ToTable("User", (string)null);
+            });
+
+        modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
+            {
+                b.Property<int>("UserId")
+                    .HasColumnType("int");
+
+                b.Property<DateTime>("ExpiryDate")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("RefreshToken")
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("nvarchar(40)");
+
+                b.HasKey("UserId");
+
+                b.ToTable("UserAuthorizationTokens", (string)null);
+            });
+
+        modelBuilder.Entity("RecipeTag", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.Recipe", null)
+                    .WithMany()
+                    .HasForeignKey("RecipeId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.HasOne("Recipes.Domain.Entities.Tag", null)
+                    .WithMany()
+                    .HasForeignKey("TagId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("Favourites")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                    .WithMany("Favourites")
+                    .HasForeignKey("RecipeId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.HasOne("Recipes.Domain.Entities.User", "User")
-                        .WithMany("Favourites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                b.HasOne("Recipes.Domain.Entities.User", "User")
+                    .WithMany("Favourites")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.Navigation("Recipe");
+                b.Navigation("Recipe");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                    .WithMany("Ingredients")
+                    .HasForeignKey("RecipeId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Recipe");
-                });
+                b.Navigation("Recipe");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("Likes")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                    .WithMany("Likes")
+                    .HasForeignKey("RecipeId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.HasOne("Recipes.Domain.Entities.User", "User")
-                        .WithMany("Likes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                b.HasOne("Recipes.Domain.Entities.User", "User")
+                    .WithMany("Likes")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
-                    b.Navigation("Recipe");
+                b.Navigation("Recipe");
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.User", "User")
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.User", "User")
+                    .WithMany("Recipes")
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Step", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
-                        .WithMany("Steps")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.Step", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                    .WithMany("Steps")
+                    .HasForeignKey("RecipeId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Recipe");
-                });
+                b.Navigation("Recipe");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
-                {
-                    b.HasOne("Recipes.Domain.Entities.User", "User")
-                        .WithOne("AuthorizationToken")
-                        .HasForeignKey("Recipes.Domain.Entities.UserAuthorizationToken", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+        modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
+            {
+                b.HasOne("Recipes.Domain.Entities.User", "User")
+                    .WithOne("AuthorizationToken")
+                    .HasForeignKey("Recipes.Domain.Entities.UserAuthorizationToken", "UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("User");
-                });
+                b.Navigation("User");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
-                {
-                    b.Navigation("Favourites");
+        modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
+            {
+                b.Navigation("Favourites");
 
-                    b.Navigation("Ingredients");
+                b.Navigation("Ingredients");
 
-                    b.Navigation("Likes");
+                b.Navigation("Likes");
 
-                    b.Navigation("Steps");
-                });
+                b.Navigation("Steps");
+            });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
-                {
-                    b.Navigation("AuthorizationToken");
+        modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
+            {
+                b.Navigation("AuthorizationToken");
 
-                    b.Navigation("Favourites");
+                b.Navigation("Favourites");
 
-                    b.Navigation("Likes");
+                b.Navigation("Likes");
 
-                    b.Navigation("Recipes");
-                });
+                b.Navigation("Recipes");
+            });
 #pragma warning restore 612, 618
-        }
     }
 }

@@ -17,30 +17,29 @@ using Recipes.Application.PasswordHasher;
 using Recipes.Infrastructure.Entities.Likes;
 using Recipes.Infrastructure.Entities.Favourites;
 
-namespace Recipes.Infrastructure
+namespace Recipes.Infrastructure;
+
+public static class InfrastructureBindings
 {
-    public static class InfrastructureBindings
+    public static IServiceCollection AddInfrastructureBindings( this IServiceCollection services, IConfiguration configuration )
     {
-        public static IServiceCollection AddInfrastructureBindings( this IServiceCollection services, IConfiguration configuration )
-        {
-            services.AddDbContext<RecipesDbContext>( options =>
-                    options.UseSqlServer( configuration.GetConnectionString( "Recipes" ) ) );
+        services.AddDbContext<RecipesDbContext>( options =>
+                options.UseSqlServer( configuration.GetConnectionString( "Recipes" ) ) );
 
-            services.AddScoped<ITokenConfiguration, TokenConfiguration>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IRecipeRepository, RecipeRepository>();
-            services.AddScoped<IIngredientRepository, IngredientRepository>();
-            services.AddScoped<ITagRepository, TagRepository>();
-            services.AddScoped<IStepRepository, StepRepository>();
-            services.AddScoped<IImageTools, ImageHelperTools>();
+        services.AddScoped<ITokenConfiguration, TokenConfiguration>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IRecipeRepository, RecipeRepository>();
+        services.AddScoped<IIngredientRepository, IngredientRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<IStepRepository, StepRepository>();
+        services.AddScoped<IImageTools, ImageHelperTools>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationRepository>();
-            services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<ILikeRepository, LikeRepository>();
-            services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationRepository>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<ILikeRepository, LikeRepository>();
+        services.AddScoped<IFavouriteRepository, FavouriteRepository>();
 
-            return services;
-        }
+        return services;
     }
 }

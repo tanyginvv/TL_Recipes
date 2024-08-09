@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.UseCases.Likes.Command
+﻿namespace Recipes.Application.UseCases.Likes.Command;
+
+public class CreateLikeCommand
 {
-    public class CreateLikeCommand
-    {
-        public int UserId { get; set; }
-        public int RecipeId { get; set; }
-    }
+    public int UserId { get; set; }
+    public int RecipeId { get; set; }
 }

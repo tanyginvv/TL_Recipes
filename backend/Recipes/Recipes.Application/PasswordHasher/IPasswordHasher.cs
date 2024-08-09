@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.PasswordHasher
+﻿namespace Recipes.Application.PasswordHasher;
+
+public interface IPasswordHasher
 {
-    public interface IPasswordHasher
-    {
-        string GeneratePassword( string password );
-        bool VerifyPassword( string password, string hashedPassword );
-    }
+    string GeneratePassword( string password );
+    bool VerifyPassword( string password, string hashedPassword );
 }

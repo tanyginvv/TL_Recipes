@@ -7,24 +7,23 @@ using Recipes.Application.UseCases.Likes.Queries.GetLikeBoolRecipeAndUser;
 using Recipes.Application.UseCases.Likes.Queries.GetLikesCountForRecipeQuery;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Favourites
+namespace Recipes.Application.UseCases.Favourites;
+
+public static class FavouriteBindings
 {
-    public static class FavouriteBindings
+    public static IServiceCollection AddFavouriteBindings( this IServiceCollection services )
     {
-        public static IServiceCollection AddFavouriteBindings( this IServiceCollection services )
-        {
-            services.AddScoped<ICommandHandler<CreateFavouriteCommand>, CreateFavouriteCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteFavouriteCommand>, DeleteFavouriteCommandHandler>();
+        services.AddScoped<ICommandHandler<CreateFavouriteCommand>, CreateFavouriteCommandHandler>();
+        services.AddScoped<ICommandHandler<DeleteFavouriteCommand>, DeleteFavouriteCommandHandler>();
 
-            services.AddScoped<IQueryHandler<FavouritesCountDto, GetFavouritesCountForRecipeQuery>, GetFavouritesCountForRecipeQueryHandler>();
-            services.AddScoped<IQueryHandler<FavouriteBoolDto, GetFavouriteBoolRecipeAndUserQuery>, GetFavouriteBoolRecipeAndUserQueryHandler>();
+        services.AddScoped<IQueryHandler<FavouritesCountDto, GetFavouritesCountForRecipeQuery>, GetFavouritesCountForRecipeQueryHandler>();
+        services.AddScoped<IQueryHandler<FavouriteBoolDto, GetFavouriteBoolRecipeAndUserQuery>, GetFavouriteBoolRecipeAndUserQueryHandler>();
 
-            services.AddScoped<IAsyncValidator<CreateFavouriteCommand>, CreateFovouriteCommandValidator>();
-            services.AddScoped<IAsyncValidator<DeleteFavouriteCommand>, DeleteFavouriteCommandValidator>();
+        services.AddScoped<IAsyncValidator<CreateFavouriteCommand>, CreateFovouriteCommandValidator>();
+        services.AddScoped<IAsyncValidator<DeleteFavouriteCommand>, DeleteFavouriteCommandValidator>();
 
-            services.AddScoped<IAsyncValidator<GetFavouritesCountForRecipeQuery>, GetFavouritesCountForRecipeQueryValidator>();
-            services.AddScoped<IAsyncValidator<GetFavouriteBoolRecipeAndUserQuery>, GetFavouriteBoolRecipeAndUserQueryValidator>();
-            return services;
-        }
+        services.AddScoped<IAsyncValidator<GetFavouritesCountForRecipeQuery>, GetFavouritesCountForRecipeQueryValidator>();
+        services.AddScoped<IAsyncValidator<GetFavouriteBoolRecipeAndUserQuery>, GetFavouriteBoolRecipeAndUserQueryValidator>();
+        return services;
     }
 }

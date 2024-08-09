@@ -1,12 +1,11 @@
 ﻿using Recipes.Application.Interfaces;
 
-namespace Recipes.Infrastructure.Context
+namespace Recipes.Infrastructure.Context;
+
+public class UnitOfWork( RecipesDbContext dbContext ) : IUnitOfWork
 {
-    public class UnitOfWork( RecipesDbContext dbContext ) : IUnitOfWork
+    public async Task CommitAsync()
     {
-        public async Task CommitAsync()
-        {
-            await dbContext.SaveChangesAsync();
-        }
+        await dbContext.SaveChangesAsync();
     }
 }

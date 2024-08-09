@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Recipes.Application.UseCases.Recipes.Dtos
+namespace Recipes.Application.UseCases.Recipes.Dtos;
+
+public class TagDto
 {
-    public class TagDto
-    {
-        [Required]
-        [StringLength( 50 )]
-        public string Name { get; set; }
-    }
+    [Required]
+    [StringLength( 50 )]
+    public string Name { get; set; }
 }

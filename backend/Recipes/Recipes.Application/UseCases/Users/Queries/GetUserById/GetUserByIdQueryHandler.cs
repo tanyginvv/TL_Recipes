@@ -6,35 +6,34 @@ using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Application.Users.Queries.GetUserById
+namespace Application.Users.Queries.GetUserById;
+
+public class GetUserByIdQueryHandler(
+    IUserRepository userRepository,
+    IAsyncValidator<GetUserByIdQuery> validator )
+    : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
 {
-    public class GetUserByIdQueryHandler(
-        IUserRepository userRepository,
-        IAsyncValidator<GetUserByIdQuery> validator )
-        : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
+    public async Task<Result<GetUserByIdQueryDto>> HandleAsync( GetUserByIdQuery getUserByIdQuery )
     {
-        public async Task<Result<GetUserByIdQueryDto>> HandleAsync( GetUserByIdQuery getUserByIdQuery )
+        Result validationResult = await validator.ValidateAsync( getUserByIdQuery );
+        if ( !validationResult.IsSuccess )
         {
-            Result validationResult = await validator.ValidateAsync( getUserByIdQuery );
-            if ( !validationResult.IsSuccess )
-            {
-                return Result<GetUserByIdQueryDto>.FromError( validationResult );
-            }
-
-            User user = await userRepository.GetByIdAsync( getUserByIdQuery.Id );
-
-            GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Login = user.Login,
-                Description = user.Description,
-                RecipesCount = user.Recipes.Count(),
-                FavouritesCount = user.Favourites.Count(),
-                LikesCount = user.Likes.Count(),
-            };
-
-            return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );
+            return Result<GetUserByIdQueryDto>.FromError( validationResult );
         }
+
+        User user = await userRepository.GetByIdAsync( getUserByIdQuery.Id );
+
+        GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Login = user.Login,
+            Description = user.Description,
+            RecipesCount = user.Recipes.Count(),
+            FavouritesCount = user.Favourites.Count(),
+            LikesCount = user.Likes.Count(),
+        };
+
+        return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );
     }
 }

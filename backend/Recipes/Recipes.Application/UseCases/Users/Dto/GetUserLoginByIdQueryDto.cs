@@ -1,8 +1,7 @@
-﻿namespace Recipes.Application.UseCases.Users.Dto
+﻿namespace Recipes.Application.UseCases.Users.Dto;
+
+public class GetUserLoginByIdQueryDto
 {
-    public class GetUserLoginByIdQueryDto
-    {
-        public int Id { get; init; }
-        public string Login { get; init; }
-    }
+    public int Id { get; init; }
+    public string Login { get; init; }
 }

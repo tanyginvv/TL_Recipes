@@ -11,20 +11,20 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 public class GetRecipeByIdQueryHandler(
     IRecipeRepository recipeRepository,
     IAsyncValidator<GetRecipeByIdQuery> validator )
-    : IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>
+    : IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery>
 {
-    public async Task<Result<GetRecipeByIdQueryDto>> HandleAsync( GetRecipeByIdQuery query )
+    public async Task<Result<GetRecipeQueryDto>> HandleAsync( GetRecipeByIdQuery query )
     {
         Result validationResult = await validator.ValidateAsync( query );
         if ( !validationResult.IsSuccess )
         {
-            return Result<GetRecipeByIdQueryDto>.FromError( validationResult );
+            return Result<GetRecipeQueryDto>.FromError( validationResult );
         }
 
         Recipe foundRecipe = await recipeRepository.GetByIdAsync( query.Id );
 
-        GetRecipeByIdQueryDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeByIdQueryDto>();
+        GetRecipeQueryDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeQueryDto>();
 
-        return Result<GetRecipeByIdQueryDto>.FromSuccess( getRecipeByIdQueryDto );
+        return Result<GetRecipeQueryDto>.FromSuccess( getRecipeByIdQueryDto );
     }
 }

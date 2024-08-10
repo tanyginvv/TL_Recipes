@@ -30,6 +30,7 @@ public class CreateRecipeCommandHandler(
         }
 
         Recipe recipe = new Recipe(
+            createRecipeCommand.UserId,
             createRecipeCommand.Name,
             createRecipeCommand.Description,
             createRecipeCommand.CookTime,

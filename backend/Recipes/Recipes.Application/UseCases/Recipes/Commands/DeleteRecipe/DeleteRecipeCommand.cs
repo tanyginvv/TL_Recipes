@@ -3,4 +3,5 @@
 public class DeleteRecipeCommand
 {
     public required int RecipeId { get; init; }
+    public required int UserId { get; init; }
 }

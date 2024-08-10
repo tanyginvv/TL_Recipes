@@ -26,6 +26,8 @@ public static class InfrastructureBindings
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IStepRepository, StepRepository>();
         services.AddScoped<IImageTools, ImageHelperTools>();
+        services.AddScoped<IUserRepository>();
+        services.AddScoped<IUserAuthorizationTokenRepository>();
 
         return services;
     }

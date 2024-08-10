@@ -4,6 +4,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 
 public class CreateRecipeCommand
 {
+    public required int UserId { get; init; }
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required int CookTime { get; init; }

@@ -16,7 +16,7 @@ public static class RecipeMappingConfig
 
         TypeAdapterConfig<Tag, TagDto>.NewConfig();
 
-        TypeAdapterConfig<Recipe, GetRecipeByIdQueryDto>.NewConfig()
+        TypeAdapterConfig<Recipe, GetRecipeQueryDto>.NewConfig()
         .Map( dest => dest.Steps, src => src.Steps.Adapt<List<StepDto>>() )
         .Map( dest => dest.Ingredients, src => src.Ingredients.Adapt<List<IngredientDto>>() )
         .Map( dest => dest.Tags, src => src.Tags.Adapt<List<TagDto>>() );

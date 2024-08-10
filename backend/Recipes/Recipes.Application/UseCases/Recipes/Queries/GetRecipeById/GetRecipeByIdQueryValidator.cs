@@ -1,11 +1,10 @@
 ﻿using Recipes.Application.Repositories;
 using Recipes.Application.Results;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-
-public class GetRecipeByIdQueryValidator(
-    IRecipeRepository repository )
+public class GetRecipeByIdQueryValidator( 
+    IRecipeRepository repository ) 
     : IAsyncValidator<GetRecipeByIdQuery>
 {
     public async Task<Result> ValidateAsync( GetRecipeByIdQuery query )

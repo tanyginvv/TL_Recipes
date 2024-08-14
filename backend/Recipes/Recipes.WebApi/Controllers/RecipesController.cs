@@ -50,7 +50,7 @@ public class RecipesController : ControllerBase
             return BadRequest( result.Error );
         }
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpPut( "{id}" )]
@@ -71,7 +71,7 @@ public class RecipesController : ControllerBase
             return BadRequest( result.Error );
         }
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpGet( "{id}" )]

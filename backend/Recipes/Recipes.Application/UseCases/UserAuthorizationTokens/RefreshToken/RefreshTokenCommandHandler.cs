@@ -15,10 +15,10 @@ public class RefreshTokenCommandHandler(
     IUserAuthorizationTokenRepository userAuthorizationTokenRepository,
     IAsyncValidator<RefreshTokenCommand> validator,
     IUnitOfWork unitOfWork,
-    ITokenConfiguration tokenConfiguration )
+    ITokenConfiguration tokenConfiguration,
+    ITokenCreator tokenCreator )
     : ICommandHandlerWithResult<RefreshTokenCommand, RefreshTokenCommandDto>
 {
-    private TokenCreator tokenCreator => new TokenCreator( tokenConfiguration );
     public async Task<Result<RefreshTokenCommandDto>> HandleAsync( RefreshTokenCommand command )
     {
         Result validationResult = await validator.ValidateAsync( command );
@@ -32,7 +32,7 @@ public class RefreshTokenCommandHandler(
         await userAuthorizationTokenRepository.Delete( token );
 
         string accessToken = tokenCreator.GenerateAccessToken( token.UserId );
-        string refreshToken = TokenCreator.GenerateRefreshToken();
+        string refreshToken = tokenCreator.GenerateRefreshToken();
         DateTime refreshTokenExpiryDate = DateTime.Now.AddDays( tokenConfiguration.GetRefreshTokenValidityInDays() );
 
         UserAuthorizationToken newToken = new UserAuthorizationToken(

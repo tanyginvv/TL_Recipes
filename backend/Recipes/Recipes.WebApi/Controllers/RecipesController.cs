@@ -41,7 +41,8 @@ public class RecipesController : ControllerBase
         [FromRoute, Range( 1, int.MaxValue )] int id,
         [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
     {
-        DeleteRecipeCommand command = new DeleteRecipeCommand { RecipeId = id };
+        //пока заглушка
+        DeleteRecipeCommand command = new DeleteRecipeCommand { UserId = id, RecipeId = id };
         Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
         if ( !result.IsSuccess )
@@ -76,10 +77,10 @@ public class RecipesController : ControllerBase
     [HttpGet( "{id}" )]
     public async Task<ActionResult<RecipeReadDto>> GetRecipeById(
         [FromRoute, Range( 1, int.MaxValue )] int id,
-        [FromServices] IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
+        [FromServices] IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
     {
         GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = id };
-        Result<GetRecipeByIdQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
+        Result<GetRecipeQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
 
         if ( !result.IsSuccess )
         {

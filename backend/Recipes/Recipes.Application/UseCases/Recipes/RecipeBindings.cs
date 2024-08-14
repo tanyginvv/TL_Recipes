@@ -20,7 +20,7 @@ public static class RecipesBindings
         services.AddScoped<ICommandHandler<DeleteRecipeCommand>, DeleteRecipeCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
 
-        services.AddScoped<IQueryHandler<GetRecipeByIdQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
         services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>, GetRecipesQueryHandler>();
 
         services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();

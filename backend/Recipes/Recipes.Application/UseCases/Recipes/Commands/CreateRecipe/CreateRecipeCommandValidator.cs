@@ -43,6 +43,11 @@ public class CreateRecipeCommandValidator()
             return Result.FromError( "Изображение блюда должно быть обязательно " );
         }
 
+        if ( command.Tags.Count > 5 )
+        {
+            return Result.FromError( "Количество тегов ограничено до 5 " );
+        }
+
         return Result.Success;
     }
 }

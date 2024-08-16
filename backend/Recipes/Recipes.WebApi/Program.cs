@@ -3,10 +3,11 @@ using Recipes.Infrastructure;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
+string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "Development";
 builder.Configuration
-    .AddJsonFile( "appsettings.json" )
-    .AddJsonFile( $"appsettings.{Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" )}.json" )
-    .Build();
+       .AddJsonFile( "appsettings.json" )
+       .AddJsonFile( $"appsettings.{environmentName}.json", optional: true )
+       .Build();
 
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );

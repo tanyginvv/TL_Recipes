@@ -13,6 +13,9 @@ public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
         builder.Property( r => r.Id )
             .IsRequired();
 
+        builder.Property( r => r.UserId )
+          .IsRequired();
+
         builder.Property( r => r.Name )
             .HasMaxLength( 100 )
             .IsRequired();

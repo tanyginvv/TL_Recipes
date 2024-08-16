@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using Infrastructure.JwtAuthorizations;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
@@ -18,6 +19,7 @@ namespace Recipes.WebApi.Controllers;
 [Route( "api/recipes" )]
 public class RecipesController : ControllerBase
 {
+    [JwtAuthorization]
     [HttpPost]
     public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
         [FromBody] RecipeCreateDto dto,
@@ -36,13 +38,18 @@ public class RecipesController : ControllerBase
         return CreatedAtAction( nameof( GetRecipeById ), new { id = result.Value.Id }, result.Value );
     }
 
+    [JwtAuthorization]
     [HttpDelete( "{id}" )]
     public async Task<IActionResult> DeleteRecipe(
         [FromRoute, Range( 1, int.MaxValue )] int id,
+        [FromQuery] int userId,
         [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
     {
-        //пока заглушка
-        DeleteRecipeCommand command = new DeleteRecipeCommand { UserId = id, RecipeId = id };
+        DeleteRecipeCommand command = new DeleteRecipeCommand
+        {
+            RecipeId = id,
+            UserId = userId
+        };
         Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
         if ( !result.IsSuccess )
@@ -53,6 +60,7 @@ public class RecipesController : ControllerBase
         return NoContent();
     }
 
+    [JwtAuthorization]
     [HttpPut( "{id}" )]
     public async Task<IActionResult> UpdateRecipe(
         [FromRoute, Range( 1, int.MaxValue )] int id,
@@ -93,13 +101,15 @@ public class RecipesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
         [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+        [FromRoute] int userId = 0,
         [FromQuery] int pageNumber = 1,
         [FromQuery] List<string> searchTerms = null )
     {
         GetRecipesQuery query = new GetRecipesQuery
         {
             SearchTerms = searchTerms,
-            PageNumber = pageNumber
+            PageNumber = pageNumber,
+            UserId = userId
         };
 
         Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );

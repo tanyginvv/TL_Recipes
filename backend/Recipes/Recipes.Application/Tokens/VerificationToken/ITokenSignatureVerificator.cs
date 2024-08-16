@@ -2,6 +2,5 @@
 
 public interface ITokenSignatureVerificator
 {
-    void VerifySignature();
-    string Base64UrlEncode( byte[] input );
+    void VerifySignature( string accessToken, string secret );
 }

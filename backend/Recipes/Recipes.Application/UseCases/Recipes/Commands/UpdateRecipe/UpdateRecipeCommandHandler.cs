@@ -6,7 +6,7 @@ using Recipes.Application.Repositories;
 using Recipes.Application.Interfaces;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
-using Recipes.Application.UseCases.Steps.Commands;
+using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 
@@ -25,6 +25,7 @@ public class UpdateRecipeCommandHandler(
         Result validationResult = await validator.ValidateAsync( updateRecipeCommand );
         if ( !validationResult.IsSuccess )
         {
+            imageTools.DeleteImage( updateRecipeCommand.ImageUrl );
             return Result.FromError( validationResult.Error );
         }
 

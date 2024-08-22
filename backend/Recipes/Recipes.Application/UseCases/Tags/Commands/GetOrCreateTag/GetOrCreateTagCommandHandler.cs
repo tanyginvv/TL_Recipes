@@ -23,7 +23,7 @@ public class GetOrCreateTagCommandHandler(
         Tag tag = await tagRepository.GetByNameAsync( createTagCommand.Name );
         if ( tag is null )
         {
-            tag = createTagCommand.Adapt<Tag>();
+            tag = new Tag( createTagCommand.Name );
             await tagRepository.AddAsync( tag );
         }
 

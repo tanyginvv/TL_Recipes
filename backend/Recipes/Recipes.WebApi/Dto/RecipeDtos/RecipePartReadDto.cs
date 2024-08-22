@@ -9,6 +9,9 @@ public class RecipePartReadDto
     public required int Id { get; init; }
 
     [Required]
+    public required string AuthorLogin { get; init; }
+
+    [Required]
     public required string Name { get; init; }
 
     [Required]

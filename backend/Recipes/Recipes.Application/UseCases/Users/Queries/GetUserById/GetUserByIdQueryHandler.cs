@@ -2,11 +2,10 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Dto;
-using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Application.Users.Queries.GetUserById;
+namespace Recipes.Application.UseCases.Users.Queries.GetUserById;
 
 public class GetUserByIdQueryHandler(
     IUserRepository userRepository,

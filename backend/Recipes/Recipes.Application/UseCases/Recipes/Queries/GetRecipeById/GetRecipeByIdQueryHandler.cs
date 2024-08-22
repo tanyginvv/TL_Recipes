@@ -22,7 +22,7 @@ public class GetRecipeByIdQueryHandler(
         }
 
         Recipe foundRecipe = await recipeRepository.GetByIdAsync( query.Id );
-
+    
         GetRecipeQueryDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeQueryDto>();
 
         return Result<GetRecipeQueryDto>.FromSuccess( getRecipeByIdQueryDto );

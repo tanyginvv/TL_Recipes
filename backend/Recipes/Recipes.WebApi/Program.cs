@@ -1,5 +1,6 @@
 using Recipes.Application;
 using Recipes.Infrastructure;
+using Recipes.Infrastructure.ConfigurationUtils;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
@@ -8,6 +9,8 @@ builder.Configuration
        .AddJsonFile( "appsettings.json" )
        .AddJsonFile( $"appsettings.{environmentName}.json", optional: true )
        .Build();
+
+builder.Services.Configure<JwtOptions>( builder.Configuration.GetSection( "JWTOptions" ) );
 
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );

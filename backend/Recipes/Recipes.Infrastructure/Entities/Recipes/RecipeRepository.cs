@@ -23,6 +23,7 @@ public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recip
         return await _dbSet
            .ApplyFilters( filters )
            .Include( r => r.Tags )
+           .Include( r => r.Author )  
            .ToListAsync();
 
     }
@@ -33,6 +34,7 @@ public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recip
             .Include( r => r.Steps )
             .Include( r => r.Ingredients )
             .Include( r => r.Tags )
+            .Include( r => r.Author )
             .FirstOrDefaultAsync( r => r.Id == id );
     }
 }

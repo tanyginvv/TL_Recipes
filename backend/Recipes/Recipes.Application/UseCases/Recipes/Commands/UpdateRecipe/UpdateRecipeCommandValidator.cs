@@ -48,7 +48,7 @@ public class UpdateRecipeCommandValidator(
 
         Recipe recipe = await recipeRepository.GetByIdAsync( command.Id );
 
-        if ( recipe.UserId != command.UserId )
+        if ( recipe.AuthorId != command.AuthorId )
         {
             return Result.FromError( "У пользователя нет доступа к обновлению данного рецепта" );
         }

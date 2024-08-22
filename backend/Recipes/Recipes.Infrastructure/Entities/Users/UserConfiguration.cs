@@ -30,13 +30,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength( 250 );
 
         builder.HasMany( u => u.Recipes )
-            .WithOne( r => r.User )
-            .HasForeignKey( i => i.UserId )
+            .WithOne( r => r.Author )
+            .HasForeignKey( i => i.AuthorId )
             .OnDelete( DeleteBehavior.Cascade );
 
-        builder.HasOne( u => u.AuthorizationToken )
+        builder.HasOne( u => u.AuthToken )
             .WithOne( ua => ua.User )
-            .HasForeignKey<UserAuthorizationToken>( ua => ua.UserId )
+            .HasForeignKey<UserAuthToken>( ua => ua.UserId )
             .IsRequired();
     }
 }

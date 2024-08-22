@@ -1,11 +1,10 @@
 ﻿using Recipes.Application.PasswordHasher;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Users.Commands.DeleteUser;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Application.Users.Commands.DeleteUser;
+namespace Recipes.Application.UseCases.Users.Commands.DeleteUser;
 
 public class DeleteUserCommandValidator(
         IUserRepository userRepository,

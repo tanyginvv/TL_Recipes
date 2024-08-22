@@ -13,7 +13,7 @@ public class RecipeConfiguration : IEntityTypeConfiguration<Recipe>
         builder.Property( r => r.Id )
             .IsRequired();
 
-        builder.Property( r => r.UserId )
+        builder.Property( r => r.AuthorId )
           .IsRequired();
 
         builder.Property( r => r.Name )

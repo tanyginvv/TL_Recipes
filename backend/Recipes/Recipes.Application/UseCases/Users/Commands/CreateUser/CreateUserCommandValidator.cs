@@ -2,7 +2,7 @@
 using Recipes.Application.Results;
 using Recipes.Application.Validation;
 
-namespace Recipes.Application.UseCases.Users.Commands;
+namespace Recipes.Application.UseCases.Users.Commands.CreateUser;
 
 public class CreateUserCommandValidator(
     IUserRepository userRepository )

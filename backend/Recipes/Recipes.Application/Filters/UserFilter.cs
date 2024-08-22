@@ -12,7 +12,7 @@ public class UserFilter : IFilter<Recipe>
         if ( UserId != 0 )
         {
             query = query
-                .Where( u => u.UserId == UserId );
+                .Where( u => u.AuthorId == UserId );
         }
 
         return query;

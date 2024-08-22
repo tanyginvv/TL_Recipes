@@ -7,7 +7,7 @@ using System.Security.Claims;
 using Recipes.Infrastructure.Tokens.DecodeToken;
 using Recipes.Infrastructure.Tokens.VerificationToken;
 
-namespace Infrastructure.JwtAuthorizations;
+namespace Recipes.Infrastructure.JwtAuthorization;
 
 public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
 {

@@ -1,9 +1,8 @@
 ﻿using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.Application.Validation;
 
-namespace Application.Users.Queries.GetUserById;
+namespace Recipes.Application.UseCases.Users.Queries.GetUserById;
 
 public class GetUserByIdQueryValidator( IUserRepository userRepository ) : IAsyncValidator<GetUserByIdQuery>
 {

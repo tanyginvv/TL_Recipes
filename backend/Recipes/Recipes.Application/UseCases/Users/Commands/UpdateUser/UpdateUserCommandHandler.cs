@@ -4,10 +4,9 @@ using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
-using Recipes.Application.UseCases.Users.Commands.UpdateUser;
 using Recipes.Application.PasswordHasher;
 
-namespace Application.Users.Commands.UpdateUser;
+namespace Recipes.Application.UseCases.Users.Commands.UpdateUser;
 
 public class UpdateUserCommandHandler(
     IUserRepository userRepository,
@@ -37,9 +36,9 @@ public class UpdateUserCommandHandler(
             user.Login = command.Login;
         }
 
-        if ( !string.IsNullOrEmpty( command.OldPasswordHash ) && !string.IsNullOrEmpty( command.NewPasswordHash ) )
+        if ( !string.IsNullOrEmpty( command.OldPassword ) && !string.IsNullOrEmpty( command.NewPassword ) )
         {
-            string hashedPassword = passwordHasher.GeneratePassword( command.NewPasswordHash );
+            string hashedPassword = passwordHasher.GeneratePassword( command.NewPassword );
             user.PasswordHash = hashedPassword;
         }
 

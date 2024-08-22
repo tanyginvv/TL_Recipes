@@ -1,7 +1,12 @@
-﻿namespace Recipes.WebApi.Dto.UserDto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Recipes.WebApi.Dto.UserDtos;
 
 public class ReadUserDto
 {
+    [Required]
     public int Id { get; init; }
-    public string Login { get; init; }
+
+    [Required]
+    public string Name { get; init; }
 }

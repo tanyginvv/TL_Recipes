@@ -1,4 +1,4 @@
-﻿using Infrastructure.JwtAuthorizations;
+﻿using Recipes.Infrastructure.JwtAuthorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.Interfaces;
 

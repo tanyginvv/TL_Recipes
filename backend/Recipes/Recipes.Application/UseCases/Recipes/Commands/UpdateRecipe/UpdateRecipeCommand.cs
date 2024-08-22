@@ -5,7 +5,7 @@ namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 public class UpdateRecipeCommand
 {
     public required int Id { get; set; }
-    public required int UserId { get; set; }
+    public required int AuthorId { get; set; }
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required int CookTime { get; init; }

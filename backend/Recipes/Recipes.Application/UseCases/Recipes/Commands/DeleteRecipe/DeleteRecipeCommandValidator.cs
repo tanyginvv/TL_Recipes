@@ -23,7 +23,7 @@ public class DeleteRecipeCommandValidator(
             return Result.FromError( "Такого рецепта не существует" );
         }
 
-        if ( recipe.UserId != command.UserId )
+        if ( recipe.AuthorId != command.AuthorId )
         {
             return Result.FromError( "У пользователя нет доступа к удалению данного рецепта" );
         }

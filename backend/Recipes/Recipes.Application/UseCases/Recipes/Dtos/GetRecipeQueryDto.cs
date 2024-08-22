@@ -3,7 +3,7 @@
 public class GetRecipeQueryDto
 {
     public required int Id { get; init; }
-    public required int UserId { get; init; }
+    public required string AuthorLogin { get; init; }
     public required string Name { get; init; }
     public required string Description { get; init; }
     public required int CookTime { get; init; }

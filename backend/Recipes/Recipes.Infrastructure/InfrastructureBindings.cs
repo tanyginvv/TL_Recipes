@@ -16,11 +16,11 @@ using Recipes.Application.Tokens.DecodeToken;
 using Recipes.Application.Tokens.VerificationToken;
 using Recipes.Infrastructure.Tokens.VerificationToken;
 using Recipes.Infrastructure.Entities.Users;
-using Infrastructure.Entities.UserAuthorizationTokens;
 using Recipes.Application.PasswordHasher;
 using Recipes.Application.Tokens;
 using Recipes.Infrastructure.ConfigurationUtils;
-
+using Recipes.Infrastructure.Entities.UserAuthTokens;
+using Recipes.Infrastructure.PasswordHashers;
 namespace Recipes.Infrastructure;
 
 public static class InfrastructureBindings
@@ -36,7 +36,7 @@ public static class InfrastructureBindings
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IStepRepository, StepRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IUserAuthorizationTokenRepository, UserAuthorizationTokenRepository>();
+        services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
         services.AddScoped<IImageTools, ImageHelperTools>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 

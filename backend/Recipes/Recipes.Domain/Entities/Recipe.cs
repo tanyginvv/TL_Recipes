@@ -2,8 +2,8 @@
 
 public class Recipe : Entity
 {
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public int AuthorId { get; init; }
+    public User Author { get; init; }
     public string Name { get; set; }
     public string Description { get; set; }
     public int CookTime { get; set; }
@@ -14,9 +14,9 @@ public class Recipe : Entity
     public ICollection<Ingredient> Ingredients { get; set; }
     public ICollection<Step> Steps { get; set; }
 
-    public Recipe( int userId, string name, string description, int cookTime, int portionCount, string imageUrl )
+    public Recipe( int authorId, string name, string description, int cookTime, int portionCount, string imageUrl )
     {
-        UserId = userId;
+        AuthorId = authorId;
         Name = name;
         Description = description;
         CookTime = cookTime;

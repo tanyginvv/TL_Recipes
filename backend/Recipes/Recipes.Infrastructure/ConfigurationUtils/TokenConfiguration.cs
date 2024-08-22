@@ -1,25 +1,22 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Options;
 using Recipes.Application.Tokens;
 
 namespace Recipes.Infrastructure.ConfigurationUtils;
 
-public class TokenConfiguration( IConfiguration configuration ) : ITokenConfiguration
+public class TokenConfiguration(IOptions<JwtOptions> jwtOptions )  : ITokenConfiguration
 {
     public int GetAccessTokenValidityInMinutes()
     {
-        string result = configuration[ "JWTOptions:TokenValidityInMinutes" ];
-        return int.Parse( result );
+        return jwtOptions.Value.TokenValidityInMinutes;
     }
 
     public int GetRefreshTokenValidityInDays()
     {
-        string result = configuration[ "JWTOptions:RefreshTokenValidityInDays" ];
-        return int.Parse( result );
+        return jwtOptions.Value.RefreshTokenValidityInDays;
     }
 
     public string GetSecret()
     {
-        string result = configuration[ "JWTOptions:Secret" ];
-        return result;
+        return jwtOptions.Value.Secret;
     }
 }

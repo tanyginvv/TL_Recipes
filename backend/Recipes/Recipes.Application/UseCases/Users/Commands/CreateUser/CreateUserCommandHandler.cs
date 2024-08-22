@@ -6,13 +6,13 @@ using Recipes.Application.Results;
 using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Users.Commands;
+namespace Recipes.Application.UseCases.Users.Commands.CreateUser;
 
 public class CreateUserCommandHandler(
     IUserRepository userRepository,
     IAsyncValidator<CreateUserCommand> validator,
     IUnitOfWork unitOfWork,
-    IPasswordHasher passwordHasher ) 
+    IPasswordHasher passwordHasher )
     : ICommandHandler<CreateUserCommand>
 {
     public async Task<Result> HandleAsync( CreateUserCommand command )
@@ -23,9 +23,9 @@ public class CreateUserCommandHandler(
             return Result.FromError( result.Error );
         }
 
-        string hashedPassword = passwordHasher.GeneratePassword( command.PasswordHash );
+        string hashedPassword = passwordHasher.GeneratePassword( command.Password );
 
-        User user = new User( command.Name, command.Login, hashedPassword, command.Description );
+        User user = new User( command.Name, command.Login, hashedPassword );
         await userRepository.AddAsync( user );
         await unitOfWork.CommitAsync();
 

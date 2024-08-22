@@ -73,6 +73,9 @@ namespace Recipes.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CookTime")
                         .HasColumnType("int");
 
@@ -93,12 +96,9 @@ namespace Recipes.Infrastructure.Migrations
                     b.Property<int>("PortionCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Recipe", (string)null);
                 });
@@ -180,7 +180,7 @@ namespace Recipes.Infrastructure.Migrations
                     b.ToTable("User", (string)null);
                 });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
+            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthToken", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -195,7 +195,7 @@ namespace Recipes.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserAuthorizationToken", (string)null);
+                    b.ToTable("UserAuthToken", (string)null);
                 });
 
             modelBuilder.Entity("RecipeTag", b =>
@@ -226,13 +226,13 @@ namespace Recipes.Infrastructure.Migrations
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
                 {
-                    b.HasOne("Recipes.Domain.Entities.User", "User")
+                    b.HasOne("Recipes.Domain.Entities.User", "Author")
                         .WithMany("Recipes")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Step", b =>
@@ -246,11 +246,11 @@ namespace Recipes.Infrastructure.Migrations
                     b.Navigation("Recipe");
                 });
 
-            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthorizationToken", b =>
+            modelBuilder.Entity("Recipes.Domain.Entities.UserAuthToken", b =>
                 {
                     b.HasOne("Recipes.Domain.Entities.User", "User")
-                        .WithOne("AuthorizationToken")
-                        .HasForeignKey("Recipes.Domain.Entities.UserAuthorizationToken", "UserId")
+                        .WithOne("AuthToken")
+                        .HasForeignKey("Recipes.Domain.Entities.UserAuthToken", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -266,7 +266,7 @@ namespace Recipes.Infrastructure.Migrations
 
             modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
                 {
-                    b.Navigation("AuthorizationToken");
+                    b.Navigation("AuthToken");
 
                     b.Navigation("Recipes");
                 });

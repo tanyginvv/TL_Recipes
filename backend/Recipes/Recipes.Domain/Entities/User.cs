@@ -6,8 +6,8 @@ public class User : Entity
     public string Description { get; set; } = string.Empty;
     public string Login { get; set; }
     public string PasswordHash { get; set; }
-    public IReadOnlyList<Recipe> Recipes { get; set; }
-    public UserAuthToken AuthToken { get; set; }
+    public IReadOnlyList<Recipe> Recipes { get; private set; }
+    public UserAuthToken AuthToken { get; private set; }
 
     public User( string name, string login, string passwordHash )
     {

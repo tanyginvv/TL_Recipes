@@ -1,4 +1,4 @@
-﻿using Recipes.Infrastructure.JwtAuthorization;
+﻿using Recipes.WebApi.JwtAuthorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
@@ -9,48 +9,25 @@ using Recipes.Application.UseCases.Users.Queries.GetUserNameById;
 using Recipes.WebApi.Dto.UserDtos;
 using Recipes.Application.UseCases.Users.Commands.CreateUser;
 using Recipes.Application.Interfaces;
-using Recipes.Application.Tokens.DecodeToken;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Recipes.Application.UseCases.Services;
+using Mapster;
 
 namespace Recipes.WebApi.Controllers;
 
 [ApiController]
 [Route( "api/users" )]
-public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
+public class UsersController : ControllerBase
 {
-    private int? GetUserIdFromAccessToken()
-    {
-        string accessToken = Request.Headers[ "Access-Token" ];
-        if ( string.IsNullOrEmpty( accessToken ) )
-        {
-            return null;
-        }
-
-        JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
-        Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
-
-        if ( userIdClaim != null && int.TryParse( userIdClaim.Value, out int userId ) )
-        {
-            return userId;
-        }
-
-        return null;
-    }
-
-
     [JwtAuthorization]
     [HttpGet( "name" )]
     public async Task<ActionResult<ReadUserDto>> GetUserNameById(
         [FromServices] IQueryHandler<GetUserNameByIdQueryDto, GetUserNameByIdQuery> getUserNameByIdQueryHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
-        GetUserNameByIdQuery query = new GetUserNameByIdQuery { Id = userId.Value };
+        GetUserNameByIdQuery query = new GetUserNameByIdQuery { Id = userId };
 
         Result<GetUserNameByIdQueryDto> result = await getUserNameByIdQueryHandler.HandleAsync( query );
         if ( !result.IsSuccess )
@@ -61,7 +38,6 @@ public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
         GetUserNameByIdQueryDto user = result.Value;
         ReadUserDto userDto = new ReadUserDto
         {
-            Id = user.Id,
             Name = user.Name
         };
 
@@ -74,13 +50,12 @@ public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
     public async Task<ActionResult<UserDto>> GetUser( 
         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
 
-        GetUserByIdQuery query = new GetUserByIdQuery { Id = userId.Value };
+        GetUserByIdQuery query = new GetUserByIdQuery { Id = userId };
         Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
         if ( !result.IsSuccess )
         {
@@ -88,14 +63,7 @@ public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
         }
 
         GetUserByIdQueryDto user = result.Value;
-        UserDto userDto = new UserDto
-        {
-            Id = user.Id,
-            Login = user.Login,
-            Name = user.Name,
-            Description = user.Description,
-            RecipesCount = user.RecipesCount
-        };
+        UserDto userDto = user.Adapt<UserDto>();
 
         return Ok( userDto );
     }
@@ -106,21 +74,13 @@ public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromBody] UpdateUserDto updateUserDto,
         [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
 
-        UpdateUserCommand command = new UpdateUserCommand
-        {
-            Id = userId.Value,
-            Name = updateUserDto.Name,
-            Description = updateUserDto.Description,
-            Login = updateUserDto.Login,
-            OldPassword = updateUserDto.OldPassword,
-            NewPassword = updateUserDto.NewPassword
-        };
+        UpdateUserCommand command = updateUserDto.Adapt<UpdateUserCommand>();
+        command.Id = userId;
 
         Result result = await updateUserCommandHandler.HandleAsync( command );
         if ( !result.IsSuccess )
@@ -137,12 +97,7 @@ public class UsersController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromBody] RegisterUserDto registerUserDto,
         [FromServices] ICommandHandler<CreateUserCommand> createUserCommandHandler )
     {
-        CreateUserCommand createUserCommand = new CreateUserCommand
-        {
-            Login = registerUserDto.Login,
-            Password = registerUserDto.Password,
-            Name = registerUserDto.Name,
-        };
+        CreateUserCommand createUserCommand = registerUserDto.Adapt<CreateUserCommand>();
         Result commandResult = await createUserCommandHandler.HandleAsync( createUserCommand );
 
         if ( !commandResult.IsSuccess )

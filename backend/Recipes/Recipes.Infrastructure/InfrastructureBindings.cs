@@ -42,7 +42,7 @@ public static class InfrastructureBindings
 
         services.AddScoped<ITokenConfiguration, TokenConfiguration>();
         services.AddScoped<ITokenCreator, TokenCreator>();
-        services.AddScoped<ITokenDecoder, TokenDecoder>();
+        services.AddScoped<ITokenDecoder, TokenDecoderAdapter>();
         services.AddScoped<ITokenSignatureVerificator, TokenSignatureVerificator>();
 
         return services;

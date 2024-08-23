@@ -23,8 +23,7 @@ public class GetUserNameByIdQueryHandler(
         User user = await userRepository.GetByIdAsync( getUserByIdQuery.Id );
         GetUserNameByIdQueryDto getUserNameByIdQueryDto = new GetUserNameByIdQueryDto
         {
-            Id = user.Id,
-            Name = user.Login
+            Name = user.Name
         };
         return Result<GetUserNameByIdQueryDto>.FromSuccess( getUserNameByIdQueryDto );
     }

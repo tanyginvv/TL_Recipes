@@ -1,11 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using Recipes.Application.Tokens.DecodeToken;
 
 namespace Recipes.Infrastructure.Tokens.DecodeToken;
 
-public class TokenDecoder: ITokenDecoder
+public static class TokenDecoder
 {
-    public JwtSecurityToken DecodeToken( string accessToken )
+    public static JwtSecurityToken DecodeToken( string accessToken )
     {
         JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
         JwtSecurityToken token = handler.ReadToken( accessToken ) as JwtSecurityToken;

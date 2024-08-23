@@ -4,11 +4,9 @@ using Recipes.Application.Tokens.VerificationToken;
 
 namespace Recipes.Infrastructure.Tokens.VerificationToken;
 
-public class TokenSignatureVerificator: ITokenSignatureVerificator
+public class TokenSignatureVerificator : ITokenSignatureVerificator
 {
-    public bool TokenIsValid;
-
-    public void VerifySignature( string accessToken, string secret )
+    public bool VerifySignature( string accessToken, string secret )
     {
         string[] parts = accessToken.Split( ".".ToCharArray() );
         string header = parts[ 0 ];
@@ -23,7 +21,7 @@ public class TokenSignatureVerificator: ITokenSignatureVerificator
 
         string computedSignature = Base64UrlEncode( hash );
 
-        TokenIsValid = signature == computedSignature;
+        return signature == computedSignature;
     }
 
     private static string Base64UrlEncode( byte[] input )

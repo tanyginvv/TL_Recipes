@@ -1,16 +1,18 @@
-﻿using Recipes.Infrastructure.JwtAuthorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.Interfaces;
+using Recipes.Infrastructure.ImageTools;
+using Recipes.WebApi.JwtAuthorization;
 
 namespace Recipes.WebApi.Controllers;
 
 [ApiController]
 [Route( "api/images" )]
-public class ImagesController() : ControllerBase
+public class ImagesController : ControllerBase
 {
     [JwtAuthorization]
     [HttpPost( "upload" )]
-    public async Task<IActionResult> UploadImage( IFormFile image,
+    public async Task<IActionResult> UploadImage(
+        IFormFile image,
         [FromServices] IImageTools imageHelperTools )
     {
         if ( image is null )
@@ -18,7 +20,8 @@ public class ImagesController() : ControllerBase
             return BadRequest( "Изображение не предоставлено" );
         }
 
-        string fileName = await imageHelperTools.SaveImageAsync( image );
+        IFile file = new FormFileAdapter( image );
+        string fileName = await imageHelperTools.SaveImageAsync( file );
 
         if ( string.IsNullOrEmpty( fileName ) )
         {
@@ -29,12 +32,13 @@ public class ImagesController() : ControllerBase
     }
 
     [HttpGet( "{fileName}" )]
-    public IActionResult GetImage( [FromRoute] string fileName,
+    public IActionResult GetImage(
+        [FromRoute] string fileName,
         [FromServices] IImageTools imageHelperTools )
     {
         byte[] imageBytes = imageHelperTools.GetImage( fileName );
 
-        if ( imageBytes is null )
+        if ( imageBytes == null )
         {
             return NotFound( "Картинка не найдена" );
         }
@@ -44,7 +48,8 @@ public class ImagesController() : ControllerBase
 
     [JwtAuthorization]
     [HttpDelete( "{fileName}" )]
-    public IActionResult DeleteImage( [FromRoute] string fileName,
+    public IActionResult DeleteImage(
+        [FromRoute] string fileName,
         [FromServices] IImageTools imageHelperTools )
     {
         bool imageDeleted = imageHelperTools.DeleteImage( fileName );

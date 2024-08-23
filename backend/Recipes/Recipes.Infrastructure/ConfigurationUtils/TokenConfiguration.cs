@@ -3,7 +3,7 @@ using Recipes.Application.Tokens;
 
 namespace Recipes.Infrastructure.ConfigurationUtils;
 
-public class TokenConfiguration(IOptions<JwtOptions> jwtOptions )  : ITokenConfiguration
+public class TokenConfiguration( IOptions<JwtOptions> jwtOptions ) : ITokenConfiguration
 {
     public int GetAccessTokenValidityInMinutes()
     {

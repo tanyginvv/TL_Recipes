@@ -28,7 +28,7 @@ public class GetUserByIdQueryHandler(
             Name = user.Name,
             Login = user.Login,
             Description = user.Description,
-            RecipesCount = user.Recipes.Count(),
+            RecipeCount = user.Recipes.Count(),
         };
 
         return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );

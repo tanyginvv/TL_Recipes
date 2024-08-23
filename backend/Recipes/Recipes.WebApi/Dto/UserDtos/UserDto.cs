@@ -20,5 +20,5 @@ public class UserDto
     public string Login { get; init; }
 
     [Required]
-    public int RecipesCount { get; init; }
+    public int RecipeCount { get; init; }
 }

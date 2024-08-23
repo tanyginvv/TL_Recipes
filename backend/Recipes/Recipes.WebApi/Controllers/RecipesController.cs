@@ -1,4 +1,4 @@
-﻿using Recipes.Infrastructure.JwtAuthorization;
+﻿using Recipes.WebApi.JwtAuthorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
@@ -10,9 +10,9 @@ using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.WebApi.Dto.RecipeDtos;
 using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Recipes.Application.Tokens.DecodeToken;
+using Mapster;
+using Recipes.WebApi.Extensions;
 
 namespace Recipes.WebApi.Controllers;
 
@@ -20,48 +20,19 @@ namespace Recipes.WebApi.Controllers;
 [Route( "api/recipes" )]
 public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
 {
-    private int? GetUserIdFromAccessToken()
-    {
-        string accessToken = Request.Headers[ "Access-Token" ];
-        if ( string.IsNullOrEmpty( accessToken ) )
-        {
-            return null;
-        }
-
-        JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
-        Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
-
-        if ( userIdClaim != null && int.TryParse( userIdClaim.Value, out int userId ) )
-        {
-            return userId;
-        }
-
-        return null;
-    }
-
     [JwtAuthorization]
     [HttpPost]
     public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
         [FromBody] RecipeCreateDto dto,
         [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
-        CreateRecipeCommand command = new()
-        {
-            AuthorId = userId.Value,
-            Name = dto.Name,
-            Description = dto.Description,
-            CookTime = dto.CookTime,   
-            PortionCount = dto.PortionCount,
-            ImageUrl = dto.ImageUrl,
-            Ingredients = ( ICollection<IngredientDto> )dto.Ingredients,
-            Steps = ( ICollection<StepDto> )dto.Steps,
-            Tags = ( ICollection<TagDto> )dto.Tags
-        };
+
+        CreateRecipeCommand command = dto.Adapt<CreateRecipeCommand>();
+        command.AuthorId = userId;
 
         Result<RecipeIdDto> result = await createRecipeCommandHandler.HandleAsync( command );
 
@@ -79,8 +50,7 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromRoute, Range( 1, int.MaxValue )] int id,
         [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
@@ -88,7 +58,7 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         DeleteRecipeCommand command = new DeleteRecipeCommand
         {
             RecipeId = id,
-            AuthorId = userId.Value
+            AuthorId = userId
         };
         Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
@@ -107,24 +77,14 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromBody] RecipeUpdateDto dto,
         [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
     {
-        int? userId = GetUserIdFromAccessToken();
-        if ( userId is null )
+        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
         {
             return Unauthorized();
         }
 
-        UpdateRecipeCommand command = new() {
-            Id = id,
-            AuthorId = userId.Value,
-            Name = dto.Name,
-            Description = dto.Description,
-            CookTime = dto.CookTime,
-            PortionCount = dto.PortionCount,
-            ImageUrl = dto.ImageUrl,
-            Ingredients = ( ICollection<IngredientDto> )dto.Ingredients,
-            Steps = ( ICollection<StepDto> )dto.Steps,
-            Tags = ( ICollection<TagDto> )dto.Tags
-        }; 
+        UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
+        command.Id = id;
+        command.AuthorId = userId;
 
         Result result = await updateRecipeCommandHandler.HandleAsync( command );
 
@@ -158,7 +118,7 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromQuery] int pageNumber = 1,
         [FromQuery] List<string> searchTerms = null )
     {
-        int userId = GetUserIdFromAccessToken() ?? 0;
+        int userId = HttpContext.GetUserIdFromAccessToken( tokenDecoder ) ?? 0;
 
         GetRecipesQuery query = new GetRecipesQuery
         {

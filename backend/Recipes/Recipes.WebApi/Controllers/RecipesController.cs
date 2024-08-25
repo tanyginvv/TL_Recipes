@@ -101,15 +101,20 @@ public class RecipesController : ControllerBase
         return Ok( result.Value );
     }
 
-    [HttpPost( "get")]
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
         [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
-        [FromBody] GetRecipesDto dto )
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] List<string> searchTerms = null )
     {
-        int userId = dto.IsUser ? HttpContext.GetUserIdFromAccessToken() : 0;
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
-        GetRecipesQuery query = dto.Adapt<GetRecipesQuery>();
-        query.UserId = userId;
+        GetRecipesQuery query = new GetRecipesQuery
+        {
+            SearchTerms = searchTerms,
+            PageNumber = pageNumber,
+            UserId = userId
+        };
 
         Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
 

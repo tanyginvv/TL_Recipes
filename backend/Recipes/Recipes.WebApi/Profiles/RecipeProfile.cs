@@ -28,11 +28,5 @@ public static class RecipeMappingConfig
 
         TypeAdapterConfig<RecipeDto, RecipeUpdateDto>.NewConfig();
         TypeAdapterConfig<RecipeDto, RecipeCreateDto>.NewConfig();
-
-        TypeAdapterConfig<GetRecipesDto, GetRecipesQuery>
-            .NewConfig()
-            .Ignore( dest => dest.UserId )
-            .Map( dest => dest.SearchTerms, src => src.SearchTerms )
-            .Map( dest => dest.PageNumber, src => src.PageNumber );
     }
 }

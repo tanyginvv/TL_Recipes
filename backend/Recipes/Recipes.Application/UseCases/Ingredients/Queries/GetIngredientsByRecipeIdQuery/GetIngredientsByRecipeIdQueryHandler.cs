@@ -2,7 +2,6 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Dtos;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
@@ -10,20 +9,14 @@ namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecip
 public class GetIngredientsByRecipeIdQueryHandler(
     IIngredientRepository ingredientRepository,
     IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
-    : IQueryHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>
+    : QueryBaseHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>( validator )
 {
-    public async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsync( GetIngredientsByRecipeIdQuery query )
+    protected override async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsyncImpl( GetIngredientsByRecipeIdQuery query )
     {
-        Result validationResult = await validator.ValidateAsync( query );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result<GetIngredientsByRecipeIdQueryDto>.FromError( validationResult );
-        }
-
         IEnumerable<Ingredient> ingredients = await ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
-        if ( ingredients is null )
+        if ( ingredients is null || !ingredients.Any() )
         {
-            return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ингредиент не найден" );
+            return Result<GetIngredientsByRecipeIdQueryDto>.FromError( "Ингредиенты не найдены" );
         }
 
         GetIngredientsByRecipeIdQueryDto dto = new GetIngredientsByRecipeIdQueryDto

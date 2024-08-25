@@ -1,6 +1,5 @@
 ﻿using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
@@ -13,16 +12,10 @@ public class UpdateUserCommandHandler(
     IAsyncValidator<UpdateUserCommand> validator,
     IUnitOfWork unitOfWork,
     IPasswordHasher passwordHasher )
-    : ICommandHandler<UpdateUserCommand>
+    : CommandBaseHandler<UpdateUserCommand>( validator )
 {
-    public async Task<Result> HandleAsync( UpdateUserCommand command )
+    protected override async Task<Result> HandleAsyncImpl( UpdateUserCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return validationResult;
-        }
-
         User user = await userRepository.GetByIdAsync( command.Id );
         if ( user is null )
         {

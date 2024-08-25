@@ -1,7 +1,6 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands.UpdateStep;
@@ -9,16 +8,10 @@ namespace Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 public class UpdateStepCommandHandler(
     IStepRepository stepRepository,
     IAsyncValidator<UpdateStepCommand> validator )
-    : ICommandHandler<UpdateStepCommand>
+    : CommandBaseHandler<UpdateStepCommand>( validator )
 {
-    public async Task<Result> HandleAsync( UpdateStepCommand command )
+    protected override async Task<Result> HandleAsyncImpl( UpdateStepCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         Step step = await stepRepository.GetByStepIdAsync( command.StepId );
         if ( step is null || step.Id != command.StepId )
         {
@@ -28,6 +21,6 @@ public class UpdateStepCommandHandler(
         step.StepNumber = command.StepNumber;
         step.StepDescription = command.StepDescription;
 
-        return Result.Success;
+        return Result.FromSuccess();
     }
 }

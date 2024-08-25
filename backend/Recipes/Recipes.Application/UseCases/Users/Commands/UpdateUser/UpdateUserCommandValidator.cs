@@ -1,7 +1,7 @@
-﻿using Recipes.Application.PasswordHasher;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.PasswordHasher;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Users.Commands.UpdateUser;

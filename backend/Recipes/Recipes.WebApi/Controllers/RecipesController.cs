@@ -10,7 +10,6 @@ using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.WebApi.Dto.RecipeDtos;
 using System.ComponentModel.DataAnnotations;
-using Recipes.Application.Tokens.DecodeToken;
 using Mapster;
 using Recipes.WebApi.Extensions;
 
@@ -18,7 +17,7 @@ namespace Recipes.WebApi.Controllers;
 
 [ApiController]
 [Route( "api/recipes" )]
-public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
+public class RecipesController : ControllerBase
 {
     [JwtAuthorization]
     [HttpPost]
@@ -26,10 +25,7 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromBody] RecipeCreateDto dto,
         [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         CreateRecipeCommand command = dto.Adapt<CreateRecipeCommand>();
         command.AuthorId = userId;
@@ -50,16 +46,14 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         [FromRoute, Range( 1, int.MaxValue )] int id,
         [FromServices] ICommandHandler<DeleteRecipeCommand> deleteRecipeCommandHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         DeleteRecipeCommand command = new DeleteRecipeCommand
         {
             RecipeId = id,
             AuthorId = userId
         };
+
         Result result = await deleteRecipeCommandHandler.HandleAsync( command );
 
         if ( !result.IsSuccess )
@@ -67,23 +61,18 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
             return BadRequest( result.Error );
         }
 
-        return NoContent();
+        return Ok();
     }
 
     [JwtAuthorization]
-    [HttpPut( "{id}" )]
+    [HttpPut()]
     public async Task<ActionResult<Result>> UpdateRecipe(
-        [FromRoute, Range( 1, int.MaxValue )] int id,
         [FromBody] RecipeUpdateDto dto,
         [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
-        command.Id = id;
         command.AuthorId = userId;
 
         Result result = await updateRecipeCommandHandler.HandleAsync( command );
@@ -93,7 +82,7 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
             return BadRequest( result.Error );
         }
 
-        return NoContent();
+        return Ok();
     }
 
     [HttpGet( "{id}" )]
@@ -112,20 +101,15 @@ public class RecipesController( ITokenDecoder tokenDecoder ) : ControllerBase
         return Ok( result.Value );
     }
 
-    [HttpGet]
+    [HttpPost( "get")]
     public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
         [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
-        [FromQuery] int pageNumber = 1,
-        [FromQuery] List<string> searchTerms = null )
+        [FromBody] GetRecipesDto dto )
     {
-        int userId = HttpContext.GetUserIdFromAccessToken( tokenDecoder ) ?? 0;
+        int userId = dto.IsUser ? HttpContext.GetUserIdFromAccessToken() : 0;
 
-        GetRecipesQuery query = new GetRecipesQuery
-        {
-            SearchTerms = searchTerms,
-            PageNumber = pageNumber,
-            UserId = userId
-        };
+        GetRecipesQuery query = dto.Adapt<GetRecipesQuery>();
+        query.UserId = userId;
 
         Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
 

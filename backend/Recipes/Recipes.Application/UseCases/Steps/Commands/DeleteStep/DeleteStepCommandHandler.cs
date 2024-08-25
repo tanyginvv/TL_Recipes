@@ -1,7 +1,6 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands.DeleteStep;
@@ -9,16 +8,10 @@ namespace Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 public class DeleteStepCommandHandler(
     IStepRepository stepRepository,
     IAsyncValidator<DeleteStepCommand> validator )
-    : ICommandHandler<DeleteStepCommand>
+    : CommandBaseHandler<DeleteStepCommand>( validator )
 {
-    public async Task<Result> HandleAsync( DeleteStepCommand command )
+    protected override async Task<Result> HandleAsyncImpl( DeleteStepCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         Step step = await stepRepository.GetByStepIdAsync( command.StepId );
         if ( step is null )
         {
@@ -32,6 +25,6 @@ public class DeleteStepCommandHandler(
 
         await stepRepository.Delete( step );
 
-        return Result.Success;
+        return Result.FromSuccess();
     }
 }

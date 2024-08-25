@@ -3,7 +3,6 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
@@ -11,18 +10,16 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 public class GetRecipeByIdQueryHandler(
     IRecipeRepository recipeRepository,
     IAsyncValidator<GetRecipeByIdQuery> validator )
-    : IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery>
+    : QueryBaseHandler<GetRecipeQueryDto, GetRecipeByIdQuery>( validator )
 {
-    public async Task<Result<GetRecipeQueryDto>> HandleAsync( GetRecipeByIdQuery query )
+    protected override async Task<Result<GetRecipeQueryDto>> HandleAsyncImpl( GetRecipeByIdQuery query )
     {
-        Result validationResult = await validator.ValidateAsync( query );
-        if ( !validationResult.IsSuccess )
+        Recipe foundRecipe = await recipeRepository.GetByIdAsync( query.Id );
+        if ( foundRecipe is null )
         {
-            return Result<GetRecipeQueryDto>.FromError( validationResult );
+            return Result<GetRecipeQueryDto>.FromError( "Recipe not found" );
         }
 
-        Recipe foundRecipe = await recipeRepository.GetByIdAsync( query.Id );
-    
         GetRecipeQueryDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeQueryDto>();
 
         return Result<GetRecipeQueryDto>.FromSuccess( getRecipeByIdQueryDto );

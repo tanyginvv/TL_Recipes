@@ -1,26 +1,26 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Recipes.Infrastructure.Context;
 using Recipes.Application.Repositories;
-using Recipes.Infrastructure.Entities.Recipes;
-using Recipes.Infrastructure.Entities.Steps;
-using Recipes.Infrastructure.Entities.Tags;
-using Recipes.Infrastructure.Entities.Ingredients;
 using Recipes.Application.Interfaces;
 using Recipes.Infrastructure.ImageTools;
 using Recipes.Application.Tokens.CreateToken;
-using Recipes.Infrastructure.Tokens.CreateToken;
-using Recipes.Infrastructure.Tokens.DecodeToken;
 using Recipes.Application.Tokens.DecodeToken;
 using Recipes.Application.Tokens.VerificationToken;
-using Recipes.Infrastructure.Tokens.VerificationToken;
-using Recipes.Infrastructure.Entities.Users;
 using Recipes.Application.PasswordHasher;
 using Recipes.Application.Tokens;
-using Recipes.Infrastructure.ConfigurationUtils;
-using Recipes.Infrastructure.Entities.UserAuthTokens;
 using Recipes.Infrastructure.PasswordHashers;
+using Recipes.Infrastructure.TokenUtils.DecodeToken;
+using Recipes.Infrastructure.TokenUtils.CreateToken;
+using Recipes.Infrastructure.TokenUtils.VerificationToken;
+using Recipes.Infrastructure.Options;
+using Recipes.Infrastructure.DataAccess;
+using Recipes.Infrastructure.DataAccess.Ingredients;
+using Recipes.Infrastructure.DataAccess.Recipes;
+using Recipes.Infrastructure.DataAccess.UserAuthTokens;
+using Recipes.Infrastructure.DataAccess.Users;
+using Recipes.Infrastructure.DataAccess.Tags;
+using Recipes.Infrastructure.DataAccess.Steps;
 namespace Recipes.Infrastructure;
 
 public static class InfrastructureBindings
@@ -37,12 +37,13 @@ public static class InfrastructureBindings
         services.AddScoped<IStepRepository, StepRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
-        services.AddScoped<IImageTools, ImageHelperTools>();
+        services.AddScoped<IImageTools, FileImageTools>();
+        services.AddScoped<IFileToolConfiguration, FileToolConfiguration>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         services.AddScoped<ITokenConfiguration, TokenConfiguration>();
         services.AddScoped<ITokenCreator, TokenCreator>();
-        services.AddScoped<ITokenDecoder, TokenDecoderAdapter>();
+        services.AddScoped<ITokenDecoder, TokenDecoder>();
         services.AddScoped<ITokenSignatureVerificator, TokenSignatureVerificator>();
 
         return services;

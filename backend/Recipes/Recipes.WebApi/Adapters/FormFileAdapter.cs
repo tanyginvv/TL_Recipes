@@ -1,6 +1,6 @@
 ﻿using Recipes.Application.Interfaces;
 
-namespace Recipes.Infrastructure.ImageTools
+namespace Recipes.WebApi.Adapters
 {
     public class FormFileAdapter( IFormFile formFile ) : IFile
     {

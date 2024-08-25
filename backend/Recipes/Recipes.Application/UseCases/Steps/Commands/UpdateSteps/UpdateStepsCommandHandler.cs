@@ -4,7 +4,6 @@ using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Steps.Commands.CreateStep;
 using Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
@@ -14,16 +13,10 @@ public class UpdateStepsCommandHandler(
     ICommandHandler<DeleteStepCommand> deleteStepCommandHandler,
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
     IAsyncValidator<UpdateStepsCommand> validator )
-    : ICommandHandler<UpdateStepsCommand>
+    : CommandBaseHandler<UpdateStepsCommand>( validator )
 {
-    public async Task<Result> HandleAsync( UpdateStepsCommand command )
+    protected override async Task<Result> HandleAsyncImpl( UpdateStepsCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         List<Step> oldSteps = command.Recipe.Steps.ToList();
 
         foreach ( StepDto newStep in command.NewSteps )

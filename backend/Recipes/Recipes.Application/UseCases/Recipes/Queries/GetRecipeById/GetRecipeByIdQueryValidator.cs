@@ -1,7 +1,7 @@
-﻿using Recipes.Application.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-using Recipes.Application.Validation;
 
 public class GetRecipeByIdQueryValidator( 
     IRecipeRepository repository ) 

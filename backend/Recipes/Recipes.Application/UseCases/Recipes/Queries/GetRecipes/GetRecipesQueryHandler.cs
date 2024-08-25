@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using Recipes.Domain.Entities;
-using Recipes.Application.Validation;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
@@ -13,16 +12,10 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 public class GetRecipesQueryHandler(
     IRecipeRepository recipeRepository,
     IAsyncValidator<GetRecipesQuery> validator )
-    : IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>
+    : QueryBaseHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>( validator )
 {
-    public async Task<Result<IEnumerable<GetRecipePartDto>>> HandleAsync( GetRecipesQuery query )
+    protected override async Task<Result<IEnumerable<GetRecipePartDto>>> HandleAsyncImpl( GetRecipesQuery query )
     {
-        Result validationResult = await validator.ValidateAsync( query );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result<IEnumerable<GetRecipePartDto>>.FromError( validationResult );
-        }
-
         List<IFilter<Recipe>> filters = new List<IFilter<Recipe>>
         {
             new SearchFilter { SearchTerms = query.SearchTerms },

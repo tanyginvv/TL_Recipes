@@ -4,7 +4,6 @@ using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 using Mapster;
 
@@ -15,16 +14,10 @@ public class UpdateIngredientsCommandHandler(
     ICommandHandler<DeleteIngredientCommand> deleteIngredientCommandHandler,
     ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
     IAsyncValidator<UpdateIngredientsCommand> validator )
-    : ICommandHandler<UpdateIngredientsCommand>
+    : CommandBaseHandler<UpdateIngredientsCommand>( validator )
 {
-    public async Task<Result> HandleAsync( UpdateIngredientsCommand command )
+    protected override async Task<Result> HandleAsyncImpl( UpdateIngredientsCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         List<Ingredient> oldIngredients = command.Recipe.Ingredients.ToList();
 
         foreach ( IngredientDto newIngredient in command.NewIngredients )

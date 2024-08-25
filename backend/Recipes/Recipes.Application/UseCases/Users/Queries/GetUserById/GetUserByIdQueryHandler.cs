@@ -2,7 +2,6 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Dto;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Users.Queries.GetUserById;
@@ -10,17 +9,11 @@ namespace Recipes.Application.UseCases.Users.Queries.GetUserById;
 public class GetUserByIdQueryHandler(
     IUserRepository userRepository,
     IAsyncValidator<GetUserByIdQuery> validator )
-    : IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery>
+    : QueryBaseHandler<GetUserByIdQueryDto, GetUserByIdQuery>( validator )
 {
-    public async Task<Result<GetUserByIdQueryDto>> HandleAsync( GetUserByIdQuery getUserByIdQuery )
+    protected override async Task<Result<GetUserByIdQueryDto>> HandleAsyncImpl( GetUserByIdQuery query )
     {
-        Result validationResult = await validator.ValidateAsync( getUserByIdQuery );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result<GetUserByIdQueryDto>.FromError( validationResult );
-        }
-
-        User user = await userRepository.GetByIdAsync( getUserByIdQuery.Id );
+        User user = await userRepository.GetByIdAsync( query.Id );
 
         GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
         {

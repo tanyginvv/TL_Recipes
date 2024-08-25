@@ -2,7 +2,6 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
@@ -12,16 +11,10 @@ public class UpdateTagsCommandHandler(
     ITagRepository tagRepository,
     ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
     IAsyncValidator<UpdateTagsCommand> validator )
-    : ICommandHandler<UpdateTagsCommand>
+    : CommandBaseHandler<UpdateTagsCommand>(validator)
 {
-    public async Task<Result> HandleAsync( UpdateTagsCommand command )
+    protected override async Task<Result> HandleAsyncImpl( UpdateTagsCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
         if ( recipe is null )
         {

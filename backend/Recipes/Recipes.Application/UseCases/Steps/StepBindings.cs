@@ -6,7 +6,6 @@ using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Application.UseCases.Steps.Dtos;
 using Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps;

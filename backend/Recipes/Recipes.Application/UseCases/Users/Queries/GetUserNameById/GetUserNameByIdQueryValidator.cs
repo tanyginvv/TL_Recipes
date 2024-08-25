@@ -1,6 +1,6 @@
-﻿using Recipes.Application.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Users.Queries.GetUserNameById;
 

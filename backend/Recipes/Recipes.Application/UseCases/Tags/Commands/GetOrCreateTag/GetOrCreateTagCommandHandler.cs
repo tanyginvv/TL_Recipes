@@ -1,29 +1,21 @@
 ﻿using Recipes.Application.CQRSInterfaces;
-using Recipes.Domain.Entities;
-using Recipes.Application.Validation;
-using Recipes.Application.Results;
 using Recipes.Application.Repositories;
-using Mapster;
+using Recipes.Application.Results;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 
 public class GetOrCreateTagCommandHandler(
     ITagRepository tagRepository,
     IAsyncValidator<GetOrCreateTagCommand> validator )
-    : ICommandHandlerWithResult<GetOrCreateTagCommand, Tag>
+    : CommandBaseHandler<GetOrCreateTagCommand, Tag>( validator )
 {
-    public async Task<Result<Tag>> HandleAsync( GetOrCreateTagCommand createTagCommand )
+    protected override async Task<Result<Tag>> HandleAsyncImpl( GetOrCreateTagCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( createTagCommand );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result<Tag>.FromError( validationResult.Error );
-        }
-
-        Tag tag = await tagRepository.GetByNameAsync( createTagCommand.Name );
+        Tag tag = await tagRepository.GetByNameAsync( command.Name );
         if ( tag is null )
         {
-            tag = new Tag( createTagCommand.Name );
+            tag = new Tag( command.Name );
             await tagRepository.AddAsync( tag );
         }
 

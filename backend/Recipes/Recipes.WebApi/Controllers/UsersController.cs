@@ -11,6 +11,7 @@ using Recipes.Application.UseCases.Users.Commands.CreateUser;
 using Recipes.Application.Interfaces;
 using Recipes.Application.UseCases.Services;
 using Mapster;
+using Recipes.WebApi.Extensions;
 
 namespace Recipes.WebApi.Controllers;
 
@@ -18,15 +19,13 @@ namespace Recipes.WebApi.Controllers;
 [Route( "api/users" )]
 public class UsersController : ControllerBase
 {
-    [JwtAuthorization]
+    //[JwtAuthorization]
     [HttpGet( "name" )]
     public async Task<ActionResult<ReadUserDto>> GetUserNameById(
         [FromServices] IQueryHandler<GetUserNameByIdQueryDto, GetUserNameByIdQuery> getUserNameByIdQueryHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = 2; /*HttpContext.GetUserIdFromAccessToken();*/
+
         GetUserNameByIdQuery query = new GetUserNameByIdQuery { Id = userId };
 
         Result<GetUserNameByIdQueryDto> result = await getUserNameByIdQueryHandler.HandleAsync( query );
@@ -44,16 +43,12 @@ public class UsersController : ControllerBase
         return Ok( userDto );
     }
 
-
-    [JwtAuthorization]
+    //[JwtAuthorization]
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetUser( 
         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = 2;/*HttpContext.GetUserIdFromAccessToken();*/
 
         GetUserByIdQuery query = new GetUserByIdQuery { Id = userId };
         Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
@@ -68,16 +63,13 @@ public class UsersController : ControllerBase
         return Ok( userDto );
     }
 
-    [JwtAuthorization]
+    //[JwtAuthorization]
     [HttpPut()]
     public async Task<ActionResult<Result>> UpdateUser(
         [FromBody] UpdateUserDto updateUserDto,
         [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
     {
-        if ( !HttpContext.Items.TryGetValue( "userId", out object userIdObj ) || userIdObj is not int userId )
-        {
-            return Unauthorized();
-        }
+        int userId = 2;/*HttpContext.GetUserIdFromAccessToken();*/
 
         UpdateUserCommand command = updateUserDto.Adapt<UpdateUserCommand>();
         command.Id = userId;

@@ -6,7 +6,6 @@ using Recipes.Application.UseCases.Users.Commands.UpdateUser;
 using Recipes.Application.UseCases.Users.Dto;
 using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.Application.UseCases.Users.Queries.GetUserNameById;
-using Recipes.Application.Validation;
 
 namespace Recipes.Application.UseCases.Users;
 

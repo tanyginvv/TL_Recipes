@@ -1,13 +1,22 @@
-﻿using Recipes.Application.Results;
-using Recipes.Application.Validation;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 
-public class CreateRecipeCommandValidator()
+public class CreateRecipeCommandValidator(
+    IUserRepository userRepository )
     : IAsyncValidator<CreateRecipeCommand>
 {
     public async Task<Result> ValidateAsync( CreateRecipeCommand command )
     {
+        User author = await userRepository.GetByIdAsync( command.AuthorId );
+        if ( author is null )
+        {
+            return Result.FromError( "Такого пользователя не существует" );
+        }
+
         if ( string.IsNullOrEmpty( command.Name ) )
         {
             return Result.FromError( "Название блюда не может быть пустым" );

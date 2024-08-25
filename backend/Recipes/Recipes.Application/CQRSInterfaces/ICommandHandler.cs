@@ -10,3 +10,52 @@ public interface ICommandHandlerWithResult<TCommand, TResult> where TCommand : c
 {
     Task<Result<TResult>> HandleAsync( TCommand command );
 }
+
+public abstract class CommandBaseHandler<TCommand, TResult>( IAsyncValidator<TCommand> validator ) 
+    : ICommandHandlerWithResult<TCommand, TResult> where TCommand : class
+{
+    public virtual async Task<Result<TResult>> HandleAsync( TCommand command )
+    {
+        Result validationResult = await validator.ValidateAsync( command );
+        if ( !validationResult.IsSuccess )
+        {
+            return Result<TResult>.FromError( validationResult.Error );
+        }
+
+        try
+        {
+            return await HandleAsyncImpl( command );
+        }
+        catch ( Exception ex )
+        {
+            return Result<TResult>.FromError( ex.Message );
+        }
+    }
+
+    protected abstract Task<Result<TResult>> HandleAsyncImpl( TCommand command );
+}
+
+public abstract class CommandBaseHandler<TCommand>( IAsyncValidator<TCommand> validator )
+    : ICommandHandler<TCommand> where TCommand : class
+{
+    public virtual async Task<Result> HandleAsync( TCommand command )
+    {
+        Result validationResult = await validator.ValidateAsync( command );
+        if ( !validationResult.IsSuccess )
+        {
+            return Result.FromError( validationResult.Error );
+        }
+
+        try
+        {
+            await HandleAsyncImpl( command );
+            return Result.Success;
+        }
+        catch ( Exception ex )
+        {
+            return Result.FromError( ex.Message );
+        }
+    }
+
+    protected abstract Task HandleAsyncImpl( TCommand command );
+}

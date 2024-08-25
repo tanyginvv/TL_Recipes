@@ -19,6 +19,7 @@ public abstract class CommandBaseHandler<TCommand, TResult>( IAsyncValidator<TCo
         Result validationResult = await validator.ValidateAsync( command );
         if ( !validationResult.IsSuccess )
         {
+            await HandleExceptionAsync( command );
             return Result<TResult>.FromError( validationResult.Error );
         }
 
@@ -33,6 +34,10 @@ public abstract class CommandBaseHandler<TCommand, TResult>( IAsyncValidator<TCo
     }
 
     protected abstract Task<Result<TResult>> HandleAsyncImpl( TCommand command );
+    protected virtual Task HandleExceptionAsync( TCommand command )
+    {
+        return Task.CompletedTask;
+    }
 }
 
 public abstract class CommandBaseHandler<TCommand>( IAsyncValidator<TCommand> validator )
@@ -43,6 +48,7 @@ public abstract class CommandBaseHandler<TCommand>( IAsyncValidator<TCommand> va
         Result validationResult = await validator.ValidateAsync( command );
         if ( !validationResult.IsSuccess )
         {
+            await HandleExceptionAsync( command );
             return Result.FromError( validationResult.Error );
         }
 
@@ -58,4 +64,8 @@ public abstract class CommandBaseHandler<TCommand>( IAsyncValidator<TCommand> va
     }
 
     protected abstract Task HandleAsyncImpl( TCommand command );
+    protected virtual Task HandleExceptionAsync( TCommand command )
+    {
+        return Task.CompletedTask;
+    }
 }

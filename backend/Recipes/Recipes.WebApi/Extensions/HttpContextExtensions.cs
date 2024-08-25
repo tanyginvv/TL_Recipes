@@ -2,29 +2,28 @@
 using System.Security.Claims;
 using Recipes.Application.Tokens.DecodeToken;
 
-namespace Recipes.WebApi.Extensions
+namespace Recipes.WebApi.Extensions;
+
+public static class HttpContextExtensions
 {
-    public static class HttpContextExtensions
+    private static readonly ITokenDecoder tokenDecoder;
+    public static int GetUserIdFromAccessToken( this HttpContext httpContext )
     {
-        private static readonly ITokenDecoder tokenDecoder;
-        public static int GetUserIdFromAccessToken( this HttpContext httpContext )
+        try
         {
-            try
-            {
-                string accessToken = httpContext.Request.Headers[ "Access-Token" ];
+            string accessToken = httpContext.Request.Headers[ "Access-Token" ];
 
-                JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
+            JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
 
-                Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
+            Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
 
-                _ = int.TryParse( userIdClaim?.Value, out int userId );
+            _ = int.TryParse( userIdClaim?.Value, out int userId );
 
-                return userId;
-            }
-            catch 
-            {
-                return 0;
-            }
+            return userId;
+        }
+        catch 
+        {
+            return 0;
         }
     }
 }

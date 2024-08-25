@@ -19,13 +19,13 @@ namespace Recipes.WebApi.Controllers;
 [Route( "api/recipes" )]
 public class RecipesController : ControllerBase
 {
-    [JwtAuthorization]
+    //[JwtAuthorization]
     [HttpPost]
     public async Task<ActionResult<RecipeReadIdDto>> CreateRecipe(
         [FromBody] RecipeCreateDto dto,
         [FromServices] ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto> createRecipeCommandHandler )
     {
-        int userId = HttpContext.GetUserIdFromAccessToken();
+        int userId = 1;/*HttpContext.GetUserIdFromAccessToken()*/;
 
         CreateRecipeCommand command = dto.Adapt<CreateRecipeCommand>();
         command.AuthorId = userId;
@@ -64,13 +64,13 @@ public class RecipesController : ControllerBase
         return Ok();
     }
 
-    [JwtAuthorization]
+    //[JwtAuthorization]
     [HttpPut()]
     public async Task<ActionResult<Result>> UpdateRecipe(
         [FromBody] RecipeUpdateDto dto,
         [FromServices] ICommandHandler<UpdateRecipeCommand> updateRecipeCommandHandler )
     {
-        int userId = HttpContext.GetUserIdFromAccessToken();
+        int userId = 1;/* HttpContext.GetUserIdFromAccessToken();*/
 
         UpdateRecipeCommand command = dto.Adapt<UpdateRecipeCommand>();
         command.AuthorId = userId;

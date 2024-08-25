@@ -6,6 +6,7 @@ using Recipes.Application.Interfaces;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
+using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 
@@ -19,12 +20,12 @@ public class UpdateRecipeCommandHandler(
     IImageTools imageTools )
     : CommandBaseHandler<UpdateRecipeCommand>( validator )
 {
-    protected override async Task HandleAsyncImpl( UpdateRecipeCommand updateRecipeCommand )
+    protected override async Task<Result> HandleAsyncImpl( UpdateRecipeCommand updateRecipeCommand )
     {
         Recipe oldRecipe = await recipeRepository.GetByIdAsync( updateRecipeCommand.Id );
         if ( oldRecipe is null )
         {
-            throw new Exception( "Recipe not found" );
+            return Result.FromError( "Recipe not found" );
         }
 
         string oldImageUrl = oldRecipe.ImageUrl;
@@ -59,5 +60,14 @@ public class UpdateRecipeCommandHandler(
         await unitOfWork.CommitAsync();
 
         imageTools.DeleteImage( oldImageUrl );
+
+        return Result.Success;
+    }
+
+    protected override async Task HandleExceptionAsync( UpdateRecipeCommand command )
+    {
+        _ = imageTools.DeleteImage( command.ImageUrl );
+
+        await base.HandleExceptionAsync( command );
     }
 }

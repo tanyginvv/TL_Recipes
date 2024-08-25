@@ -1,97 +1,96 @@
 ﻿using Recipes.Application.Interfaces;
 using Recipes.Application.Results;
 
-namespace Recipes.Infrastructure.ImageTools
+namespace Recipes.Infrastructure.ImageTools;
+
+public class FileImageTools( IFileToolConfiguration fileTool ) : IImageTools
 {
-    public class FileImageTools( IFileToolConfiguration fileTool ) : IImageTools
+    public async Task<Result<string>> SaveImageAsync( IFile file )
     {
-        public async Task<Result<string>> SaveImageAsync( IFile file )
+        if ( file is null || file.Length == 0 )
         {
-            if ( file is null || file.Length == 0 )
-            {
-                return Result<string>.FromError( "Файл не предоставлен или пуст." );
-            }
-
-            try
-            {
-                string currentDirectory = Directory.GetCurrentDirectory();
-                string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
-                string fileName = Guid.NewGuid() + Path.GetExtension( file.FileName );
-                string filePath = Path.Combine( folderPath, fileName );
-
-                if ( !Directory.Exists( folderPath ) )
-                {
-                    Directory.CreateDirectory( folderPath );
-                }
-
-                using ( FileStream stream = new FileStream( filePath, FileMode.Create ) )
-                {
-                    await file.OpenReadStream().CopyToAsync( stream );
-                }
-
-                return Result<string>.FromSuccess( fileName );
-            }
-            catch
-            {
-                return Result<string>.FromError( "Не удалось сохранить изображение." );
-            }
+            return Result<string>.FromError( "Файл не предоставлен или пуст." );
         }
 
-        public Result<byte[]> GetImage( string imageName )
+        try
         {
-            if ( string.IsNullOrEmpty( imageName ) )
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
+            string fileName = Guid.NewGuid() + Path.GetExtension( file.FileName );
+            string filePath = Path.Combine( folderPath, fileName );
+
+            if ( !Directory.Exists( folderPath ) )
             {
-                return Result<byte[]>.FromError( "Имя файла не указано." );
+                Directory.CreateDirectory( folderPath );
             }
 
-            try
+            using ( FileStream stream = new FileStream( filePath, FileMode.Create ) )
             {
-                string currentDirectory = Directory.GetCurrentDirectory();
-                string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
-                string filePath = Path.Combine( folderPath, imageName );
+                await file.OpenReadStream().CopyToAsync( stream );
+            }
 
-                if ( File.Exists( filePath ) )
-                {
-                    return Result<byte[]>.FromSuccess( File.ReadAllBytes( filePath ) );
-                }
-                else
-                {
-                    return Result<byte[]>.FromError( "Файл не найден." );
-                }
-            }
-            catch
-            {
-                return Result<byte[]>.FromError( "Не удалось прочитать изображение." );
-            }
+            return Result<string>.FromSuccess( fileName );
+        }
+        catch
+        {
+            return Result<string>.FromError( "Не удалось сохранить изображение." );
+        }
+    }
+
+    public Result<byte[]> GetImage( string imageName )
+    {
+        if ( string.IsNullOrEmpty( imageName ) )
+        {
+            return Result<byte[]>.FromError( "Имя файла не указано." );
         }
 
-        public Result<bool> DeleteImage( string imageName )
+        try
         {
-            if ( string.IsNullOrEmpty( imageName ) )
-            {
-                return Result<bool>.FromError( "Имя файла не указано." );
-            }
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
+            string filePath = Path.Combine( folderPath, imageName );
 
-            try
+            if ( File.Exists( filePath ) )
             {
-                string currentDirectory = Directory.GetCurrentDirectory();
-                string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
-                string filePath = Path.Combine( folderPath, imageName );
+                return Result<byte[]>.FromSuccess( File.ReadAllBytes( filePath ) );
+            }
+            else
+            {
+                return Result<byte[]>.FromError( "Файл не найден." );
+            }
+        }
+        catch
+        {
+            return Result<byte[]>.FromError( "Не удалось прочитать изображение." );
+        }
+    }
 
-                if ( File.Exists( filePath ) )
-                {
-                    File.Delete( filePath );
-                    return Result<bool>.FromSuccess( true );
-                }
-                else
-                {
-                    return Result<bool>.FromError( "Файл не найден." );
-                }
-            }
-            catch
+    public Result<bool> DeleteImage( string imageName )
+    {
+        if ( string.IsNullOrEmpty( imageName ) )
+        {
+            return Result<bool>.FromError( "Имя файла не указано." );
+        }
+
+        try
+        {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string folderPath = Path.Combine( currentDirectory, fileTool.GetStorageUrl() );
+            string filePath = Path.Combine( folderPath, imageName );
+
+            if ( File.Exists( filePath ) )
             {
-                return Result<bool>.FromError( "Не удалось удалить изображение." );
+                File.Delete( filePath );
+                return Result<bool>.FromSuccess( true );
             }
+            else
+            {
+                return Result<bool>.FromError( "Файл не найден." );
+            }
+        }
+        catch
+        {
+            return Result<bool>.FromError( "Не удалось удалить изображение." );
         }
     }
 }

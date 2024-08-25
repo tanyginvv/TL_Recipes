@@ -17,6 +17,7 @@ public class CreateRecipeCommandHandler(
     ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
     ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
+    IImageTools imageTools,
     IUnitOfWork unitOfWork )
     : CommandBaseHandler<CreateRecipeCommand, RecipeIdDto>( validator )
 {
@@ -83,5 +84,12 @@ public class CreateRecipeCommandHandler(
         await unitOfWork.CommitAsync();
 
         return Result<RecipeIdDto>.FromSuccess( new RecipeIdDto { Id = recipe.Id } );
+    }
+
+    protected override async Task HandleExceptionAsync( CreateRecipeCommand command )
+    {
+        _ = imageTools.DeleteImage( command.ImageUrl );
+
+        await base.HandleExceptionAsync( command );
     }
 }

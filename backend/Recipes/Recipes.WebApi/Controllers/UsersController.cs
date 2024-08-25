@@ -19,12 +19,12 @@ namespace Recipes.WebApi.Controllers;
 [Route( "api/users" )]
 public class UsersController : ControllerBase
 {
-    //[JwtAuthorization]
+    [JwtAuthorization]
     [HttpGet( "name" )]
     public async Task<ActionResult<ReadUserDto>> GetUserNameById(
         [FromServices] IQueryHandler<GetUserNameByIdQueryDto, GetUserNameByIdQuery> getUserNameByIdQueryHandler )
     {
-        int userId = 2; /*HttpContext.GetUserIdFromAccessToken();*/
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         GetUserNameByIdQuery query = new GetUserNameByIdQuery { Id = userId };
 
@@ -43,12 +43,12 @@ public class UsersController : ControllerBase
         return Ok( userDto );
     }
 
-    //[JwtAuthorization]
+    [JwtAuthorization]
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetUser( 
         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
     {
-        int userId = 2;/*HttpContext.GetUserIdFromAccessToken();*/
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         GetUserByIdQuery query = new GetUserByIdQuery { Id = userId };
         Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
@@ -63,13 +63,13 @@ public class UsersController : ControllerBase
         return Ok( userDto );
     }
 
-    //[JwtAuthorization]
+    [JwtAuthorization]
     [HttpPut()]
     public async Task<ActionResult<Result>> UpdateUser(
         [FromBody] UpdateUserDto updateUserDto,
         [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )
     {
-        int userId = 2;/*HttpContext.GetUserIdFromAccessToken();*/
+        int userId = HttpContext.GetUserIdFromAccessToken();
 
         UpdateUserCommand command = updateUserDto.Adapt<UpdateUserCommand>();
         command.Id = userId;

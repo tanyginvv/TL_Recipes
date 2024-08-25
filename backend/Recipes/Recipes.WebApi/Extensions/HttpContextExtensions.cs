@@ -9,15 +9,22 @@ namespace Recipes.WebApi.Extensions
         private static readonly ITokenDecoder tokenDecoder;
         public static int GetUserIdFromAccessToken( this HttpContext httpContext )
         {
-            string accessToken = httpContext.Request.Headers[ "Access-Token" ];
+            try
+            {
+                string accessToken = httpContext.Request.Headers[ "Access-Token" ];
 
-            JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
+                JwtSecurityToken token = tokenDecoder.DecodeToken( accessToken );
 
-            Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
+                Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
 
-            _ = int.TryParse( userIdClaim?.Value, out int userId );
+                _ = int.TryParse( userIdClaim?.Value, out int userId );
 
-            return userId;
+                return userId;
+            }
+            catch 
+            {
+                return 0;
+            }
         }
     }
 }

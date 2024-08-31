@@ -8,7 +8,7 @@ namespace Recipes.Application.UseCases.Steps.Commands.CreateStep;
 public class CreateStepCommandHandler(
     IStepRepository stepRepository,
     IAsyncValidator<CreateStepCommand> validator )
-    : CommandBaseHandler<CreateStepCommand, Step>( validator )
+    : CommandBaseHandlerWithResult<CreateStepCommand, Step>( validator )
 {
     protected override async Task<Result<Step>> HandleAsyncImpl( CreateStepCommand command )
     {

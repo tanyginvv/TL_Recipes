@@ -8,7 +8,7 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 public class CreateIngredientCommandHandler(
     IIngredientRepository ingredientRepository,
     IAsyncValidator<CreateIngredientCommand> validator )
-    : CommandBaseHandler<CreateIngredientCommand, Ingredient>( validator )
+    : CommandBaseHandlerWithResult<CreateIngredientCommand, Ingredient>( validator )
 {
     protected override async Task<Result<Ingredient>> HandleAsyncImpl( CreateIngredientCommand createIngredientCommand )
     {

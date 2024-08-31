@@ -19,7 +19,7 @@ public class CreateRecipeCommandHandler(
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
     IImageTools imageTools,
     IUnitOfWork unitOfWork )
-    : CommandBaseHandler<CreateRecipeCommand, RecipeIdDto>( validator )
+    : CommandBaseHandlerWithResult<CreateRecipeCommand, RecipeIdDto>( validator )
 {
     protected override async Task<Result<RecipeIdDto>> HandleAsyncImpl( CreateRecipeCommand createRecipeCommand )
     {

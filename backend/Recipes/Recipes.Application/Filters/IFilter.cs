@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.Interfaces;
+﻿namespace Recipes.Application.Filters;
 
 public interface IFilter<T>
 {

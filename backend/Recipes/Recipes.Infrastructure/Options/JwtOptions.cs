@@ -1,4 +1,5 @@
 ﻿namespace Recipes.Infrastructure.Options;
+
 public class JwtOptions
 {
     public int TokenValidityInMinutes { get; set; }

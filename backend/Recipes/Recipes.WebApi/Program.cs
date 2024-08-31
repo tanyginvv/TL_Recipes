@@ -1,12 +1,11 @@
 using Recipes.Application;
 using Recipes.Infrastructure;
-using Recipes.Infrastructure.ImageTools;
 using Recipes.Infrastructure.Options;
 using Recipes.WebApi.JwtAuthorization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
-string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "Development";
+string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "dev";
 builder.Configuration
        .AddJsonFile( "appsettings.json" )
        .AddJsonFile( $"appsettings.{environmentName}.json", optional: true )
@@ -24,7 +23,7 @@ builder.Services.AddCors( options =>
 {
     options.AddPolicy( "AllowSpecificOrigin", policy =>
     {
-        policy.WithOrigins( "http://localhost:3000" )
+        policy.WithOrigins( builder.Configuration.GetSection( "FrontendUrl" ).Value )
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

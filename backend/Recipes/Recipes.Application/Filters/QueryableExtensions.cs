@@ -1,6 +1,4 @@
-﻿using Recipes.Application.Interfaces;
-
-namespace Recipes.Application.Filters;
+﻿namespace Recipes.Application.Filters;
 
 public static class QueryableExtensions
 {

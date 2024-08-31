@@ -3,7 +3,7 @@ using Recipes.Application.Results;
 
 namespace Recipes.Infrastructure.ImageTools;
 
-public class FileImageTools( IFileToolConfiguration fileTool ) : IImageTools
+public class FileImageTools( FileToolConfiguration fileTool ) : IImageTools
 {
     public async Task<Result<string>> SaveImageAsync( IFile file )
     {

@@ -1,4 +1,4 @@
-﻿namespace Recipes.Infrastructure.ImageTools;
+﻿namespace Recipes.Infrastructure.Options;
 
 public class FileToolsOptions
 {

@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recipes.Application.Filters;
-using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
-using Recipes.Infrastructure.DataAccess;
 
 namespace Recipes.Infrastructure.DataAccess.Recipes;
 

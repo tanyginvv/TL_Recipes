@@ -2,7 +2,6 @@
 using Recipes.Application.Repositories;
 using Recipes.Domain.Entities;
 using System.Linq.Expressions;
-using Recipes.Infrastructure.DataAccess;
 
 namespace Recipes.Infrastructure.DataAccess.UserAuthTokens;
 

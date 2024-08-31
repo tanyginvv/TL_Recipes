@@ -38,7 +38,7 @@ public static class InfrastructureBindings
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
         services.AddScoped<IImageTools, FileImageTools>();
-        services.AddScoped<IFileToolConfiguration, FileToolConfiguration>();
+        services.AddScoped<FileToolConfiguration>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         services.AddScoped<ITokenConfiguration, TokenConfiguration>();

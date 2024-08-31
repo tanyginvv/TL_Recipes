@@ -1,9 +1,8 @@
-﻿namespace Recipes.Application.Interfaces
+﻿namespace Recipes.Application.Interfaces;
+
+public interface IFile
 {
-    public interface IFile
-    {
-        string FileName { get; }
-        long Length { get; }
-        Stream OpenReadStream();
-    }
+    string FileName { get; }
+    long Length { get; }
+    Stream OpenReadStream();
 }

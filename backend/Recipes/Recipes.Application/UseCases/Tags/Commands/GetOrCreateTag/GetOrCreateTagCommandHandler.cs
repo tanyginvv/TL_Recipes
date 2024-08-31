@@ -8,7 +8,7 @@ namespace Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 public class GetOrCreateTagCommandHandler(
     ITagRepository tagRepository,
     IAsyncValidator<GetOrCreateTagCommand> validator )
-    : CommandBaseHandler<GetOrCreateTagCommand, Tag>( validator )
+    : CommandBaseHandlerWithResult<GetOrCreateTagCommand, Tag>( validator )
 {
     protected override async Task<Result<Tag>> HandleAsyncImpl( GetOrCreateTagCommand command )
     {

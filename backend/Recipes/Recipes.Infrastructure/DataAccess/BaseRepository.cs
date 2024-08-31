@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+namespace Recipes.Infrastructure.DataAccess;
+
 public abstract class BaseRepository<TEntity> where TEntity : class
 {
     protected readonly DbContext _context;

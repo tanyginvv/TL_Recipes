@@ -4,7 +4,6 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.Interfaces;
 using Recipes.Application.Filters;
 
 namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;

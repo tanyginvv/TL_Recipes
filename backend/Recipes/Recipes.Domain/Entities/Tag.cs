@@ -9,4 +9,8 @@ public class Tag : Entity
     {
         Name = name;
     }
+
+    public Tag()
+    {
+    }
 }

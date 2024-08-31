@@ -13,4 +13,8 @@ public class Ingredient : Entity
         Description = description;
         RecipeId = recipeId;
     }
+
+    public Ingredient()
+    {
+    }
 }

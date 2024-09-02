@@ -1,7 +1,6 @@
 using Recipes.Application;
+using Recipes.Application.Options;
 using Recipes.Infrastructure;
-using Recipes.Infrastructure.Options;
-using Recipes.WebApi.JwtAuthorization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
@@ -16,7 +15,6 @@ builder.Services.Configure<FileToolsOptions>( builder.Configuration.GetSection( 
 
 builder.Services.AddApplicationBindings();
 builder.Services.AddInfrastructureBindings( builder.Configuration );
-builder.Services.AddJwtAuthBindings();
 builder.Services.AddControllers();
 
 builder.Services.AddCors( options =>

@@ -20,7 +20,7 @@ using Recipes.Infrastructure.DataAccess.Users;
 using Recipes.Infrastructure.DataAccess.Tags;
 using Recipes.Infrastructure.DataAccess.Steps;
 using Recipes.Application.Tokens;
-using Recipes.Infrastructure.Options;
+using Recipes.Application.Options;
 namespace Recipes.Infrastructure;
 
 public static class InfrastructureBindings
@@ -40,7 +40,6 @@ public static class InfrastructureBindings
         services.AddScoped<IImageTools, FileImageTools>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
-        services.AddScoped<ITokenConfiguration, TokenConfiguration>();
         services.AddScoped<ITokenCreator, TokenCreator>();
         services.AddScoped<ITokenDecoder, TokenDecoder>();
         services.AddScoped<ITokenSignatureVerificator, TokenSignatureVerificator>();

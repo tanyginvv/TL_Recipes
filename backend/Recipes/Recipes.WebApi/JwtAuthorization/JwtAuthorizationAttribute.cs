@@ -1,10 +1,11 @@
-﻿using Recipes.Application.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using Recipes.Application.Tokens.DecodeToken;
 using Recipes.Application.Tokens.VerificationToken;
+using Microsoft.Extensions.Options;
+using Recipes.Application.Options;
 
 namespace Recipes.WebApi.JwtAuthorization;
 
@@ -15,11 +16,10 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
         ILogger logger = context.HttpContext.RequestServices.GetService<ILogger<JwtAuthorizationAttribute>>();
         ITokenSignatureVerificator tokenSignatureVerificator = context.HttpContext.RequestServices.GetService<ITokenSignatureVerificator>();
         ITokenDecoder tokenDecoder = context.HttpContext.RequestServices.GetService<ITokenDecoder>();
+        IOptions<JwtOptions> configuration = context.HttpContext.RequestServices.GetService<IOptions<JwtOptions>>();
 
         try
         {
-            ITokenConfiguration configuration = context.HttpContext.RequestServices.GetService<ITokenConfiguration>();
-
             string accessToken = context.HttpContext.Request.Headers[ "Access-Token" ];
             if ( string.IsNullOrEmpty( accessToken ) )
             {
@@ -28,7 +28,7 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
                 return;
             }
 
-            if ( !tokenSignatureVerificator.VerifySignature( accessToken, configuration.GetSecret() ) )
+            if ( !tokenSignatureVerificator.VerifySignature( accessToken, configuration.Value.Secret ) )
             {
                 logger.LogWarning( "Неверная подпись токена." );
                 context.Result = new UnauthorizedResult();

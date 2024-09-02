@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Recipes.Application.Interfaces;
+using Recipes.Application.Options;
 using Recipes.Application.Results;
-using Recipes.Infrastructure.Options;
 
 namespace Recipes.Infrastructure.ImageTools;
 

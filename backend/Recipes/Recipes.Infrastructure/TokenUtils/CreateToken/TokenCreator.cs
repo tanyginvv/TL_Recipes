@@ -1,13 +1,15 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Recipes.Application.Options;
 using Recipes.Application.Tokens;
 using Recipes.Application.Tokens.CreateToken;
 
 namespace Recipes.Infrastructure.TokenUtils.CreateToken;
 
-public class TokenCreator( ITokenConfiguration tokenConfiguration ) : ITokenCreator
+public class TokenCreator( IOptions<JwtOptions> tokenConfiguration ) : ITokenCreator
 {
     public string GenerateAccessToken( int userId )
     {
@@ -17,11 +19,11 @@ public class TokenCreator( ITokenConfiguration tokenConfiguration ) : ITokenCrea
         };
 
         SigningCredentials signingCredentials = new SigningCredentials(
-           new SymmetricSecurityKey( Encoding.UTF8.GetBytes( tokenConfiguration.GetSecret() ) ), SecurityAlgorithms.HmacSha256 );
+           new SymmetricSecurityKey( Encoding.UTF8.GetBytes( tokenConfiguration.Value.Secret ) ), SecurityAlgorithms.HmacSha256 );
 
         JwtSecurityToken token = new JwtSecurityToken(
             signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes( tokenConfiguration.GetAccessTokenValidityInMinutes() ),
+            expires: DateTime.UtcNow.AddMinutes( tokenConfiguration.Value.TokenValidityInMinutes ),
             claims: claims
             );
 

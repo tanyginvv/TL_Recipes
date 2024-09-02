@@ -4,13 +4,15 @@ using Recipes.Application.Results;
 using Recipes.Application.Tokens.CreateToken;
 using Recipes.Domain.Entities;
 using Recipes.Application.Tokens;
+using Microsoft.Extensions.Options;
+using Recipes.Application.Options;
 
 namespace Recipes.Application.UseCases.Services.AuthTokenServices;
 
 public class AuthTokenService(
     IUserAuthTokenRepository userAuthTokenRepository,
     ITokenCreator tokenCreator,
-    ITokenConfiguration tokenConfiguration,
+    IOptions<JwtOptions> tokenConfiguration,
     IUnitOfWork unitOfWork )
     : IAuthTokenService
 {
@@ -24,7 +26,7 @@ public class AuthTokenService(
 
         string accessToken = tokenCreator.GenerateAccessToken( userId );
         string refreshToken = tokenCreator.GenerateRefreshToken();
-        DateTime refreshTokenExpiryDate = DateTime.UtcNow.AddDays( tokenConfiguration.GetRefreshTokenValidityInDays() );
+        DateTime refreshTokenExpiryDate = DateTime.UtcNow.AddDays( tokenConfiguration.Value.RefreshTokenValidityInDays );
 
         UserAuthToken newToken = new UserAuthToken( userId, refreshToken, refreshTokenExpiryDate );
         await userAuthTokenRepository.AddAsync( newToken );

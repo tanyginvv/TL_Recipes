@@ -5,7 +5,7 @@ using Recipes.Application.Results;
 
 namespace Recipes.Infrastructure.ImageTools;
 
-public class FileImageTools( IOptions<FileToolsOptions> fileTool ) : IImageTools
+public class FileImageTools( IOptions<FileToolsOptions> fileToolsOptions ) : IImageTools
 {
     public async Task<Result<string>> SaveImageAsync( IFile file )
     {
@@ -17,7 +17,7 @@ public class FileImageTools( IOptions<FileToolsOptions> fileTool ) : IImageTools
         try
         {
             string currentDirectory = Directory.GetCurrentDirectory();
-            string folderPath = Path.Combine( currentDirectory, fileTool.Value.StorageUrl );
+            string folderPath = Path.Combine( currentDirectory, fileToolsOptions.Value.StorageUrl );
             string fileName = Guid.NewGuid() + Path.GetExtension( file.FileName );
             string filePath = Path.Combine( folderPath, fileName );
 
@@ -49,7 +49,7 @@ public class FileImageTools( IOptions<FileToolsOptions> fileTool ) : IImageTools
         try
         {
             string currentDirectory = Directory.GetCurrentDirectory();
-            string folderPath = Path.Combine( currentDirectory, fileTool.Value.StorageUrl );
+            string folderPath = Path.Combine( currentDirectory, fileToolsOptions.Value.StorageUrl );
             string filePath = Path.Combine( folderPath, imageName );
 
             if ( File.Exists( filePath ) )
@@ -77,7 +77,7 @@ public class FileImageTools( IOptions<FileToolsOptions> fileTool ) : IImageTools
         try
         {
             string currentDirectory = Directory.GetCurrentDirectory();
-            string folderPath = Path.Combine( currentDirectory, fileTool.Value.StorageUrl );
+            string folderPath = Path.Combine( currentDirectory, fileToolsOptions.Value.StorageUrl );
             string filePath = Path.Combine( folderPath, imageName );
 
             if ( File.Exists( filePath ) )

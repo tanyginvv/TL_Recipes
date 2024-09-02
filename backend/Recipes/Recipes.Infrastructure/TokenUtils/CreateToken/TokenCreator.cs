@@ -9,7 +9,7 @@ using Recipes.Application.Tokens.CreateToken;
 
 namespace Recipes.Infrastructure.TokenUtils.CreateToken;
 
-public class TokenCreator( IOptions<JwtOptions> tokenConfiguration ) : ITokenCreator
+public class TokenCreator( IOptions<JwtOptions> jwtOptions ) : ITokenCreator
 {
     public string GenerateAccessToken( int userId )
     {
@@ -19,11 +19,11 @@ public class TokenCreator( IOptions<JwtOptions> tokenConfiguration ) : ITokenCre
         };
 
         SigningCredentials signingCredentials = new SigningCredentials(
-           new SymmetricSecurityKey( Encoding.UTF8.GetBytes( tokenConfiguration.Value.Secret ) ), SecurityAlgorithms.HmacSha256 );
+           new SymmetricSecurityKey( Encoding.UTF8.GetBytes( jwtOptions.Value.Secret ) ), SecurityAlgorithms.HmacSha256 );
 
         JwtSecurityToken token = new JwtSecurityToken(
             signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes( tokenConfiguration.Value.TokenValidityInMinutes ),
+            expires: DateTime.UtcNow.AddMinutes( jwtOptions.Value.TokenValidityInMinutes ),
             claims: claims
             );
 

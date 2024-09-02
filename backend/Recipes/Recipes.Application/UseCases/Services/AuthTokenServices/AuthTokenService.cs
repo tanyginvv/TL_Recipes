@@ -12,7 +12,7 @@ namespace Recipes.Application.UseCases.Services.AuthTokenServices;
 public class AuthTokenService(
     IUserAuthTokenRepository userAuthTokenRepository,
     ITokenCreator tokenCreator,
-    IOptions<JwtOptions> tokenConfiguration,
+    IOptions<JwtOptions> jwtOptions,
     IUnitOfWork unitOfWork )
     : IAuthTokenService
 {
@@ -26,7 +26,7 @@ public class AuthTokenService(
 
         string accessToken = tokenCreator.GenerateAccessToken( userId );
         string refreshToken = tokenCreator.GenerateRefreshToken();
-        DateTime refreshTokenExpiryDate = DateTime.UtcNow.AddDays( tokenConfiguration.Value.RefreshTokenValidityInDays );
+        DateTime refreshTokenExpiryDate = DateTime.UtcNow.AddDays( jwtOptions.Value.RefreshTokenValidityInDays );
 
         UserAuthToken newToken = new UserAuthToken( userId, refreshToken, refreshTokenExpiryDate );
         await userAuthTokenRepository.AddAsync( newToken );

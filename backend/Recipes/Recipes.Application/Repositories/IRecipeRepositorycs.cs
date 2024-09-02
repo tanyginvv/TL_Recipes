@@ -1,4 +1,4 @@
-﻿using Recipes.Application.Interfaces;
+﻿using Recipes.Application.Filters;
 using Recipes.Application.Repositories.BasicRepositories;
 using Recipes.Domain.Entities;
 

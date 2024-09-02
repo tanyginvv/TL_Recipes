@@ -6,7 +6,6 @@ using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Ingredients.Dtos;
 using Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients;

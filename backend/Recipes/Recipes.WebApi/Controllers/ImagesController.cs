@@ -1,14 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Recipes.Application.Interfaces;
+using Recipes.Application.Results;
+using Recipes.WebApi.Adapters;
+using Recipes.WebApi.JwtAuthorization;
 
 namespace Recipes.WebApi.Controllers;
 
 [ApiController]
 [Route( "api/images" )]
-public class ImagesController(): ControllerBase
+public class ImagesController : ControllerBase
 {
+    [JwtAuthorization]
     [HttpPost( "upload" )]
-    public async Task<IActionResult> UploadImage( IFormFile image,
+    public async Task<ActionResult<Result<string>>> UploadImage(
+        [NotNull] IFormFile image,
         [FromServices] IImageTools imageHelperTools )
     {
         if ( image is null )
@@ -16,41 +22,45 @@ public class ImagesController(): ControllerBase
             return BadRequest( "Изображение не предоставлено" );
         }
 
-        string fileName = await imageHelperTools.SaveImageAsync( image );
+        IFile file = new FormFileAdapter( image );
+        Result<string> result = await imageHelperTools.SaveImageAsync( file );
 
-        if ( string.IsNullOrEmpty( fileName ) )
+        if ( !result.IsSuccess )
         {
-            return StatusCode( 500, "Ошибка сохранения картинки" );
+            return BadRequest( result.Error );
         }
 
-        return Ok( new { FileName = fileName } );
+        return Ok( new { FileName = result.Value } );
     }
 
     [HttpGet( "{fileName}" )]
-    public IActionResult GetImage( [FromRoute] string fileName,
+    public ActionResult<Result> GetImage(
+        [FromRoute] string fileName,
         [FromServices] IImageTools imageHelperTools )
     {
-        byte[] imageBytes = imageHelperTools.GetImage( fileName );
+        Result<byte[]> result = imageHelperTools.GetImage( fileName );
 
-        if ( imageBytes is null )
+        if ( !result.IsSuccess )
         {
-            return NotFound( "Картинка не найдена" );
+            return BadRequest( result.Error );
         }
 
-        return File( imageBytes, "image/jpeg" );
+        return File( result.Value, "image/jpeg" );
     }
 
+    [JwtAuthorization]
     [HttpDelete( "{fileName}" )]
-    public IActionResult DeleteImage( [FromRoute] string fileName,
+    public ActionResult<Result> DeleteImage(
+        [FromRoute] string fileName,
         [FromServices] IImageTools imageHelperTools )
     {
-        bool imageDeleted = imageHelperTools.DeleteImage( fileName );
+        Result<bool> result = imageHelperTools.DeleteImage( fileName );
 
-        if ( !imageDeleted )
+        if ( !result.IsSuccess )
         {
-            return NotFound( "Картинка не найдена" );
+            return BadRequest( result.Error );
         }
 
-        return Ok( "Картинка успешно удалена" );
+        return Ok();
     }
 }

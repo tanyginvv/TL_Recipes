@@ -1,11 +1,10 @@
-﻿using Recipes.Application.Repositories;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 
-namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
-
-public class GetRecipeByIdQueryValidator(
-    IRecipeRepository repository )
+public class GetRecipeByIdQueryValidator( 
+    IRecipeRepository repository ) 
     : IAsyncValidator<GetRecipeByIdQuery>
 {
     public async Task<Result> ValidateAsync( GetRecipeByIdQuery query )

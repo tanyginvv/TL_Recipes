@@ -5,7 +5,6 @@ using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.UseCases.Tags.Dtos;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery;
 using Recipes.Application.UseCases.Tags.Queries.GetTagsForSearch;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Tags;

@@ -1,6 +1,5 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
-using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Recipes.Application.Interfaces;
@@ -12,16 +11,10 @@ public class DeleteRecipeCommandHandler(
     IAsyncValidator<DeleteRecipeCommand> validator,
     IUnitOfWork unitOfWork,
     IImageTools imageTools )
-    : ICommandHandler<DeleteRecipeCommand>
+    : CommandBaseHandler<DeleteRecipeCommand>( validator )
 {
-    public async Task<Result> HandleAsync( DeleteRecipeCommand deleteRecipeCommand )
+    protected override async Task<Result> HandleImplAsync( DeleteRecipeCommand deleteRecipeCommand )
     {
-        Result validationResult = await validator.ValidateAsync( deleteRecipeCommand );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error.Message );
-        }
-
         Recipe foundRecipe = await recipeRepository.GetByIdAsync( deleteRecipeCommand.RecipeId );
         if ( foundRecipe is null )
         {

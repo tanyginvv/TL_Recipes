@@ -11,6 +11,12 @@ public class RecipeReadDto
     public int Id { get; init; }
 
     [Required]
+    public int AuthorId { get; set; }
+
+    [Required]
+    public required string AuthorLogin { get; init; }
+
+    [Required]
     public string Name { get; init; }
 
     [Required]

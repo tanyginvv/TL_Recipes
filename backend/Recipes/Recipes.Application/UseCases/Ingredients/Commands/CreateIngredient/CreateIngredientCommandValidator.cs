@@ -1,5 +1,5 @@
-﻿using Recipes.Application.Results;
-using Recipes.Application.Validation;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Results;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 

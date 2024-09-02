@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.Repositories;
-using Recipes.Application.Validation;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
+using Recipes.Application.CQRSInterfaces;
 
 namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecipeIdQuery;
 

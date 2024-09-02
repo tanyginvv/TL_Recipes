@@ -1,7 +1,6 @@
 ﻿using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
@@ -9,16 +8,10 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
 public class DeleteIngredientCommandHandler(
     IIngredientRepository ingredientRepository,
     IAsyncValidator<DeleteIngredientCommand> validator )
-    : ICommandHandler<DeleteIngredientCommand>
+    : CommandBaseHandler<DeleteIngredientCommand>( validator )
 {
-    public async Task<Result> HandleAsync( DeleteIngredientCommand command )
+    protected override async Task<Result> HandleImplAsync( DeleteIngredientCommand command )
     {
-        Result validationResult = await validator.ValidateAsync( command );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result.FromError( validationResult.Error );
-        }
-
         Ingredient ingredient = await ingredientRepository.GetByIdAsync( command.Id );
         if ( ingredient is null )
         {

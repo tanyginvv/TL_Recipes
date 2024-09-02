@@ -2,6 +2,7 @@
 
 public class GetRecipesQuery
 {
-    public List<string> SearchTerms { get; set; }
-    public int PageNumber { get; set; } = 1;
+    public int UserId { get; set; }
+    public List<string> SearchTerms { get; init; }
+    public int PageNumber { get; init; } = 1;
 }

@@ -1,5 +1,4 @@
-﻿using Recipes.Application.Interfaces;
-using Recipes.Domain.Entities;
+﻿using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Filters;
 

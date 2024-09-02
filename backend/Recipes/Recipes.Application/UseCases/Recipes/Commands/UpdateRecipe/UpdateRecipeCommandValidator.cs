@@ -1,9 +1,12 @@
-﻿using Recipes.Application.Results;
-using Recipes.Application.Validation;
+﻿using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.Repositories;
+using Recipes.Application.Results;
+using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 
-public class UpdateRecipeCommandValidator
+public class UpdateRecipeCommandValidator(
+    IRecipeRepository recipeRepository )
     : IAsyncValidator<UpdateRecipeCommand>
 {
     public async Task<Result> ValidateAsync( UpdateRecipeCommand command )
@@ -41,6 +44,18 @@ public class UpdateRecipeCommandValidator
         if ( string.IsNullOrEmpty( command.ImageUrl ) )
         {
             return Result.FromError( "Изображение блюда должно быть обязательно " );
+        }
+
+        Recipe recipe = await recipeRepository.GetByIdAsync( command.Id );
+
+        if ( recipe.AuthorId != command.AuthorId )
+        {
+            return Result.FromError( "У пользователя нет доступа к обновлению данного рецепта" );
+        }
+
+        if ( command.Tags.Count > 5 )
+        {
+            return Result.FromError( "Количество тегов ограничено до 5 " );
         }
 
         return Result.Success;

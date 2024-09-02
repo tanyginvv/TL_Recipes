@@ -5,9 +5,8 @@ using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
-using Recipes.Application.UseCases.Steps.Commands;
+using Recipes.Application.UseCases.Steps.Commands.CreateStep;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
-using Recipes.Application.Validation;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
@@ -18,18 +17,14 @@ public class CreateRecipeCommandHandler(
     ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
     ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
+    IImageTools imageTools,
     IUnitOfWork unitOfWork )
-    : ICommandHandlerWithResult<CreateRecipeCommand, RecipeIdDto>
+    : CommandBaseHandlerWithResult<CreateRecipeCommand, RecipeIdDto>( validator )
 {
-    public async Task<Result<RecipeIdDto>> HandleAsync( CreateRecipeCommand createRecipeCommand )
+    protected override async Task<Result<RecipeIdDto>> HandleImplAsync( CreateRecipeCommand createRecipeCommand )
     {
-        Result validationResult = await validator.ValidateAsync( createRecipeCommand );
-        if ( !validationResult.IsSuccess )
-        {
-            return Result<RecipeIdDto>.FromError( validationResult.Error );
-        }
-
         Recipe recipe = new Recipe(
+            createRecipeCommand.AuthorId,
             createRecipeCommand.Name,
             createRecipeCommand.Description,
             createRecipeCommand.CookTime,
@@ -89,5 +84,12 @@ public class CreateRecipeCommandHandler(
         await unitOfWork.CommitAsync();
 
         return Result<RecipeIdDto>.FromSuccess( new RecipeIdDto { Id = recipe.Id } );
+    }
+
+    protected override async Task CleanupOnFailureAsync( CreateRecipeCommand command )
+    {
+        _ = imageTools.DeleteImage( command.ImageUrl );
+
+        await base.CleanupOnFailureAsync( command );
     }
 }

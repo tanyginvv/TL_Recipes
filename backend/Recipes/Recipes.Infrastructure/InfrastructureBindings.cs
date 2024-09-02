@@ -8,12 +8,10 @@ using Recipes.Application.Tokens.CreateToken;
 using Recipes.Application.Tokens.DecodeToken;
 using Recipes.Application.Tokens.VerificationToken;
 using Recipes.Application.PasswordHasher;
-using Recipes.Application.Tokens;
 using Recipes.Infrastructure.PasswordHashers;
 using Recipes.Infrastructure.TokenUtils.DecodeToken;
 using Recipes.Infrastructure.TokenUtils.CreateToken;
 using Recipes.Infrastructure.TokenUtils.VerificationToken;
-using Recipes.Infrastructure.Options;
 using Recipes.Infrastructure.DataAccess;
 using Recipes.Infrastructure.DataAccess.Ingredients;
 using Recipes.Infrastructure.DataAccess.Recipes;
@@ -21,6 +19,8 @@ using Recipes.Infrastructure.DataAccess.UserAuthTokens;
 using Recipes.Infrastructure.DataAccess.Users;
 using Recipes.Infrastructure.DataAccess.Tags;
 using Recipes.Infrastructure.DataAccess.Steps;
+using Recipes.Application.Tokens;
+using Recipes.Infrastructure.Options;
 namespace Recipes.Infrastructure;
 
 public static class InfrastructureBindings
@@ -38,7 +38,6 @@ public static class InfrastructureBindings
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserAuthTokenRepository, UserAuthTokenRepository>();
         services.AddScoped<IImageTools, FileImageTools>();
-        services.AddScoped<FileToolConfiguration>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         services.AddScoped<ITokenConfiguration, TokenConfiguration>();

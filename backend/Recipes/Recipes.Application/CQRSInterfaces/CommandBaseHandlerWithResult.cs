@@ -10,23 +10,23 @@ public abstract class CommandBaseHandlerWithResult<TCommand, TResult>( IAsyncVal
         Result validationResult = await validator.ValidateAsync( command );
         if ( !validationResult.IsSuccess )
         {
-            await HandleExceptionAsync( command );
+            await CleanupOnFailureAsync( command );
             return Result<TResult>.FromError( validationResult.Error );
         }
 
         try
         {
-            return await HandleAsyncImpl( command );
+            return await HandleImplAsync( command );
         }
         catch ( Exception ex )
         {
-            await HandleExceptionAsync( command );
+            await CleanupOnFailureAsync( command );
             return Result<TResult>.FromError( ex.Message );
         }
     }
 
-    protected abstract Task<Result<TResult>> HandleAsyncImpl( TCommand command );
-    protected virtual Task HandleExceptionAsync( TCommand command )
+    protected abstract Task<Result<TResult>> HandleImplAsync( TCommand command );
+    protected virtual Task CleanupOnFailureAsync( TCommand command )
     {
         return Task.CompletedTask;
     }

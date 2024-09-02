@@ -10,7 +10,7 @@ public class DeleteStepCommandHandler(
     IAsyncValidator<DeleteStepCommand> validator )
     : CommandBaseHandler<DeleteStepCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( DeleteStepCommand command )
+    protected override async Task<Result> HandleImplAsync( DeleteStepCommand command )
     {
         Step step = await stepRepository.GetByStepIdAsync( command.StepId );
         if ( step is null )

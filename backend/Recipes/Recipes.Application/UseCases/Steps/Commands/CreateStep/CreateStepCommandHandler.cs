@@ -10,7 +10,7 @@ public class CreateStepCommandHandler(
     IAsyncValidator<CreateStepCommand> validator )
     : CommandBaseHandlerWithResult<CreateStepCommand, Step>( validator )
 {
-    protected override async Task<Result<Step>> HandleAsyncImpl( CreateStepCommand command )
+    protected override async Task<Result<Step>> HandleImplAsync( CreateStepCommand command )
     {
         Step step = new Step( command.StepNumber, command.StepDescription, command.Recipe.Id );
 

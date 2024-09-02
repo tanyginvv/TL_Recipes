@@ -21,7 +21,7 @@ public class CreateRecipeCommandHandler(
     IUnitOfWork unitOfWork )
     : CommandBaseHandlerWithResult<CreateRecipeCommand, RecipeIdDto>( validator )
 {
-    protected override async Task<Result<RecipeIdDto>> HandleAsyncImpl( CreateRecipeCommand createRecipeCommand )
+    protected override async Task<Result<RecipeIdDto>> HandleImplAsync( CreateRecipeCommand createRecipeCommand )
     {
         Recipe recipe = new Recipe(
             createRecipeCommand.AuthorId,
@@ -86,10 +86,10 @@ public class CreateRecipeCommandHandler(
         return Result<RecipeIdDto>.FromSuccess( new RecipeIdDto { Id = recipe.Id } );
     }
 
-    protected override async Task HandleExceptionAsync( CreateRecipeCommand command )
+    protected override async Task CleanupOnFailureAsync( CreateRecipeCommand command )
     {
         _ = imageTools.DeleteImage( command.ImageUrl );
 
-        await base.HandleExceptionAsync( command );
+        await base.CleanupOnFailureAsync( command );
     }
 }

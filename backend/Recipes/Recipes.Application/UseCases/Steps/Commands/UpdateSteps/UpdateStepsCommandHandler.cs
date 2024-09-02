@@ -15,7 +15,7 @@ public class UpdateStepsCommandHandler(
     IAsyncValidator<UpdateStepsCommand> validator )
     : CommandBaseHandler<UpdateStepsCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateStepsCommand command )
+    protected override async Task<Result> HandleImplAsync( UpdateStepsCommand command )
     {
         List<Step> oldSteps = command.Recipe.Steps.ToList();
 

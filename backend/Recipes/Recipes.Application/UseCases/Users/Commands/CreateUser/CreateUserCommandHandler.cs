@@ -14,7 +14,7 @@ public class CreateUserCommandHandler(
     IPasswordHasher passwordHasher )
     : CommandBaseHandler<CreateUserCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( CreateUserCommand command )
+    protected override async Task<Result> HandleImplAsync( CreateUserCommand command )
     {
         string hashedPassword = passwordHasher.GeneratePassword( command.Password );
 

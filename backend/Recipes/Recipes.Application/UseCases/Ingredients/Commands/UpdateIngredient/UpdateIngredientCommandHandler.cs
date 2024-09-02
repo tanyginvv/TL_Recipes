@@ -10,7 +10,7 @@ public class UpdateIngredientCommandHandler(
     IAsyncValidator<UpdateIngredientCommand> validator)
     : CommandBaseHandler<UpdateIngredientCommand>(validator)
 {
-    protected override async Task<Result> HandleAsyncImpl(UpdateIngredientCommand command)
+    protected override async Task<Result> HandleImplAsync( UpdateIngredientCommand command)
     {
         Ingredient ingredient = await ingredientRepository.GetByIdAsync(command.Id);
         if (ingredient is null)

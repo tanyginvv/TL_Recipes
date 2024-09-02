@@ -10,7 +10,7 @@ public class DeleteIngredientCommandHandler(
     IAsyncValidator<DeleteIngredientCommand> validator )
     : CommandBaseHandler<DeleteIngredientCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( DeleteIngredientCommand command )
+    protected override async Task<Result> HandleImplAsync( DeleteIngredientCommand command )
     {
         Ingredient ingredient = await ingredientRepository.GetByIdAsync( command.Id );
         if ( ingredient is null )

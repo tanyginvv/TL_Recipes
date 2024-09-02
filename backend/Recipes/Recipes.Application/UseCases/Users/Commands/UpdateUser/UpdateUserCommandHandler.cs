@@ -14,7 +14,7 @@ public class UpdateUserCommandHandler(
     IPasswordHasher passwordHasher )
     : CommandBaseHandler<UpdateUserCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateUserCommand command )
+    protected override async Task<Result> HandleImplAsync( UpdateUserCommand command )
     {
         User user = await userRepository.GetByIdAsync( command.Id );
         if ( user is null )

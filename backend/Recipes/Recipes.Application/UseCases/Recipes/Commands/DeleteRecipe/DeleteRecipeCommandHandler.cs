@@ -13,7 +13,7 @@ public class DeleteRecipeCommandHandler(
     IImageTools imageTools )
     : CommandBaseHandler<DeleteRecipeCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( DeleteRecipeCommand deleteRecipeCommand )
+    protected override async Task<Result> HandleImplAsync( DeleteRecipeCommand deleteRecipeCommand )
     {
         Recipe foundRecipe = await recipeRepository.GetByIdAsync( deleteRecipeCommand.RecipeId );
         if ( foundRecipe is null )

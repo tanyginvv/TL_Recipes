@@ -10,7 +10,7 @@ public class UpdateStepCommandHandler(
     IAsyncValidator<UpdateStepCommand> validator )
     : CommandBaseHandler<UpdateStepCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateStepCommand command )
+    protected override async Task<Result> HandleImplAsync( UpdateStepCommand command )
     {
         Step step = await stepRepository.GetByStepIdAsync( command.StepId );
         if ( step is null || step.Id != command.StepId )

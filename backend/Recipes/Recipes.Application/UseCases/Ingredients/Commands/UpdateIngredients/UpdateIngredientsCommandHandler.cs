@@ -16,7 +16,7 @@ public class UpdateIngredientsCommandHandler(
     IAsyncValidator<UpdateIngredientsCommand> validator )
     : CommandBaseHandler<UpdateIngredientsCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateIngredientsCommand command )
+    protected override async Task<Result> HandleImplAsync( UpdateIngredientsCommand command )
     {
         List<Ingredient> oldIngredients = command.Recipe.Ingredients.ToList();
 

@@ -2,8 +2,8 @@
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.Tokens.CreateToken;
-using Recipes.Application.Tokens;
 using Recipes.Domain.Entities;
+using Recipes.Application.Tokens;
 
 namespace Recipes.Application.UseCases.Services.AuthTokenServices;
 

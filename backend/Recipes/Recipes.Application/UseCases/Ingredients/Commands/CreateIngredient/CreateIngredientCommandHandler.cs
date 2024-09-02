@@ -10,7 +10,7 @@ public class CreateIngredientCommandHandler(
     IAsyncValidator<CreateIngredientCommand> validator )
     : CommandBaseHandlerWithResult<CreateIngredientCommand, Ingredient>( validator )
 {
-    protected override async Task<Result<Ingredient>> HandleAsyncImpl( CreateIngredientCommand createIngredientCommand )
+    protected override async Task<Result<Ingredient>> HandleImplAsync( CreateIngredientCommand createIngredientCommand )
     {
         Ingredient ingredient = new Ingredient(
             createIngredientCommand.Title,

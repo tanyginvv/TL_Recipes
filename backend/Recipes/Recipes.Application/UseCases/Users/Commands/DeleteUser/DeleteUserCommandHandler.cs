@@ -12,7 +12,7 @@ public class DeleteUserCommandHandler(
     IUnitOfWork unitOfWork )
    : CommandBaseHandler<DeleteUserCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( DeleteUserCommand command )
+    protected override async Task<Result> HandleImplAsync( DeleteUserCommand command )
     {
         User user = await userRepository.GetByIdAsync( command.UserId );
 

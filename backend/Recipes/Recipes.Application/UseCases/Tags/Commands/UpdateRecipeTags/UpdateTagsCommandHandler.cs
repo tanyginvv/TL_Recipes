@@ -13,7 +13,7 @@ public class UpdateTagsCommandHandler(
     IAsyncValidator<UpdateTagsCommand> validator )
     : CommandBaseHandler<UpdateTagsCommand>(validator)
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateTagsCommand command )
+    protected override async Task<Result> HandleImplAsync( UpdateTagsCommand command )
     {
         Recipe recipe = await recipeRepository.GetByIdAsync( command.RecipeId );
         if ( recipe is null )

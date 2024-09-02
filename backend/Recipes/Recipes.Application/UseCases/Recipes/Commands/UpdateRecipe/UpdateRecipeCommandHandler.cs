@@ -20,7 +20,7 @@ public class UpdateRecipeCommandHandler(
     IImageTools imageTools )
     : CommandBaseHandler<UpdateRecipeCommand>( validator )
 {
-    protected override async Task<Result> HandleAsyncImpl( UpdateRecipeCommand updateRecipeCommand )
+    protected override async Task<Result> HandleImplAsync( UpdateRecipeCommand updateRecipeCommand )
     {
         Recipe oldRecipe = await recipeRepository.GetByIdAsync( updateRecipeCommand.Id );
         if ( oldRecipe is null )
@@ -64,10 +64,10 @@ public class UpdateRecipeCommandHandler(
         return Result.Success;
     }
 
-    protected override async Task HandleExceptionAsync( UpdateRecipeCommand command )
+    protected override async Task CleanupOnFailureAsync( UpdateRecipeCommand command )
     {
         _ = imageTools.DeleteImage( command.ImageUrl );
 
-        await base.HandleExceptionAsync( command );
+        await base.CleanupOnFailureAsync( command );
     }
 }

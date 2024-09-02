@@ -10,7 +10,7 @@ public class GetOrCreateTagCommandHandler(
     IAsyncValidator<GetOrCreateTagCommand> validator )
     : CommandBaseHandlerWithResult<GetOrCreateTagCommand, Tag>( validator )
 {
-    protected override async Task<Result<Tag>> HandleAsyncImpl( GetOrCreateTagCommand command )
+    protected override async Task<Result<Tag>> HandleImplAsync( GetOrCreateTagCommand command )
     {
         Tag tag = await tagRepository.GetByNameAsync( command.Name );
         if ( tag is null )

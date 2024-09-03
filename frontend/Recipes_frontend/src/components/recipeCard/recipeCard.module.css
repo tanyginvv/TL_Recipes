@@ -1,0 +1,143 @@
+.recipeItem {
+    width: 1200px;
+    max-height: 430px;
+    background-color: #FFFFFF;
+    border-radius: 72px 24px 24px 0px;
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 16px 72px rgba(34, 39, 47, 0.05);
+    gap: 50px;
+    cursor: pointer;
+}
+
+.recipeItem:hover {
+    box-shadow: 0 0 30px rgba(160, 82, 45, 0.5);
+    transition: 300ms;
+}
+
+.recipeImg{
+    width: 430px;
+    height: 430px;
+    border-radius: 72px 0px 72px 0px;
+    border-color: transparent;
+    object-fit: cover;
+}
+
+.recipeHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.recipeInfo {
+    height: 430px;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    padding: 37px 0 0 0;
+}
+
+.recipeTags {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 25px;
+    max-width: 350px;
+    align-items: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.recipeTag {
+    background-color: #FDB10033;
+    color: #FDB100;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0px 15px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.recipeNameInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    height: 200px;
+    margin-top: 30px;
+}
+
+.recipeName {
+    font-size: 24px;
+    line-height: 30px;
+    color: #25292D;
+    font-weight: 700;
+    margin: 16px 0px;
+}
+
+.recipeDescription {
+    color: #4A525A;
+    font-size: 18px;
+    line-height: 30px;
+    max-width: 571px;
+    height: 100px;
+}
+
+.recipeExtras {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    width: auto;
+    gap: 73px;
+}
+
+.extrasItem {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    box-shadow: none;
+    gap: 12px;
+}
+
+.extrasItemImg {
+    width: 60px;
+    height: 60px;
+}
+
+.extrasItemText {
+    text-align: left;
+    height: 60px;
+    max-width: 170px;
+    align-items: center;
+}
+
+.description {
+    font-size: 14px;
+    line-height: 28px;
+    color: #4A525A;
+    margin: 0;
+}
+
+.value {
+    color: #25292D;
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.userLogin {
+    position: absolute;
+    height: 32px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+    color: #FDB100;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 0px 14px;
+    margin-top: 363px;
+    display: flex;
+    align-items: center ;
+}

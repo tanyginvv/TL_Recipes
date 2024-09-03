@@ -15,7 +15,9 @@ public static class UserMappingConfig
             .Map( dest => dest.Login, src => src.Login )
             .Map( dest => dest.Name, src => src.Name )
             .Map( dest => dest.Description, src => src.Description )
-            .Map( dest => dest.RecipeCount, src => src.RecipeCount );
+            .Map( dest => dest.RecipeCount, src => src.RecipeCount )
+            .Map( dest => dest.LikeCount, src => src.LikeCount )
+            .Map( dest => dest.FavouriteCount, src => src.FavouriteCount );            
 
         TypeAdapterConfig<UpdateUserDto, UpdateUserCommand>
             .NewConfig()

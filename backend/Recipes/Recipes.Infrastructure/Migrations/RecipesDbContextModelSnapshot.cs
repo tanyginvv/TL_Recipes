@@ -37,6 +37,29 @@ namespace Recipes.Infrastructure.Migrations
                     b.ToTable("RecipeTag");
                 });
 
+            modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favourite", (string)null);
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
                 {
                     b.Property<int>("Id")
@@ -63,6 +86,29 @@ namespace Recipes.Infrastructure.Migrations
                     b.HasIndex("RecipeId");
 
                     b.ToTable("Ingredient", (string)null);
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Like", (string)null);
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
@@ -213,6 +259,25 @@ namespace Recipes.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Recipes.Domain.Entities.Favourite", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                        .WithMany("Favourites")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Domain.Entities.User", "User")
+                        .WithMany("Favourites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Recipes.Domain.Entities.Ingredient", b =>
                 {
                     b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
@@ -222,6 +287,25 @@ namespace Recipes.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("Recipes.Domain.Entities.Like", b =>
+                {
+                    b.HasOne("Recipes.Domain.Entities.Recipe", "Recipe")
+                        .WithMany("Likes")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Domain.Entities.User", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipe");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
@@ -259,7 +343,11 @@ namespace Recipes.Infrastructure.Migrations
 
             modelBuilder.Entity("Recipes.Domain.Entities.Recipe", b =>
                 {
+                    b.Navigation("Favourites");
+
                     b.Navigation("Ingredients");
+
+                    b.Navigation("Likes");
 
                     b.Navigation("Steps");
                 });
@@ -267,6 +355,10 @@ namespace Recipes.Infrastructure.Migrations
             modelBuilder.Entity("Recipes.Domain.Entities.User", b =>
                 {
                     b.Navigation("AuthToken");
+
+                    b.Navigation("Favourites");
+
+                    b.Navigation("Likes");
 
                     b.Navigation("Recipes");
                 });

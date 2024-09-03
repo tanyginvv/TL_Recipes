@@ -11,7 +11,7 @@ public class GetTagsByRecipeIdQueryHandler(
     IAsyncValidator<GetTagsByRecipeIdQuery> validator )
     : QueryBaseHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>( validator )
 {
-    protected override async Task<Result<GetTagsByRecipeIdQueryDto>> HandleAsyncImpl( GetTagsByRecipeIdQuery query )
+    protected override async Task<Result<GetTagsByRecipeIdQueryDto>> HandleImplAsync( GetTagsByRecipeIdQuery query )
     {
         IEnumerable<Tag> tags = await tagRepository.GetByRecipeIdAsync( query.RecipeId );
         if ( tags is null )

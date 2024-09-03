@@ -25,6 +25,8 @@ public class UserRepository( RecipesDbContext context ) : BaseRepository<User>( 
     {
         return await _context.Set<User>()
             .Include( u => u.Recipes )
+            .Include( u => u.Likes )
+            .Include( u => u.Favourites )
             .FirstOrDefaultAsync( u => u.Id == id );
     }
 

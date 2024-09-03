@@ -45,12 +45,12 @@ public class UsersController : ControllerBase
 
     [JwtAuthorization]
     [HttpGet]
-    public async Task<ActionResult<UserDto>> GetUser( 
+    public async Task<ActionResult<UserDto>> GetUser(
         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
     {
         int userId = HttpContext.GetUserIdFromAccessToken();
 
-        GetUserByIdQuery query = new GetUserByIdQuery { Id = userId };
+        GetUserByIdQuery query = new() { Id = userId };
         Result<GetUserByIdQueryDto> result = await getUserByIdQueryHandler.HandleAsync( query );
         if ( !result.IsSuccess )
         {
@@ -85,7 +85,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route( "register" )]
-    public async Task<ActionResult<Result>> Register( 
+    public async Task<ActionResult<Result>> Register(
         [FromBody] RegisterUserDto registerUserDto,
         [FromServices] ICommandHandler<CreateUserCommand> createUserCommandHandler )
     {
@@ -117,7 +117,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost( "login" )]
-    public async Task<ActionResult<TokenDto>> Login( 
+    public async Task<ActionResult<TokenDto>> Login(
         [FromBody] LoginDto loginDto,
         [FromServices] ILoginService service )
     {

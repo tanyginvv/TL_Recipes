@@ -21,4 +21,10 @@ public class UserDto
 
     [Required]
     public int RecipeCount { get; init; }
+
+    [Required]
+    public int LikeCount { get; init; }
+
+    [Required]
+    public int FavouriteCount { get; init; }
 }

@@ -27,6 +27,7 @@ public static class UserBinding
         services.AddScoped<IAsyncValidator<GetUserNameByIdQuery>, GetUserNameByIdQueryValidator>();
         services.AddScoped<IAsyncValidator<GetUserByIdQuery>, GetUserByIdQueryValidator>();
 
+        UserMappingConfig.RegisterMappings();
         return services;
     }
 }

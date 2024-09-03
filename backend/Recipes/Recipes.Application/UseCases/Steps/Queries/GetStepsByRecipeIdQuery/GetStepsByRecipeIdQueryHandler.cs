@@ -11,7 +11,7 @@ public class GetStepsByRecipeIdQueryHandler(
     IAsyncValidator<GetStepsByRecipeIdQuery> validator )
     : QueryBaseHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>( validator )
 {
-    protected override async Task<Result<GetStepsByRecipeIdQueryDto>> HandleAsyncImpl( GetStepsByRecipeIdQuery query )
+    protected override async Task<Result<GetStepsByRecipeIdQueryDto>> HandleImplAsync( GetStepsByRecipeIdQuery query )
     {
         IReadOnlyList<Step> steps = await stepRepository.GetByRecipeIdAsync( query.RecipeId );
         if ( steps is null || !steps.Any() )

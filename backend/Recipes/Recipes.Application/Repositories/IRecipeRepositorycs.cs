@@ -10,4 +10,5 @@ public interface IRecipeRepository :
 {
     Task<List<Recipe>> GetRecipesAsync( IEnumerable<IFilter<Recipe>> filters );
     Task<Recipe> GetByIdAsync( int id );
+    Task<Recipe> GetRecipeOfDayAsync();
 }

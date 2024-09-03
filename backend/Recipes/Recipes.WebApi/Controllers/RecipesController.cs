@@ -12,6 +12,7 @@ using Recipes.WebApi.Dto.RecipeDtos;
 using System.ComponentModel.DataAnnotations;
 using Mapster;
 using Recipes.WebApi.Extensions;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay;
 
 namespace Recipes.WebApi.Controllers;
 
@@ -90,7 +91,9 @@ public class RecipesController : ControllerBase
         [FromRoute, Range( 1, int.MaxValue )] int id,
         [FromServices] IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery> getRecipeByIdQueryHandler )
     {
-        GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = id };
+        int userId = HttpContext.GetUserIdFromAccessToken();
+
+        GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = id, UserId = userId };
         Result<GetRecipeQueryDto> result = await getRecipeByIdQueryHandler.HandleAsync( query );
 
         if ( !result.IsSuccess )
@@ -105,7 +108,9 @@ public class RecipesController : ControllerBase
     public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
         [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] List<string> searchTerms = null )
+        [FromQuery] List<string> searchTerms = null,
+        [FromQuery] bool isAuth = false,
+        [FromQuery] bool isFavourite = false )
     {
         int userId = HttpContext.GetUserIdFromAccessToken();
 
@@ -113,10 +118,27 @@ public class RecipesController : ControllerBase
         {
             SearchTerms = searchTerms,
             PageNumber = pageNumber,
-            UserId = userId
+            UserId = userId,
+            IsAuth = isAuth,
+            isFavourite = ( userId != 0 ) && isFavourite
         };
 
         Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+
+        if ( !result.IsSuccess )
+        {
+            return BadRequest( result.Error );
+        }
+
+        return Ok( result.Value );
+    }
+
+    [HttpGet( "recipe-of-day" )]
+    public async Task<ActionResult<RecipeReadDto>> GetRecipeOfDay(
+        [FromServices] IQueryHandler<GetRecipeOfDayDto, GetRecipeOfDayQuery> getRecipeOfDayQueryHandler )
+    {
+        GetRecipeOfDayQuery query = new GetRecipeOfDayQuery { };
+        Result<GetRecipeOfDayDto> result = await getRecipeOfDayQueryHandler.HandleAsync( query );
 
         if ( !result.IsSuccess )
         {

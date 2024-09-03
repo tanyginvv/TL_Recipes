@@ -19,8 +19,8 @@ using Recipes.Infrastructure.DataAccess.UserAuthTokens;
 using Recipes.Infrastructure.DataAccess.Users;
 using Recipes.Infrastructure.DataAccess.Tags;
 using Recipes.Infrastructure.DataAccess.Steps;
-using Recipes.Application.Tokens;
-using Recipes.Application.Options;
+using Recipes.Infrastructure.DataAccess.Likes;
+using Recipes.Infrastructure.DataAccess.Favourites;
 namespace Recipes.Infrastructure;
 
 public static class InfrastructureBindings
@@ -43,6 +43,9 @@ public static class InfrastructureBindings
         services.AddScoped<ITokenCreator, TokenCreator>();
         services.AddScoped<ITokenDecoder, TokenDecoder>();
         services.AddScoped<ITokenSignatureVerificator, TokenSignatureVerificator>();
+
+        services.AddScoped<ILikeRepository, LikeRepository>();
+        services.AddScoped<IFavouriteRepository, FavouriteRepository>();
 
         return services;
     }

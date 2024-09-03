@@ -38,5 +38,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithOne( ua => ua.User )
             .HasForeignKey<UserAuthToken>( ua => ua.UserId )
             .IsRequired();
+
+        builder.HasMany( u => u.Likes )
+            .WithOne( ua => ua.User )
+            .HasForeignKey( ua => ua.UserId )
+            .OnDelete( DeleteBehavior.Restrict );
+
+        builder.HasMany( u => u.Favourites )
+            .WithOne( ua => ua.User )
+            .HasForeignKey( ua => ua.UserId )
+            .OnDelete( DeleteBehavior.Restrict );
     }
 }

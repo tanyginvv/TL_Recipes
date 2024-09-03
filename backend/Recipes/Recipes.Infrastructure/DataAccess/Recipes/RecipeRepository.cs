@@ -22,8 +22,9 @@ public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recip
            .ApplyFilters( filters )
            .Include( r => r.Tags )
            .Include( r => r.Author )
+           .Include( u => u.Likes )
+           .Include( u => u.Favourites )
            .ToListAsync();
-
     }
 
     public override async Task<Recipe> GetByIdAsync( int id )
@@ -32,7 +33,18 @@ public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recip
             .Include( r => r.Steps )
             .Include( r => r.Ingredients )
             .Include( r => r.Tags )
+            .Include( u => u.Likes )
+            .Include( u => u.Favourites )
             .Include( r => r.Author )
             .FirstOrDefaultAsync( r => r.Id == id );
+    }
+
+    public async Task<Recipe> GetRecipeOfDayAsync()
+    {
+        return await _dbSet
+            .Include( r => r.Likes )
+            .Include( r => r.Author )
+            .OrderByDescending( r => r.Likes.Count )
+            .FirstOrDefaultAsync();
     }
 }

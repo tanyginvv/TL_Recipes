@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Mapster;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Dto;
@@ -11,18 +12,11 @@ public class GetUserByIdQueryHandler(
     IAsyncValidator<GetUserByIdQuery> validator )
     : QueryBaseHandler<GetUserByIdQueryDto, GetUserByIdQuery>( validator )
 {
-    protected override async Task<Result<GetUserByIdQueryDto>> HandleAsyncImpl( GetUserByIdQuery query )
+    protected override async Task<Result<GetUserByIdQueryDto>> HandleImplAsync( GetUserByIdQuery query )
     {
         User user = await userRepository.GetByIdAsync( query.Id );
 
-        GetUserByIdQueryDto getUserByIdQueryDto = new GetUserByIdQueryDto
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Login = user.Login,
-            Description = user.Description,
-            RecipeCount = user.Recipes.Count(),
-        };
+        GetUserByIdQueryDto getUserByIdQueryDto = user.Adapt<GetUserByIdQueryDto>();
 
         return Result<GetUserByIdQueryDto>.FromSuccess( getUserByIdQueryDto );
     }

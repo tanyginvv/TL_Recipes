@@ -19,7 +19,7 @@ public class GetRecipesQueryHandler(
             new List<IFilter<Recipe>>
             {
                 new SearchFilter { SearchTerms = query.SearchTerms },
-                new UserFilter { UserId = query.UserId, recipeQueryType = query.RecipeQueryType },
+                new UserFilter { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType },
                 new PaginationFilter { PageNumber = query.PageNumber, PageSize = PaginationFilter.DefaultPageSize },
             } );
 

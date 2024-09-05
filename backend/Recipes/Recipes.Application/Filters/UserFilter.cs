@@ -6,17 +6,17 @@ namespace Recipes.Application.Filters;
 public class UserFilter : IFilter<Recipe>
 {
     public int UserId { get; set; }
-    public RecipeQueryType recipeQueryType { get; set; }
+    public RecipeQueryType RecipeQueryType { get; set; }
 
     public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
     {
-        if ( UserId != 0 && recipeQueryType == RecipeQueryType.My )
+        if ( UserId != 0 && RecipeQueryType == RecipeQueryType.My )
         {
             query = query
                 .Where( u => u.AuthorId == UserId );
         }
 
-        if ( recipeQueryType == RecipeQueryType.Starred && UserId > 0 )
+        if ( RecipeQueryType == RecipeQueryType.Starred && UserId > 0 )
         {
             query = query
                 .Where( u => u.Favourites

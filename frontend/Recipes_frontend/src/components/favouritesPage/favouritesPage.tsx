@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import useStore from "../../store/store";
 import styles from "./favouritesPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { IRecipeAllRecipes } from "../../models/types";
+import { IRecipePart, RecipeQueryType } from "../../models/types";
 import { RecipeCard } from "../recipeCard/recipeCard";
 import { RecipeService } from "../../services/recipeServices";
 
 export const FavouritesPage = () => {
     const { userId } = useStore();
     const navigate = useNavigate();
-    const [recipes, setRecipes] = useState<IRecipeAllRecipes[]>([]);
+    const [recipes, setRecipes] = useState<IRecipePart[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [count, setCount] = useState(1);
@@ -19,20 +19,19 @@ export const FavouritesPage = () => {
             if (userId) {
                 const recipeService = new RecipeService();
                 try {
-                    const data = await recipeService.fetchRecipes(pageNumber, [], true, true);
+                    const data = await recipeService.fetchRecipes(pageNumber, [], RecipeQueryType.Starred);
                     if (pageNumber === 1) {
-                        setRecipes(data);
+                        setRecipes(data.getRecipePartDtos);
                     } else {
                         setRecipes(prev => {
-                            const newRecipes = [...prev, ...data];
+                            const newRecipes = [...prev, ...data.getRecipePartDtos];
                             const uniqueRecipes = newRecipes.filter((recipe, index, self) =>
                                 index === self.findIndex((r) => r.id === recipe.id)
                             );
                             return uniqueRecipes;
                         });
                     }
-                    const nextData = await recipeService.fetchRecipes(pageNumber + 1, [], true, true);
-                    setHasMore(nextData.length > 0);
+                    setHasMore(data.isNextPageAvailable)
                 } catch (error) {
                     console.error('Error fetching favourite recipes:', error);
                 }

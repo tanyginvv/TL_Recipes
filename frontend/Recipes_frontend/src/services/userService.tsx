@@ -42,7 +42,7 @@ export class UserService {
                 'Access-Token': `${token}`
             };
 
-            const response = await fetch(`${this.apiUrl}`, {
+            const response = await fetch(`${this.apiUrl}/current-user`, {
                 method: 'GET',
                 headers: headers
             });
@@ -67,7 +67,7 @@ export class UserService {
                 'Content-Type': 'application/json',
             };
 
-            const response = await fetch(`${this.apiUrl}`, {
+            const response = await fetch(`${this.apiUrl}/current-user`, {
                 method: 'PUT',
                 headers: headers,
                 body: JSON.stringify(userData),

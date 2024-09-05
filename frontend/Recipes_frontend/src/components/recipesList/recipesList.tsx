@@ -1,9 +1,9 @@
-import { IRecipeAllRecipes } from '../../models/types';
+import { IRecipePart } from '../../models/types';
 import { RecipeCard } from '../recipeCard/recipeCard';
 import styles from './recipesList.module.css';
 
 interface RecipesListProps {
-    recipes: IRecipeAllRecipes[];
+    recipes: IRecipePart[];
 }
 
 export const RecipesList = ({ recipes }: RecipesListProps) => {

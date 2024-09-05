@@ -81,6 +81,7 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ user, isEdi
             oldPassword: false,
             newPassword: false,
         });
+        setError(null)
     };
 
     const validateForm = () => {
@@ -102,6 +103,12 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ user, isEdi
             return false;
         }
 
+        if (!formData.oldPassword && formData.newPassword) {
+            setError("Пожалуйста, введите старый пароль.");
+            setFieldErrors(prev => ({ ...prev, oldPassword: true, newPassword: true }));
+            return false;
+        }
+
         return true;
     };
 
@@ -115,14 +122,19 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ user, isEdi
                 name: formData.name,
                 description: formData.description,
                 login: formData.login,
-                oldPasswordHash: formData.oldPassword,
-                newPasswordHash: formData.newPassword
+                oldPassword: formData.oldPassword,
+                newPassword: formData.newPassword
             };
 
-            await userService.updateUser(body);
+            const error = await userService.updateUser(body);
 
-            setIsEditing(false);
-            setNotification("Ваши данные успешно обновлены", "success");
+            if ( error.errorMessage === undefined) {
+                setIsEditing(false);
+                setNotification("Данные успешно обновлены", "success");
+            } else {
+                setNotification(`${error.errorMessage}`, "error");
+            }
+          
         } catch (error) {
             console.error("Ошибка при обновлении данных пользователя", error);
             setError("Ошибка при обновлении данных. Попробуйте снова.");

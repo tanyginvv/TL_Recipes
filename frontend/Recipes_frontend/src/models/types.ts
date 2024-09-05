@@ -6,9 +6,9 @@ export interface IRecipe {
     description: string,
     portionCount: number,
     likeCount: number,
-    isLike: boolean,
+    isLiked: boolean,
     favouriteCount: number;
-    isFavourite: boolean,
+    isFavourited: boolean,
     cookTime: number,
     imageUrl: string,
     tags: ITag[],
@@ -29,6 +29,11 @@ export interface IRecipeSubmit {
 }
 
 export interface IRecipeAllRecipes {
+    getRecipePartDtos: IRecipePart[],
+    isNextPageAvailable: boolean
+}
+
+export interface IRecipePart {
     id: number,
     authorLogin: string,
     name: string,
@@ -39,10 +44,9 @@ export interface IRecipeAllRecipes {
     cookTime: number,
     imageUrl: string,
     tags: ITag[],
-    isLike?: boolean,
-    isFavourite?: boolean
+    isLiked?: boolean,
+    isFavourited?: boolean
 }
-
 export interface ITag {
     name: string
 }
@@ -103,12 +107,18 @@ export interface IUserUpdate {
    name: string,
    description: string,
    login: string,
-   oldPasswordHash: string,
-   newPasswordHash: string,
+   oldPassword: string,
+   newPassword: string,
    error?: unknown
 }
 
 export interface IError {
     status?: number;
     errorMessage?: unknown
+}
+
+export enum RecipeQueryType {
+    All,
+    My, 
+    Starred
 }

@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/apiUrl';
-import { IRecipeAllRecipes, IRecipe, IRecipeSubmit } from '../models/types';
+import { IRecipeAllRecipes, IRecipe, IRecipeSubmit, RecipeQueryType } from '../models/types';
 import { CheckToken } from '../custom-utils/checkToken';
 
 export class RecipeService {
@@ -9,16 +9,14 @@ export class RecipeService {
         this.apiUrl = apiUrl;
     }
 
-    async fetchRecipes(pageNumber: number, searchTerms: string[] = [], 
-        isAuth: boolean = false ,
-        isFavourite: boolean = false)
-    : Promise<IRecipeAllRecipes[]> {
+    async fetchRecipes(pageNumber: number, searchTerms: string[] = [],
+        recipeQueryType: RecipeQueryType)
+    : Promise<IRecipeAllRecipes> {
         try {
             const queryString = [
                 `pageNumber=${pageNumber}`,
                 ...searchTerms.map(term => `searchTerms=${encodeURIComponent(term)}`),
-                `isAuth=${isAuth}`,
-                `isFavourite=${isFavourite}`
+                `recipeQueryType=${recipeQueryType}`,
             ].join('&');
     
             const url = `${this.apiUrl}?${queryString}`;

@@ -7,10 +7,10 @@ import unfilledStar from "../../../assets/images/unfilledStar.svg";
 import { LikeService } from '../../../services/likeService';
 import { FavouriteService } from '../../../services/favouritesService';
 import useStore from '../../../store/store';
-import { IRecipeAllRecipes } from '../../../models/types';
+import { IRecipePart } from '../../../models/types';
 
 interface ButtonsProps {
-    recipe: IRecipeAllRecipes;
+    recipe: IRecipePart;
     onLikeChange?: (difference: number) => void;
     onFavouriteChange?: (difference: number) => void;
 }
@@ -26,8 +26,8 @@ export const LikeAndFavouriteButtons: React.FC<ButtonsProps> = ({ recipe, onLike
         const fetchInitialData = async () => {
             try {
                 if (userId) {
-                    setIsLiked(recipe?.isLike ? recipe.isLike : false);
-                    setIsFavourite(recipe.isFavourite ? recipe.isFavourite : false);
+                    setIsLiked(recipe?.isLiked ? recipe.isLiked : false);
+                    setIsFavourite(recipe.isFavourited ? recipe.isFavourited : false);
                 }                
             } catch (error) {
                 console.error('Error fetching initial data:', error);

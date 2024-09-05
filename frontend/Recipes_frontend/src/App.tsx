@@ -13,7 +13,6 @@ import useStore from './store/store'
 import { UserPage } from './components/userPage/userPage'
 import { FavouritesPage } from './components/favouritesPage/favouritesPage'
 import { Notification } from './components/notification/notification'
-import { NotFoundPage } from './components/notFoundPage/notFoundPage'
 function App() {
   const {
     isRegistrationWindowOpen,
@@ -36,7 +35,7 @@ function App() {
             <Route path='/detailRecipesPage/:id' element={<DetailRecipePage/>}/>
             <Route path='/allRecipesPage' element={<AllRecipesPage/>}/>
             <Route path='/homePage' element={<HomePage/>}/>
-            <Route path="*" element={<NotFoundPage/>}/>
+            <Route path="*" element={<HomePage/>}/>
             <Route path='/favourites' element={<FavouritesPage/>}/>
           </Routes>
         <Footer/>

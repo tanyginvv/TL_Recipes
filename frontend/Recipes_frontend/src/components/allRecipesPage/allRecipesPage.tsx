@@ -4,7 +4,7 @@ import styles from "./allRecipesPage.module.css";
 import { SearchComponent } from "../searchComponent/searchComponent";
 import { RecipesList } from "../recipesList/recipesList";
 import { RecipesTitle } from "./recipesTitle/recipesTitle";
-import { IRecipeAllRecipes } from "../../models/types";
+import { IRecipePart, RecipeQueryType } from "../../models/types";
 import { RecipeService } from "../../services/recipeServices";
 
 interface LocationState {
@@ -22,9 +22,9 @@ export const AllRecipesPage = () => {
         [location.state]
     );
     const [searchTerms, setSearchTerms] = useState<string[]>(initialSearchTerms);
-    const [recipes, setRecipes] = useState<IRecipeAllRecipes[]>([]);
+    const [recipes, setRecipes] = useState<IRecipePart[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState<boolean>(true);
     const [count, setCount] = useState(1);
 
     useEffect(() => {
@@ -37,21 +37,19 @@ export const AllRecipesPage = () => {
     useEffect(() => {
         const fetchAllRecipes = async (pageNumber: number, terms: string[]) => {
             try {
-                const data = await recipeService.fetchRecipes(pageNumber, terms, false, false);
+                const data = await recipeService.fetchRecipes(pageNumber, terms, RecipeQueryType.All);
                 if (pageNumber === 1) {
-                    setRecipes(data);
+                    setRecipes(data.getRecipePartDtos);
                 } else {
                     setRecipes(prev => {
-                        const newRecipes = [...prev, ...data];
+                        const newRecipes = [...prev, ...data.getRecipePartDtos];
                         const uniqueRecipes = newRecipes.filter((recipe, index, self) =>
                             index === self.findIndex((r) => r.id === recipe.id)
                         );
                         return uniqueRecipes;
                     });
                 }
-
-                const nextData = await recipeService.fetchRecipes(pageNumber + 1, terms, false, false);
-                setHasMore(nextData.length > 0);
+                setHasMore(data.isNextPageAvailable);
             } catch (error) {
                 console.error('Ошибка:', error);
             }

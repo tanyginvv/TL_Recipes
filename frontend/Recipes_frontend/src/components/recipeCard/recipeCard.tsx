@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styles from './recipeCard.module.css';
 import cookingTimeIcon from "../../assets/images/cookingTime.svg";
 import countPortionIcon from "../../assets/images/personCount.svg";
-import { IRecipeAllRecipes } from '../../models/types';
+import { IRecipePart} from '../../models/types';
 import { useNavigate } from 'react-router-dom';
 import { ImageService } from '../../services/imageService';
 import { LikeAndFavouriteButtons } from './likeAndFavouritesButtons/likeAndFavouriteButtons';
 
 interface RecipeCardProps {
-    recipe: IRecipeAllRecipes;
+    recipe: IRecipePart;
     onLikeChange?: (newLikeCount: number) => void;
     onFavouriteChange?: (newFavouriteCount: number) => void;
 }

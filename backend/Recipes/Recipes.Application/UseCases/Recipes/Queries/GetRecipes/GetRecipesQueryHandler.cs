@@ -11,9 +11,9 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 public class GetRecipesQueryHandler(
     IRecipeRepository recipeRepository,
     IAsyncValidator<GetRecipesQuery> validator )
-    : QueryBaseHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>( validator )
+    : QueryBaseHandler<GetRecipesListDto, GetRecipesQuery>( validator )
 {
-    protected override async Task<Result<IEnumerable<GetRecipePartDto>>> HandleImplAsync( GetRecipesQuery query )
+    protected override async Task<Result<GetRecipesListDto>> HandleImplAsync( GetRecipesQuery query )
     {
         IEnumerable<Recipe> recipes = await recipeRepository.GetRecipesAsync(
             new List<IFilter<Recipe>>
@@ -22,6 +22,16 @@ public class GetRecipesQueryHandler(
                 new UserFilter { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType },
                 new PaginationFilter { PageNumber = query.PageNumber, PageSize = PaginationFilter.DefaultPageSize },
             } );
+
+        IEnumerable<Recipe> recipesNext = await recipeRepository.GetRecipesAsync(
+          new List<IFilter<Recipe>>
+          {
+                new SearchFilter { SearchTerms = query.SearchTerms },
+                new UserFilter { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType },
+                new PaginationFilter { PageNumber = query.PageNumber + 1, PageSize = PaginationFilter.DefaultPageSize },
+          } );
+
+        bool nextPage = ( recipesNext.Count() <= PaginationFilter.DefaultPageSize ) && ( recipesNext.Count() != 0 );
 
         List<GetRecipePartDto> recipeDtos = recipes.Adapt<List<GetRecipePartDto>>();
 
@@ -41,6 +51,12 @@ public class GetRecipesQueryHandler(
             }
         }
 
-        return Result<IEnumerable<GetRecipePartDto>>.FromSuccess( recipeDtos );
+        GetRecipesListDto dto = new GetRecipesListDto()
+        {
+            GetRecipePartDtos = recipeDtos,
+            IsNextPageAvailable = nextPage,
+        };
+
+        return Result<GetRecipesListDto>.FromSuccess( dto );
     }
 }

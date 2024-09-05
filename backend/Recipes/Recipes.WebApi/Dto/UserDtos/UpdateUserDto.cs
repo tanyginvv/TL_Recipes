@@ -8,7 +8,6 @@ public class UpdateUserDto
     [MaxLength( 50 )]
     public string Name { get; init; }
 
-    [Required]
     [MaxLength( 200 )]
     public string Description { get; init; }
 
@@ -16,9 +15,7 @@ public class UpdateUserDto
     [MaxLength( 50 )]
     public string Login { get; init; }
 
-    [Required]
     public string OldPassword { get; init; }
 
-    [Required]
     public string NewPassword { get; init; }
 }

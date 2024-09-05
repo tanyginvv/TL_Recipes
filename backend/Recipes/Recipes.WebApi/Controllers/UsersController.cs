@@ -44,7 +44,7 @@ public class UsersController : ControllerBase
     }
 
     [JwtAuthorization]
-    [HttpGet]
+    [HttpGet( "current-user" )]
     public async Task<ActionResult<UserDto>> GetUser(
         [FromServices] IQueryHandler<GetUserByIdQueryDto, GetUserByIdQuery> getUserByIdQueryHandler )
     {
@@ -64,7 +64,7 @@ public class UsersController : ControllerBase
     }
 
     [JwtAuthorization]
-    [HttpPut()]
+    [HttpPut( "current-user" )]
     public async Task<ActionResult<Result>> UpdateUser(
         [FromBody] UpdateUserDto updateUserDto,
         [FromServices] ICommandHandler<UpdateUserCommand> updateUserCommandHandler )

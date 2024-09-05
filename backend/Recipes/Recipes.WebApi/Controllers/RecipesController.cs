@@ -105,8 +105,8 @@ public class RecipesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<RecipePartReadDto>>> GetRecipes(
-        [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
+    public async Task<ActionResult<RecipeListReadDto>> GetRecipes(
+        [FromServices] IQueryHandler<GetRecipesListDto, GetRecipesQuery> getRecipesQueryHandler,
         [FromQuery] int pageNumber = 1,
         [FromQuery] List<string> searchTerms = null,
         [FromQuery] RecipeQueryType recipeQueryType = RecipeQueryType.All )
@@ -121,7 +121,7 @@ public class RecipesController : ControllerBase
             RecipeQueryType = recipeQueryType
         };
 
-        Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );
+        Result<GetRecipesListDto> result = await getRecipesQueryHandler.HandleAsync( query );
 
         if ( !result.IsSuccess )
         {

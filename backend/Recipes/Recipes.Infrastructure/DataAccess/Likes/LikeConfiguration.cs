@@ -15,5 +15,9 @@ public class LikeConfiguration : IEntityTypeConfiguration<Like>
 
         builder.Property( l => l.RecipeId )
             .IsRequired();
+
+        builder.HasIndex( l => new { l.RecipeId, l.UserId } )
+           .HasDatabaseName( "IX_Likes_RecipeId_UserId" )
+           .IsUnique();
     }
 }

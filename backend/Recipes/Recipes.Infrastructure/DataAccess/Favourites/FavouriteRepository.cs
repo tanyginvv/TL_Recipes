@@ -30,7 +30,6 @@ public class FavouriteRepository( RecipesDbContext context ) : BaseRepository<Fa
     public async Task<Favourite> GetFavouriteByAttributes( int recipeId, int userId )
     {
         return await _dbSet
-            .Where( r => r.RecipeId == recipeId && r.UserId == userId )
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync( r => r.RecipeId == recipeId && r.UserId == userId );
     }
 }

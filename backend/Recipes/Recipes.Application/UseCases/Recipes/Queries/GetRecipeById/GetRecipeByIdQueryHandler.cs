@@ -26,10 +26,10 @@ public class GetRecipeByIdQueryHandler(
 
         if ( query.UserId != 0 )
         {
-            getRecipeByIdQueryDto.IsLike = await likeRepository.ContainsAsync( like =>
+            getRecipeByIdQueryDto.IsLiked = await likeRepository.ContainsAsync( like =>
                 like.UserId == query.UserId && like.RecipeId == getRecipeByIdQueryDto.Id );
 
-            getRecipeByIdQueryDto.IsFavourite = await favouriteRepository.ContainsAsync( fav =>
+            getRecipeByIdQueryDto.IsFavourited = await favouriteRepository.ContainsAsync( fav =>
                 fav.UserId == query.UserId && fav.RecipeId == getRecipeByIdQueryDto.Id );
         }
 

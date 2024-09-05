@@ -109,8 +109,7 @@ public class RecipesController : ControllerBase
         [FromServices] IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery> getRecipesQueryHandler,
         [FromQuery] int pageNumber = 1,
         [FromQuery] List<string> searchTerms = null,
-        [FromQuery] bool isAuth = false,
-        [FromQuery] bool isFavourite = false )
+        [FromQuery] RecipeQueryType recipeQueryType = RecipeQueryType.All )
     {
         int userId = HttpContext.GetUserIdFromAccessToken();
 
@@ -119,8 +118,7 @@ public class RecipesController : ControllerBase
             SearchTerms = searchTerms,
             PageNumber = pageNumber,
             UserId = userId,
-            IsAuth = isAuth,
-            isFavourite = ( userId != 0 ) && isFavourite
+            RecipeQueryType = recipeQueryType
         };
 
         Result<IEnumerable<GetRecipePartDto>> result = await getRecipesQueryHandler.HandleAsync( query );

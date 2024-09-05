@@ -16,12 +16,6 @@ public class DeleteIngredientCommandValidator(
             return Result.FromError( "Неверный ID ингредиента." );
         }
 
-        Ingredient ingredient = await ingredientRepository.GetByIdAsync( command.Id );
-        if ( ingredient is null )
-        {
-            return Result.FromError( "Ингредиент не найден." );
-        }
-
         return Result.Success;
     }
 }

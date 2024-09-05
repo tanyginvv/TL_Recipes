@@ -10,8 +10,6 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 
 public class GetRecipesQueryHandler(
     IRecipeRepository recipeRepository,
-    ILikeRepository likeRepository,
-    IFavouriteRepository favouriteRepository,
     IAsyncValidator<GetRecipesQuery> validator )
     : QueryBaseHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>( validator )
 {
@@ -21,21 +19,25 @@ public class GetRecipesQueryHandler(
             new List<IFilter<Recipe>>
             {
                 new SearchFilter { SearchTerms = query.SearchTerms },
-                new UserFilter { UserId = query.UserId, IsFavourite = query.isFavourite, IsAuth = query.IsAuth },
-                new PaginationFilter { PageNumber = query.PageNumber, PageSize = 4 },
+                new UserFilter { UserId = query.UserId, recipeQueryType = query.RecipeQueryType },
+                new PaginationFilter { PageNumber = query.PageNumber, PageSize = PaginationFilter.DefaultPageSize },
             } );
 
         List<GetRecipePartDto> recipeDtos = recipes.Adapt<List<GetRecipePartDto>>();
 
-        if ( query.UserId != 0 )
-        {
-            foreach ( GetRecipePartDto recipeDto in recipeDtos )
-            {
-                recipeDto.IsLike = await likeRepository.ContainsAsync( like =>
-                    like.UserId == query.UserId && like.RecipeId == recipeDto.Id );
+        List<int> likedRecipes = recipes.Where( r => r.Likes.Any( l => l.UserId == query.UserId ) ).Select( r => r.Id ).ToList();
+        List<int> starredRecipes = recipes.Where( r => r.Favourites.Any( l => l.UserId == query.UserId ) ).Select( r => r.Id ).ToList();
 
-                recipeDto.IsFavourite = await favouriteRepository.ContainsAsync( fav =>
-                    fav.UserId == query.UserId && fav.RecipeId == recipeDto.Id );
+        foreach ( GetRecipePartDto recipeDto in recipeDtos )
+        {
+            if ( likedRecipes.Contains( recipeDto.Id ) )
+            {
+                recipeDto.IsLiked = true;
+            }
+
+            if ( starredRecipes.Contains( recipeDto.Id ) )
+            {
+                recipeDto.IsFavourited = true;
             }
         }
 

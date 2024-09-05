@@ -30,7 +30,6 @@ public class LikeRepository( RecipesDbContext context ) : BaseRepository<Like>( 
     public async Task<Like> GetLikeByAttributes( int userId, int recipeId )
     {
         return await _dbSet
-            .Where( r => r.RecipeId == recipeId && r.UserId == userId )
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync( r => r.RecipeId == recipeId && r.UserId == userId );
     }
 }

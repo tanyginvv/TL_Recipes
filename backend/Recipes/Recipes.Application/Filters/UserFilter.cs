@@ -1,4 +1,4 @@
-﻿
+﻿using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Filters;
@@ -6,18 +6,17 @@ namespace Recipes.Application.Filters;
 public class UserFilter : IFilter<Recipe>
 {
     public int UserId { get; set; }
-    public bool IsFavourite { get; set; }
-    public bool IsAuth { get; set; }
+    public RecipeQueryType recipeQueryType { get; set; }
 
     public IQueryable<Recipe> Apply( IQueryable<Recipe> query )
     {
-        if ( UserId != 0 && !IsFavourite && IsAuth )
+        if ( UserId != 0 && recipeQueryType == RecipeQueryType.My )
         {
             query = query
                 .Where( u => u.AuthorId == UserId );
         }
 
-        if ( IsFavourite && UserId > 0 )
+        if ( recipeQueryType == RecipeQueryType.Starred && UserId > 0 )
         {
             query = query
                 .Where( u => u.Favourites

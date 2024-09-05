@@ -12,7 +12,6 @@ public static class LikeBindings
         services.AddScoped<ICommandHandler<CreateLikeCommand>, CreateLikeCommandHandler>();
         services.AddScoped<ICommandHandler<DeleteLikeCommand>, DeleteLikeCommandHandler>();
 
-
         services.AddScoped<IAsyncValidator<CreateLikeCommand>, CreateLikeCommandValidator>();
         services.AddScoped<IAsyncValidator<DeleteLikeCommand>, DeleteLikeCommandValidator>();
 

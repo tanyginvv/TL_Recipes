@@ -15,5 +15,9 @@ public class FavouriteConfiguration : IEntityTypeConfiguration<Favourite>
 
         builder.Property( l => l.RecipeId )
             .IsRequired();
+
+        builder.HasIndex( f => new { f.RecipeId, f.UserId } )
+           .HasDatabaseName( "IX_Favourites_RecipeId_UserId" )
+           .IsUnique();
     }
 }

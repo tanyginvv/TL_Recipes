@@ -16,11 +16,10 @@ public class UserFilter : IFilter<Recipe>
                 .Where( u => u.AuthorId == UserId );
         }
 
-        if ( RecipeQueryType == RecipeQueryType.Starred && UserId > 0 )
+        if ( UserId != 0 && RecipeQueryType == RecipeQueryType.Starred )
         {
             query = query
-                .Where( u => u.Favourites
-                .Any( f => f.UserId == UserId ) );
+                .Where( u => u.Favourites.Any( f => f.UserId == UserId ) );
         }
 
         return query;

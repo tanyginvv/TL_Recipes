@@ -26,11 +26,9 @@ public class GetRecipeByIdQueryHandler(
 
         if ( query.UserId != 0 )
         {
-            getRecipeByIdQueryDto.IsLiked = await likeRepository.ContainsAsync( like =>
-                like.UserId == query.UserId && like.RecipeId == getRecipeByIdQueryDto.Id );
+            getRecipeByIdQueryDto.IsLiked = await likeRepository.GetLikeByAttributes( query.UserId, getRecipeByIdQueryDto.Id ) is not null;
 
-            getRecipeByIdQueryDto.IsFavourited = await favouriteRepository.ContainsAsync( fav =>
-                fav.UserId == query.UserId && fav.RecipeId == getRecipeByIdQueryDto.Id );
+            getRecipeByIdQueryDto.IsFavourited = await favouriteRepository.GetFavouriteByAttributes( query.UserId, getRecipeByIdQueryDto.Id ) is not null;
         }
 
         return Result<GetRecipeQueryDto>.FromSuccess( getRecipeByIdQueryDto );

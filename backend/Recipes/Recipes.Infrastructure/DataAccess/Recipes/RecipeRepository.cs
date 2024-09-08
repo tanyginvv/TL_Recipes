@@ -47,4 +47,11 @@ public class RecipeRepository( RecipesDbContext context ) : BaseRepository<Recip
             .OrderByDescending( r => r.Likes.Count )
             .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> AnyAsync( IEnumerable<IFilter<Recipe>> filters )
+    {
+        return await _dbSet
+           .ApplyFilters( filters )
+           .AnyAsync();
+    }
 }

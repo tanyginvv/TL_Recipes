@@ -9,6 +9,7 @@ public interface IRecipeRepository :
     IDeleteEntityRepository<Recipe>
 {
     Task<List<Recipe>> GetRecipesAsync( IEnumerable<IFilter<Recipe>> filters );
+    Task<bool> AnyAsync( IEnumerable<IFilter<Recipe>> filters );
     Task<Recipe> GetByIdAsync( int id );
     Task<Recipe> GetRecipeOfDayAsync();
 }

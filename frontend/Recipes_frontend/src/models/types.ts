@@ -104,11 +104,11 @@ export interface IName {
 }
 
 export interface IUserUpdate {
-   name: string,
-   description: string,
-   login: string,
-   oldPassword: string,
-   newPassword: string,
+   name?: string,
+   description?: string,
+   login?: string,
+   oldPassword?: string,
+   newPassword?: string,
    error?: unknown
 }
 

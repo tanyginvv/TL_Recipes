@@ -14,7 +14,7 @@ public class DeleteLikeCommandHandler(
 {
     protected override async Task<Result> HandleImplAsync( DeleteLikeCommand command )
     {
-        Like like = await repository.GetLikeByAttributes( command.UserId, command.RecipeId );
+        Like like = await repository.GetLikeByAttributes( command.RecipeId, command.UserId );
 
         if ( like is null )
         {

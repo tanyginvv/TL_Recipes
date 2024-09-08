@@ -1,17 +1,14 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./allRecipesPage.module.css";
 import { SearchComponent } from "../searchComponent/searchComponent";
 import { RecipesList } from "../recipesList/recipesList";
 import { RecipesTitle } from "./recipesTitle/recipesTitle";
-import { IRecipePart, RecipeQueryType } from "../../models/types";
-import { RecipeService } from "../../services/recipeServices";
+import { RecipeQueryType } from "../../models/types";
 
 interface LocationState {
     searchTerms?: string[];
 }
-
-const recipeService = new RecipeService();
 
 export const AllRecipesPage = () => {
     const location = useLocation();
@@ -22,50 +19,9 @@ export const AllRecipesPage = () => {
         [location.state]
     );
     const [searchTerms, setSearchTerms] = useState<string[]>(initialSearchTerms);
-    const [recipes, setRecipes] = useState<IRecipePart[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [hasMore, setHasMore] = useState<boolean>(true);
-    const [count, setCount] = useState(1);
-
-    useEffect(() => {
-        if (initialSearchTerms.length > 0) {
-            setCurrentPage(1);
-            setCount(1);
-        }
-    }, [initialSearchTerms]);
     
-    useEffect(() => {
-        const fetchAllRecipes = async (pageNumber: number, terms: string[]) => {
-            try {
-                const data = await recipeService.fetchRecipes(pageNumber, terms, RecipeQueryType.All);
-                if (pageNumber === 1) {
-                    setRecipes(data.getRecipePartDtos);
-                } else {
-                    setRecipes(prev => {
-                        const newRecipes = [...prev, ...data.getRecipePartDtos];
-                        const uniqueRecipes = newRecipes.filter((recipe, index, self) =>
-                            index === self.findIndex((r) => r.id === recipe.id)
-                        );
-                        return uniqueRecipes;
-                    });
-                }
-                setHasMore(data.isNextPageAvailable);
-            } catch (error) {
-                console.error('Ошибка:', error);
-            }
-        };
-
-        fetchAllRecipes(currentPage, searchTerms);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, searchTerms]);
-
     const handleSearchTermsChange = (terms: string[]) => {
         setSearchTerms(terms);
-    };
-
-    const handleSearch = () => {
-        setCurrentPage(1);
-        setCount(1);
     };
 
     const handleTagClick = (tag: string) => {
@@ -78,11 +34,7 @@ export const AllRecipesPage = () => {
         }
     };
 
-    const loadMore = () => {
-        const nextPage = count + 1;
-        setCount(nextPage);
-        setCurrentPage(nextPage);
-    };
+    const handleSearch = () =>{}
 
     return (
         <div className={styles.recipesContainer}>
@@ -95,12 +47,7 @@ export const AllRecipesPage = () => {
                     onSearch={handleSearch}
                 />
             </div>
-            <RecipesList recipes={recipes} />
-            {hasMore && (
-                <button onClick={loadMore} className={styles.loadMoreButton}>
-                    Показать еще
-                </button>
-            )}
+            <RecipesList searchTerms={searchTerms} recipeQueryType={RecipeQueryType.All} onSearch={handleSearch}/>
         </div>
     );
 };

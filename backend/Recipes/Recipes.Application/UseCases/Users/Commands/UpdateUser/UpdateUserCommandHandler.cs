@@ -17,12 +17,16 @@ public class UpdateUserCommandHandler(
     protected override async Task<Result> HandleImplAsync( UpdateUserCommand command )
     {
         User user = await userRepository.GetByIdAsync( command.Id );
-        if ( user is null )
+
+        if ( !string.IsNullOrEmpty( command.Name ) )
         {
-            return Result.FromError( "Пользователь не найден." );
+            user.Name = command.Name;
         }
-        user.Name = command.Name;
-        user.Description = command.Description;
+
+        if ( command.Description is not null )
+        {
+            user.Description = command.Description;
+        }
 
         if ( !string.IsNullOrEmpty( command.Login ) )
         {

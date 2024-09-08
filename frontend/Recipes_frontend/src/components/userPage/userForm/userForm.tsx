@@ -116,15 +116,28 @@ export const UserForm = forwardRef<UserFormHandle, UserFormProps>(({ user, isEdi
         e.preventDefault();
         if (!validateForm()) return;
 
+        const updatedData : IUserUpdate= {};
+        if (formData.name !== initialFormData.name) {
+            updatedData.name = formData.name;
+        }
+        if (formData.login !== initialFormData.login) {
+            updatedData.login = formData.login;
+        }
+        if (formData.oldPassword && formData.oldPassword !== "") {
+            updatedData.oldPassword = formData.oldPassword;
+            updatedData.newPassword = formData.newPassword;
+        }
+        if (formData.description !== initialFormData.description) {
+            updatedData.description = formData.description;
+        }
+
+        if (Object.keys(updatedData).length === 0) {
+            setNotification("Нет изменений для сохранения.", "info");
+            return;
+        }
         const userService = new UserService();
         try {
-            const body: IUserUpdate = {
-                name: formData.name,
-                description: formData.description,
-                login: formData.login,
-                oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword
-            };
+            const body: IUserUpdate = updatedData;
 
             const error = await userService.updateUser(body);
 

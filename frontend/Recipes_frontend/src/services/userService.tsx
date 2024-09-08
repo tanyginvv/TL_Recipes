@@ -77,6 +77,8 @@ export class UserService {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Authentication failed')
             }
+
+            window.location.reload();
             return {};
         } catch (error) {
             return { errorMessage: error}

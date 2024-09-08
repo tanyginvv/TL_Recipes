@@ -17,7 +17,6 @@ export const Header = () => {
         setAuthorizationWindowOpen,
         setUserId,
         setNotification,
-        notification
     } = useStore();
     
     const [ userName, setUserName] = useState<IName>()
@@ -38,7 +37,7 @@ export const Header = () => {
 
         fetchUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId, notification]);
+    }, [userId]);
 
     const logOut = async () => {
         await authService.logout(); 

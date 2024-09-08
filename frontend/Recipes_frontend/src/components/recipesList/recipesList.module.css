@@ -11,7 +11,29 @@
     font-weight: 600;
     line-height: 30px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     opacity: 0.5;
     color: #FDB100;
     margin: 60px 0;
+}
+
+
+.loadMoreButton {
+    height: 60px;
+    color: #F29E1F;
+    background-color: transparent;
+    border: #F29E1F solid 1px;
+    font-family: Montserrat;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadMoreButton:hover {
+    background-color: #F29E1F;
+    color: #FFFFFF;
 }

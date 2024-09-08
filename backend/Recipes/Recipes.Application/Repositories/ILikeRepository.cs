@@ -7,5 +7,5 @@ public interface ILikeRepository :
     IAddEntityRepository<Like>,
     IDeleteEntityRepository<Like>
 {
-    Task<Like> GetLikeByAttributes( int userId, int recipeId );
+    Task<Like> GetLikeByAttributes( int recipeId, int userId );
 }

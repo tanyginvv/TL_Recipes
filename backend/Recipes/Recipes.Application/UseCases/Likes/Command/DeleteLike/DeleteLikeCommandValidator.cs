@@ -22,7 +22,7 @@ public class DeleteLikeCommandValidator(
             return Result.FromError( "Пользователя с таким id не существует" );
         }
 
-        if ( await likeRepository.GetLikeByAttributes( command.UserId, command.RecipeId ) is null )
+        if ( await likeRepository.GetLikeByAttributes( command.RecipeId, command.UserId ) is null )
         {
             return Result.FromError( "Такого лайка не существует" );
         }

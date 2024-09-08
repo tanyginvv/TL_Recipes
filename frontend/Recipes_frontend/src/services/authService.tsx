@@ -108,6 +108,7 @@ export class AuthenticationService {
                 cookies.set('RefreshToken', data.refreshToken, { path: '/' });
             }
     
+            window.location.reload();
             return data;
         } catch (error) {
             console.error('Error during authentication:', error);

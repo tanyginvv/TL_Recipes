@@ -5,8 +5,7 @@ namespace Recipes.Application.Repositories;
 
 public interface ILikeRepository :
     IAddEntityRepository<Like>,
-    IDeleteEntityRepository<Like>,
-    ISearchRepository<Like>
+    IDeleteEntityRepository<Like>
 {
     Task<Like> GetLikeByAttributes( int userId, int recipeId );
 }

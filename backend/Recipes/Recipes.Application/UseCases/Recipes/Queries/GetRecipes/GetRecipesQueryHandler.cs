@@ -15,40 +15,33 @@ public class GetRecipesQueryHandler(
 {
     protected override async Task<Result<GetRecipesListDto>> HandleImplAsync( GetRecipesQuery query )
     {
-        IEnumerable<Recipe> recipes = await recipeRepository.GetRecipesAsync(
-            new List<IFilter<Recipe>>
-            {
-                new SearchFilter { SearchTerms = query.SearchTerms },
-                new UserFilter { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType },
-                new PaginationFilter { PageNumber = query.PageNumber, PageSize = PaginationFilter.DefaultPageSize },
-            } );
+        SearchFilter searchFilter = new() { SearchTerms = query.SearchTerms };
+        UserFilter userFilter = new() { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType };
+        PaginationFilter paginationFilter = new() { PageNumber = query.PageNumber, PageSize = PaginationFilter.DefaultPageSize };
 
-        IEnumerable<Recipe> recipesNext = await recipeRepository.GetRecipesAsync(
-          new List<IFilter<Recipe>>
-          {
-                new SearchFilter { SearchTerms = query.SearchTerms },
-                new UserFilter { UserId = query.UserId, RecipeQueryType = query.RecipeQueryType },
-                new PaginationFilter { PageNumber = query.PageNumber + 1, PageSize = PaginationFilter.DefaultPageSize },
-          } );
+        List<IFilter<Recipe>> filter = new() { searchFilter, userFilter, paginationFilter };
 
-        bool nextPage = ( recipesNext.Count() <= PaginationFilter.DefaultPageSize ) && ( recipesNext.Count() != 0 );
+        IEnumerable<Recipe> recipes = await recipeRepository.GetRecipesAsync( filter );
+
+        paginationFilter.PageNumber += 1;
+        bool nextPage = await recipeRepository.AnyAsync( filter );
 
         List<GetRecipePartDto> recipeDtos = recipes.Adapt<List<GetRecipePartDto>>();
 
-        List<int> likedRecipes = recipes.Where( r => r.Likes.Any( l => l.UserId == query.UserId ) ).Select( r => r.Id ).ToList();
-        List<int> starredRecipes = recipes.Where( r => r.Favourites.Any( l => l.UserId == query.UserId ) ).Select( r => r.Id ).ToList();
+        HashSet<int> likedRecipes = recipes
+            .Where( r => r.Likes.Any( l => l.UserId == query.UserId ) )
+            .Select( r => r.Id )
+            .ToHashSet();
+
+        HashSet<int> starredRecipes = recipes
+            .Where( r => r.Favourites.Any( l => l.UserId == query.UserId ) )
+            .Select( r => r.Id )
+            .ToHashSet();
 
         foreach ( GetRecipePartDto recipeDto in recipeDtos )
         {
-            if ( likedRecipes.Contains( recipeDto.Id ) )
-            {
-                recipeDto.IsLiked = true;
-            }
-
-            if ( starredRecipes.Contains( recipeDto.Id ) )
-            {
-                recipeDto.IsFavourited = true;
-            }
+            recipeDto.IsLiked = likedRecipes.Contains( recipeDto.Id );
+            recipeDto.IsFavourited = starredRecipes.Contains( recipeDto.Id );
         }
 
         GetRecipesListDto dto = new GetRecipesListDto()

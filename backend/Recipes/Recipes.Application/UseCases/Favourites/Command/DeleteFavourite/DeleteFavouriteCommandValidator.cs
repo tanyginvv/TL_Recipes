@@ -22,7 +22,7 @@ public class DeleteFavouriteCommandValidator(
             return Result.FromError( "Пользователя с таким id не существует" );
         }
 
-        if ( await favouriteRepository.GetFavouriteByAttributes( command.UserId, command.RecipeId ) is null )
+        if ( await favouriteRepository.GetFavouriteByAttributes( command.RecipeId, command.UserId ) is null )
         {
             return Result.FromError( "Такого избранного не существует" );
         }

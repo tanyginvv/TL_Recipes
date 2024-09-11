@@ -24,7 +24,7 @@ public class CreateFovouriteCommandValidator(
             return Result.FromError( "Пользователя с таким id не существует" );
         }
 
-        if ( await favouriteRepository.ContainsAsync( u => u.UserId == command.UserId && u.RecipeId == command.RecipeId ) )
+        if ( await favouriteRepository.GetFavouriteByAttributes( command.UserId, command.RecipeId ) is not null )
         {
             return Result.FromError( "Такое избранное уже существует" );
         }

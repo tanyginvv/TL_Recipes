@@ -32,7 +32,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany( u => u.Recipes )
             .WithOne( r => r.Author )
             .HasForeignKey( i => i.AuthorId )
-            .OnDelete( DeleteBehavior.Cascade );
+            .OnDelete( DeleteBehavior.Restrict );
 
         builder.HasOne( u => u.AuthToken )
             .WithOne( ua => ua.User )

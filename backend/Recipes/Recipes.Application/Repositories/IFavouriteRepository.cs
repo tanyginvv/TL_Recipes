@@ -5,8 +5,7 @@ namespace Recipes.Application.Repositories;
 
 public interface IFavouriteRepository :
     IAddEntityRepository<Favourite>,
-    IDeleteEntityRepository<Favourite>,
-    ISearchRepository<Favourite>
+    IDeleteEntityRepository<Favourite>
 {
     Task<Favourite> GetFavouriteByAttributes( int recipeId, int userId );
 }

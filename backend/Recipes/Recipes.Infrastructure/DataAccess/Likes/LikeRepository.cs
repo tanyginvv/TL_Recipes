@@ -7,17 +7,6 @@ namespace Recipes.Infrastructure.DataAccess.Likes;
 
 public class LikeRepository( RecipesDbContext context ) : BaseRepository<Like>( context ), ILikeRepository
 {
-    public async Task<Like> GetByIdAsync( Like like )
-    {
-        return await _dbSet
-            .FirstOrDefaultAsync( r => r.Id == like.Id );
-    }
-
-    public async Task<bool> ContainsAsync( Expression<Func<Like, bool>> predicate )
-    {
-        return await _dbSet.AnyAsync( predicate );
-    }
-
     public async Task Delete( Like like )
     {
         Like foundLike = await GetByIdAsync( like.Id );
@@ -27,10 +16,9 @@ public class LikeRepository( RecipesDbContext context ) : BaseRepository<Like>( 
         }
     }
 
-    public async Task<Like> GetLikeByAttributes( int userId, int recipeId )
+    public async Task<Like> GetLikeByAttributes( int recipeId, int userId )
     {
         return await _dbSet
-            .Where( r => r.RecipeId == recipeId && r.UserId == userId )
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync( r => r.RecipeId == recipeId && r.UserId == userId );
     }
 }

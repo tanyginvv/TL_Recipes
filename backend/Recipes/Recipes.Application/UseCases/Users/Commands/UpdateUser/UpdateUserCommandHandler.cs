@@ -21,8 +21,16 @@ public class UpdateUserCommandHandler(
         {
             return Result.FromError( "Пользователь не найден." );
         }
-        user.Name = command.Name;
-        user.Description = command.Description;
+
+        if ( !string.IsNullOrEmpty( command.Name ) )
+        {
+            user.Name = command.Name;
+        }
+
+        if ( command.Description is not null )
+        {
+            user.Description = command.Description;
+        }
 
         if ( !string.IsNullOrEmpty( command.Login ) )
         {

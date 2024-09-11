@@ -21,7 +21,7 @@ public static class RecipesBindings
         services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
 
         services.AddScoped<IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
-        services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>, GetRecipesQueryHandler>();
+        services.AddScoped<IQueryHandler<GetRecipesListDto, GetRecipesQuery>, GetRecipesQueryHandler>();
         services.AddScoped<IQueryHandler<GetRecipeOfDayDto, GetRecipeOfDayQuery>, GetRecipeOfDayQueryHandler>();
 
         services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();

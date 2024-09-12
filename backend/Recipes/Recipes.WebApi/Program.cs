@@ -1,10 +1,19 @@
 using Recipes.Application;
 using Recipes.Application.Options;
 using Recipes.Infrastructure;
+using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
 string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "dev";
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration( builder.Configuration )
+    .WriteTo.Console()
+    .WriteTo.File( "logs/log-.txt", rollingInterval: RollingInterval.Day )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 builder.Configuration
        .AddJsonFile( "appsettings.json" )
        .AddJsonFile( $"appsettings.{environmentName}.json", optional: true )

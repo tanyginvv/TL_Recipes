@@ -5,7 +5,6 @@ using Recipes.Application.UseCases.Ingredients;
 using Recipes.Application.UseCases.Recipes;
 using Recipes.Application.UseCases.Users;
 using Recipes.Application.UseCases.Services;
-using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.UseCases.Likes;
 using Recipes.Application.UseCases.Favourites;
 

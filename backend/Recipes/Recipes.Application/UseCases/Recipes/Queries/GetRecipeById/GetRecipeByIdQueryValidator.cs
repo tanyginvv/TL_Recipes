@@ -14,6 +14,11 @@ public class GetRecipeByIdQueryValidator(
             return Result.FromError( "Id рецепта меньше нуля" );
         }
 
+        if ( await repository.GetByIdAsync( query.Id ) is null ) 
+        {
+            return Result.FromError( "Рецепт не найден" );
+        }
+
         return Result.Success;
     }
 }

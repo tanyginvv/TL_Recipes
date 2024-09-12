@@ -25,6 +25,10 @@ public class UpdateTagsCommandValidator(
 
         foreach ( TagDto tag in command.RecipeTags )
         {
+            if ( string.IsNullOrWhiteSpace( tag.Name ) )
+            {
+                return Result.FromError( "Название тега не может быть пустым" );
+            }
             if ( tag.Name.Length > 50 )
             {
                 return Result.FromError( "Название тега не может быть больше 50 символов" );

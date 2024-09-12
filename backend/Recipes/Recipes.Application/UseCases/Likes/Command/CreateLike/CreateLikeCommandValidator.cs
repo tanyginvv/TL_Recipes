@@ -22,7 +22,7 @@ public class CreateLikeCommandValidator(
             return Result.FromError( "Пользователя с таким id не существует" );
         }
 
-        if ( await likeRepository.GetLikeByAttributes( command.UserId, command.RecipeId ) is not null )
+        if ( await likeRepository.GetLikeByAttributes( command.RecipeId, command.UserId ) is not null )
         {
             return Result.FromError( "Такой лайк уже существует" );
         }

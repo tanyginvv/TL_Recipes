@@ -17,10 +17,6 @@ public class GetRecipeByIdQueryHandler(
     protected override async Task<Result<GetRecipeQueryDto>> HandleImplAsync( GetRecipeByIdQuery query )
     {
         Recipe foundRecipe = await recipeRepository.GetByIdAsync( query.Id );
-        if ( foundRecipe is null )
-        {
-            return Result<GetRecipeQueryDto>.FromError( "Рецепт не найден" );
-        }
 
         GetRecipeQueryDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeQueryDto>();
 

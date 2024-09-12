@@ -18,6 +18,7 @@ public class Recipe : Entity
     public ICollection<Ingredient> Ingredients { get; set; }
     public ICollection<Step> Steps { get; set; }
 
+    public Recipe() { }
     public Recipe( int authorId, string name, string description, int cookTime, int portionCount, string imageUrl )
     {
         AuthorId = authorId;

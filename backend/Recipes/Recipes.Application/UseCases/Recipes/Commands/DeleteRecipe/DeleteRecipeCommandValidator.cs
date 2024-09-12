@@ -20,7 +20,7 @@ public class DeleteRecipeCommandValidator(
 
         if ( recipe is null )
         {
-            return Result.FromError( "Такого рецепта не существует" );
+            return Result.FromError( "Рецепт не найден" );
         }
 
         if ( recipe.AuthorId != command.AuthorId )

@@ -27,7 +27,6 @@ public class GetRecipeByIdQueryHandler(
         if ( query.UserId != 0 )
         {
             getRecipeByIdQueryDto.IsLiked = await likeRepository.GetLikeByAttributes( getRecipeByIdQueryDto.Id, query.UserId ) is not null;
-
             getRecipeByIdQueryDto.IsFavourited = await favouriteRepository.GetFavouriteByAttributes( getRecipeByIdQueryDto.Id, query.UserId ) is not null;
         }
 

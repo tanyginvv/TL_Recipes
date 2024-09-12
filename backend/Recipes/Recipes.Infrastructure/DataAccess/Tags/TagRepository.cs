@@ -16,7 +16,8 @@ public class TagRepository( RecipesDbContext context ) : BaseRepository<Tag>( co
     public async Task<IReadOnlyList<Tag>> GetTagsForSearchAsync( int count )
     {
         return await _dbSet
-            .OrderBy( _ => Guid.NewGuid() )
+            .Include( t => t.Recipes )
+            .OrderByDescending( t => t.Recipes.Count )
             .Take( count )
             .ToListAsync();
     }

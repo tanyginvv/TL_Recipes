@@ -1,4 +1,5 @@
-﻿namespace Recipes.Application.UseCases.Users.Dto;
+﻿
+namespace Recipes.Application.UseCases.Users.Dto;
 
 public class GetUserByIdQueryDto
 {
@@ -7,4 +8,6 @@ public class GetUserByIdQueryDto
     public string Description { get; set; }
     public string Login { get; set; }
     public int RecipeCount { get; set; }
+    public int LikeCount { get; set; }
+    public int FavouriteCount { get; set; }
 }

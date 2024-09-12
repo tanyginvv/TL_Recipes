@@ -32,11 +32,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany( u => u.Recipes )
             .WithOne( r => r.Author )
             .HasForeignKey( i => i.AuthorId )
-            .OnDelete( DeleteBehavior.Cascade );
+            .OnDelete( DeleteBehavior.Restrict );
 
         builder.HasOne( u => u.AuthToken )
             .WithOne( ua => ua.User )
             .HasForeignKey<UserAuthToken>( ua => ua.UserId )
             .IsRequired();
+
+        builder.HasMany( u => u.Likes )
+            .WithOne( ua => ua.User )
+            .HasForeignKey( ua => ua.UserId )
+            .OnDelete( DeleteBehavior.Restrict );
+
+        builder.HasMany( u => u.Favourites )
+            .WithOne( ua => ua.User )
+            .HasForeignKey( ua => ua.UserId )
+            .OnDelete( DeleteBehavior.Restrict );
     }
 }

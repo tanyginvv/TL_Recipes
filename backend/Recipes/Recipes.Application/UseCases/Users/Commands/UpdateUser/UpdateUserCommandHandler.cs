@@ -21,15 +21,23 @@ public class UpdateUserCommandHandler(
         {
             return Result.FromError( "Пользователь не найден." );
         }
-        user.Name = command.Name;
-        user.Description = command.Description;
 
-        if ( !string.IsNullOrEmpty( command.Login ) )
+        if ( !string.IsNullOrWhiteSpace( command.Name ) )
+        {
+            user.Name = command.Name;
+        }
+
+        if ( command.Description is not null )
+        {
+            user.Description = command.Description;
+        }
+
+        if ( !string.IsNullOrWhiteSpace( command.Login ) )
         {
             user.Login = command.Login;
         }
 
-        if ( !string.IsNullOrEmpty( command.OldPassword ) && !string.IsNullOrEmpty( command.NewPassword ) )
+        if ( !string.IsNullOrWhiteSpace( command.OldPassword ) && !string.IsNullOrWhiteSpace( command.NewPassword ) )
         {
             string hashedPassword = passwordHasher.GeneratePassword( command.NewPassword );
             user.PasswordHash = hashedPassword;

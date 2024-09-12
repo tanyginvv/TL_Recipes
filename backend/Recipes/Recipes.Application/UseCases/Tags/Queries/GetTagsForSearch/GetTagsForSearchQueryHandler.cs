@@ -12,7 +12,7 @@ public class GetTagsForSearchQueryHandler(
     IAsyncValidator<GetTagsForSearchQuery> validator )
      : QueryBaseHandler<IReadOnlyList<TagDto>, GetTagsForSearchQuery>( validator )
 {
-    protected override async Task<Result<IReadOnlyList<TagDto>>> HandleAsyncImpl( GetTagsForSearchQuery query )
+    protected override async Task<Result<IReadOnlyList<TagDto>>> HandleImplAsync( GetTagsForSearchQuery query )
     {
         IReadOnlyList<Tag> tags = await tagRepository.GetTagsForSearchAsync( query.Count );
 

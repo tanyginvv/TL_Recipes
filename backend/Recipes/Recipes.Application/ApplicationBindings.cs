@@ -6,6 +6,8 @@ using Recipes.Application.UseCases.Recipes;
 using Recipes.Application.UseCases.Users;
 using Recipes.Application.UseCases.Services;
 using Recipes.Application.CQRSInterfaces;
+using Recipes.Application.UseCases.Likes;
+using Recipes.Application.UseCases.Favourites;
 
 namespace Recipes.Application;
 
@@ -20,6 +22,8 @@ public static class ApplicationBindings
         services.AddIngredientsBindings();
         services.AddUserBindings();
         services.AddServiceBindings();
+        services.AddLikesBindings();
+        services.AddFavouriteBindings();
        
         return services;
     }

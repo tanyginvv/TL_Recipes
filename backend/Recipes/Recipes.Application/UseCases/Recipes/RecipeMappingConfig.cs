@@ -11,16 +11,30 @@ public static class RecipeMappingConfig
     {
         TypeAdapterConfig<TagDto, GetOrCreateTagCommand>.NewConfig();
 
-        TypeAdapterConfig<Recipe, GetRecipePartDto>.NewConfig()
-           .Map( dest => dest.Tags, src => src.Tags.Select( tag => tag.Adapt<TagDto>() ) )
-           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty ); ;
-
         TypeAdapterConfig<Tag, TagDto>.NewConfig();
 
         TypeAdapterConfig<Recipe, GetRecipeQueryDto>.NewConfig()
            .Map( dest => dest.Steps, src => src.Steps.Adapt<List<StepDto>>() )
            .Map( dest => dest.Ingredients, src => src.Ingredients.Adapt<List<IngredientDto>>() )
            .Map( dest => dest.Tags, src => src.Tags.Adapt<List<TagDto>>() )
-           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty );
+           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty )
+           .Map( dest => dest.FavouriteCount, src => src.Favourites.Count )
+           .Map( dest => dest.LikeCount, src => src.Likes.Count );
+
+        TypeAdapterConfig<Recipe, GetRecipePartDto>.NewConfig()
+           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty )
+           .Map( dest => dest.LikeCount, src => src.Likes.Count )
+           .Map( dest => dest.FavouriteCount, src => src.Favourites.Count )
+           .Map( dest => dest.Tags, src => src.Tags.Select( tag => tag.Adapt<TagDto>() ) );
+
+        TypeAdapterConfig<Recipe, GetRecipePartDto>.NewConfig()
+           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty )
+           .Map( dest => dest.LikeCount, src => src.Likes.Count )
+           .Map( dest => dest.FavouriteCount, src => src.Favourites.Count )
+           .Map( dest => dest.Tags, src => src.Tags.Select( tag => tag.Adapt<TagDto>() ).ToList() );
+
+        TypeAdapterConfig<Recipe, GetRecipeOfDayDto>.NewConfig()
+           .Map( dest => dest.AuthorLogin, src => src.Author != null ? src.Author.Login : string.Empty )
+           .Map( dest => dest.LikeCount, src => src.Likes.Count );
     }
 }

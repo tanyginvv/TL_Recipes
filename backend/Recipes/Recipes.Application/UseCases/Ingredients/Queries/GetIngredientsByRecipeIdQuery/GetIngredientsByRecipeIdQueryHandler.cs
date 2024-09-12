@@ -11,7 +11,7 @@ public class GetIngredientsByRecipeIdQueryHandler(
     IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
     : QueryBaseHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>( validator )
 {
-    protected override async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleAsyncImpl( GetIngredientsByRecipeIdQuery query )
+    protected override async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleImplAsync( GetIngredientsByRecipeIdQuery query )
     {
         IEnumerable<Ingredient> ingredients = await ingredientRepository.GetByRecipeIdAsync( query.RecipeId );
         if ( ingredients is null || !ingredients.Any() )

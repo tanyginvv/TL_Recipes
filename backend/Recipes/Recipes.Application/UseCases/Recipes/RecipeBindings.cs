@@ -7,6 +7,7 @@ using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
 using Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
+using Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay;
 
 namespace Recipes.Application.UseCases.Recipes;
 
@@ -20,7 +21,8 @@ public static class RecipesBindings
         services.AddScoped<ICommandHandler<UpdateTagsCommand>, UpdateTagsCommandHandler>();
 
         services.AddScoped<IQueryHandler<GetRecipeQueryDto, GetRecipeByIdQuery>, GetRecipeByIdQueryHandler>();
-        services.AddScoped<IQueryHandler<IEnumerable<GetRecipePartDto>, GetRecipesQuery>, GetRecipesQueryHandler>();
+        services.AddScoped<IQueryHandler<GetRecipesListDto, GetRecipesQuery>, GetRecipesQueryHandler>();
+        services.AddScoped<IQueryHandler<GetRecipeOfDayDto, GetRecipeOfDayQuery>, GetRecipeOfDayQueryHandler>();
 
         services.AddScoped<IAsyncValidator<CreateRecipeCommand>, CreateRecipeCommandValidator>();
         services.AddScoped<IAsyncValidator<DeleteRecipeCommand>, DeleteRecipeCommandValidator>();
@@ -29,6 +31,7 @@ public static class RecipesBindings
 
         services.AddScoped<IAsyncValidator<GetRecipeByIdQuery>, GetRecipeByIdQueryValidator>();
         services.AddScoped<IAsyncValidator<GetRecipesQuery>, GetRecipesQueryValidator>();
+        services.AddScoped<IAsyncValidator<GetRecipeOfDayQuery>, GetRecipeOfDayQueryValidator>();
 
         RecipeMappingConfig.RegisterMappings();
 

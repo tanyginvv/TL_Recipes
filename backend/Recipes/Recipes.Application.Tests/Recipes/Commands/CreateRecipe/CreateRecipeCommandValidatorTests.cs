@@ -251,4 +251,54 @@ public class CreateRecipeCommandValidatorTests
         Assert.False( result.IsSuccess );
         Assert.Equal( "Количество тегов ограничено до 5", result.Error.Message );
     }
+
+    [Fact]
+    public async Task ValidateAsync_IngredientsEmpty_ReturnsError()
+    {
+        // Arrange
+        CreateRecipeCommand command = new CreateRecipeCommand
+        {
+            AuthorId = _existingUser.Id,
+            Name = "Valid Recipe",
+            Description = "A valid description.",
+            PortionCount = 1,
+            CookTime = 30,
+            ImageUrl = "http://example.com/image.jpg",
+            Tags = new List<TagDto>(),
+            Ingredients = new List<IngredientDto>(), // Empty ingredients list
+            Steps = new List<StepDto> { new StepDto { StepDescription = "Step 1" } }
+        };
+
+        // Act
+        Result result = await _validator.ValidateAsync( command );
+
+        // Assert
+        Assert.False( result.IsSuccess );
+        Assert.Equal( "Количество ингредиентов не может быть равно 0", result.Error.Message );
+    }
+
+    [Fact]
+    public async Task ValidateAsync_StepsEmpty_ReturnsError()
+    {
+        // Arrange
+        CreateRecipeCommand command = new CreateRecipeCommand
+        {
+            AuthorId = _existingUser.Id,
+            Name = "Valid Recipe",
+            Description = "A valid description.",
+            PortionCount = 1,
+            CookTime = 30,
+            ImageUrl = "http://example.com/image.jpg",
+            Tags = new List<TagDto>(),
+            Ingredients = new List<IngredientDto> { new IngredientDto { Title = "Ingredient", Description = "Description" } },
+            Steps = new List<StepDto>() // Empty steps list
+        };
+
+        // Act
+        Result result = await _validator.ValidateAsync( command );
+
+        // Assert
+        Assert.False( result.IsSuccess );
+        Assert.Equal( "Количество шагов не может быть равно 0", result.Error.Message );
+    }
 }

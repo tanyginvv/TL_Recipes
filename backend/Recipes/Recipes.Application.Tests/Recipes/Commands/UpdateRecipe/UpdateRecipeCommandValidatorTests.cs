@@ -4,6 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
+using Xunit;
 
 namespace Recipes.Application.Tests.Recipes.Commands.UpdateRecipe;
 
@@ -257,12 +258,71 @@ public class UpdateRecipeCommandValidatorTests
 
         Recipe recipe = new Recipe( 1, "Name", "Description", 30, 4, "image_url" ) { AuthorId = 1 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.Id ) ).ReturnsAsync( recipe );
+
         // Act
         Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
         Assert.Equal( "Количество тегов ограничено до 5", result.Error.Message );
+    }
+
+    [Fact]
+    public async Task ValidateAsync_StepsCountIsZero_ReturnsError()
+    {
+        // Arrange
+        UpdateRecipeCommand command = new UpdateRecipeCommand
+        {
+            Id = 1,
+            AuthorId = 1,
+            Name = "Valid Name",
+            Description = "Some description",
+            CookTime = 30,
+            PortionCount = 4,
+            ImageUrl = "http://example.com/image.jpg",
+            Tags = new List<TagDto>(),
+            Steps = new List<StepDto>(), // No steps
+            Ingredients = new List<IngredientDto>()
+        };
+
+        Recipe recipe = new Recipe( 1, "Name", "Description", 30, 4, "image_url" ) { AuthorId = 1 };
+        _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.Id ) ).ReturnsAsync( recipe );
+
+        // Act
+        Result result = await _validator.ValidateAsync( command );
+
+        // Assert
+        Assert.False( result.IsSuccess );
+        Assert.Equal( "Количество шагов не может быть равно 0", result.Error.Message );
+    }
+
+    [Fact]
+    public async Task ValidateAsync_IngredientsCountIsZero_ReturnsError()
+    {
+        // Arrange
+        UpdateRecipeCommand command = new UpdateRecipeCommand
+        {
+            Id = 1,
+            AuthorId = 1,
+            Name = "Valid Name",
+            Description = "Some description",
+            CookTime = 30,
+            PortionCount = 4,
+            ImageUrl = "http://example.com/image.jpg",
+            Tags = new List<TagDto>(),
+            Steps = new List<StepDto> { new StepDto() },
+            Ingredients = new List<IngredientDto>() // No ingredients
+        };
+
+        Recipe recipe = new Recipe( 1, "Name", "Description", 30, 4, "image_url" ) { AuthorId = 1 };
+        _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.Id ) ).ReturnsAsync( recipe );
+
+        // Act
+        Result result = await _validator.ValidateAsync( command );
+
+        // Assert
+        Assert.False( result.IsSuccess );
+        Assert.Equal( "Количество ингредиентов не может быть равно 0", result.Error.Message );
     }
 
     [Fact]
@@ -279,8 +339,8 @@ public class UpdateRecipeCommandValidatorTests
             PortionCount = 4,
             ImageUrl = "http://example.com/image.jpg",
             Tags = new List<TagDto>(),
-            Steps = new List<StepDto>(),
-            Ingredients = new List<IngredientDto>()
+            Steps = new List<StepDto> { new StepDto() },
+            Ingredients = new List<IngredientDto> { new IngredientDto() }
         };
 
         Recipe recipe = new Recipe( 1, "Name", "Description", 30, 4, "image_url" ) { AuthorId = 1 };

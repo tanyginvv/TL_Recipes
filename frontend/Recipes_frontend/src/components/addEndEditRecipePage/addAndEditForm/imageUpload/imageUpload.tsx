@@ -25,7 +25,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ image, onImageChange, 
                     />): <></>}
             <input
                 type="file"
-                accept=".png, .jpg, .jpeg"
+                accept=".png, .jpg, .jpeg, .webp"
                 id="recipeImage"
                 className={styles.hiddenInput}
                 onChange={handleImageChange}

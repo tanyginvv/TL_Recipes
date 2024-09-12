@@ -88,57 +88,40 @@ export const AddAndEditForm = forwardRef((_, ref) => {
 
     const validateForm = () => {
         let isValid = true;
-
-        if (!name.trim()) {
-            setIsNameValid(false);
-            isValid = false;
-        } else {
-            setIsNameValid(true);
-        }
-
-        if (!image) {
-            setIsImageValid(false);
-            isValid = false;
-        } else {
-            setIsImageValid(true);
-        }
-
-        if (!description.trim()) {
-            setIsDescriptionValid(false);
-            isValid = false;
-        } else {
-            setIsDescriptionValid(true);
-        }
-
-        if (!tags.length) {
-            setAreTagsValid(false);
-            isValid = false;
-        } else {
-            setAreTagsValid(true);
-        }
-
-        const validIngredients = ingredients.every(ingredient => ingredient.title.trim() !== '' && ingredient.description.trim() !== '');
-        if (!validIngredients) {
-            setAreIngredientsValid(false);
-            isValid = false;
-        } else {
-            setAreIngredientsValid(true);
-        }
-
-        const validSteps = steps.every(step => step.stepDescription.trim() !== '');
-        if (!validSteps) {
-            setAreStepsValid(false);
-            isValid = false;
-        } else {
-            setAreStepsValid(true);
-        }
-
+    
+        const isNameValid = name.trim() !== '';
+        setIsNameValid(isNameValid);
+        if (!isNameValid) isValid = false;
+    
+        const isImageValid = !!image;
+        setIsImageValid(isImageValid);
+        if (!isImageValid) isValid = false;
+    
+        const isDescriptionValid = description.trim() !== '';
+        setIsDescriptionValid(isDescriptionValid);
+        if (!isDescriptionValid) isValid = false;
+    
+        const areTagsValid = tags.length > 0;
+        setAreTagsValid(areTagsValid);
+        if (!areTagsValid) isValid = false;
+    
+        const areIngredientsValid = ingredients.length > 0 &&
+            ingredients.every(ingredient => ingredient.title.trim() !== '' && ingredient.description.trim() !== '');
+        setAreIngredientsValid(areIngredientsValid);
+        if (!areIngredientsValid) isValid = false;
+    
+        const areStepsValid = steps.length > 0 &&
+            steps.every(step => step.stepDescription.trim() !== '');
+        setAreStepsValid(areStepsValid);
+        if (!areStepsValid) isValid = false;
+    
         if (!isValid) {
             setNotification("Заполните все поля", "error");
         }
-
+    
         return isValid;
     };
+    
 
     const submitForm = async () => {
         if (!validateForm()) {
@@ -173,7 +156,7 @@ export const AddAndEditForm = forwardRef((_, ref) => {
             setNotification((id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен'), "success");
             navigate('/allRecipesPage');
         } catch (error) {
-            alert('Ошибка: ' + error);
+            setNotification(`${error}`, "error");
         }
     };
 

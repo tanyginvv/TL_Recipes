@@ -12,4 +12,6 @@ public class Like : Entity
         RecipeId = recipeId;
         UserId = userId;
     }
+
+    public Like() { }
 }

@@ -30,4 +30,8 @@ public class Recipe : Entity
         Ingredients = new List<Ingredient>();
         Steps = new List<Step>();
     }
+
+    public Recipe()
+    {
+    }
 }

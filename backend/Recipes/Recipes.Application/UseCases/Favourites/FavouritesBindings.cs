@@ -12,7 +12,7 @@ public static class FavouriteBindings
         services.AddScoped<ICommandHandler<CreateFavouriteCommand>, CreateFavouriteCommandHandler>();
         services.AddScoped<ICommandHandler<DeleteFavouriteCommand>, DeleteFavouriteCommandHandler>();
 
-        services.AddScoped<IAsyncValidator<CreateFavouriteCommand>, CreateFovouriteCommandValidator>();
+        services.AddScoped<IAsyncValidator<CreateFavouriteCommand>, CreateFavouriteCommandValidator>();
         services.AddScoped<IAsyncValidator<DeleteFavouriteCommand>, DeleteFavouriteCommandValidator>();
 
         return services;

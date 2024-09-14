@@ -6,6 +6,8 @@ using Recipes.Application.Tokens.DecodeToken;
 using Recipes.Application.Tokens.VerificationToken;
 using Microsoft.Extensions.Options;
 using Recipes.Application.Options;
+using Serilog;
+using ILogger = Serilog.ILogger;
 
 namespace Recipes.WebApi.JwtAuthorization;
 
@@ -13,7 +15,7 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
 {
     public void OnAuthorization( AuthorizationFilterContext context )
     {
-        ILogger logger = context.HttpContext.RequestServices.GetService<ILogger<JwtAuthorizationAttribute>>();
+        ILogger logger = Log.ForContext<JwtAuthorizationAttribute>();
         ITokenSignatureVerificator tokenSignatureVerificator = context.HttpContext.RequestServices.GetService<ITokenSignatureVerificator>();
         ITokenDecoder tokenDecoder = context.HttpContext.RequestServices.GetService<ITokenDecoder>();
         IOptions<JwtOptions> configuration = context.HttpContext.RequestServices.GetService<IOptions<JwtOptions>>();
@@ -23,14 +25,14 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
             string accessToken = context.HttpContext.Request.Headers[ "Access-Token" ];
             if ( string.IsNullOrEmpty( accessToken ) )
             {
-                logger.LogWarning( "Отсутствует Access-Token." );
+                logger.Warning( "Отсутствует Access-Token." );
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
             if ( !tokenSignatureVerificator.VerifySignature( accessToken, configuration.Value.Secret ) )
             {
-                logger.LogWarning( "Неверная подпись токена." );
+                logger.Warning( "Неверная подпись токена." );
                 context.Result = new UnauthorizedResult();
                 return;
             }
@@ -39,7 +41,7 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
 
             if ( token?.Payload?.Expiration is null || DateTime.UtcNow > DateTimeOffset.FromUnixTimeSeconds( token.Payload.Expiration.Value ).UtcDateTime )
             {
-                logger.LogWarning( "Срок действия токена истек." );
+                logger.Warning( "Срок действия токена истек." );
                 context.Result = new UnauthorizedResult();
                 return;
             }
@@ -47,7 +49,7 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
             Claim userIdClaim = token.Claims.FirstOrDefault( claim => claim.Type == "userId" );
             if ( userIdClaim is null || !int.TryParse( userIdClaim.Value, out int userId ) )
             {
-                logger.LogWarning( "Отсутствует или некорректен userId в токене." );
+                logger.Warning( "Отсутствует или некорректен userId в токене." );
                 context.Result = new UnauthorizedResult();
                 return;
             }
@@ -56,7 +58,7 @@ public class JwtAuthorizationAttribute : Attribute, IAuthorizationFilter
         }
         catch ( Exception ex )
         {
-            logger.LogError( ex, "Произошла ошибка при валидации токена." );
+            logger.Error( ex, "Произошла ошибка при валидации токена." );
             context.Result = new UnauthorizedResult();
         }
     }

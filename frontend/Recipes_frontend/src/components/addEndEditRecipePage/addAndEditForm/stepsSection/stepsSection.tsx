@@ -30,7 +30,6 @@ export const StepsSection: React.FC<StepsSectionProps> = ({ steps, setSteps, are
 
     return (
         <div className={styles.stepsInfo}>
-            <h5 className={styles.stepTitle}>Шаги приготовления</h5>
             {steps.map((step, index) => (
                 <span key={index} className={styles.stepItem}>
                     <span className={styles.closeBtnStep} onClick={() => handleRemoveStep(index)}>

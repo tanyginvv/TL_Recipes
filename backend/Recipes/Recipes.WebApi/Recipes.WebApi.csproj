@@ -5,6 +5,9 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Configurations>Debug;Release</Configurations>
+    <UserSecretsId>df790926-ab76-4de9-8dea-f9294f51fefd</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +25,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
     <PackageReference Include="Serilog" Version="4.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
@@ -31,6 +35,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Recipes.Application\Recipes.Application.csproj" />
     <ProjectReference Include="..\Recipes.Infrastructure\Recipes.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

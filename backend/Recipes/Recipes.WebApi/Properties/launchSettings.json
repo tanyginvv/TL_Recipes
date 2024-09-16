@@ -1,21 +1,17 @@
-﻿{
+{
   "profiles": {
     "tanygin": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "",
-      "applicationUrl": "http://localhost:5218",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JSON_CONFIG_NAME": "tanygin"
-      }
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5218"
     },
     "prod": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": false,
-      "applicationUrl": "https://localhost:7091;http://localhost:5218",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production",
         "JSON_CONFIG_NAME": "prod"

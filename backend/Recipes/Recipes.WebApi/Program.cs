@@ -2,7 +2,6 @@ using Recipes.Application;
 using Recipes.Application.Options;
 using Recipes.Infrastructure;
 using Serilog;
-using Microsoft.Extensions.FileProviders;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
@@ -29,44 +28,27 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors( options =>
 {
-    options.AddPolicy( "AllowSpecificOrigin", policy =>
+    options.AddPolicy( "AllowAll", policy =>
     {
-        policy.WithOrigins( builder.Configuration.GetSection( "FrontendUrl" ).Value )
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyMethod();
     } );
 } );
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 WebApplication app = builder.Build();
 
-app.UseCors( "AllowSpecificOrigin" );
+if ( app.Environment.IsDevelopment() )
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
+app.UseCors( "AllowAll" );
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseFileServer( new FileServerOptions
-{
-    FileProvider = new PhysicalFileProvider( Path.Combine( app.Environment.ContentRootPath, "wwwroot" ) ),
-    RequestPath = "",
-    EnableDirectoryBrowsing = false
-} );
-
-app.Use( async ( context, next ) =>
-{
-    await next();
-    if ( context.Response.StatusCode == 404 && !context.Request.Path.Value.StartsWith( "/api" ) )
-    {
-        context.Request.Path = "/index.html";
-        await next();
-    }
-} );
-
-
-app.MapFallbackToFile( "index.html" );
-
 app.UseAuthorization();
 app.MapControllers();
 

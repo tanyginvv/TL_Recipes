@@ -3,7 +3,7 @@ using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.DeleteIngredient;
 
-namespace Recipes.Application.Tests.UseCases.Ingredients.Commands;
+namespace Recipes.Application.Tests.Ingredients.Command.DeleteIngredient;
 
 public class DeleteIngredientCommandValidatorTests
 {
@@ -25,7 +25,7 @@ public class DeleteIngredientCommandValidatorTests
         Result result = await _validator.ValidateAsync( command );
 
         // Assert
-        Assert.True(result.IsSuccess);
+        Assert.True( result.IsSuccess );
     }
 
     [Fact]

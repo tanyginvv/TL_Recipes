@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using Moq;
-using Xunit;
+﻿using Moq;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Likes.Command.DeleteLike;
 using Recipes.Application.Interfaces;
+
+namespace Recipes.Application.Tests.Likes.Command.DeleteLike;
 
 public class DeleteLikeCommandHandlerTests
 {

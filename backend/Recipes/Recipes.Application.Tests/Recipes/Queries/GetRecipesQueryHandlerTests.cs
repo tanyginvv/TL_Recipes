@@ -39,13 +39,13 @@ public class GetRecipesQueryHandlerTests
 
         List<Recipe> recipes = new List<Recipe>
         {
-            new Recipe
+            new Recipe( 1, "", "", 1, 1, "" )
             {
                 Id = 1,
-                Likes = new List<Like> { new Like { UserId = 1 } },
-                Favourites = new List<Favourite> { new Favourite { UserId = 1 } }
+                Likes = new List<Like> { new Like( 1, 1) { UserId = 1 } },
+                Favourites = new List<Favourite> { new Favourite( 1, 1 ) { UserId = 1 } }
             },
-            new Recipe
+            new Recipe( 1, "", "", 1, 1, "" )
             {
                 Id = 2,
                 Likes = new List<Like>(),

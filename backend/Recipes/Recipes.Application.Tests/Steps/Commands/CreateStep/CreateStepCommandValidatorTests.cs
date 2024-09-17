@@ -21,14 +21,14 @@ public class CreateStepCommandValidatorTests
         {
             StepDescription = string.Empty,
             StepNumber = 1,
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         CreateStepCommand commandWithNullDescription = new CreateStepCommand
         {
             StepDescription = null,
             StepNumber = 1,
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -51,14 +51,14 @@ public class CreateStepCommandValidatorTests
         {
             StepDescription = "Valid description",
             StepNumber = 0,
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ){ Id = 1 }
         };
 
         CreateStepCommand commandWithNegativeNumber = new CreateStepCommand
         {
             StepDescription = "Valid description",
             StepNumber = -1,
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -81,7 +81,7 @@ public class CreateStepCommandValidatorTests
         {
             StepDescription = "Valid description",
             StepNumber = 1,
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act

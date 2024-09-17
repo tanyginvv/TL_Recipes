@@ -1,6 +1,4 @@
 ﻿using Moq;
-using System.Threading.Tasks;
-using Xunit;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Favourites.Command.DeleteFavourite;
@@ -8,6 +6,7 @@ using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 
+namespace Recipes.Application.Tests.Favourites.Command.DeleteFavourite;
 public class DeleteFavouriteCommandHandlerTests
 {
     private readonly Mock<IFavouriteRepository> _mockFavouriteRepository;

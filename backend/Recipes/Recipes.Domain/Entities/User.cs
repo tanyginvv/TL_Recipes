@@ -18,8 +18,4 @@ public class User : Entity
         PasswordHash = passwordHash;
         Recipes = new List<Recipe>();
     }
-
-    public User()
-    {
-    }
 }

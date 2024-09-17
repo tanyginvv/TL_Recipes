@@ -1,6 +1,8 @@
 ﻿using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.Results;
 
+namespace Recipes.Application.Tests.Ingredients.Command.UpdateIngredient;
+
 public class UpdateIngredientCommandValidatorTests
 {
     private readonly UpdateIngredientCommandValidator _validator;

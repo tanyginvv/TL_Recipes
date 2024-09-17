@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.UpdateStep;
 
 public class UpdateStepCommandValidatorTests
 {
@@ -65,7 +65,7 @@ public class UpdateStepCommandValidatorTests
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 1, StepDescription = "Description" };
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
-            .ReturnsAsync( null as Step  );
+            .ReturnsAsync( null as Step );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -80,7 +80,7 @@ public class UpdateStepCommandValidatorTests
     {
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 1, StepDescription = "Description" };
-        Step step = new Step( command.StepNumber, command.StepDescription, 1 ) { Id = 1}; // Assuming a valid step
+        Step step = new Step( command.StepNumber, command.StepDescription, 1 ) { Id = 1 }; // Assuming a valid step
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 

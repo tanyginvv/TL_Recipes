@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Queries.GetRecipeById;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.Recipes.Queries.GetRecipeById;
+namespace Recipes.Application.Tests.Recipes.Queries;
 
 public class GetRecipeByIdQueryValidatorTests
 {
@@ -36,7 +36,7 @@ public class GetRecipeByIdQueryValidatorTests
     {
         // Arrange
         GetRecipeByIdQuery query = new GetRecipeByIdQuery { Id = 1, UserId = 0 };
-        _mockRepository.Setup( r => r.GetByIdAsync( query.Id ) ).ReturnsAsync( null as Recipe  );
+        _mockRepository.Setup( r => r.GetByIdAsync( query.Id ) ).ReturnsAsync( null as Recipe );
 
         // Act
         Result result = await _validator.ValidateAsync( query );

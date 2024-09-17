@@ -40,7 +40,7 @@ public class UpdateIngredientsCommandValidatorTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(),
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "", Description = "Valid Description" }
@@ -61,7 +61,7 @@ public class UpdateIngredientsCommandValidatorTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(),
+            Recipe = new Recipe(1, "", "", 1, 1, ""),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = new string('a', 101), Description = "Valid Description" }
@@ -82,7 +82,7 @@ public class UpdateIngredientsCommandValidatorTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(),
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Title", Description = "" }
@@ -103,7 +103,7 @@ public class UpdateIngredientsCommandValidatorTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(),
+            Recipe = new Recipe(1, "", "", 1, 1, ""),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Title", Description = new string('a', 251) }
@@ -124,7 +124,7 @@ public class UpdateIngredientsCommandValidatorTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(),
+            Recipe = new Recipe(1, "", "", 1, 1, ""),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Title", Description = "Valid Description" }

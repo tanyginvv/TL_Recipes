@@ -6,6 +6,8 @@ using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Likes.Command.CreateLike;
 using Recipes.Application.Interfaces;
 
+namespace Recipes.Application.Tests.Likes.Command.CreateLike;
+
 public class CreateLikeCommandHandlerTests
 {
     private readonly Mock<ILikeRepository> _mockLikeRepository;

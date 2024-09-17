@@ -1,11 +1,11 @@
 ﻿using Moq;
-using System.Threading.Tasks;
-using Xunit;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+
+namespace Recipes.Application.Tests.Tags.Command.GetOrCreateTag;
 
 public class GetOrCreateTagCommandHandlerTests
 {
@@ -46,8 +46,7 @@ public class GetOrCreateTagCommandHandlerTests
             .ReturnsAsync( null as Tag  ); // Simulate that tag does not exist
 
         Tag newTag = new Tag( command.Name );
-        _tagRepositoryMock.Setup( repo => repo.AddAsync( It.IsAny<Tag>() ) )
-            .Callback<Tag>( tag => { /* Simulate adding the tag */ } );
+        _tagRepositoryMock.Setup( repo => repo.AddAsync( It.IsAny<Tag>() ) );
         _validatorMock.Setup( x => x.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );
         // Act
         Result<Tag> result = await _handler.HandleAsync( command );

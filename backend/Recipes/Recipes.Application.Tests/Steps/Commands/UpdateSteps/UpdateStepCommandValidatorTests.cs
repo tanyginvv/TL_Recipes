@@ -19,7 +19,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Valid description" }
@@ -60,7 +60,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 0, StepDescription = "Valid description" }
@@ -81,7 +81,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "" }
@@ -102,7 +102,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = new string('x', 251) }
@@ -123,7 +123,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Description 1" },
@@ -145,7 +145,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>()
         };
 

@@ -5,7 +5,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.DeleteStep;
 
 public class DeleteStepCommandHandlerTests
 {
@@ -26,7 +26,7 @@ public class DeleteStepCommandHandlerTests
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
-            .ReturnsAsync( null as Step  );
+            .ReturnsAsync( null as Step );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "Шаг не найден" ) );
 
         // Act
@@ -64,7 +64,7 @@ public class DeleteStepCommandHandlerTests
             .ReturnsAsync( step );
         _stepRepositoryMock.Setup( repo => repo.Delete( step ) )
             .Returns( Task.CompletedTask );
-        _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess);
+        _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );
 
         // Act
         Result result = await _handler.HandleAsync( command );

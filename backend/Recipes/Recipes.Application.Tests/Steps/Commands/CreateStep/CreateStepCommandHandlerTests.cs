@@ -28,7 +28,7 @@ public class CreateStepCommandHandlerTests
         {
             StepNumber = 1,
             StepDescription = "Step description",
-            Recipe = new Recipe { Id = 123 } // Предполагается, что у Recipe есть свойство Id
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 } // Предполагается, что у Recipe есть свойство Id
         };
 
         _validatorMock.Setup( v => v.ValidateAsync( command ) )
@@ -58,7 +58,7 @@ public class CreateStepCommandHandlerTests
         {
             StepNumber = 1,
             StepDescription = "Step description",
-            Recipe = new Recipe { Id = 123 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 }
         };
 
         _validatorMock.Setup( v => v.ValidateAsync( command ) )

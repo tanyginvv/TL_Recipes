@@ -1,11 +1,11 @@
 ﻿using Moq;
-using Xunit;
-using System.Threading.Tasks;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+
+namespace Recipes.Application.Tests.Ingredients.Command.UpdateIngredient;
 
 public class UpdateIngredientCommandHandlerTests
 {

@@ -8,6 +8,8 @@ using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
 
+namespace Recipes.Application.Tests.Ingredients.Command.UpdatesIngredient;
+
 public class UpdateIngredientsCommandHandlerTests
 {
     private readonly Mock<ICommandHandler<UpdateIngredientCommand>> _updateIngredientCommandHandlerMock;
@@ -36,7 +38,7 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "New Ingredient", Description = "Description" }
@@ -45,7 +47,7 @@ public class UpdateIngredientsCommandHandlerTests
 
         _createIngredientCommandHandlerMock
             .Setup( x => x.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
-            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient() ) );
+            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient( "", "", 1 ) ) );
 
         _validatorMock
            .Setup( x => x.ValidateAsync( command ) )
@@ -64,7 +66,7 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "New Ingredient 1", Description = "Description 1" },
@@ -74,7 +76,7 @@ public class UpdateIngredientsCommandHandlerTests
 
         _createIngredientCommandHandlerMock
             .Setup( x => x.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
-            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient() ) );
+            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient( "", "", 1 ) ) );
 
         _validatorMock
            .Setup( x => x.ValidateAsync( command ) )
@@ -91,10 +93,10 @@ public class UpdateIngredientsCommandHandlerTests
     public async Task HandleImplAsync_Should_Update_ExistingIngredients_When_DescriptionChanged()
     {
         // Arrange
-        Ingredient existingIngredient = new Ingredient { Id = 1, Title = "Existing Ingredient", Description = "Old Description" };
+        Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Old Description" };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Existing Ingredient", Description = "New Description" }
@@ -122,12 +124,12 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         List<Ingredient> existingIngredients = new List<Ingredient>
         {
-            new Ingredient { Id = 1, Title = "Ingredient 1", Description = "Old Description 1" },
-            new Ingredient { Id = 2, Title = "Ingredient 2", Description = "Old Description 2" }
+            new Ingredient( "", "", 1 ) { Id = 1, Title = "Ingredient 1", Description = "Old Description 1" },
+            new Ingredient( "", "", 1 ) { Id = 2, Title = "Ingredient 2", Description = "Old Description 2" }
         };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = existingIngredients },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = existingIngredients },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Ingredient 1", Description = "New Description 1" },
@@ -154,10 +156,10 @@ public class UpdateIngredientsCommandHandlerTests
     public async Task HandleImplAsync_Should_Delete_Ingredients_That_Are_No_Long_Apart()
     {
         // Arrange
-        Ingredient existingIngredient = new Ingredient { Id = 1, Title = "To Be Deleted" };
+        Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "To Be Deleted" };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
             NewIngredients = new List<IngredientDto>()
         };
 
@@ -180,10 +182,10 @@ public class UpdateIngredientsCommandHandlerTests
     public async Task HandleImplAsync_Should_Handle_No_Changes()
     {
         // Arrange
-        Ingredient existingIngredient = new Ingredient { Id = 1, Title = "Existing Ingredient", Description = "Description" };
+        Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Description" };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Existing Ingredient", Description = "Description" }
@@ -206,10 +208,10 @@ public class UpdateIngredientsCommandHandlerTests
     public async Task HandleImplAsync_Should_Handle_Empty_NewIngredients_List()
     {
         // Arrange
-        Ingredient existingIngredient = new Ingredient { Id = 1, Title = "Existing Ingredient", Description = "Description" };
+        Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Description" };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient> { existingIngredient } },
             NewIngredients = new List<IngredientDto>()
         };
 
@@ -233,7 +235,7 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Invalid Ingredient", Description = "Description" }
@@ -261,7 +263,7 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe { Id = 1, Ingredients = new List<Ingredient>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Ingredient", Description = "Description" }

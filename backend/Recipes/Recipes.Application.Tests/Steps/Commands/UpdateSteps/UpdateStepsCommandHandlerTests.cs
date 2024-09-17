@@ -36,7 +36,7 @@ public class UpdateStepsCommandHandlerTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "New Step Description" }
@@ -45,7 +45,7 @@ public class UpdateStepsCommandHandlerTests
 
         _createStepCommandHandlerMock
             .Setup( x => x.HandleAsync( It.IsAny<CreateStepCommand>() ) )
-            .ReturnsAsync( Result<Step>.FromSuccess( new Step() ) );
+            .ReturnsAsync( Result<Step>.FromSuccess( new Step( 1, "", 1 ) ) );
 
         _validatorMock
             .Setup( x => x.ValidateAsync( command ) )
@@ -65,7 +65,7 @@ public class UpdateStepsCommandHandlerTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "New Step 1 Description" },
@@ -75,7 +75,7 @@ public class UpdateStepsCommandHandlerTests
 
         _createStepCommandHandlerMock
             .Setup( x => x.HandleAsync( It.IsAny<CreateStepCommand>() ) )
-            .ReturnsAsync( Result<Step>.FromSuccess( new Step() ) );
+            .ReturnsAsync( Result<Step>.FromSuccess( new Step(1, "", 1) ) );
 
         _validatorMock
             .Setup( x => x.ValidateAsync( command ) )
@@ -93,10 +93,10 @@ public class UpdateStepsCommandHandlerTests
     public async Task HandleImplAsync_Should_Update_ExistingStep_When_DescriptionChanged()
     {
         // Arrange
-        Step existingStep = new Step { Id = 1, StepNumber = 1, StepDescription = "Old Description" };
+        Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Old Description" };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step> { existingStep } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step> { existingStep } },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Updated Description" }
@@ -125,12 +125,12 @@ public class UpdateStepsCommandHandlerTests
         // Arrange
         List<Step> existingSteps = new List<Step>
         {
-            new Step { Id = 1, StepNumber = 1, StepDescription = "Old Description 1" },
-            new Step { Id = 2, StepNumber = 2, StepDescription = "Old Description 2" }
+            new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Old Description 1" },
+            new Step( 1, "", 1 ) { Id = 2, StepNumber = 2, StepDescription = "Old Description 2" }
         };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = existingSteps },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = existingSteps },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "New Description 1" },
@@ -158,10 +158,10 @@ public class UpdateStepsCommandHandlerTests
     public async Task HandleImplAsync_Should_Delete_Steps_That_Are_No_Long_Apart()
     {
         // Arrange
-        Step existingStep = new Step { Id = 1, StepNumber = 1, StepDescription = "To Be Deleted" };
+        Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "To Be Deleted" };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step> { existingStep } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step> { existingStep } },
             NewSteps = new List<StepDto>()
         };
 
@@ -185,10 +185,10 @@ public class UpdateStepsCommandHandlerTests
     public async Task HandleImplAsync_Should_Handle_No_Changes()
     {
         // Arrange
-        Step existingStep = new Step { Id = 1, StepNumber = 1, StepDescription = "Description" };
+        Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Description" };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step> { existingStep } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step> { existingStep } },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Description" }
@@ -213,10 +213,10 @@ public class UpdateStepsCommandHandlerTests
     public async Task HandleImplAsync_Should_Handle_Empty_NewSteps_List()
     {
         // Arrange
-        Step existingStep = new Step { Id = 1, StepNumber = 1, StepDescription = "Description" };
+        Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Description" };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step> { existingStep } },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step> { existingStep } },
             NewSteps = new List<StepDto>()
         };
 
@@ -240,7 +240,7 @@ public class UpdateStepsCommandHandlerTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Invalid Step" }
@@ -268,7 +268,7 @@ public class UpdateStepsCommandHandlerTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1, Steps = new List<Step>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Valid Step" }

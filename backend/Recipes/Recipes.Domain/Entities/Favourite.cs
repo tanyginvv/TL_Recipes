@@ -12,6 +12,4 @@ public class Favourite : Entity
         RecipeId = recipeId;
         UserId = userId;
     }
-
-    public Favourite() { }
 }

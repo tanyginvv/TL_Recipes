@@ -54,7 +54,7 @@ public class UpdateTagsCommandHandlerTests
     public async Task HandleAsync_Should_Remove_And_Add_Tags_Correctly()
     {
         // Arrange
-        Recipe recipe = new Recipe { Id = 1, Tags = new List<Tag> { new Tag( "OldTag" ) } };
+        Recipe recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Tags = new List<Tag> { new Tag( "OldTag" ) } };
         UpdateTagsCommand command = new UpdateTagsCommand
         {
             RecipeId = recipe.Id,
@@ -82,7 +82,7 @@ public class UpdateTagsCommandHandlerTests
     {
         // Arrange
         Tag existingTag = new Tag( "ExistingTag" );
-        Recipe recipe = new Recipe { Id = 1, Tags = new List<Tag> { existingTag } };
+        Recipe recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Tags = new List<Tag> { existingTag } };
         UpdateTagsCommand command = new UpdateTagsCommand
         {
             RecipeId = recipe.Id,

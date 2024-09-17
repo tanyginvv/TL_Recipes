@@ -20,7 +20,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -38,7 +38,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = string.Empty,
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -57,7 +57,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = new string( 'A', 101 ), // 101 characters long
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -76,7 +76,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = string.Empty,
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -95,7 +95,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = new string( 'A', 251 ), // 251 characters long
-            Recipe = new() { Id = 1}
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1}
         };
 
         // Act

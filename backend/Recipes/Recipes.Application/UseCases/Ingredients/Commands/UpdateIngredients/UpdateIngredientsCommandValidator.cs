@@ -18,8 +18,6 @@ public class UpdateIngredientsCommandValidator : IAsyncValidator<UpdateIngredien
             return Result.FromError( "Количество ингредиентов не может быть равно 0" );
         }
 
-        HashSet<int> stepNumbers = new HashSet<int>();
-
         foreach ( IngredientDto ingredient in command.NewIngredients )
         {
             if ( string.IsNullOrEmpty( ingredient.Title ) )

@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.Results;
 
-namespace Recipes.Application.Tests.UseCases.Ingredients.Commands;
+namespace Recipes.Application.Tests.Ingredients.Command.CreateIngredient;
 
 public class CreateIngredientCommandValidatorTests
 {
@@ -95,7 +95,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = new string( 'A', 251 ), // 251 characters long
-            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1}
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act

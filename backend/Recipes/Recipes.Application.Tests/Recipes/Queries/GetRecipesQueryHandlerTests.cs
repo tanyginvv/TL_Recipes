@@ -7,7 +7,7 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Filters;
 using Recipes.Application.UseCases.Recipes.Dtos;
 
-namespace Recipes.Application.Tests.UseCases.Recipes.Queries.GetRecipes;
+namespace Recipes.Application.Tests.Recipes.Queries;
 
 public class GetRecipesQueryHandlerTests
 {

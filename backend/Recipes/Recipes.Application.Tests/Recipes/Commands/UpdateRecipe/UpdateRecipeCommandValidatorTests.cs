@@ -4,7 +4,6 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
-using Xunit;
 
 namespace Recipes.Application.Tests.Recipes.Commands.UpdateRecipe;
 

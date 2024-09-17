@@ -5,7 +5,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Commands.CreateStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.CreateStep;
 
 public class CreateStepCommandHandlerTests
 {

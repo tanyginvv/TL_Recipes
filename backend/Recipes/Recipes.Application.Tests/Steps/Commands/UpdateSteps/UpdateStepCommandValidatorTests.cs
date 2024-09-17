@@ -1,8 +1,9 @@
 ﻿using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
+using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
+namespace Recipes.Application.Tests.Steps.Commands.UpdateSteps;
 
 public class UpdateStepsCommandValidatorTests
 {

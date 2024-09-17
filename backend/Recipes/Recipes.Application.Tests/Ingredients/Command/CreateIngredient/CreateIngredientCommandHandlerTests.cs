@@ -5,7 +5,7 @@ using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 
-namespace Recipes.Application.Tests.UseCases.Ingredients.Commands;
+namespace Recipes.Application.Tests.Ingredients.Command.CreateIngredient;
 
 public class CreateIngredientCommandHandlerTests
 {

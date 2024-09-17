@@ -2,7 +2,7 @@
 using Recipes.Application.UseCases.Steps.Commands.CreateStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.CreateStep;
 
 public class CreateStepCommandValidatorTests
 {
@@ -51,7 +51,7 @@ public class CreateStepCommandValidatorTests
         {
             StepDescription = "Valid description",
             StepNumber = 0,
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ){ Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         CreateStepCommand commandWithNegativeNumber = new CreateStepCommand

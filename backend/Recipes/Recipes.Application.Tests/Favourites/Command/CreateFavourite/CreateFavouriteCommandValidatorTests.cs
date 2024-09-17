@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Favourites.Command.CreateFavourite;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.Favourites.Command;
+namespace Recipes.Application.Tests.Favourites.Command.CreateFavourite;
 public class CreateFavouriteCommandValidatorTests
 {
     private readonly Mock<IRecipeRepository> _mockRecipeRepository;

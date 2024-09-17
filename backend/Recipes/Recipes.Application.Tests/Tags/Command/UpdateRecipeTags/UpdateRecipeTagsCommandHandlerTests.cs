@@ -1,8 +1,4 @@
 ﻿using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -10,6 +6,8 @@ using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Recipes.Dtos;
+
+namespace Recipes.Application.Tests.Tags.Command.UpdateRecipeTags;
 
 public class UpdateTagsCommandHandlerTests
 {

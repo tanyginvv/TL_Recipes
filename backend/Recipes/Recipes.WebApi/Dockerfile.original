@@ -19,10 +19,8 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Recipes.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-RUN mkdir -p /app/Recipes.Infrastructure && chmod -R 777 /app/Recipes.Infrastructure
-
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY —from=publish /app/publish .
 COPY Recipes.WebApi/wwwroot /appp/wwwroot
 ENTRYPOINT ["dotnet", "Recipes.WebApi.dll"]

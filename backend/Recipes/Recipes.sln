@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.WebApi", "Recipes.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Application.Tests", "Recipes.Application.Tests\Recipes.Application.Tests.csproj", "{844ECA8B-966D-41D9-AC28-315D50C39083}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{48A9DC4B-D606-4C1E-87F3-02B86E0055E8}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BF5F9BC7-C2C1-49DF-ABAB-B587B2E12AC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{844ECA8B-966D-41D9-AC28-315D50C39083}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{844ECA8B-966D-41D9-AC28-315D50C39083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{844ECA8B-966D-41D9-AC28-315D50C39083}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48A9DC4B-D606-4C1E-87F3-02B86E0055E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48A9DC4B-D606-4C1E-87F3-02B86E0055E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48A9DC4B-D606-4C1E-87F3-02B86E0055E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48A9DC4B-D606-4C1E-87F3-02B86E0055E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF5F9BC7-C2C1-49DF-ABAB-B587B2E12AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF5F9BC7-C2C1-49DF-ABAB-B587B2E12AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF5F9BC7-C2C1-49DF-ABAB-B587B2E12AC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF5F9BC7-C2C1-49DF-ABAB-B587B2E12AC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

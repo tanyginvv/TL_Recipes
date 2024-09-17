@@ -1,34 +1,32 @@
-version: '3.4'
+version: "3.9"
 
 services:
   recipes.webapi:
     image: ${DOCKER_REGISTRY-}recipeswebapi
+    ports:
+      - "1111:80"  
     build:
       context: .
       dockerfile: Recipes.WebApi/Dockerfile
-    ports:
-      - "5218:80"
+    mem_limit: 1g
+    cpus: 1.0
+    restart: always  
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: "Server=recipes.db;Database=RecipesDb;User Id=sa;Password=YourStrong!Passw0rd;"
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=RecipesDB;User=sa;Password=YourStrong@Passw0rd;Encrypt=True;TrustServerCertificate=True; 
     depends_on:
-      - recipes.db
+      - mssql
 
-  recipes.db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: recipes-db
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
-      ACCEPT_EULA: "Y"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+      - MSSQL_PID=Express
     ports:
       - "1433:1433"
     volumes:
       - mssql_data:/var/opt/mssql
-  recipes.client:
-    image: recipes-client
-    build:
-      context: frontend/Recipes_frontend
-      dockerfile: Dockerfile
 
 volumes:
   mssql_data:

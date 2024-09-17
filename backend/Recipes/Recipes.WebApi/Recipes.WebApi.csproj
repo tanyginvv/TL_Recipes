@@ -37,8 +37,4 @@
     <ProjectReference Include="..\Recipes.Infrastructure\Recipes.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
 </Project>

@@ -2,6 +2,7 @@
 using Recipes.Application.Interfaces;
 using Recipes.Application.Options;
 using Recipes.Application.Results;
+using Serilog;
 
 namespace Recipes.Infrastructure.ImageTools;
 
@@ -33,8 +34,10 @@ public class FileImageTools( IOptions<FileToolsOptions> fileToolsOptions ) : IIm
 
             return Result<string>.FromSuccess( fileName );
         }
-        catch
+        catch ( Exception ex )
         {
+            Log.Error( ex, "Произошла ошибка." );
+
             return Result<string>.FromError( "Не удалось сохранить изображение." );
         }
     }

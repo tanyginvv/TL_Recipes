@@ -4,7 +4,7 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>48a9dc4b-d606-4c1e-87f3-02b86e0055e8</ProjectGuid>
+    <ProjectGuid>bf5f9bc7-c2c1-49df-abab-b587b2e12ac1</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>recipes.webapi</DockerServiceName>

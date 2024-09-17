@@ -2,6 +2,9 @@ using Recipes.Application;
 using Recipes.Application.Options;
 using Recipes.Infrastructure;
 using Serilog;
+using Microsoft.Extensions.FileProviders;
+using Recipes.Infrastructure.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
@@ -28,27 +31,59 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors( options =>
 {
-    options.AddPolicy( "AllowAll", policy =>
+    options.AddPolicy( "AllowSpecificOrigin", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins( builder.Configuration.GetSection( "FrontendUrl" ).Value )
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     } );
 } );
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 WebApplication app = builder.Build();
 
-if ( app.Environment.IsDevelopment() )
+using ( IServiceScope scope = app.Services.CreateScope() )
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    IServiceProvider services = scope.ServiceProvider;
+    try
+    {
+        RecipesDbContext context = services.GetRequiredService<RecipesDbContext>();
+        context.Database.Migrate(); 
+    }
+    catch ( Exception ex )
+    {
+        ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError( ex, "An error occurred while migrating the database." );
+    }
 }
 
-app.UseCors( "AllowAll" );
+app.UseCors( "AllowSpecificOrigin" );
+
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseFileServer( new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider( Path.Combine( app.Environment.ContentRootPath, "wwwroot" ) ),
+    RequestPath = "",
+    EnableDirectoryBrowsing = false
+} );
+
+app.Use( async ( context, next ) =>
+{
+    await next();
+    if ( context.Response.StatusCode == 404 && !context.Request.Path.Value.StartsWith( "/api" ) )
+    {
+        context.Request.Path = "/index.html";
+        await next();
+    }
+} );
+
+
+app.MapFallbackToFile( "index.html" );
+
 app.UseAuthorization();
 app.MapControllers();
 

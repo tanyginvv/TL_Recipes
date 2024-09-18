@@ -9,6 +9,7 @@ using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Recipes.Dtos;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Recipes.Commands.UpdateRecipe;
 
@@ -22,6 +23,7 @@ public class UpdateRecipeCommandHandlerTests
     private readonly Mock<ICommandHandler<UpdateTagsCommand>> _mockUpdateTagsCommandHandler;
     private readonly Mock<IImageTools> _mockImageTools;
     private readonly UpdateRecipeCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateRecipeCommand>> _loggerMock;
 
     public UpdateRecipeCommandHandlerTests()
     {
@@ -32,6 +34,7 @@ public class UpdateRecipeCommandHandlerTests
         _mockUpdateIngredientsCommandHandler = new Mock<ICommandHandler<UpdateIngredientsCommand>>();
         _mockUpdateTagsCommandHandler = new Mock<ICommandHandler<UpdateTagsCommand>>();
         _mockImageTools = new Mock<IImageTools>();
+        _loggerMock = new Mock<ILogger<UpdateRecipeCommand>>();
 
         _handler = new UpdateRecipeCommandHandler(
             _mockRecipeRepository.Object,
@@ -40,7 +43,8 @@ public class UpdateRecipeCommandHandlerTests
             _mockUpdateStepsCommandHandler.Object,
             _mockUpdateIngredientsCommandHandler.Object,
             _mockUpdateTagsCommandHandler.Object,
-            _mockImageTools.Object
+            _mockImageTools.Object,
+            _loggerMock.Object
         );
     }
 

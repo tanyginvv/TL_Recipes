@@ -5,6 +5,8 @@ using Recipes.Application.UseCases.Users.Queries.GetUserById;
 using Recipes.Domain.Entities;
 using System.Linq.Expressions;
 
+namespace Recipes.Application.Tests.Users.Queries;
+
 public class GetUserByIdQueryValidatorTests
 {
     private readonly Mock<IUserRepository> _mockUserRepository;

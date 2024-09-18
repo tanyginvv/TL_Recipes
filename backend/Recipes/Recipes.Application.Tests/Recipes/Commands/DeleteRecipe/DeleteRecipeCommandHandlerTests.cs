@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
@@ -15,6 +16,7 @@ public class DeleteRecipeCommandHandlerTests
     private readonly Mock<IImageTools> _mockImageTools;
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly DeleteRecipeCommandHandler _handler;
+    private readonly Mock<ILogger<DeleteRecipeCommand>> _loggerMock;
 
     public DeleteRecipeCommandHandlerTests()
     {
@@ -22,12 +24,14 @@ public class DeleteRecipeCommandHandlerTests
         _mockValidator = new Mock<IAsyncValidator<DeleteRecipeCommand>>();
         _mockImageTools = new Mock<IImageTools>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
+        _loggerMock = new Mock<ILogger<DeleteRecipeCommand>>();
 
         _handler = new DeleteRecipeCommandHandler(
             _mockRecipeRepository.Object,
             _mockValidator.Object,
             _mockUnitOfWork.Object,
-            _mockImageTools.Object
+            _mockImageTools.Object,
+            _loggerMock.Object
         );
     }
 

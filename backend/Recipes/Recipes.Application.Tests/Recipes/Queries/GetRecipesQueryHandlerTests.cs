@@ -6,6 +6,7 @@ using Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 using Recipes.Domain.Entities;
 using Recipes.Application.Filters;
 using Recipes.Application.UseCases.Recipes.Dtos;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Recipes.Queries;
 
@@ -14,14 +15,16 @@ public class GetRecipesQueryHandlerTests
     private readonly Mock<IRecipeRepository> _recipeRepositoryMock;
     private readonly Mock<IAsyncValidator<GetRecipesQuery>> _validatorMock;
     private readonly GetRecipesQueryHandler _handler;
-
+    private readonly Mock<ILogger<GetRecipesQuery>> _loggerMock;
     public GetRecipesQueryHandlerTests()
     {
         _recipeRepositoryMock = new Mock<IRecipeRepository>();
         _validatorMock = new Mock<IAsyncValidator<GetRecipesQuery>>();
+        _loggerMock = new Mock<ILogger<GetRecipesQuery>>();
         _handler = new GetRecipesQueryHandler(
             _recipeRepositoryMock.Object,
-            _validatorMock.Object
+            _validatorMock.Object,
+            _loggerMock.Object
         );
     }
 

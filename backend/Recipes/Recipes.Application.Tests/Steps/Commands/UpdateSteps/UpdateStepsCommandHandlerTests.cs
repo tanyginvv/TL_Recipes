@@ -7,6 +7,7 @@ using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Steps.Commands.UpdateSteps;
 
@@ -17,18 +18,21 @@ public class UpdateStepsCommandHandlerTests
     private readonly Mock<ICommandHandlerWithResult<CreateStepCommand, Step>> _createStepCommandHandlerMock;
     private readonly Mock<IAsyncValidator<UpdateStepsCommand>> _validatorMock;
     private readonly UpdateStepsCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateStepsCommand>> _loggerMock;
 
     public UpdateStepsCommandHandlerTests()
     {
         _updateStepCommandHandlerMock = new Mock<ICommandHandler<UpdateStepCommand>>();
         _deleteStepCommandHandlerMock = new Mock<ICommandHandler<DeleteStepCommand>>();
         _createStepCommandHandlerMock = new Mock<ICommandHandlerWithResult<CreateStepCommand, Step>>();
+        _loggerMock = new Mock<ILogger<UpdateStepsCommand>>();
         _validatorMock = new Mock<IAsyncValidator<UpdateStepsCommand>>();
         _handler = new UpdateStepsCommandHandler(
             _updateStepCommandHandlerMock.Object,
             _deleteStepCommandHandlerMock.Object,
             _createStepCommandHandlerMock.Object,
-            _validatorMock.Object
+            _validatorMock.Object,
+            _loggerMock.Object
         );
     }
 

@@ -5,6 +5,7 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Likes.Command.DeleteLike;
 using Recipes.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Likes.Command.DeleteLike;
 
@@ -14,16 +15,19 @@ public class DeleteLikeCommandHandlerTests
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<IAsyncValidator<DeleteLikeCommand>> _mockValidator;
     private readonly DeleteLikeCommandHandler _handler;
+    private readonly Mock<ILogger<DeleteLikeCommand>> _loggerMock;
 
     public DeleteLikeCommandHandlerTests()
     {
         _mockLikeRepository = new Mock<ILikeRepository>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockValidator = new Mock<IAsyncValidator<DeleteLikeCommand>>();
+        _loggerMock = new Mock<ILogger<DeleteLikeCommand>>();
         _handler = new DeleteLikeCommandHandler(
             _mockLikeRepository.Object,
             _mockUnitOfWork.Object,
-            _mockValidator.Object );
+            _mockValidator.Object,
+            _loggerMock.Object );
     }
 
     [Fact]

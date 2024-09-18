@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.PasswordHasher;
@@ -16,6 +17,7 @@ public class CreateUserCommandHandlerTests
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<IPasswordHasher> _mockPasswordHasher;
     private readonly CreateUserCommandHandler _handler;
+    private readonly Mock<ILogger<CreateUserCommand>> _loggerMock;
 
     public CreateUserCommandHandlerTests()
     {
@@ -23,11 +25,13 @@ public class CreateUserCommandHandlerTests
         _mockValidator = new Mock<IAsyncValidator<CreateUserCommand>>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockPasswordHasher = new Mock<IPasswordHasher>();
+        _loggerMock = new Mock<ILogger<CreateUserCommand>>();
         _handler = new CreateUserCommandHandler(
             _mockUserRepository.Object,
             _mockValidator.Object,
             _mockUnitOfWork.Object,
-            _mockPasswordHasher.Object
+            _mockPasswordHasher.Object,
+            _loggerMock.Object
         );
     }
 

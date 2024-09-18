@@ -4,6 +4,7 @@ using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.PasswordHasher;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.UseCases.Users.Commands.UpdateUser;
 
@@ -11,8 +12,9 @@ public class UpdateUserCommandHandler(
     IUserRepository userRepository,
     IAsyncValidator<UpdateUserCommand> validator,
     IUnitOfWork unitOfWork,
-    IPasswordHasher passwordHasher )
-    : CommandBaseHandler<UpdateUserCommand>( validator )
+    IPasswordHasher passwordHasher,
+    ILogger<UpdateUserCommand> logger )
+    : CommandBaseHandler<UpdateUserCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( UpdateUserCommand command )
     {

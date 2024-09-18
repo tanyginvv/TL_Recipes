@@ -3,6 +3,7 @@ using Recipes.Domain.Entities;
 using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Recipes.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.DeleteRecipe;
 
@@ -10,8 +11,9 @@ public class DeleteRecipeCommandHandler(
     IRecipeRepository recipeRepository,
     IAsyncValidator<DeleteRecipeCommand> validator,
     IUnitOfWork unitOfWork,
-    IImageTools imageTools )
-    : CommandBaseHandler<DeleteRecipeCommand>( validator )
+    IImageTools imageTools,
+    ILogger<DeleteRecipeCommand> logger )
+    : CommandBaseHandler<DeleteRecipeCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( DeleteRecipeCommand deleteRecipeCommand )
     {

@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Dtos;
@@ -8,8 +9,9 @@ namespace Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery;
 
 public class GetStepsByRecipeIdQueryHandler(
     IStepRepository stepRepository,
-    IAsyncValidator<GetStepsByRecipeIdQuery> validator )
-    : QueryBaseHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>( validator )
+    IAsyncValidator<GetStepsByRecipeIdQuery> validator,
+    ILogger<GetStepsByRecipeIdQuery> logger )
+    : QueryBaseHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>( validator, logger )
 {
     protected override async Task<Result<GetStepsByRecipeIdQueryDto>> HandleImplAsync( GetStepsByRecipeIdQuery query )
     {

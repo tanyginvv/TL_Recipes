@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
@@ -7,8 +8,9 @@ namespace Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 
 public class UpdateStepCommandHandler(
     IStepRepository stepRepository,
-    IAsyncValidator<UpdateStepCommand> validator )
-    : CommandBaseHandler<UpdateStepCommand>( validator )
+    IAsyncValidator<UpdateStepCommand> validator,
+    ILogger<UpdateStepCommand> logger)
+    : CommandBaseHandler<UpdateStepCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( UpdateStepCommand command )
     {

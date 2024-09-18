@@ -18,6 +18,11 @@ public class GetRecipeOfDayQueryHandler(
     {
         Recipe foundRecipe = await recipeRepository.GetRecipeOfDayAsync();
 
+        if ( foundRecipe is null )
+        {
+            return Result<GetRecipeOfDayDto>.FromError( "Рецепт дня не найден" );
+        }
+
         GetRecipeOfDayDto getRecipeByIdQueryDto = foundRecipe.Adapt<GetRecipeOfDayDto>();
 
         return Result<GetRecipeOfDayDto>.FromSuccess( getRecipeByIdQueryDto );

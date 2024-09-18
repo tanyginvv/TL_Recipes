@@ -69,7 +69,6 @@ public class CreateLikeCommandValidatorTests
                            .ReturnsAsync( new User( "", "", "" ) );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.UserId, command.RecipeId ) )
                            .ReturnsAsync( new Like( command.RecipeId, command.UserId ) ); 
-
         // Act
         Result result = await _validator.ValidateAsync( command );
 

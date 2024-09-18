@@ -49,7 +49,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Results.Result result = await _validator.ValidateAsync( command );
+        Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -70,7 +70,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Results.Result result = await _validator.ValidateAsync( command );
+        Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -91,7 +91,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Results.Result result = await _validator.ValidateAsync( command );
+        Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -112,7 +112,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Results.Result result = await _validator.ValidateAsync( command );
+        Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -133,7 +133,8 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Results.Result result = await _validator.ValidateAsync( command );
+        Result result = await _validator.ValidateAsync( command );
+
 
         // Assert
         Assert.True( result.IsSuccess );

@@ -27,7 +27,7 @@ public class UpdateRecipeCommandHandler(
         Recipe oldRecipe = await recipeRepository.GetByIdAsync( updateRecipeCommand.Id );
         if ( oldRecipe is null )
         {
-            return Result.FromError( "Recipe not found" );
+            return Result.FromError( "Рецепт не найден" );
         }
 
         string oldImageUrl = oldRecipe.ImageUrl;

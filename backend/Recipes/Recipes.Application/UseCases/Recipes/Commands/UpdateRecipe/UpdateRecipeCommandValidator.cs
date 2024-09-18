@@ -48,6 +48,11 @@ public class UpdateRecipeCommandValidator(
 
         Recipe recipe = await recipeRepository.GetByIdAsync( command.Id );
 
+        if ( recipe is null ) 
+        {
+            return Result.FromError( "Рецепт не найден" );
+        }
+
         if ( recipe.AuthorId != command.AuthorId )
         {
             return Result.FromError( "У пользователя нет доступа к обновлению данного рецепта" );

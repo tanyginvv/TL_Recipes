@@ -1,4 +1,4 @@
-﻿using Recipes.Application.Results;
+using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 
 namespace Recipes.Application.Tests.Tags.Command.GetOrCreateTag;

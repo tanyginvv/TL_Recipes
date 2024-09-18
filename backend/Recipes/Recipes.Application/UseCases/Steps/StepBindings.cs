@@ -4,8 +4,6 @@ using Recipes.Application.UseCases.Steps.Commands.CreateStep;
 using Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
-using Recipes.Application.UseCases.Steps.Dtos;
-using Recipes.Application.UseCases.Steps.Queries.GetStepsByRecipeIdQuery;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Steps;
@@ -19,14 +17,12 @@ public static class StepBindings
         services.AddScoped<ICommandHandler<DeleteStepCommand>, DeleteStepCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateStepsCommand>, UpdateStepsCommandHandler>();
 
-        services.AddScoped<IQueryHandler<GetStepsByRecipeIdQueryDto, GetStepsByRecipeIdQuery>, GetStepsByRecipeIdQueryHandler>();
 
         services.AddScoped<IAsyncValidator<CreateStepCommand>, CreateStepCommandValidator>();
         services.AddScoped<IAsyncValidator<DeleteStepCommand>, DeleteStepCommandValidator>();
         services.AddScoped<IAsyncValidator<UpdateStepCommand>, UpdateStepCommandValidator>();
         services.AddScoped<IAsyncValidator<UpdateStepsCommand>, UpdateStepsCommandValidator>();
 
-        services.AddScoped<IAsyncValidator<GetStepsByRecipeIdQuery>, GetStepsByRecipeIdQueryValidator>();
 
         StepMappingConfig.RegisterMappings();
 

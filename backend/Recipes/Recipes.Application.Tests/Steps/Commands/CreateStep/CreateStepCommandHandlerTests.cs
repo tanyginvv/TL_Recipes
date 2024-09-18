@@ -57,7 +57,7 @@ public class CreateStepCommandHandlerTests
         CreateStepCommand command = new CreateStepCommand
         {
             StepNumber = 1,
-            StepDescription = "Step description",
+            StepDescription = "Step description"
             Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 }
         };
 

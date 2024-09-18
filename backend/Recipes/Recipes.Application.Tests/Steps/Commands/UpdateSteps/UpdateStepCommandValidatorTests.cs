@@ -103,7 +103,7 @@ public class UpdateStepsCommandValidatorTests
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },l
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = new string('x', 251) }

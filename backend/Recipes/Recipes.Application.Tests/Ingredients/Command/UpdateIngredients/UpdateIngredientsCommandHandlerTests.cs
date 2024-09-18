@@ -252,12 +252,8 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
+
             Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
-            NewIngredients = new List<IngredientDto>
-            {
-                new IngredientDto { Title = "Valid Ingredient", Description = "Description" }
-            }
-        };
         _validatorMock
            .Setup( x => x.ValidateAsync( command ) )
            .ReturnsAsync( Result.Success );

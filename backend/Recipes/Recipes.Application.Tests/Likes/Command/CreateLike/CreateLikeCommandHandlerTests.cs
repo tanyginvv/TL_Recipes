@@ -63,7 +63,7 @@ public class CreateLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_ExceptionThrown_ReturnsError()
+    public async Task HandleAsync_ExceptionThrown_ReturnsError()l
     {
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };

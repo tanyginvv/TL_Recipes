@@ -1,4 +1,4 @@
-﻿namespace Recipes.Application.UseCases.Recipes.Dtos;
+namespace Recipes.Application.UseCases.Recipes.Dtos;
 
 public class GetRecipesListDto
 {

@@ -8,16 +8,18 @@ services:
     build:
       context: .
       dockerfile: Recipes.WebApi/Dockerfile
-    mem_limit: 1g
+    mem_limit: 700m  
     cpus: 1.0
     restart: always  
     environment:
       - ConnectionStrings__DefaultConnection=Server=mssql;Database=RecipesDB;User=sa;Password=YourStrong@Passw0rd;Encrypt=True;TrustServerCertificate=True; 
     depends_on:
       - mssql
+    volumes:
+      - recipes_storage:/app/Recipes.Infrastructure/Storage 
 
   mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: mssql
     environment:
       - ACCEPT_EULA=Y
@@ -30,3 +32,4 @@ services:
 
 volumes:
   mssql_data:
+  recipes_storage:

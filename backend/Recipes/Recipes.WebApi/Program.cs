@@ -10,6 +10,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "dev";
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration( builder.Configuration )
+    .Enrich.FromLogContext()
     .WriteTo.Console( outputTemplate: LogConfig.LogFormat )
     .WriteTo.File( "logs/errors/log-.txt", outputTemplate: LogConfig.LogFormat, restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day )
     .WriteTo.File( "logs/info/log-.txt", outputTemplate: LogConfig.LogFormat, rollingInterval: RollingInterval.Day )

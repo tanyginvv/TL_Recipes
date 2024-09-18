@@ -57,6 +57,16 @@ public class CreateRecipeCommandValidator(
             return Result.FromError( "Количество тегов ограничено до 5" );
         }
 
+        if ( command.Steps.Count == 0 )
+        {
+            return Result.FromError( "Количество шагов не может быть равно 0" );
+        }
+
+        if ( command.Ingredients.Count == 0 )
+        {
+            return Result.FromError( "Количество ингредиентов не может быть равно 0" );
+        }
+
         return Result.Success;
     }
 }

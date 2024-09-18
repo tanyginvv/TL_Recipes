@@ -5,7 +5,7 @@ using Recipes.Domain.Entities;
 
 namespace Recipes.Application.UseCases.Favourites.Command.CreateFavourite;
 
-public class CreateFovouriteCommandValidator(
+public class CreateFavouriteCommandValidator(
     IRecipeRepository recipeRepository,
     IUserRepository userRepository,
     IFavouriteRepository favouriteRepository )

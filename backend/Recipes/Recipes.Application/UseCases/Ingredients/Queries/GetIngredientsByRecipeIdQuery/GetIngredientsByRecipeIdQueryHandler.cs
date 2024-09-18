@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Dtos;
@@ -8,8 +9,9 @@ namespace Recipes.Application.UseCases.Ingredients.Queries.GetIngredientsByRecip
 
 public class GetIngredientsByRecipeIdQueryHandler(
     IIngredientRepository ingredientRepository,
-    IAsyncValidator<GetIngredientsByRecipeIdQuery> validator )
-    : QueryBaseHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>( validator )
+    IAsyncValidator<GetIngredientsByRecipeIdQuery> validator,
+    ILogger<GetIngredientsByRecipeIdQuery> logger )
+    : QueryBaseHandler<GetIngredientsByRecipeIdQueryDto, GetIngredientsByRecipeIdQuery>( validator, logger )
 {
     protected override async Task<Result<GetIngredientsByRecipeIdQueryDto>> HandleImplAsync( GetIngredientsByRecipeIdQuery query )
     {

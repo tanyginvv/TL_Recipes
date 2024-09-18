@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
@@ -10,8 +11,9 @@ public class UpdateTagsCommandHandler(
     IRecipeRepository recipeRepository,
     ITagRepository tagRepository,
     ICommandHandlerWithResult<GetOrCreateTagCommand, Tag> createTagCommandHandler,
-    IAsyncValidator<UpdateTagsCommand> validator )
-    : CommandBaseHandler<UpdateTagsCommand>(validator)
+    IAsyncValidator<UpdateTagsCommand> validator,
+    ILogger<UpdateTagsCommand> logger )
+    : CommandBaseHandler<UpdateTagsCommand>(validator, logger)
 {
     protected override async Task<Result> HandleImplAsync( UpdateTagsCommand command )
     {

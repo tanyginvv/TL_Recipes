@@ -4,8 +4,8 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5218",
+      "launchUrl": "",
+      "applicationUrl": "http://localhost:62218",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "JSON_CONFIG_NAME": "tanygin"

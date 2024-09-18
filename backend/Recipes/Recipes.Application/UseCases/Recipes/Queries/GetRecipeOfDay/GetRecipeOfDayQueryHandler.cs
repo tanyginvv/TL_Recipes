@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Logging;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipeOfDay;
 
 public class GetRecipeOfDayQueryHandler(
     IRecipeRepository recipeRepository,
-    IAsyncValidator<GetRecipeOfDayQuery> validator )
-    : QueryBaseHandler<GetRecipeOfDayDto, GetRecipeOfDayQuery>( validator )
+    IAsyncValidator<GetRecipeOfDayQuery> validator,
+    ILogger<GetRecipeOfDayQuery> logger )
+    : QueryBaseHandler<GetRecipeOfDayDto, GetRecipeOfDayQuery>( validator, logger )
 {
     protected override async Task<Result<GetRecipeOfDayDto>> HandleImplAsync( GetRecipeOfDayQuery query )
     {

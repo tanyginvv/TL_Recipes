@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Dtos;
@@ -8,8 +9,9 @@ namespace Recipes.Application.UseCases.Tags.Queries.GetTagsByRecipeIdQuery;
 
 public class GetTagsByRecipeIdQueryHandler(
     ITagRepository tagRepository,
-    IAsyncValidator<GetTagsByRecipeIdQuery> validator )
-    : QueryBaseHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>( validator )
+    IAsyncValidator<GetTagsByRecipeIdQuery> validator,
+    ILogger<GetTagsByRecipeIdQuery> logger )
+    : QueryBaseHandler<GetTagsByRecipeIdQueryDto, GetTagsByRecipeIdQuery>( validator, logger )
 {
     protected override async Task<Result<GetTagsByRecipeIdQueryDto>> HandleImplAsync( GetTagsByRecipeIdQuery query )
     {

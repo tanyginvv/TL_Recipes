@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Favourites.Command.DeleteFavourite;
 public class DeleteFavouriteCommandHandler(
     IFavouriteRepository repository,
     IUnitOfWork unitOfWork,
-    IAsyncValidator<DeleteFavouriteCommand> validator )
-    : CommandBaseHandler<DeleteFavouriteCommand>( validator )
+    IAsyncValidator<DeleteFavouriteCommand> validator,
+    ILogger<DeleteFavouriteCommand> logger )
+    : CommandBaseHandler<DeleteFavouriteCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( DeleteFavouriteCommand command )
     {

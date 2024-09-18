@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Likes.Command.DeleteLike;
 public class DeleteLikeCommandHandler(
     ILikeRepository repository,
     IUnitOfWork unitOfWork,
-    IAsyncValidator<DeleteLikeCommand> validator )
-    : CommandBaseHandler<DeleteLikeCommand>( validator )
+    IAsyncValidator<DeleteLikeCommand> validator,
+    ILogger<DeleteLikeCommand> logger )
+    : CommandBaseHandler<DeleteLikeCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( DeleteLikeCommand command )
     {

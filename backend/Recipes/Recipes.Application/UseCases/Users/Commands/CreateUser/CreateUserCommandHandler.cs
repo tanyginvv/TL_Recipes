@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.PasswordHasher;
 using Recipes.Application.Repositories;
@@ -11,8 +12,9 @@ public class CreateUserCommandHandler(
     IUserRepository userRepository,
     IAsyncValidator<CreateUserCommand> validator,
     IUnitOfWork unitOfWork,
-    IPasswordHasher passwordHasher )
-    : CommandBaseHandler<CreateUserCommand>( validator )
+    IPasswordHasher passwordHasher,
+    ILogger<CreateUserCommand> logger )
+    : CommandBaseHandler<CreateUserCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( CreateUserCommand command )
     {

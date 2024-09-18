@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Likes.Command.CreateLike;
 public class CreateLikeCommandHandler(
     ILikeRepository repository,
     IUnitOfWork unitOfWork,
-    IAsyncValidator<CreateLikeCommand> validator )
-    : CommandBaseHandler<CreateLikeCommand>( validator )
+    IAsyncValidator<CreateLikeCommand> validator,
+    ILogger<CreateLikeCommand> logger )
+    : CommandBaseHandler<CreateLikeCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( CreateLikeCommand command )
     {

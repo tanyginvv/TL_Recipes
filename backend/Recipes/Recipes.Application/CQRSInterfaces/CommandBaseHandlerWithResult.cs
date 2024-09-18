@@ -1,8 +1,9 @@
-﻿using Recipes.Application.Results;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.Results;
 
 namespace Recipes.Application.CQRSInterfaces;
 
-public abstract class CommandBaseHandlerWithResult<TCommand, TResult>( IAsyncValidator<TCommand> validator )
+public abstract class CommandBaseHandlerWithResult<TCommand, TResult>( IAsyncValidator<TCommand> validator, ILogger<TCommand> logger )
     : ICommandHandlerWithResult<TCommand, TResult> where TCommand : class
 {
     public virtual async Task<Result<TResult>> HandleAsync( TCommand command )
@@ -20,6 +21,7 @@ public abstract class CommandBaseHandlerWithResult<TCommand, TResult>( IAsyncVal
         }
         catch ( Exception ex )
         {
+            logger.LogError( ex, "Error handling command of type {CommandType}.", typeof( TCommand ).Name );
             await CleanupOnFailureAsync( command );
             return Result<TResult>.FromError( ex.Message );
         }

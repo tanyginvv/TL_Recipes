@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.UseCases.Steps.Commands.CreateStep;
@@ -12,8 +13,9 @@ public class UpdateStepsCommandHandler(
     ICommandHandler<UpdateStepCommand> updateStepCommandHandler,
     ICommandHandler<DeleteStepCommand> deleteStepCommandHandler,
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
-    IAsyncValidator<UpdateStepsCommand> validator )
-    : CommandBaseHandler<UpdateStepsCommand>( validator )
+    IAsyncValidator<UpdateStepsCommand> validator,
+    ILogger<UpdateStepsCommand> logger )
+    : CommandBaseHandler<UpdateStepsCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( UpdateStepsCommand command )
     {

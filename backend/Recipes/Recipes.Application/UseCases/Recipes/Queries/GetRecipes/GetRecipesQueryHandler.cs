@@ -5,13 +5,15 @@ using Recipes.Application.Results;
 using Recipes.Application.Repositories;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Application.Filters;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.UseCases.Recipes.Queries.GetRecipes;
 
 public class GetRecipesQueryHandler(
     IRecipeRepository recipeRepository,
-    IAsyncValidator<GetRecipesQuery> validator )
-    : QueryBaseHandler<GetRecipesListDto, GetRecipesQuery>( validator )
+    IAsyncValidator<GetRecipesQuery> validator,
+    ILogger<GetRecipesQuery> logger )
+    : QueryBaseHandler<GetRecipesListDto, GetRecipesQuery>( validator, logger )
 {
     protected override async Task<Result<GetRecipesListDto>> HandleImplAsync( GetRecipesQuery query )
     {

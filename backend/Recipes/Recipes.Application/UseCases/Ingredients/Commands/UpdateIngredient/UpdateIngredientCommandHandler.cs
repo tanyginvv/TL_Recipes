@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
@@ -7,8 +8,9 @@ namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 
 public class UpdateIngredientCommandHandler(
     IIngredientRepository ingredientRepository,
-    IAsyncValidator<UpdateIngredientCommand> validator)
-    : CommandBaseHandler<UpdateIngredientCommand>(validator)
+    IAsyncValidator<UpdateIngredientCommand> validator,
+    ILogger<UpdateIngredientCommand> logger)
+    : CommandBaseHandler<UpdateIngredientCommand>(validator, logger)
 {
     protected override async Task<Result> HandleImplAsync( UpdateIngredientCommand command)
     {

@@ -37,6 +37,7 @@ export const StepsSection: React.FC<StepsSectionProps> = ({ steps, setSteps, are
                         <img className={styles.closeIcon} onClick={() => handleRemoveStep(index)} src={close} alt="Remove step" />
                     </span>
                     <textarea
+                        maxLength={250}
                         placeholder="Описание шага"
                         value={step.stepDescription}
                         onChange={(e) => handleStepChange(index, e.target.value)}

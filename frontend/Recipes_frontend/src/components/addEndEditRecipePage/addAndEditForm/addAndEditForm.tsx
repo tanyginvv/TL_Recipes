@@ -106,17 +106,18 @@ export const AddAndEditForm = forwardRef((_, ref) => {
         if (!areTagsValid) isValid = false;
     
         const areIngredientsValid = ingredients.length > 0 &&
-            ingredients.every(ingredient => ingredient.title.trim() !== '' && ingredient.description.trim() !== '');
+            ingredients.every(ingredient => (ingredient.title.trim() !== '' || ingredient.title.length > 50) 
+            || (ingredient.description.trim() !== '' && ingredient.description.length > 250 ));
         setAreIngredientsValid(areIngredientsValid);
         if (!areIngredientsValid) isValid = false;
     
         const areStepsValid = steps.length > 0 &&
-            steps.every(step => step.stepDescription.trim() !== '');
+            steps.every(step => step.stepDescription.trim() !== '' || step.stepDescription.length > 250);
         setAreStepsValid(areStepsValid);
         if (!areStepsValid) isValid = false;
     
         if (!isValid) {
-            setNotification("Заполните все поля", "error");
+            setNotification("Заполните все поля,", "error");
         }
     
         return isValid;

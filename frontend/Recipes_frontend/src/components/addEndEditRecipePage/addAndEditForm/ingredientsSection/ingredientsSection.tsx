@@ -37,6 +37,7 @@ export const IngredientsSection: React.FC<IngredientsSectionProps> = ({ ingredie
                         <img className={styles.closeIcon} src={close} alt="Remove ingredient" />
                     </span>
                     <input
+                        maxLength={50}
                         type="text"
                         placeholder="Заголовок"
                         value={ingredient.title}
@@ -44,6 +45,7 @@ export const IngredientsSection: React.FC<IngredientsSectionProps> = ({ ingredie
                         className={`${styles.ingredientsTitle} ${!areIngredientsValid && !ingredient.title.trim() ? styles.invalid : ''}`}
                     />
                     <textarea
+                        maxLength={250}
                         placeholder="Описание"
                         value={ingredient.description}
                         onChange={(e) => handleIngredientChange(index, 'description', e.target.value)}

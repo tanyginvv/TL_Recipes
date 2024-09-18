@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Favourites.Command.CreateFavourite;
 public class CreateFavouriteCommandHandler(
     IFavouriteRepository repository,
     IUnitOfWork unitOfWork,
-    IAsyncValidator<CreateFavouriteCommand> validator )
-    : CommandBaseHandler<CreateFavouriteCommand>( validator )
+    IAsyncValidator<CreateFavouriteCommand> validator,
+    ILogger<CreateFavouriteCommand> logger )
+    : CommandBaseHandler<CreateFavouriteCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( CreateFavouriteCommand command )
     {

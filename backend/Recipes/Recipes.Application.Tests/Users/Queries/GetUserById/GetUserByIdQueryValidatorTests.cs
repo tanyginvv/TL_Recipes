@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Xunit;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Users.Queries.GetUserById;

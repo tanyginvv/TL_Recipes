@@ -62,11 +62,11 @@ public class CreateRecipeCommandHandlerTests
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.Success );
         _mockCreateTagCommandHandler.Setup( h => h.HandleAsync( It.IsAny<GetOrCreateTagCommand>() ) )
-            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag() ) );
+            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag( "" ) ) );
         _mockCreateIngredientCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
-            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient() ) );
+            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient( "", "", 1 ) ) );
         _mockCreateStepCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateStepCommand>() ) )
-            .ReturnsAsync( Result<Step>.FromSuccess( new Step() ) );
+            .ReturnsAsync( Result<Step>.FromSuccess( new Step( 1, "", 1 ) ) );
         _mockRecipeRepository.Setup( r => r.AddAsync( It.IsAny<Recipe>() ) ).Returns( Task.CompletedTask );
         _mockUnitOfWork.Setup( u => u.CommitAsync() ).Returns( Task.CompletedTask );
 
@@ -159,7 +159,7 @@ public class CreateRecipeCommandHandlerTests
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.Success );
         _mockCreateTagCommandHandler.Setup( h => h.HandleAsync( It.IsAny<GetOrCreateTagCommand>() ) )
-            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag() ) );
+            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag( "" ) ) );
         _mockCreateIngredientCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
             .ReturnsAsync( Result<Ingredient>.FromError( "Ingredient creation error" ) );
 
@@ -192,9 +192,9 @@ public class CreateRecipeCommandHandlerTests
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.Success );
         _mockCreateTagCommandHandler.Setup( h => h.HandleAsync( It.IsAny<GetOrCreateTagCommand>() ) )
-            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag() ) );
+            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag( "" ) ) );
         _mockCreateIngredientCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
-            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient() ) );
+            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient( "", "", 1 ) ) );
         _mockCreateStepCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateStepCommand>() ) )
             .ReturnsAsync( Result<Step>.FromError( "Step creation error" ) );
 
@@ -209,7 +209,7 @@ public class CreateRecipeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleExceptionAsync_ErrorDuringExceptionHandling_DoesNotThrow()
+    public async Task HandleAsync_ErrorDuringExceptionHandling_DoesNotThrow()
     {
         // Arrange
         CreateRecipeCommand command = new CreateRecipeCommand
@@ -227,11 +227,11 @@ public class CreateRecipeCommandHandlerTests
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.Success );
         _mockCreateTagCommandHandler.Setup( h => h.HandleAsync( It.IsAny<GetOrCreateTagCommand>() ) )
-            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag() ) );
+            .ReturnsAsync( Result<Tag>.FromSuccess( new Tag( "" ) ) );
         _mockCreateIngredientCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateIngredientCommand>() ) )
-            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient() ) );
+            .ReturnsAsync( Result<Ingredient>.FromSuccess( new Ingredient( "", "", 1 ) ) );
         _mockCreateStepCommandHandler.Setup( h => h.HandleAsync( It.IsAny<CreateStepCommand>() ) )
-            .ReturnsAsync( Result<Step>.FromSuccess( new Step() ) );
+            .ReturnsAsync( Result<Step>.FromSuccess( new Step( 1, "", 1 ) ) );
         _mockRecipeRepository.Setup( r => r.AddAsync( It.IsAny<Recipe>() ) ).Returns( Task.CompletedTask );
         _mockUnitOfWork.Setup( u => u.CommitAsync() ).Returns( Task.CompletedTask );
 

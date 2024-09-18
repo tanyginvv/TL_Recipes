@@ -1,11 +1,11 @@
 ﻿using Moq;
-using Xunit;
-using System.Threading.Tasks;
 using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+
+namespace Recipes.Application.Tests.Ingredients.Command.UpdateIngredient;
 
 public class UpdateIngredientCommandHandlerTests
 {
@@ -21,14 +21,14 @@ public class UpdateIngredientCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_ReturnError_When_IngredientNotFound()
+    public async Task HandleAsync_IngredientNotFound_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand { Id = 1, Title = "New Title", Description = "New Description" };
 
         _ingredientRepositoryMock
             .Setup( x => x.GetByIdAsync( It.IsAny<int>() ) )
-            .ReturnsAsync( null as Ingredient  ); // Ingredient not found
+            .ReturnsAsync( null as Ingredient ); 
 
         _validatorMock
             .Setup( v => v.ValidateAsync( command ) )
@@ -44,7 +44,7 @@ public class UpdateIngredientCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_UpdateIngredient_When_IngredientExists()
+    public async Task HandleAsync_IngredientExists_UpdatesIngredient()
     {
         // Arrange
         Ingredient ingredient = new Ingredient( "Old Title", "Old Description", 1 ) { Id = 1 };
@@ -52,7 +52,7 @@ public class UpdateIngredientCommandHandlerTests
 
         _ingredientRepositoryMock
             .Setup( x => x.GetByIdAsync( It.IsAny<int>() ) )
-            .ReturnsAsync( ingredient ); // Ingredient found
+            .ReturnsAsync( ingredient ); 
 
         _validatorMock
             .Setup( v => v.ValidateAsync( command ) )
@@ -69,7 +69,7 @@ public class UpdateIngredientCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_NotUpdateIngredient_When_ValidationFails()
+    public async Task HandleAsync_ValidationFails_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand { Id = 1, Title = "Invalid Title", Description = "New Description" };
@@ -84,6 +84,6 @@ public class UpdateIngredientCommandHandlerTests
         // Assert
         Assert.False( result.IsSuccess );
         Assert.Equal( "Validation failed", result.Error.Message );
-        _ingredientRepositoryMock.Verify( x => x.GetByIdAsync( It.IsAny<int>() ), Times.Never );
+        _ingredientRepositoryMock.Verify( x => x.GetByIdAsync( It.IsAny<int>() ), Times.Never ); 
     }
 }

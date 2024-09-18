@@ -5,7 +5,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Commands.UpdateStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.UpdateStep;
 
 public class UpdateStepCommandHandlerTests
 {
@@ -26,7 +26,7 @@ public class UpdateStepCommandHandlerTests
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 2, StepDescription = "Updated description" };
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
-            .ReturnsAsync( null as Step  );
+            .ReturnsAsync( null as Step );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "Шаг не найден или не относится к указанному рецепту." ) );
 
         // Act
@@ -42,7 +42,7 @@ public class UpdateStepCommandHandlerTests
     {
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 2, StepDescription = "Updated description" };
-        Step step = new Step( 2, "Original description", 1 ); // Assume this is a step with a different ID
+        Step step = new Step( 2, "Original description", 1 ); 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "Шаг не найден или не относится к указанному рецепту." ) );
@@ -59,7 +59,7 @@ public class UpdateStepCommandHandlerTests
     {
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 2, StepDescription = "Updated description" };
-        Step step = new Step( command.StepId, "Original description", 1 ) { Id = 1}; // Assume this is the step with the correct ID
+        Step step = new Step( command.StepId, "Original description", 1 ) { Id = 1 }; 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );

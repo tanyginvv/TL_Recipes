@@ -6,6 +6,8 @@ using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Likes.Command.CreateLike;
 using Recipes.Application.Interfaces;
 
+namespace Recipes.Application.Tests.Likes.Command.CreateLike;
+
 public class CreateLikeCommandHandlerTests
 {
     private readonly Mock<ILikeRepository> _mockLikeRepository;
@@ -25,12 +27,12 @@ public class CreateLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_ValidCommand_AddsLikeAndCommits()
+    public async Task HandleAsync_ValidCommand_AddsLikeAndCommits()
     {
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation is successful
+                      .ReturnsAsync( Result.Success ); 
 
         // Act
         Result result = await _handler.HandleAsync( command );
@@ -43,7 +45,7 @@ public class CreateLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_InvalidCommand_ReturnsValidationError()
+    public async Task HandleAsync_InvalidCommand_ReturnsValidationError()
     {
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };
@@ -54,28 +56,28 @@ public class CreateLikeCommandHandlerTests
         Result result = await _handler.HandleAsync( command );
 
         // Assert
-        _mockLikeRepository.Verify( r => r.AddAsync( It.IsAny<Like>() ), Times.Never ); // Ensure no like is added
-        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never ); // Ensure no commit is called
+        _mockLikeRepository.Verify( r => r.AddAsync( It.IsAny<Like>() ), Times.Never ); 
+        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never ); 
         Assert.False( result.IsSuccess );
         Assert.Equal( "Validation error", result.Error.Message );
     }
 
     [Fact]
-    public async Task HandleImplAsync_ExceptionThrown_ReturnsError()
+    public async Task HandleAsync_ExceptionThrown_ReturnsError()l
     {
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation is successful
+                      .ReturnsAsync( Result.Success );
 
         _mockLikeRepository.Setup( r => r.AddAsync( It.IsAny<Like>() ) )
-                           .ThrowsAsync( new System.Exception( "Repository error" ) ); // Simulate an exception
+                           .ThrowsAsync( new System.Exception( "Repository error" ) ); 
 
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
-        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never ); // Ensure no commit is called
+        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never );
         Assert.False( result.IsSuccess );
         Assert.Equal( "Repository error", result.Error.Message );
     }

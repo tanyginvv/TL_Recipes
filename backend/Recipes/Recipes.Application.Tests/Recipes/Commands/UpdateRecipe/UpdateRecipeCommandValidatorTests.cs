@@ -4,7 +4,6 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
-using Xunit;
 
 namespace Recipes.Application.Tests.Recipes.Commands.UpdateRecipe;
 
@@ -281,7 +280,7 @@ public class UpdateRecipeCommandValidatorTests
             PortionCount = 4,
             ImageUrl = "http://example.com/image.jpg",
             Tags = new List<TagDto>(),
-            Steps = new List<StepDto>(), // No steps
+            Steps = new List<StepDto>(), 
             Ingredients = new List<IngredientDto>()
         };
 
@@ -311,7 +310,7 @@ public class UpdateRecipeCommandValidatorTests
             ImageUrl = "http://example.com/image.jpg",
             Tags = new List<TagDto>(),
             Steps = new List<StepDto> { new StepDto() },
-            Ingredients = new List<IngredientDto>() // No ingredients
+            Ingredients = new List<IngredientDto>() 
         };
 
         Recipe recipe = new Recipe( 1, "Name", "Description", 30, 4, "image_url" ) { AuthorId = 1 };

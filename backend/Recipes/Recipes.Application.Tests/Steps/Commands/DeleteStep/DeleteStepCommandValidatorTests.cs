@@ -4,7 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests.UseCases.Steps.Commands;
+namespace Recipes.Application.Tests.Steps.Commands.DeleteStep;
 
 public class DeleteStepCommandValidatorTests
 {
@@ -23,7 +23,7 @@ public class DeleteStepCommandValidatorTests
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
-            .ReturnsAsync( null as Step  );
+            .ReturnsAsync( null as Step );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -38,7 +38,7 @@ public class DeleteStepCommandValidatorTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 2, "Description", 1 ); // Assume this is a valid step with ID 2
+        Step step = new Step( 2, "Description", 1 ); 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 
@@ -55,7 +55,7 @@ public class DeleteStepCommandValidatorTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 1, "Description", 1 ) { Id = 1 }; // Assume this is a valid step with ID 1
+        Step step = new Step( 1, "Description", 1 ) { Id = 1 }; 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 

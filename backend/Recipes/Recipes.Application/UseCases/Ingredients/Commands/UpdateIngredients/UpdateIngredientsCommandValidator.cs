@@ -13,6 +13,11 @@ public class UpdateIngredientsCommandValidator : IAsyncValidator<UpdateIngredien
             return Result.FromError( "Рецепт не может быть null." );
         }
 
+        if ( command.NewIngredients is null || !command.NewIngredients.Any() )
+        {
+            return Result.FromError( "Количество ингредиентов не может быть равно 0" );
+        }
+
         foreach ( IngredientDto ingredient in command.NewIngredients )
         {
             if ( string.IsNullOrEmpty( ingredient.Title ) )

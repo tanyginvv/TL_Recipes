@@ -1,4 +1,5 @@
-﻿using Recipes.Application.CQRSInterfaces;
+﻿using Microsoft.Extensions.Logging;
+using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
@@ -7,8 +8,9 @@ namespace Recipes.Application.UseCases.Steps.Commands.DeleteStep;
 
 public class DeleteStepCommandHandler(
     IStepRepository stepRepository,
-    IAsyncValidator<DeleteStepCommand> validator )
-    : CommandBaseHandler<DeleteStepCommand>( validator )
+    IAsyncValidator<DeleteStepCommand> validator,
+    ILogger<DeleteStepCommand> logger )
+    : CommandBaseHandler<DeleteStepCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( DeleteStepCommand command )
     {

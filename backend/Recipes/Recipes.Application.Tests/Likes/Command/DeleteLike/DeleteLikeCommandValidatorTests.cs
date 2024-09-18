@@ -4,6 +4,8 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Likes.Command.DeleteLike;
 using Recipes.Domain.Entities;
 
+namespace Recipes.Application.Tests.Likes.Command.DeleteLike;
+
 public class DeleteLikeCommandValidatorTests
 {
     private readonly Mock<IRecipeRepository> _mockRecipeRepository;
@@ -29,11 +31,11 @@ public class DeleteLikeCommandValidatorTests
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
 
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe() ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); 
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User() ); // User exists
+                           .ReturnsAsync( new User( "", "", "" ) ); 
         _mockLikeRepository.Setup( l => l.GetLikeByAttributes( command.RecipeId, command.UserId ) )
-                           .ReturnsAsync( new Like( command.RecipeId, command.UserId ) ); // Like exists
+                           .ReturnsAsync( new Like( command.RecipeId, command.UserId ) );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -50,7 +52,7 @@ public class DeleteLikeCommandValidatorTests
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
 
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( null as Recipe ); // Recipe does not exist
+                             .ReturnsAsync( null as Recipe );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -67,9 +69,9 @@ public class DeleteLikeCommandValidatorTests
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
 
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe() ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); 
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( null as User ); // User does not exist
+                           .ReturnsAsync( null as User ); 
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -86,11 +88,11 @@ public class DeleteLikeCommandValidatorTests
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
 
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe() ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); 
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User() ); // User exists
+                           .ReturnsAsync( new User( "", "", "" ) ); 
         _mockLikeRepository.Setup( l => l.GetLikeByAttributes( command.RecipeId, command.UserId ) )
-                           .ReturnsAsync( null as Like ); // Like does not exist
+                           .ReturnsAsync( null as Like ); 
 
         // Act
         Result result = await _validator.ValidateAsync( command );

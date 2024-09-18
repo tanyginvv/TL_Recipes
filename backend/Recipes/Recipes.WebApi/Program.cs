@@ -1,18 +1,21 @@
+using Microsoft.Extensions.FileProviders;
 using Recipes.Application;
 using Recipes.Application.Options;
 using Recipes.Infrastructure;
-using Serilog;
 using Microsoft.Extensions.FileProviders;
-using Recipes.Infrastructure.DataAccess;
-using Microsoft.EntityFrameworkCore;
+using Recipes.WebApi.Extensions;
+using Serilog;
+using Serilog.Events;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
 string environmentName = Environment.GetEnvironmentVariable( "JSON_CONFIG_NAME" ) ?? "dev";
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration( builder.Configuration )
-    .WriteTo.Console()
-    .WriteTo.File( "logs/log-.txt", rollingInterval: RollingInterval.Day )
+    .Enrich.FromLogContext()
+    .WriteTo.Console( outputTemplate: LogConfig.LogFormat )
+    .WriteTo.File( "logs/errors/log-.txt", outputTemplate: LogConfig.LogFormat, restrictedToMinimumLevel: LogEventLevel.Warning, rollingInterval: RollingInterval.Day )
+    .WriteTo.File( "logs/info/log-.txt", outputTemplate: LogConfig.LogFormat, rollingInterval: RollingInterval.Day )
     .CreateLogger();
 
 builder.Host.UseSerilog();

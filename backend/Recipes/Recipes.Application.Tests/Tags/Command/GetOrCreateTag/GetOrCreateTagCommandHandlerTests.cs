@@ -1,11 +1,11 @@
 ﻿using Moq;
-using System.Threading.Tasks;
-using Xunit;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+
+namespace Recipes.Application.Tests.Tags.Command.GetOrCreateTag;
 
 public class GetOrCreateTagCommandHandlerTests
 {
@@ -21,7 +21,7 @@ public class GetOrCreateTagCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Return_Existing_Tag_When_Tag_Exists()
+    public async Task HandleAsync_TagExists_ShouldReturnExistingTag()
     {
         // Arrange
         GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = "ExistingTag" };
@@ -29,6 +29,7 @@ public class GetOrCreateTagCommandHandlerTests
         _tagRepositoryMock.Setup( repo => repo.GetByNameAsync( command.Name ) )
             .ReturnsAsync( existingTag );
         _validatorMock.Setup( x => x.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );
+
         // Act
         Result<Tag> result = await _handler.HandleAsync( command );
 
@@ -38,17 +39,17 @@ public class GetOrCreateTagCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Create_And_Return_New_Tag_When_Tag_Does_Not_Exist()
+    public async Task HandleAsync_TagDoesNotExist_ShouldCreateAndReturnNewTag()
     {
         // Arrange
         GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = "NewTag" };
         _tagRepositoryMock.Setup( repo => repo.GetByNameAsync( command.Name ) )
-            .ReturnsAsync( null as Tag  ); // Simulate that tag does not exist
+            .ReturnsAsync( null as Tag );
 
         Tag newTag = new Tag( command.Name );
-        _tagRepositoryMock.Setup( repo => repo.AddAsync( It.IsAny<Tag>() ) )
-            .Callback<Tag>( tag => { /* Simulate adding the tag */ } );
+        _tagRepositoryMock.Setup( repo => repo.AddAsync( It.IsAny<Tag>() ) );
         _validatorMock.Setup( x => x.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );
+
         // Act
         Result<Tag> result = await _handler.HandleAsync( command );
 

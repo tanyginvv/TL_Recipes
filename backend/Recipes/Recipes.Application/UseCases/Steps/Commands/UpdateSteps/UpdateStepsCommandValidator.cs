@@ -19,6 +19,7 @@ public class UpdateStepsCommandValidator : IAsyncValidator<UpdateStepsCommand>
         }
 
         HashSet<int> stepNumbers = new HashSet<int>();
+        
         foreach ( StepDto step in command.NewSteps )
         {
             if ( step.StepNumber <= 0 )

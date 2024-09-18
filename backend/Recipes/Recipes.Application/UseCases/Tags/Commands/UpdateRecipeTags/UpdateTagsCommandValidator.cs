@@ -29,6 +29,7 @@ public class UpdateTagsCommandValidator(
             {
                 return Result.FromError( "Название тега не может быть пустым" );
             }
+
             if ( tag.Name.Length > 50 )
             {
                 return Result.FromError( "Название тега не может быть больше 50 символов" );

@@ -1,7 +1,7 @@
 ﻿using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Application.Results;
 
-namespace Recipes.Application.Tests.UseCases.Ingredients.Commands;
+namespace Recipes.Application.Tests.Ingredients.Command.CreateIngredient;
 
 public class CreateIngredientCommandValidatorTests
 {
@@ -20,7 +20,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -38,7 +38,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = string.Empty,
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -55,9 +55,9 @@ public class CreateIngredientCommandValidatorTests
         // Arrange
         CreateIngredientCommand command = new CreateIngredientCommand
         {
-            Title = new string( 'A', 101 ), // 101 characters long
+            Title = new string( 'A', 101 ),
             Description = "Valid ingredient description",
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -76,7 +76,7 @@ public class CreateIngredientCommandValidatorTests
         {
             Title = "Valid Ingredient Title",
             Description = string.Empty,
-            Recipe = new() { Id = 1 }
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act
@@ -94,8 +94,8 @@ public class CreateIngredientCommandValidatorTests
         CreateIngredientCommand command = new CreateIngredientCommand
         {
             Title = "Valid Ingredient Title",
-            Description = new string( 'A', 251 ), // 251 characters long
-            Recipe = new() { Id = 1}
+            Description = new string( 'A', 251 ),
+            Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         // Act

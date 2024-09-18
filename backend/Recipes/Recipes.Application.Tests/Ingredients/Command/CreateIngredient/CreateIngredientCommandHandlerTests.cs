@@ -5,7 +5,7 @@ using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 
-namespace Recipes.Application.Tests.UseCases.Ingredients.Commands;
+namespace Recipes.Application.Tests.Ingredients.Command.CreateIngredient;
 
 public class CreateIngredientCommandHandlerTests
 {
@@ -30,7 +30,7 @@ public class CreateIngredientCommandHandlerTests
         {
             Title = "New Ingredient",
             Description = "Description of the new ingredient",
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
         Ingredient ingredient = new Ingredient( command.Title, command.Description, command.Recipe.Id );
 
@@ -58,7 +58,7 @@ public class CreateIngredientCommandHandlerTests
         {
             Title = "New Ingredient",
             Description = "Description of the new ingredient",
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
@@ -80,7 +80,7 @@ public class CreateIngredientCommandHandlerTests
         {
             Title = "New Ingredient",
             Description = "Description of the new ingredient",
-            Recipe = new Recipe { Id = 1 }
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) )

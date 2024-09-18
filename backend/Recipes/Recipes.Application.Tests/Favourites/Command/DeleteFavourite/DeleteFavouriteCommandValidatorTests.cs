@@ -4,6 +4,8 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Favourites.Command.DeleteFavourite;
 using Recipes.Domain.Entities;
 
+namespace Recipes.Application.Tests.Favourites.Command.DeleteFavourite;
+
 public class DeleteFavouriteCommandValidatorTests
 {
     private readonly Mock<IRecipeRepository> _mockRecipeRepository;
@@ -44,7 +46,7 @@ public class DeleteFavouriteCommandValidatorTests
         // Arrange
         DeleteFavouriteCommand command = new DeleteFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe { Id = command.RecipeId } );
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = command.RecipeId } );
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
                            .ReturnsAsync( null as User );
 
@@ -62,9 +64,9 @@ public class DeleteFavouriteCommandValidatorTests
         // Arrange
         DeleteFavouriteCommand command = new DeleteFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe { Id = command.RecipeId } );
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = command.RecipeId } );
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User { Id = command.UserId } );
+                           .ReturnsAsync( new User( "", "", "" ) { Id = command.UserId } );
         _mockFavouriteRepository.Setup( r => r.GetFavouriteByAttributes( command.RecipeId, command.UserId ) )
                                  .ReturnsAsync( null as Favourite );
 
@@ -82,9 +84,9 @@ public class DeleteFavouriteCommandValidatorTests
         // Arrange
         DeleteFavouriteCommand command = new DeleteFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe { Id = command.RecipeId } );
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = command.RecipeId } );
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User { Id = command.UserId } );
+                           .ReturnsAsync( new User( "", "", "" ) { Id = command.UserId } );
         _mockFavouriteRepository.Setup( r => r.GetFavouriteByAttributes( command.RecipeId, command.UserId ) )
                                  .ReturnsAsync( new Favourite( command.RecipeId, command.UserId ) );
 

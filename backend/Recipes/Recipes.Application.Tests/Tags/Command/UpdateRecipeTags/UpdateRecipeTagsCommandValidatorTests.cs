@@ -5,7 +5,7 @@ using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.Tests;
+namespace Recipes.Application.Tests.Tags.Command.UpdateRecipeTags;
 
 public class UpdateTagsCommandValidatorTests
 {
@@ -70,7 +70,7 @@ public class UpdateTagsCommandValidatorTests
 
         _recipeRepositoryMock
             .Setup( repo => repo.GetByIdAsync( It.IsAny<int>() ) )
-            .ReturnsAsync( new Recipe { Id = 1 } );
+            .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 } );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -92,7 +92,7 @@ public class UpdateTagsCommandValidatorTests
 
         _recipeRepositoryMock
             .Setup( repo => repo.GetByIdAsync( It.IsAny<int>() ) )
-            .ReturnsAsync( new Recipe { Id = 1 } );
+            .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 } );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -114,7 +114,7 @@ public class UpdateTagsCommandValidatorTests
 
         _recipeRepositoryMock
             .Setup( repo => repo.GetByIdAsync( It.IsAny<int>() ) )
-            .ReturnsAsync( new Recipe { Id = 1 } );
+            .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 } );
 
         // Act
         Result result = await _validator.ValidateAsync( command );

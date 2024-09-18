@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Logging;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
@@ -18,8 +19,9 @@ public class CreateRecipeCommandHandler(
     ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
     ICommandHandlerWithResult<CreateStepCommand, Step> createStepCommandHandler,
     IImageTools imageTools,
-    IUnitOfWork unitOfWork )
-    : CommandBaseHandlerWithResult<CreateRecipeCommand, RecipeIdDto>( validator )
+    IUnitOfWork unitOfWork,
+    ILogger<CreateRecipeCommand> logger )
+    : CommandBaseHandlerWithResult<CreateRecipeCommand, RecipeIdDto>( validator, logger )
 {
     protected override async Task<Result<RecipeIdDto>> HandleImplAsync( CreateRecipeCommand createRecipeCommand )
     {

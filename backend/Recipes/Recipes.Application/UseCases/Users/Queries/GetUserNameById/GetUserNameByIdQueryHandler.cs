@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Logging;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -9,8 +10,9 @@ namespace Recipes.Application.UseCases.Users.Queries.GetUserNameById;
 
 public class GetUserNameByIdQueryHandler(
     IUserRepository userRepository,
-    IAsyncValidator<GetUserNameByIdQuery> validator )
-    : QueryBaseHandler<GetUserNameByIdQueryDto, GetUserNameByIdQuery>( validator )
+    IAsyncValidator<GetUserNameByIdQuery> validator,
+    ILogger<GetUserNameByIdQuery> logger )
+    : QueryBaseHandler<GetUserNameByIdQueryDto, GetUserNameByIdQuery>( validator, logger )
 {
     protected override async Task<Result<GetUserNameByIdQueryDto>> HandleImplAsync( GetUserNameByIdQuery query )
     {

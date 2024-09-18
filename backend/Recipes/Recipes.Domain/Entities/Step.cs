@@ -13,8 +13,4 @@ public class Step : Entity
         StepDescription = stepDescription;
         RecipeId = recipeId;
     }
-
-    public Step()
-    {
-    }
 }

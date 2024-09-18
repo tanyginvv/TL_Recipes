@@ -6,6 +6,7 @@ using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredient;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
 using Mapster;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 
@@ -13,8 +14,9 @@ public class UpdateIngredientsCommandHandler(
     ICommandHandler<UpdateIngredientCommand> updateIngredientCommandHandler,
     ICommandHandler<DeleteIngredientCommand> deleteIngredientCommandHandler,
     ICommandHandlerWithResult<CreateIngredientCommand, Ingredient> createIngredientCommandHandler,
-    IAsyncValidator<UpdateIngredientsCommand> validator )
-    : CommandBaseHandler<UpdateIngredientsCommand>( validator )
+    IAsyncValidator<UpdateIngredientsCommand> validator,
+    ILogger<UpdateIngredientsCommand> logger )
+    : CommandBaseHandler<UpdateIngredientsCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( UpdateIngredientsCommand command )
     {

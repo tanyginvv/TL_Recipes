@@ -1,8 +1,9 @@
 ﻿using Recipes.Application.Results;
 using Recipes.Application.UseCases.Recipes.Dtos;
+using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Domain.Entities;
 
-namespace Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
+namespace Recipes.Application.Tests.Steps.Commands.UpdateSteps;
 
 public class UpdateStepsCommandValidatorTests
 {
@@ -14,12 +15,12 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Success_When_Valid_Command()
+    public async Task ValidateAsync_ValidCommand_ReturnsSuccess()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Valid description" }
@@ -34,7 +35,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Recipe_Is_Null()
+    public async Task ValidateAsync_RecipeIsNull_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -55,12 +56,12 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepNumber_Is_Zero()
+    public async Task ValidateAsync_StepNumberIsZero_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 0, StepDescription = "Valid description" }
@@ -76,12 +77,12 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepDescription_Is_Empty()
+    public async Task ValidateAsync_StepDescriptionIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "" }
@@ -97,12 +98,12 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepDescription_Is_Too_Long()
+    public async Task ValidateAsync_StepDescriptionIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },l
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = new string('x', 251) }
@@ -118,16 +119,16 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepNumbers_Are_Not_Unique()
+    public async Task ValidateAsync_StepNumbersAreNotUnique_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Description 1" },
-                new StepDto { StepNumber = 1, StepDescription = "Description 2" } // Duplicate step number
+                new StepDto { StepNumber = 1, StepDescription = "Description 2" } 
             }
         };
 
@@ -140,12 +141,12 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_NewSteps_Is_Empty()
+    public async Task ValidateAsync_NewStepsIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
         {
-            Recipe = new Recipe { Id = 1 },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1 },
             NewSteps = new List<StepDto>()
         };
 

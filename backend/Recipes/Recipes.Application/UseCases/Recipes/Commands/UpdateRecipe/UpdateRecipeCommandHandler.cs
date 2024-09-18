@@ -7,6 +7,7 @@ using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Application.UseCases.Recipes.Commands.CreateRecipe;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.UseCases.Recipes.Commands.UpdateRecipe;
 
@@ -17,8 +18,9 @@ public class UpdateRecipeCommandHandler(
     ICommandHandler<UpdateStepsCommand> updateStepsCommandHandler,
     ICommandHandler<UpdateIngredientsCommand> updateIngredientsCommandHandler,
     ICommandHandler<UpdateTagsCommand> updateTagsCommandHandler,
-    IImageTools imageTools )
-    : CommandBaseHandler<UpdateRecipeCommand>( validator )
+    IImageTools imageTools,
+    ILogger<UpdateRecipeCommand> logger )
+    : CommandBaseHandler<UpdateRecipeCommand>( validator, logger )
 {
     protected override async Task<Result> HandleImplAsync( UpdateRecipeCommand updateRecipeCommand )
     {

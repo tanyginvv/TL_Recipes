@@ -1,12 +1,12 @@
 ﻿using Moq;
-using System.Threading.Tasks;
-using Xunit;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Favourites.Command.DeleteFavourite;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
+
+namespace Recipes.Application.Tests.Favourites.Command.DeleteFavourite;
 
 public class DeleteFavouriteCommandHandlerTests
 {
@@ -27,14 +27,16 @@ public class DeleteFavouriteCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_FavouriteNotFound_ReturnsError()
+    public async Task HandleAsync_FavouriteNotFound_ReturnsError()
     {
         // Arrange
         DeleteFavouriteCommand command = new DeleteFavouriteCommand { RecipeId = 1, UserId = 2 };
-        _mockValidator.Setup( v => v.ValidateAsync( command ) ); // Assume validation passes
+        _mockValidator.Setup( v => v.ValidateAsync( command ) )
+                      .ReturnsAsync( Result.Success );
         _mockFavouriteRepository.Setup( r => r.GetFavouriteByAttributes( command.RecipeId, command.UserId ) )
                                  .ReturnsAsync( null as Favourite );
-        _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "Избранное не найдено" ) );
+        _mockValidator.Setup( v => v.ValidateAsync( command ) )
+                      .ReturnsAsync( Result.FromError( "Избранное не найдено" ) );
 
         // Act
         Result result = await _handler.HandleAsync( command );
@@ -45,13 +47,13 @@ public class DeleteFavouriteCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_FavouriteExists_SuccessfullyDeleted()
+    public async Task HandleAsync_FavouriteExists_SuccessfullyDeleted()
     {
         // Arrange
         DeleteFavouriteCommand command = new DeleteFavouriteCommand { RecipeId = 1, UserId = 2 };
         Favourite favourite = new Favourite( command.RecipeId, command.UserId );
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation passes
+                      .ReturnsAsync( Result.Success );
         _mockFavouriteRepository.Setup( r => r.GetFavouriteByAttributes( command.RecipeId, command.UserId ) )
                                  .ReturnsAsync( favourite );
 

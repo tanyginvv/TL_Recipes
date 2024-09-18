@@ -38,7 +38,7 @@ public class DeleteStepCommandValidatorTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 2, "Description", 1 ); // Assume this is a valid step with ID 2
+        Step step = new Step( 2, "Description", 1 ); 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 
@@ -55,7 +55,7 @@ public class DeleteStepCommandValidatorTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 1, "Description", 1 ) { Id = 1 }; // Assume this is a valid step with ID 1
+        Step step = new Step( 1, "Description", 1 ) { Id = 1 }; 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 

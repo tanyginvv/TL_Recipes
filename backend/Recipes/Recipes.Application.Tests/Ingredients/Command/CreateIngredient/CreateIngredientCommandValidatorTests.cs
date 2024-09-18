@@ -55,7 +55,7 @@ public class CreateIngredientCommandValidatorTests
         // Arrange
         CreateIngredientCommand command = new CreateIngredientCommand
         {
-            Title = new string( 'A', 101 ), // 101 characters long
+            Title = new string( 'A', 101 ),
             Description = "Valid ingredient description",
             Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
@@ -94,7 +94,7 @@ public class CreateIngredientCommandValidatorTests
         CreateIngredientCommand command = new CreateIngredientCommand
         {
             Title = "Valid Ingredient Title",
-            Description = new string( 'A', 251 ), // 251 characters long
+            Description = new string( 'A', 251 ),
             Recipe = new( 1, "", "", 1, 1, "" ) { Id = 1 }
         };
 

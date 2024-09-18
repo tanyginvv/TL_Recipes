@@ -24,7 +24,7 @@ public class DeleteRecipeCommandValidatorTests
         // Arrange
         DeleteRecipeCommand command = new DeleteRecipeCommand
         {
-            RecipeId = 0, // Invalid ID
+            RecipeId = 0, 
             AuthorId = 1
         };
 

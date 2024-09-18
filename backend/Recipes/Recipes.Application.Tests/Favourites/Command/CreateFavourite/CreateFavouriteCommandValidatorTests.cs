@@ -5,6 +5,7 @@ using Recipes.Application.UseCases.Favourites.Command.CreateFavourite;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Tests.Favourites.Command.CreateFavourite;
+
 public class CreateFavouriteCommandValidatorTests
 {
     private readonly Mock<IRecipeRepository> _mockRecipeRepository;
@@ -29,7 +30,7 @@ public class CreateFavouriteCommandValidatorTests
         // Arrange
         CreateFavouriteCommand command = new CreateFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( null as Recipe  );
+                             .ReturnsAsync( null as Recipe );
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -45,7 +46,7 @@ public class CreateFavouriteCommandValidatorTests
         // Arrange
         CreateFavouriteCommand command = new CreateFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); // Assume recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) );
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
                            .ReturnsAsync( null as User );
 
@@ -65,7 +66,7 @@ public class CreateFavouriteCommandValidatorTests
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
                              .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) );
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User("","","") ); 
+                           .ReturnsAsync( new User( "", "", "" ) );
         _mockFavouriteRepository.Setup( f => f.GetFavouriteByAttributes( command.UserId, command.RecipeId ) )
                                  .ReturnsAsync( new Favourite( command.RecipeId, command.UserId ) );
 
@@ -83,9 +84,9 @@ public class CreateFavouriteCommandValidatorTests
         // Arrange
         CreateFavouriteCommand command = new CreateFavouriteCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); // Assume recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) );
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User("", "", "") ); // Assume user exists
+                           .ReturnsAsync( new User( "", "", "" ) ); 
         _mockFavouriteRepository.Setup( f => f.GetFavouriteByAttributes( command.UserId, command.RecipeId ) )
                                  .ReturnsAsync( null as Favourite );
 

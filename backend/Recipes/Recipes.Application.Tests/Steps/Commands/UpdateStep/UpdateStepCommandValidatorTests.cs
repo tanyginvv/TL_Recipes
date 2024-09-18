@@ -80,7 +80,7 @@ public class UpdateStepCommandValidatorTests
     {
         // Arrange
         UpdateStepCommand command = new UpdateStepCommand { StepId = 1, StepNumber = 1, StepDescription = "Description" };
-        Step step = new Step( command.StepNumber, command.StepDescription, 1 ) { Id = 1 }; // Assuming a valid step
+        Step step = new Step( command.StepNumber, command.StepDescription, 1 ) { Id = 1 }; 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
 

@@ -42,7 +42,7 @@ public class DeleteStepCommandHandlerTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 2, "Description", 1 ); // Assume this is a valid step with ID 2
+        Step step = new Step( 2, "Description", 1 ); 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "ID шага не соответствует указанному номеру шага" ) );
@@ -59,7 +59,7 @@ public class DeleteStepCommandHandlerTests
     {
         // Arrange
         DeleteStepCommand command = new DeleteStepCommand { StepId = 1 };
-        Step step = new Step( 1, "Description", 1 ); // Assume this is a valid step with ID 1
+        Step step = new Step( 1, "Description", 1 ); 
         _stepRepositoryMock.Setup( repo => repo.GetByStepIdAsync( command.StepId ) )
             .ReturnsAsync( step );
         _stepRepositoryMock.Setup( repo => repo.Delete( step ) )

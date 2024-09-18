@@ -7,6 +7,7 @@ using Recipes.Application.UseCases.Favourites.Command.CreateFavourite;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Tests.Favourites.Command.CreateFavourite;
+
 public class CreateFavouriteCommandHandlerTests
 {
     private readonly Mock<IFavouriteRepository> _mockFavouriteRepository;
@@ -44,7 +45,7 @@ public class CreateFavouriteCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_ValidationFails_ReturnsError()
+    public async Task HandleAsync_InvalidCommand_ReturnsValidationError()
     {
         // Arrange
         CreateFavouriteCommand command = new CreateFavouriteCommand { RecipeId = 1, UserId = 2 };

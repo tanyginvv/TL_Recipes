@@ -28,7 +28,7 @@ public class CreateRecipeCommandValidatorTests
         // Arrange
         CreateRecipeCommand command = new CreateRecipeCommand
         {
-            AuthorId = 2, // An ID not in the setup
+            AuthorId = 2, 
             Name = "Valid Recipe",
             Description = "A valid description.",
             PortionCount = 1,
@@ -81,7 +81,7 @@ public class CreateRecipeCommandValidatorTests
         CreateRecipeCommand command = new CreateRecipeCommand
         {
             AuthorId = _existingUser.Id,
-            Name = new string( 'a', 101 ), // Name with 101 characters
+            Name = new string( 'a', 101 ),
             Description = "A valid description.",
             PortionCount = 1,
             CookTime = 30,
@@ -132,7 +132,7 @@ public class CreateRecipeCommandValidatorTests
         {
             AuthorId = _existingUser.Id,
             Name = "Valid Recipe",
-            Description = new string( 'a', 151 ), // Description with 151 characters
+            Description = new string( 'a', 151 ), 
             PortionCount = 1,
             CookTime = 30,
             ImageUrl = "http://example.com/image.jpg",
@@ -265,7 +265,7 @@ public class CreateRecipeCommandValidatorTests
             CookTime = 30,
             ImageUrl = "http://example.com/image.jpg",
             Tags = new List<TagDto>(),
-            Ingredients = new List<IngredientDto>(), // Empty ingredients list
+            Ingredients = new List<IngredientDto>(), 
             Steps = new List<StepDto> { new StepDto { StepDescription = "Step 1" } }
         };
 
@@ -291,7 +291,7 @@ public class CreateRecipeCommandValidatorTests
             ImageUrl = "http://example.com/image.jpg",
             Tags = new List<TagDto>(),
             Ingredients = new List<IngredientDto> { new IngredientDto { Title = "Ingredient", Description = "Description" } },
-            Steps = new List<StepDto>() // Empty steps list
+            Steps = new List<StepDto>() 
         };
 
         // Act

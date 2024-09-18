@@ -4,6 +4,7 @@ using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
 
 namespace Recipes.Application.Tests.Ingredients.Command.UpdateIngredients;
+
 public class UpdateIngredientsCommandValidatorTests
 {
     private readonly UpdateIngredientsCommandValidator _validator;
@@ -14,7 +15,7 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Recipe_Is_Null()
+    public async Task ValidateAsync_RecipeIsNull_ReturnsError()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -35,7 +36,7 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Ingredient_Title_Is_Empty()
+    public async Task ValidateAsync_IngredientTitleIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -56,12 +57,12 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Ingredient_Title_Is_Too_Long()
+    public async Task ValidateAsync_IngredientTitleIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(1, "", "", 1, 1, ""),
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = new string('a', 101), Description = "Valid Description" }
@@ -69,7 +70,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Result result = await _validator.ValidateAsync( command );
+        Results.Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -77,7 +78,7 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Ingredient_Description_Is_Empty()
+    public async Task ValidateAsync_IngredientDescriptionIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -90,7 +91,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Result result = await _validator.ValidateAsync( command );
+        Results.Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -98,12 +99,12 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Ingredient_Description_Is_Too_Long()
+    public async Task ValidateAsync_IngredientDescriptionIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(1, "", "", 1, 1, ""),
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Title", Description = new string('a', 251) }
@@ -111,7 +112,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Result result = await _validator.ValidateAsync( command );
+        Results.Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
@@ -119,12 +120,12 @@ public class UpdateIngredientsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Success_When_All_Ingredients_Are_Valid()
+    public async Task ValidateAsync_AllIngredientsAreValid_ReturnsSuccess()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-            Recipe = new Recipe(1, "", "", 1, 1, ""),
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ),
             NewIngredients = new List<IngredientDto>
             {
                 new IngredientDto { Title = "Valid Title", Description = "Valid Description" }
@@ -132,7 +133,7 @@ public class UpdateIngredientsCommandValidatorTests
         };
 
         // Act
-        Result result = await _validator.ValidateAsync( command );
+        Results.Result result = await _validator.ValidateAsync( command );
 
         // Assert
         Assert.True( result.IsSuccess );

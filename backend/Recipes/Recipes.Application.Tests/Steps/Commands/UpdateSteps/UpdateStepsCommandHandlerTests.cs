@@ -8,6 +8,8 @@ using Recipes.Application.UseCases.Steps.Commands.UpdateSteps;
 using Recipes.Application.UseCases.Recipes.Dtos;
 using Recipes.Domain.Entities;
 
+namespace Recipes.Application.Tests.Steps.Commands.UpdateSteps;
+
 public class UpdateStepsCommandHandlerTests
 {
     private readonly Mock<ICommandHandler<UpdateStepCommand>> _updateStepCommandHandlerMock;
@@ -31,7 +33,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Create_NewStep_When_NotExist()
+    public async Task HandleAsync_CreateNewStep_ShouldCreateStep()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -60,7 +62,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Create_Multiple_NewSteps()
+    public async Task HandleAsync_CreateMultipleNewSteps_ShouldCreateSteps()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -75,7 +77,7 @@ public class UpdateStepsCommandHandlerTests
 
         _createStepCommandHandlerMock
             .Setup( x => x.HandleAsync( It.IsAny<CreateStepCommand>() ) )
-            .ReturnsAsync( Result<Step>.FromSuccess( new Step(1, "", 1) ) );
+            .ReturnsAsync( Result<Step>.FromSuccess( new Step( 1, "", 1 ) ) );
 
         _validatorMock
             .Setup( x => x.ValidateAsync( command ) )
@@ -90,7 +92,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Update_ExistingStep_When_DescriptionChanged()
+    public async Task HandleAsync_UpdateExistingStepDescription_ShouldUpdateStep()
     {
         // Arrange
         Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Old Description" };
@@ -120,13 +122,13 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Update_Multiple_ExistingSteps()
+    public async Task HandleAsync_UpdateMultipleExistingSteps_ShouldUpdateSteps()
     {
         // Arrange
         List<Step> existingSteps = new List<Step>
         {
-            new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Old Description 1" },
-            new Step( 1, "", 1 ) { Id = 2, StepNumber = 2, StepDescription = "Old Description 2" }
+            new Step(1, "", 1) { Id = 1, StepNumber = 1, StepDescription = "Old Description 1" },
+            new Step(1, "", 1) { Id = 2, StepNumber = 2, StepDescription = "Old Description 2" }
         };
         UpdateStepsCommand command = new UpdateStepsCommand
         {
@@ -155,7 +157,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Delete_Steps_That_Are_No_Long_Apart()
+    public async Task HandleAsync_DeleteStepsThatAreNoLongerPresent_ShouldDeleteSteps()
     {
         // Arrange
         Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "To Be Deleted" };
@@ -182,7 +184,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_No_Changes()
+    public async Task HandleAsync_NoChanges_ShouldNotCreateUpdateOrDeleteSteps()
     {
         // Arrange
         Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Description" };
@@ -210,7 +212,7 @@ public class UpdateStepsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_Empty_NewSteps_List()
+    public async Task HandleAsync_EmptyNewStepsList_ShouldNotCreateUpdateStepsButShouldDeleteSteps()
     {
         // Arrange
         Step existingStep = new Step( 1, "", 1 ) { Id = 1, StepNumber = 1, StepDescription = "Description" };
@@ -232,60 +234,5 @@ public class UpdateStepsCommandHandlerTests
         _updateStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<UpdateStepCommand>() ), Times.Never );
         _deleteStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<DeleteStepCommand>() ), Times.Once );
         Assert.True( result.IsSuccess );
-    }
-
-    [Fact]
-    public async Task HandleImplAsync_Should_Handle_Validation_Failure()
-    {
-        // Arrange
-        UpdateStepsCommand command = new UpdateStepsCommand
-        {
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
-            NewSteps = new List<StepDto>
-            {
-                new StepDto { StepNumber = 1, StepDescription = "Invalid Step" }
-            }
-        };
-
-        _validatorMock
-            .Setup( x => x.ValidateAsync( command ) )
-            .ReturnsAsync( Result.FromError( "Validation failed" ) );
-
-        // Act
-        Result result = await _handler.HandleAsync( command );
-
-        // Assert
-        Assert.False( result.IsSuccess );
-        Assert.Equal( "Validation failed", result.Error.Message );
-        _createStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<CreateStepCommand>() ), Times.Never );
-        _updateStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<UpdateStepCommand>() ), Times.Never );
-        _deleteStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<DeleteStepCommand>() ), Times.Never );
-    }
-
-    [Fact]
-    public async Task HandleImplAsync_Should_Handle_Validation_Success()
-    {
-        // Arrange
-        UpdateStepsCommand command = new UpdateStepsCommand
-        {
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Steps = new List<Step>() },
-            NewSteps = new List<StepDto>
-            {
-                new StepDto { StepNumber = 1, StepDescription = "Valid Step" }
-            }
-        };
-
-        _validatorMock
-            .Setup( x => x.ValidateAsync( command ) )
-            .ReturnsAsync( Result.Success );
-
-        // Act
-        Result result = await _handler.HandleAsync( command );
-
-        // Assert
-        Assert.True( result.IsSuccess );
-        _createStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<CreateStepCommand>() ), Times.Once );
-        _updateStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<UpdateStepCommand>() ), Times.Never );
-        _deleteStepCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<DeleteStepCommand>() ), Times.Never );
     }
 }

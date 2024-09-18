@@ -13,12 +13,12 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnError_When_IdIsInvalid()
+    public async Task ValidateAsync_IdIsInvalid_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand
         {
-            Id = 0, // Invalid ID
+            Id = 0, 
             Title = "Valid Title",
             Description = "Valid Description"
         };
@@ -32,13 +32,13 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnError_When_TitleIsEmpty()
+    public async Task ValidateAsync_TitleIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand
         {
             Id = 1,
-            Title = "", // Empty title
+            Title = "", 
             Description = "Valid Description"
         };
 
@@ -51,13 +51,13 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnError_When_TitleIsTooLong()
+    public async Task ValidateAsync_TitleIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand
         {
             Id = 1,
-            Title = new string( 'a', 101 ), // Title longer than 100 characters
+            Title = new string( 'a', 101 ),
             Description = "Valid Description"
         };
 
@@ -70,14 +70,14 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnError_When_DescriptionIsEmpty()
+    public async Task ValidateAsync_DescriptionIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand
         {
             Id = 1,
             Title = "Valid Title",
-            Description = "" // Empty description
+            Description = "" 
         };
 
         // Act
@@ -89,14 +89,14 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnError_When_DescriptionIsTooLong()
+    public async Task ValidateAsync_DescriptionIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand
         {
             Id = 1,
             Title = "Valid Title",
-            Description = new string( 'a', 251 ) // Description longer than 250 characters
+            Description = new string( 'a', 251 ) 
         };
 
         // Act
@@ -108,7 +108,7 @@ public class UpdateIngredientCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_ReturnSuccess_When_ValidCommand()
+    public async Task ValidateAsync_ValidCommand_ReturnsSuccess()
     {
         // Arrange
         UpdateIngredientCommand command = new UpdateIngredientCommand

@@ -46,7 +46,7 @@ public class CreateLikeCommandValidatorTests
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe(1, "", "", 1, 1, "") ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) );
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
                            .ReturnsAsync( null as User );
 
@@ -64,11 +64,12 @@ public class CreateLikeCommandValidatorTests
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 1 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe(1, "", "", 1, 1, "") ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) );
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User( "", "", "" ) ); // User exists
+                           .ReturnsAsync( new User( "", "", "" ) );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.UserId, command.RecipeId ) )
-                                 .ReturnsAsync( new Like( command.RecipeId, command.UserId ) ); // Like already exists
+                           .ReturnsAsync( new Like( command.RecipeId, command.UserId ) ); 
+
         // Act
         Result result = await _validator.ValidateAsync( command );
 
@@ -83,11 +84,11 @@ public class CreateLikeCommandValidatorTests
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };
         _mockRecipeRepository.Setup( r => r.GetByIdAsync( command.RecipeId ) )
-                             .ReturnsAsync( new Recipe(1, "", "", 1, 1, "") ); // Recipe exists
+                             .ReturnsAsync( new Recipe( 1, "", "", 1, 1, "" ) ); 
         _mockUserRepository.Setup( r => r.GetByIdAsync( command.UserId ) )
-                           .ReturnsAsync( new User( "", "", "" ) ); // User exists
+                           .ReturnsAsync( new User( "", "", "" ) );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.UserId, command.RecipeId ) )
-                           .ReturnsAsync( null as Like ); // Like does not exist
+                           .ReturnsAsync( null as Like );
 
         // Act
         Result result = await _validator.ValidateAsync( command );

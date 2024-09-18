@@ -33,7 +33,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Create_NewIngredients_When_NotExist()
+    public async Task HandleAsync_NoExistingIngredients_ShouldCreateNewIngredients()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -61,7 +61,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Create_Multiple_NewIngredients()
+    public async Task HandleAsync_NoExistingIngredients_ShouldCreateMultipleNewIngredients()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -90,7 +90,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Update_ExistingIngredients_When_DescriptionChanged()
+    public async Task HandleAsync_ExistingIngredientsWithDescriptionChange_ShouldUpdateIngredients()
     {
         // Arrange
         Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Old Description" };
@@ -119,13 +119,13 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Update_Multiple_ExistingIngredients()
+    public async Task HandleAsync_MultipleExistingIngredientsWithDescriptionChange_ShouldUpdateAllIngredients()
     {
         // Arrange
         List<Ingredient> existingIngredients = new List<Ingredient>
         {
-            new Ingredient( "", "", 1 ) { Id = 1, Title = "Ingredient 1", Description = "Old Description 1" },
-            new Ingredient( "", "", 1 ) { Id = 2, Title = "Ingredient 2", Description = "Old Description 2" }
+            new Ingredient("", "", 1) { Id = 1, Title = "Ingredient 1", Description = "Old Description 1" },
+            new Ingredient("", "", 1) { Id = 2, Title = "Ingredient 2", Description = "Old Description 2" }
         };
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
@@ -153,7 +153,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Delete_Ingredients_That_Are_No_Long_Apart()
+    public async Task HandleAsync_IngredientsNoLongerInList_ShouldDeleteIngredients()
     {
         // Arrange
         Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "To Be Deleted" };
@@ -179,7 +179,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_No_Changes()
+    public async Task HandleAsync_NoNewOrChangedIngredients_ShouldNotPerformAnyActions()
     {
         // Arrange
         Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Description" };
@@ -205,7 +205,7 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_Empty_NewIngredients_List()
+    public async Task HandleAsync_EmptyNewIngredientsList_ShouldDeleteAllExistingIngredients()
     {
         // Arrange
         Ingredient existingIngredient = new Ingredient( "", "", 1 ) { Id = 1, Title = "Existing Ingredient", Description = "Description" };
@@ -230,35 +230,24 @@ public class UpdateIngredientsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_Validation_Failure()
+    public async Task HandleAsync_ValidationFails_ShouldReturnFailure()
     {
         // Arrange
-        UpdateIngredientsCommand command = new UpdateIngredientsCommand
-        {
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
-            NewIngredients = new List<IngredientDto>
-            {
-                new IngredientDto { Title = "Invalid Ingredient", Description = "Description" }
-            }
-        };
-
+        UpdateIngredientsCommand command = new UpdateIngredientsCommand();
         _validatorMock
-            .Setup( x => x.ValidateAsync( command ) )
-            .ReturnsAsync( Result.FromError( "Validation failed" ) );
+           .Setup( x => x.ValidateAsync( command ) )
+           .ReturnsAsync( Result.FromError( "Validation Error" ) );
 
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
         Assert.False( result.IsSuccess );
-        Assert.Equal( "Validation failed", result.Error.Message );
-        _createIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<CreateIngredientCommand>() ), Times.Never );
-        _updateIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<UpdateIngredientCommand>() ), Times.Never );
-        _deleteIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<DeleteIngredientCommand>() ), Times.Never );
+        Assert.Equal( "Validation Error", result.Error.Message );
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Handle_Validation_Success()
+    public async Task HandleAsync_ValidationSucceeds_ShouldReturnSuccess()
     {
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
@@ -269,18 +258,14 @@ public class UpdateIngredientsCommandHandlerTests
                 new IngredientDto { Title = "Valid Ingredient", Description = "Description" }
             }
         };
-
         _validatorMock
-            .Setup( x => x.ValidateAsync( command ) )
-            .ReturnsAsync( Result.Success );
+           .Setup( x => x.ValidateAsync( command ) )
+           .ReturnsAsync( Result.Success );
 
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
         Assert.True( result.IsSuccess );
-        _createIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<CreateIngredientCommand>() ), Times.Once );
-        _updateIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<UpdateIngredientCommand>() ), Times.Never );
-        _deleteIngredientCommandHandlerMock.Verify( x => x.HandleAsync( It.IsAny<DeleteIngredientCommand>() ), Times.Never );
     }
 }

@@ -27,14 +27,14 @@ public class DeleteLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_ExistingLike_DeletesLikeAndCommits()
+    public async Task HandleAsync_ExistingLike_DeletesLikeAndCommits()
     {
         // Arrange
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
         Like like = new Like( command.RecipeId, command.UserId );
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation is successful
+                      .ReturnsAsync( Result.Success );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.RecipeId, command.UserId ) )
                            .ReturnsAsync( like );
 
@@ -49,46 +49,46 @@ public class DeleteLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_LikeNotFound_ReturnsError()
+    public async Task HandleAsync_LikeNotFound_ReturnsError()
     {
         // Arrange
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation is successful
+                      .ReturnsAsync( Result.Success );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.RecipeId, command.UserId ) )
-                           .ReturnsAsync( null as Like  ); // Simulate no like found
-        _mockValidator.Setup( v => v.ValidateAsync(command)).ReturnsAsync( Result.FromError("Лайк не найден"));
+                           .ReturnsAsync( null as Like );
+        _mockValidator.Setup( v => v.ValidateAsync( command ) ).ReturnsAsync( Result.FromError( "Лайк не найден" ) );
 
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
-        _mockLikeRepository.Verify( r => r.Delete( It.IsAny<Like>() ), Times.Never ); // Ensure no delete is called
-        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never ); // Ensure no commit is called
+        _mockLikeRepository.Verify( r => r.Delete( It.IsAny<Like>() ), Times.Never );
+        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never );
         Assert.False( result.IsSuccess );
         Assert.Equal( "Лайк не найден", result.Error.Message );
     }
 
     [Fact]
-    public async Task HandleImplAsync_ExceptionThrown_ReturnsError()
+    public async Task HandleAsync_ExceptionThrown_ReturnsError()
     {
         // Arrange
         DeleteLikeCommand command = new DeleteLikeCommand { RecipeId = 1, UserId = 2 };
         Like like = new Like( command.RecipeId, command.UserId );
 
         _mockValidator.Setup( v => v.ValidateAsync( command ) )
-                      .ReturnsAsync( Result.Success ); // Assume validation is successful
+                      .ReturnsAsync( Result.Success );
         _mockLikeRepository.Setup( r => r.GetLikeByAttributes( command.RecipeId, command.UserId ) )
                            .ReturnsAsync( like );
         _mockLikeRepository.Setup( r => r.Delete( It.IsAny<Like>() ) )
-                           .ThrowsAsync( new System.Exception( "Repository error" ) ); // Simulate an exception
+                           .ThrowsAsync( new Exception( "Repository error" ) );
 
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
-        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never ); // Ensure no commit is called
+        _mockUnitOfWork.Verify( u => u.CommitAsync(), Times.Never );
         Assert.False( result.IsSuccess );
         Assert.Equal( "Repository error", result.Error.Message );
     }

@@ -21,14 +21,14 @@ public class CreateStepCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_ShouldCreateAndAddStep_WhenCommandIsValid()
+    public async Task HandleAsync_ShouldCreateAndAddStep_WhenCommandIsValid()
     {
         // Arrange
         CreateStepCommand command = new CreateStepCommand
         {
             StepNumber = 1,
             StepDescription = "Step description",
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 } // Предполагается, что у Recipe есть свойство Id
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 } 
         };
 
         _validatorMock.Setup( v => v.ValidateAsync( command ) )
@@ -51,7 +51,7 @@ public class CreateStepCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_ShouldReturnError_WhenValidationFails()
+    public async Task HandleAsync_ShouldReturnError_WhenValidationFails()
     {
         // Arrange
         CreateStepCommand command = new CreateStepCommand

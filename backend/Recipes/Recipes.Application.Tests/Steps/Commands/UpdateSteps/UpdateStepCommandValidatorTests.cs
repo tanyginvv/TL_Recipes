@@ -15,7 +15,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Success_When_Valid_Command()
+    public async Task ValidateAsync_ValidCommand_ReturnsSuccess()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -35,7 +35,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Recipe_Is_Null()
+    public async Task ValidateAsync_RecipeIsNull_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -56,7 +56,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepNumber_Is_Zero()
+    public async Task ValidateAsync_StepNumberIsZero_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -77,7 +77,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepDescription_Is_Empty()
+    public async Task ValidateAsync_StepDescriptionIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -98,7 +98,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepDescription_Is_Too_Long()
+    public async Task ValidateAsync_StepDescriptionIsTooLong_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -119,7 +119,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_StepNumbers_Are_Not_Unique()
+    public async Task ValidateAsync_StepNumbersAreNotUnique_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand
@@ -128,7 +128,7 @@ public class UpdateStepsCommandValidatorTests
             NewSteps = new List<StepDto>
             {
                 new StepDto { StepNumber = 1, StepDescription = "Description 1" },
-                new StepDto { StepNumber = 1, StepDescription = "Description 2" } // Duplicate step number
+                new StepDto { StepNumber = 1, StepDescription = "Description 2" } 
             }
         };
 
@@ -141,7 +141,7 @@ public class UpdateStepsCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_NewSteps_Is_Empty()
+    public async Task ValidateAsync_NewStepsIsEmpty_ReturnsError()
     {
         // Arrange
         UpdateStepsCommand command = new UpdateStepsCommand

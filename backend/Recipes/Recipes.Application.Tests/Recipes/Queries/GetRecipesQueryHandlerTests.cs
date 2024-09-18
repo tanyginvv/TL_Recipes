@@ -26,7 +26,7 @@ public class GetRecipesQueryHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Return_Recipes_With_Like_And_Favourite_Status()
+    public async Task HandleAsync_ValidQuery_ReturnsRecipesWithLikeAndFavouriteStatus()
     {
         // Arrange
         GetRecipesQuery query = new GetRecipesQuery
@@ -39,13 +39,13 @@ public class GetRecipesQueryHandlerTests
 
         List<Recipe> recipes = new List<Recipe>
         {
-            new Recipe( 1, "", "", 1, 1, "" )
+            new Recipe(1, "", "", 1, 1, "")
             {
                 Id = 1,
-                Likes = new List<Like> { new Like( 1, 1) { UserId = 1 } },
-                Favourites = new List<Favourite> { new Favourite( 1, 1 ) { UserId = 1 } }
+                Likes = new List<Like> { new Like(1, 1) { UserId = 1 } },
+                Favourites = new List<Favourite> { new Favourite(1, 1) { UserId = 1 } }
             },
-            new Recipe( 1, "", "", 1, 1, "" )
+            new Recipe(1, "", "", 1, 1, "")
             {
                 Id = 2,
                 Likes = new List<Like>(),
@@ -72,9 +72,7 @@ public class GetRecipesQueryHandlerTests
         Assert.True( result.IsSuccess );
         GetRecipesListDto dto = result.Value;
 
-        // Using .Count() to get the number of items in the list
         Assert.Equal( 2, dto.GetRecipePartDtos.Count() );
-
         GetRecipePartDto firstRecipeDto = dto.GetRecipePartDtos.First();
         Assert.True( firstRecipeDto.IsLiked );
         Assert.True( firstRecipeDto.IsFavourited );
@@ -84,9 +82,8 @@ public class GetRecipesQueryHandlerTests
         Assert.False( secondRecipeDto.IsFavourited );
     }
 
-
     [Fact]
-    public async Task HandleImplAsync_Should_Return_Error_When_Validation_Fails()
+    public async Task HandleAsync_ValidationFails_ReturnsError()
     {
         // Arrange
         GetRecipesQuery query = new GetRecipesQuery
@@ -111,7 +108,7 @@ public class GetRecipesQueryHandlerTests
     }
 
     [Fact]
-    public async Task HandleImplAsync_Should_Return_Empty_List_If_No_Recipes()
+    public async Task HandleAsync_NoRecipesFound_ReturnsEmptyList()
     {
         // Arrange
         GetRecipesQuery query = new GetRecipesQuery

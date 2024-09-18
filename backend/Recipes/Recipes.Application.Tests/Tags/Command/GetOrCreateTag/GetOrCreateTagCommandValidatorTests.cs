@@ -13,7 +13,7 @@ public class GetOrCreateTagCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Name_Is_Empty()
+    public async Task ValidateAsync_EmptyName_ShouldReturnError()
     {
         // Arrange
         GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = "" };
@@ -27,10 +27,10 @@ public class GetOrCreateTagCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Error_When_Name_Is_Too_Long()
+    public async Task ValidateAsync_NameTooLong_ShouldReturnError()
     {
         // Arrange
-        GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = new string( 'a', 51 ) }; // 51 символ
+        GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = new string( 'a', 51 ) }; 
 
         // Act
         Result result = await _validator.ValidateAsync( command );
@@ -41,7 +41,7 @@ public class GetOrCreateTagCommandValidatorTests
     }
 
     [Fact]
-    public async Task ValidateAsync_Should_Return_Success_When_Name_Is_Valid()
+    public async Task ValidateAsync_ValidName_ShouldReturnSuccess()
     {
         // Arrange
         GetOrCreateTagCommand command = new GetOrCreateTagCommand { Name = "ValidTagName" };

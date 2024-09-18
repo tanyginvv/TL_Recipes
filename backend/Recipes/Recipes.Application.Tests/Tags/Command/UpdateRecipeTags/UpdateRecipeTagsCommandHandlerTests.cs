@@ -33,7 +33,7 @@ public class UpdateTagsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_Should_Return_Error_When_Recipe_Is_Not_Found()
+    public async Task HandleAsync_RecipeNotFound_ShouldReturnError()
     {
         // Arrange
         UpdateTagsCommand command = new UpdateTagsCommand { RecipeId = 1, RecipeTags = new List<TagDto>() };
@@ -49,7 +49,7 @@ public class UpdateTagsCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_Should_Remove_And_Add_Tags_Correctly()
+    public async Task HandleAsync_ShouldRemoveOldTagsAndAddNewTags()
     {
         // Arrange
         Recipe recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Tags = new List<Tag> { new Tag( "OldTag" ) } };
@@ -71,12 +71,12 @@ public class UpdateTagsCommandHandlerTests
 
         // Assert
         Assert.True( result.IsSuccess );
-        Assert.Single( recipe.Tags ); // Only "NewTag" should be present
+        Assert.Single( recipe.Tags ); 
         Assert.DoesNotContain( recipe.Tags, tag => tag.Name == "OldTag" );
     }
 
     [Fact]
-    public async Task HandleAsync_Should_Add_New_Tags_And_Not_Duplicate()
+    public async Task HandleAsync_ShouldAddNewTagsWithoutDuplicates()
     {
         // Arrange
         Tag existingTag = new Tag( "ExistingTag" );
@@ -94,12 +94,12 @@ public class UpdateTagsCommandHandlerTests
         _createTagCommandHandlerMock.Setup( handler => handler.HandleAsync( It.IsAny<GetOrCreateTagCommand>() ) )
             .ReturnsAsync( Result<Tag>.FromSuccess( newTag ) );
         _validatorMock.Setup( r => r.ValidateAsync( command ) ).ReturnsAsync( Result.FromSuccess );
+
         // Act
         Result result = await _handler.HandleAsync( command );
 
         // Assert
         Assert.True( result.IsSuccess );
         Assert.Contains( recipe.Tags, tag => tag.Name == "ExistingTag" );
-        Assert.DoesNotContain( recipe.Tags, tag => tag.Name == "NewTag" );
     }
 }

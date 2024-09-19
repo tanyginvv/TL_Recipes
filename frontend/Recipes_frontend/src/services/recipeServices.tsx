@@ -1,5 +1,5 @@
 import { API_URL } from '../constants/apiUrl';
-import { IRecipeAllRecipes, IRecipe, IRecipeSubmit, RecipeQueryType } from '../models/types';
+import { IRecipeAllRecipes, IRecipe, IRecipeSubmit, RecipeQueryType, IError } from '../models/types';
 import { CheckToken } from '../custom-utils/checkToken';
 
 export class RecipeService {
@@ -103,7 +103,7 @@ export class RecipeService {
         }
     }
 
-    async submitRecipe(recipeData: IRecipeSubmit, id?: string): Promise<void> {
+    async submitRecipe(recipeData: IRecipeSubmit, id?: string): Promise<IError> {
         try {
             const token = await CheckToken(); 
 
@@ -122,11 +122,13 @@ export class RecipeService {
             });
 
             if (!response.ok) {
-                throw new Error('Ошибка при обработке рецепта');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Authentication failed')
             }
+
+            return{};
         } catch (error) {
-            console.error('Error submitting recipe:', error);
-            throw error;
+            return { errorMessage: error}
         }
     }
 }

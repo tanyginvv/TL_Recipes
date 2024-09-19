@@ -80,7 +80,7 @@ public class RecipesController : ControllerBase
 
         if ( !result.IsSuccess )
         {
-            return BadRequest( result.Error );
+            return BadRequest( result.Error.Message );
         }
 
         return Ok();

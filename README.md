@@ -14,6 +14,10 @@
 
 **Контейнеризация**: Docker
 
+**Логирование**: Serilog
+
+**Unit-тесты**: XUnit
+
 **ER-диаграмма**:![OE1iza-Xdn0](https://github.com/user-attachments/assets/d335e341-0770-4b1a-af2d-cae73219587e)
 
 **Запуск**: 

@@ -157,7 +157,7 @@ export const AddAndEditForm = forwardRef((_, ref) => {
                 setNotification((id ? 'Рецепт успешно обновлен' : 'Рецепт успешно добавлен'), "success");
                 navigate('/allRecipesPage');
             } else {
-                setNotification(`Ошибка сохранения рецептов, убедитесь, что в полях текста менее 250 символов`, "error");
+                setNotification(`Не удалось сохранить рецепт`, "error");
             }   
         } catch (error) {
             setNotification(`${error}`, "error");

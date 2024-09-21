@@ -4,6 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Ingredients.Command.CreateIngredient;
 
@@ -12,14 +13,16 @@ public class CreateIngredientCommandHandlerTests
     private readonly Mock<IIngredientRepository> _mockIngredientRepository;
     private readonly Mock<IAsyncValidator<CreateIngredientCommand>> _mockValidator;
     private readonly CreateIngredientCommandHandler _handler;
-
+    private readonly Mock<ILogger<CreateIngredientCommand>> _logger;
     public CreateIngredientCommandHandlerTests()
     {
         _mockIngredientRepository = new Mock<IIngredientRepository>();
         _mockValidator = new Mock<IAsyncValidator<CreateIngredientCommand>>();
+        _logger = new Mock<ILogger<CreateIngredientCommand>>();
         _handler = new CreateIngredientCommandHandler(
             _mockIngredientRepository.Object,
-            _mockValidator.Object );
+            _mockValidator.Object,
+            _logger.Object );
     }
 
     [Fact]

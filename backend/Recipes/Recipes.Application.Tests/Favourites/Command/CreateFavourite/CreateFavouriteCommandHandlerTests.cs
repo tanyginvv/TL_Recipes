@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
@@ -14,16 +16,19 @@ public class CreateFavouriteCommandHandlerTests
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<IAsyncValidator<CreateFavouriteCommand>> _mockValidator;
     private readonly CreateFavouriteCommandHandler _handler;
+    private readonly Mock<ILogger<CreateFavouriteCommand>> _logger;
 
     public CreateFavouriteCommandHandlerTests()
     {
         _mockFavouriteRepository = new Mock<IFavouriteRepository>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockValidator = new Mock<IAsyncValidator<CreateFavouriteCommand>>();
+        _logger = new Mock<ILogger<CreateFavouriteCommand>>();
         _handler = new CreateFavouriteCommandHandler(
             _mockFavouriteRepository.Object,
             _mockUnitOfWork.Object,
-            _mockValidator.Object );
+            _mockValidator.Object,
+            _logger.Object  );
     }
 
     [Fact]

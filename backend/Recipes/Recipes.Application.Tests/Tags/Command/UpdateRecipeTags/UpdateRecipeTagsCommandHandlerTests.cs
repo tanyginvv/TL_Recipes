@@ -6,6 +6,7 @@ using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Application.UseCases.Tags.Commands.UpdateRecipeTags;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Recipes.Dtos;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Tags.Command.UpdateRecipeTags;
 
@@ -16,6 +17,7 @@ public class UpdateTagsCommandHandlerTests
     private readonly Mock<ICommandHandlerWithResult<GetOrCreateTagCommand, Tag>> _createTagCommandHandlerMock;
     private readonly Mock<IAsyncValidator<UpdateTagsCommand>> _validatorMock;
     private readonly UpdateTagsCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateTagsCommand>> _logger;
 
     public UpdateTagsCommandHandlerTests()
     {
@@ -23,12 +25,14 @@ public class UpdateTagsCommandHandlerTests
         _tagRepositoryMock = new Mock<ITagRepository>();
         _createTagCommandHandlerMock = new Mock<ICommandHandlerWithResult<GetOrCreateTagCommand, Tag>>();
         _validatorMock = new Mock<IAsyncValidator<UpdateTagsCommand>>();
+        _logger = new Mock<ILogger<UpdateTagsCommand>>();
 
         _handler = new UpdateTagsCommandHandler(
             _recipeRepositoryMock.Object,
             _tagRepositoryMock.Object,
             _createTagCommandHandlerMock.Object,
-            _validatorMock.Object
+            _validatorMock.Object,
+            _logger.Object
         );
     }
 

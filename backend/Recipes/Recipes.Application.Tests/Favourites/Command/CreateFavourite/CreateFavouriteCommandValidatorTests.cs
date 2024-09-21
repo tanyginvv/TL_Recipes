@@ -68,7 +68,7 @@ public class CreateFavouriteCommandValidatorTests
         _mockUserRepository.Setup( u => u.GetByIdAsync( command.UserId ) )
                            .ReturnsAsync( new User( "", "", "" ) );
 
-        _mockFavouriteRepository.Setup( f => f.GetFavouriteByAttributes( command.UserId, command.RecipeId ) )
+        _mockFavouriteRepository.Setup( f => f.GetFavouriteByAttributes( command.RecipeId, command.UserId ) )
                                  .ReturnsAsync( new Favourite( command.RecipeId, command.UserId ) );
 
         // Act

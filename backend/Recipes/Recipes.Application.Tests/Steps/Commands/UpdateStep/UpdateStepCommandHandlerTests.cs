@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -12,12 +13,14 @@ public class UpdateStepCommandHandlerTests
     private readonly Mock<IStepRepository> _stepRepositoryMock;
     private readonly Mock<IAsyncValidator<UpdateStepCommand>> _validatorMock;
     private readonly UpdateStepCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateStepCommand>> _logger;
 
     public UpdateStepCommandHandlerTests()
     {
         _stepRepositoryMock = new Mock<IStepRepository>();
         _validatorMock = new Mock<IAsyncValidator<UpdateStepCommand>>();
-        _handler = new UpdateStepCommandHandler( _stepRepositoryMock.Object, _validatorMock.Object );
+        _logger = new Mock<ILogger<UpdateStepCommand>>();
+        _handler = new UpdateStepCommandHandler( _stepRepositoryMock.Object, _validatorMock.Object, _logger.Object );
     }
 
     [Fact]

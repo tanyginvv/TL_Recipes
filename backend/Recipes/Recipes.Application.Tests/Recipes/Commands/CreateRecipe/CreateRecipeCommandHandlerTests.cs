@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
 using Recipes.Application.Repositories;
@@ -22,6 +23,7 @@ public class CreateRecipeCommandHandlerTests
     private readonly Mock<IImageTools> _mockImageTools;
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly CreateRecipeCommandHandler _handler;
+    private readonly Mock<ILogger<CreateRecipeCommand>> _logger;
 
     public CreateRecipeCommandHandlerTests()
     {
@@ -32,6 +34,7 @@ public class CreateRecipeCommandHandlerTests
         _mockCreateStepCommandHandler = new Mock<ICommandHandlerWithResult<CreateStepCommand, Step>>();
         _mockImageTools = new Mock<IImageTools>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
+        _logger = new Mock<ILogger<CreateRecipeCommand>>();
 
         _handler = new CreateRecipeCommandHandler(
             _mockRecipeRepository.Object,
@@ -40,7 +43,8 @@ public class CreateRecipeCommandHandlerTests
             _mockCreateIngredientCommandHandler.Object,
             _mockCreateStepCommandHandler.Object,
             _mockImageTools.Object,
-            _mockUnitOfWork.Object );
+            _mockUnitOfWork.Object,
+            _logger.Object );
     }
 
     [Fact]

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Results;
 using Recipes.Application.UseCases.Ingredients.Commands.CreateIngredient;
@@ -17,6 +18,7 @@ public class UpdateIngredientsCommandHandlerTests
     private readonly Mock<ICommandHandlerWithResult<CreateIngredientCommand, Ingredient>> _createIngredientCommandHandlerMock;
     private readonly Mock<IAsyncValidator<UpdateIngredientsCommand>> _validatorMock;
     private readonly UpdateIngredientsCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateIngredientsCommand>> _logger;
 
     public UpdateIngredientsCommandHandlerTests()
     {
@@ -24,11 +26,13 @@ public class UpdateIngredientsCommandHandlerTests
         _deleteIngredientCommandHandlerMock = new Mock<ICommandHandler<DeleteIngredientCommand>>();
         _createIngredientCommandHandlerMock = new Mock<ICommandHandlerWithResult<CreateIngredientCommand, Ingredient>>();
         _validatorMock = new Mock<IAsyncValidator<UpdateIngredientsCommand>>();
+        _logger = new Mock<ILogger<UpdateIngredientsCommand>>();
         _handler = new UpdateIngredientsCommandHandler(
             _updateIngredientCommandHandlerMock.Object,
             _deleteIngredientCommandHandlerMock.Object,
             _createIngredientCommandHandlerMock.Object,
-            _validatorMock.Object
+            _validatorMock.Object,
+            _logger.Object
         );
     }
 
@@ -252,8 +256,9 @@ public class UpdateIngredientsCommandHandlerTests
         // Arrange
         UpdateIngredientsCommand command = new UpdateIngredientsCommand
         {
-
-            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() },
+            Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 1, Ingredients = new List<Ingredient>() { new Ingredient( "", "", 1 ) } },
+            NewIngredients = new List<IngredientDto>()
+        };
         _validatorMock
            .Setup( x => x.ValidateAsync( command ) )
            .ReturnsAsync( Result.Success );

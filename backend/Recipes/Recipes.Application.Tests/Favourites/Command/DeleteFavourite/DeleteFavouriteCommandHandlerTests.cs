@@ -5,6 +5,7 @@ using Recipes.Application.UseCases.Favourites.Command.DeleteFavourite;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Favourites.Command.DeleteFavourite;
 
@@ -14,16 +15,18 @@ public class DeleteFavouriteCommandHandlerTests
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<IAsyncValidator<DeleteFavouriteCommand>> _mockValidator;
     private readonly DeleteFavouriteCommandHandler _handler;
-
+    private readonly Mock<ILogger<DeleteFavouriteCommand>> _logger;
     public DeleteFavouriteCommandHandlerTests()
     {
         _mockFavouriteRepository = new Mock<IFavouriteRepository>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockValidator = new Mock<IAsyncValidator<DeleteFavouriteCommand>>();
+        _logger = new Mock<ILogger<DeleteFavouriteCommand>>();
         _handler = new DeleteFavouriteCommandHandler(
             _mockFavouriteRepository.Object,
             _mockUnitOfWork.Object,
-            _mockValidator.Object );
+            _mockValidator.Object,
+            _logger.Object );
     }
 
     [Fact]

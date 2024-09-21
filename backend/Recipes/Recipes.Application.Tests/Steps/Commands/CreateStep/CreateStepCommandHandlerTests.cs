@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Recipes.Application.CQRSInterfaces;
 using Recipes.Application.Repositories;
 using Recipes.Application.Results;
@@ -12,12 +13,13 @@ public class CreateStepCommandHandlerTests
     private readonly Mock<IStepRepository> _stepRepositoryMock;
     private readonly Mock<IAsyncValidator<CreateStepCommand>> _validatorMock;
     private readonly CreateStepCommandHandler _handler;
-
+    private readonly Mock<ILogger<CreateStepCommand>> _logger;
     public CreateStepCommandHandlerTests()
     {
         _stepRepositoryMock = new Mock<IStepRepository>();
         _validatorMock = new Mock<IAsyncValidator<CreateStepCommand>>();
-        _handler = new CreateStepCommandHandler( _stepRepositoryMock.Object, _validatorMock.Object );
+        _logger = new Mock<ILogger<CreateStepCommand>>();
+        _handler = new CreateStepCommandHandler( _stepRepositoryMock.Object, _validatorMock.Object, _logger.Object );
     }
 
     [Fact]
@@ -57,7 +59,7 @@ public class CreateStepCommandHandlerTests
         CreateStepCommand command = new CreateStepCommand
         {
             StepNumber = 1,
-            StepDescription = "Step description"
+            StepDescription = "Step description",
             Recipe = new Recipe( 1, "", "", 1, 1, "" ) { Id = 123 }
         };
 

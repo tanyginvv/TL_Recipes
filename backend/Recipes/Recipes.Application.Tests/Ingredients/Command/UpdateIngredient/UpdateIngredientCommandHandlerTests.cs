@@ -4,6 +4,8 @@ using Recipes.Application.Repositories;
 using Recipes.Application.Results;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+using Microsoft.Extensions.Logging;
+using Recipes.Application.UseCases.Ingredients.Commands.UpdateIngredients;
 
 namespace Recipes.Application.Tests.Ingredients.Command.UpdateIngredient;
 
@@ -12,12 +14,14 @@ public class UpdateIngredientCommandHandlerTests
     private readonly Mock<IIngredientRepository> _ingredientRepositoryMock;
     private readonly Mock<IAsyncValidator<UpdateIngredientCommand>> _validatorMock;
     private readonly UpdateIngredientCommandHandler _handler;
+    private readonly Mock<ILogger<UpdateIngredientCommand>> _logger;
 
     public UpdateIngredientCommandHandlerTests()
     {
         _ingredientRepositoryMock = new Mock<IIngredientRepository>();
         _validatorMock = new Mock<IAsyncValidator<UpdateIngredientCommand>>();
-        _handler = new UpdateIngredientCommandHandler( _ingredientRepositoryMock.Object, _validatorMock.Object );
+        _logger = new Mock<ILogger<UpdateIngredientCommand>>();
+        _handler = new UpdateIngredientCommandHandler( _ingredientRepositoryMock.Object, _validatorMock.Object, _logger.Object );
     }
 
     [Fact]

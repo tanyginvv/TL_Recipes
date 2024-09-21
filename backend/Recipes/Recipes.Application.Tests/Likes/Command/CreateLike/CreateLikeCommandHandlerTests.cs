@@ -5,6 +5,7 @@ using Recipes.Application.CQRSInterfaces;
 using Recipes.Domain.Entities;
 using Recipes.Application.UseCases.Likes.Command.CreateLike;
 using Recipes.Application.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Likes.Command.CreateLike;
 
@@ -14,16 +15,18 @@ public class CreateLikeCommandHandlerTests
     private readonly Mock<IUnitOfWork> _mockUnitOfWork;
     private readonly Mock<IAsyncValidator<CreateLikeCommand>> _mockValidator;
     private readonly CreateLikeCommandHandler _handler;
-
+    private readonly Mock<ILogger<CreateLikeCommand>> _logger;
     public CreateLikeCommandHandlerTests()
     {
         _mockLikeRepository = new Mock<ILikeRepository>();
         _mockUnitOfWork = new Mock<IUnitOfWork>();
         _mockValidator = new Mock<IAsyncValidator<CreateLikeCommand>>();
+        _logger = new Mock<ILogger<CreateLikeCommand>>();
         _handler = new CreateLikeCommandHandler(
             _mockLikeRepository.Object,
             _mockUnitOfWork.Object,
-            _mockValidator.Object );
+            _mockValidator.Object,
+            _logger.Object );
     }
 
     [Fact]
@@ -63,7 +66,7 @@ public class CreateLikeCommandHandlerTests
     }
 
     [Fact]
-    public async Task HandleAsync_ExceptionThrown_ReturnsError()l
+    public async Task HandleAsync_ExceptionThrown_ReturnsError()
     {
         // Arrange
         CreateLikeCommand command = new CreateLikeCommand { RecipeId = 1, UserId = 2 };

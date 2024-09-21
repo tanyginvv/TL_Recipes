@@ -4,6 +4,7 @@ using Recipes.Application.Results;
 using Recipes.Application.UseCases.Tags.Commands.GetOrCreateTag;
 using Recipes.Domain.Entities;
 using Recipes.Application.CQRSInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Recipes.Application.Tests.Tags.Command.GetOrCreateTag;
 
@@ -12,12 +13,14 @@ public class GetOrCreateTagCommandHandlerTests
     private readonly Mock<ITagRepository> _tagRepositoryMock;
     private readonly Mock<IAsyncValidator<GetOrCreateTagCommand>> _validatorMock;
     private readonly GetOrCreateTagCommandHandler _handler;
+    private readonly Mock<ILogger<GetOrCreateTagCommand>> _logger;
 
     public GetOrCreateTagCommandHandlerTests()
     {
         _tagRepositoryMock = new Mock<ITagRepository>();
         _validatorMock = new Mock<IAsyncValidator<GetOrCreateTagCommand>>();
-        _handler = new GetOrCreateTagCommandHandler( _tagRepositoryMock.Object, _validatorMock.Object );
+        _logger = new Mock<ILogger<GetOrCreateTagCommand>>();
+        _handler = new GetOrCreateTagCommandHandler( _tagRepositoryMock.Object, _validatorMock.Object, _logger.Object );
     }
 
     [Fact]
